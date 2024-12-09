@@ -12,6 +12,7 @@ const header = () => {
             <div>通信制高校とは</div>
             <div>サポート校とは</div>
             <div>おはよう</div>
+            <div>こんばんわ</div>
           </div>
         </div>
       </nav>
