@@ -1,8 +1,28 @@
 {
-    "HiScool":[
+    "HiSchool":[
         {
             "id":"1",
-            "name":"N高等学校"
+            "name":"N高等学校",
+            "tuition":"学費",
+            "course":["ネットコース","周１コース","プログラミングコース"],
+            "examination":"受験方法",
+            "field":"分野"
+        },
+        {
+            "id":"2",
+            "name":"N高等学校",
+            "tuition":"学費",
+            "course":["ネットコース","周１コース","プログラミングコース"],
+            "examination":"受験方法",
+            "field":"分野"
+        },
+        {
+            "id":"3",
+            "name":"N高等学校",
+            "tuition":"学費",
+            "course":["ネットコース","周１コース","プログラミングコース"],
+            "examination":"受験方法",
+            "field":"分野"
         }
     ]
 }

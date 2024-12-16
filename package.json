@@ -7,12 +7,19 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "json-server": "json-server app/data/HiSchool.json --port 3010"
+    "json-server": "json-server --watch app/data/HiSchool.json --port 4010"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.2.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "json-server": "^1.0.0-beta.3",
+    "lucide-react": "^0.468.0",
     "next": "^15.0.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",

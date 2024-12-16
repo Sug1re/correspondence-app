@@ -3,41 +3,34 @@ import React from "react";
 
 const header = () => {
   return (
-    <header className=" fixed top-0 w-full max-w-full z-50">
-      <nav className="">
-        <div className=" block">
-          <div className="text-2xl  flex justify-center mt-4">
-            新潟県の通信制高校サーチアプリ
-          </div>
-          <div className=" flex justify-center text-xs mb-4">
-            〜あなたに合う高校が見つかる〜
-          </div>
-          <div
-            className=" text-white flex space-x-16 md:space-x-28 justify-center bg-gray-500 p-2 mx-3
-          "
-          >
-            <button className=" border-x-2 border-red-500">
-              <Link href="/" className=" mx-2">
-                HOME
-              </Link>
-            </button>
-            <button className=" border-x-2 border-blue-300">
-              <Link href="/menu/correspondence" className=" mx-2">
-                通信制高校とは
-              </Link>
-            </button>
-            <button className=" border-x-2 border-green-500">
-              <Link href="/menu/support" className=" mx-2">
-                サポート校とは
-              </Link>
-            </button>
-            <button className=" border-x-2">
-              <Link href="/menu/school" className=" mx-2">
-                学校一覧
-              </Link>
-            </button>
-          </div>
-        </div>
+    <header className=" fixed top-0 w-full">
+      <h1 className=" text-xl md:text-3xl flex justify-center mt-4">
+        新潟県の通信制高校サーチアプリ
+      </h1>
+      <p className=" text-xs md:text-lg flex justify-center mb-4">
+        〜あなたに合う高校が見つかる〜
+      </p>
+      <nav className=" font-black text-white whitespace-nowrap grid grid-cols-4 gap-1 md:gap-8 bg-gray-500 py-2 px-2 md:px-8 md:mx-3">
+        <button className=" text-2xs md:text-base border-x md:border-x-4 border-red-500 hover:bg-gray-400">
+          <Link href="/" className=" md:mx-2">
+            HOME
+          </Link>
+        </button>
+        <button className=" text-2xs md:text-base border-x md:border-x-4 border-blue-300 hover:bg-gray-400">
+          <Link href="/menu/correspondence" className=" md:mx-2">
+            通信制高校とは
+          </Link>
+        </button>
+        <button className=" text-2xs md:text-base border-x md:border-x-4 border-green-500 hover:bg-gray-400">
+          <Link href="/menu/support" className=" md:mx-2">
+            サポート校とは
+          </Link>
+        </button>
+        <button className=" text-2xs md:text-base border-x md:border-x-4 hover:bg-gray-400">
+          <Link href="/menu/school" className="md:mx-2">
+            学校一覧
+          </Link>
+        </button>
       </nav>
     </header>
   );

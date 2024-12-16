@@ -5,7 +5,7 @@ export const metadata = {
 };
 
 const questionnaire = () => {
-  return <div></div>;
+  return <div>おはよう</div>;
 };
 
 export default questionnaire;
