@@ -4,7 +4,7 @@ import Header from "./header";
 
 export default function Home() {
   return (
-    <main className="mt-40">
+    <main className=" min-h-screen bg-gray-100 pt-40">
       <section>
         <Header />
       </section>
@@ -19,7 +19,7 @@ export default function Home() {
         </p>
       </section>
       <section className=" flex justify-center px-4">
-        <button className=" bg-blue-500 px-5 py-4 text-white rounded w-2/3 hover:scale-105 hover:bg-blue-400 duration-200">
+        <button className=" bg-blue-500 px-5 py-4 text-white font-bold rounded w-2/3 hover:scale-105 hover:bg-blue-600 duration-200">
           <Link href="/questionnaire" className=" whitespace-nowrap">
             高校を見つける
           </Link>

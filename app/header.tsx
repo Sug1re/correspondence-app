@@ -3,8 +3,8 @@ import React from "react";
 
 const header = () => {
   return (
-    <header className=" fixed top-0 w-full">
-      <h1 className=" text-xl md:text-3xl flex justify-center mt-4">
+    <header className=" fixed top-0 w-full bg-gray-100">
+      <h1 className=" text-xl md:text-3xl font-black flex justify-center mt-4">
         新潟県の通信制高校サーチアプリ
       </h1>
       <p className=" text-xs md:text-lg flex justify-center mb-4">

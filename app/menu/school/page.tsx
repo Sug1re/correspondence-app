@@ -9,9 +9,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+// 学校紹介ページ
 const school = () => {
   return (
-    <main className="mt-40">
+    <main className="pt-40">
       <section>
         <Header />
       </section>
