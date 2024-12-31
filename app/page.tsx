@@ -15,7 +15,7 @@ export default function Home() {
           簡単なアンケートに答えるだけで
           {/* <br />で改行*/}
           <br />
-          自分に合った高校が候補別でわかります。
+          自分に合った高校が候補別でわかります。これはdevelop branch
         </p>
       </section>
       <section className=" flex justify-center px-4">
