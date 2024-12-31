@@ -4,7 +4,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-export default function questionnaire() {
+export default function Questionnaire() {
   const [course, setCourse] = useState("");
   const router = useRouter();
 

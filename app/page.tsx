@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Header from "./header";
+import Button from "@mui/material/Button";
 
 export default function Home() {
   return (
@@ -18,12 +19,20 @@ export default function Home() {
           自分に合った高校が候補別でわかります。
         </p>
       </section>
-      <section className=" flex justify-center px-4">
-        <button className=" bg-blue-500 px-5 py-4 text-white font-bold rounded w-2/3 hover:scale-105 hover:bg-blue-600 duration-200">
-          <Link href="/questionnaire" className=" whitespace-nowrap">
+      <section className=" flex flex-col items-center justify-center px-4">
+        {/* <Button className=" bg-blue-500 px-5 py-4 text-white font-bold rounded w-2/3 hover:scale-105 hover:bg-blue-600 duration-200">
+          <Link href="/Questionnaire" className=" whitespace-nowrap">
             高校を見つける
           </Link>
-        </button>
+        </Button> */}
+        <Button
+          variant="contained"
+          className=" bg-blue-500 px-5 py-4 text-white font-bold rounded w-2/3 hover:scale-105 hover:bg-blue-600 duration-200"
+        >
+          <Link href="/Questionnaire" className=" whitespace-nowrap">
+            高校を見つける
+          </Link>
+        </Button>
       </section>
     </main>
   );
