@@ -1,50 +1,53 @@
+// app/questionnaire/page.tsx
 "use client";
 
-import { Card, CardTitle } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { Button, TextField, Container, Typography, Box } from '@mui/material';
 
-export default function questionnaire() {
-  const [course, setCourse] = useState("");
-  const router = useRouter();
+const Questionnaire: React.FC = () => {
+  const [inputValue, setInputValue] = useState<string>('');
+  const [submittedValue, setSubmittedValue] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
 
-    // 結果ページに選択したコースをクエリとして渡す
-    router.push(`/results?course=${encodeURIComponent(course)}`);
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    setSubmittedValue(inputValue);
   };
 
   return (
-    <main className=" bg-blue-200 pt-4 px-12 py-10">
-      <Card className=" min-h-screen mx-4">
-        <form onSubmit={handleSubmit} className=" p-8">
-          <div>
-            <CardTitle>アンケートタイトル</CardTitle>
-            <label htmlFor="course">週何回登校したいですか？:</label>
-            <select
-              id="course"
-              value={course}
-              onChange={(e) => setCourse(e.target.value)}
-              className=" border-2 border-gray-400 ml-2 rounded"
-            >
-              <option value="">選択してください</option>
-              <option value="週1">週1</option>
-              <option value="週2">週2</option>
-              <option value="週3">週3</option>
-              <option value="週4">週4</option>
-              <option value="週5">週5</option>
-              <option value="ネット">登校したくない</option>
-            </select>
-          </div>
-          <button
+    <Container maxWidth="sm">
+      <Box sx={{ mt: 4, textAlign: 'center' }}>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            label="Your Input"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={inputValue}
+            onChange={handleInputChange}
+          />
+          <Button
             type="submit"
-            className=" bg-blue-500 px-5 py-4 mt-6 text-white font-bold rounded w-2/3 hover:scale-105 hover:bg-blue-400 duration-200"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 2 }}
           >
-            検索
-          </button>
+            Submit
+          </Button>
         </form>
-      </Card>
-    </main>
+        {submittedValue && (
+          <Typography variant="h6" color="textSecondary" sx={{ mt: 3 }}>
+            Submitted Value: {submittedValue}
+          </Typography>
+        )}
+      </Box>
+    </Container>
   );
-}
+};
+
+export default Questionnaire;
