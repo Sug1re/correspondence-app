@@ -20,7 +20,7 @@ export default function Home() {
       </section>
       <section className=" flex justify-center px-4">
         <button className=" bg-blue-500 px-5 py-4 text-white font-bold rounded w-2/3 hover:scale-105 hover:bg-blue-600 duration-200">
-          <Link href="/questionnaire" className=" whitespace-nowrap">
+          <Link href="/Questionnaire" className=" whitespace-nowrap">
             高校を見つける
           </Link>
         </button>
