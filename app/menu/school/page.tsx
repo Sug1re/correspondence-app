@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 
 // 学校紹介ページ
-const school = () => {
+const School = () => {
   return (
     <main className="pt-40">
       <section>
@@ -37,4 +37,4 @@ const school = () => {
   );
 };
 
-export default school;
+export default School;

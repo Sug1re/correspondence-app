@@ -29,7 +29,7 @@ export default function Home() {
           variant="contained"
           className=" bg-blue-500 px-5 py-4 text-white font-bold rounded w-2/3 hover:scale-105 hover:bg-blue-600 duration-200"
         >
-          <Link href="/Questionnaire" className=" whitespace-nowrap">
+          <Link href="/SchoolRecommendation" className=" whitespace-nowrap">
             高校を見つける
           </Link>
         </Button>

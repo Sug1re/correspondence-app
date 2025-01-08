@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "@/app/header";
 
-const correspondence = () => {
+const Correspondence = () => {
   return (
     <main className=" min-h-screen bg-gray-100 pt-40">
       <section>
@@ -12,4 +12,4 @@ const correspondence = () => {
   );
 };
 
-export default correspondence;
+export default Correspondence;
