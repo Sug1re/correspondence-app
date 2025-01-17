@@ -1,43 +1,42 @@
+"use client";
+
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
-// import { db } from "@/firebase";
-import { useRouter } from "next/navigation";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Input, Slider, Typography } from "@mui/material";
 import * as Component from "@/components/component";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+
+// React Hook Form の設定
+type FormValues = {
+  tuition: number;
+};
 
 const Form = () => {
-  // React Hook Formの設定
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const { control, handleSubmit, getValues } = useForm<FormValues>({
     defaultValues: {
-      tuition: 0, // tuition の初期値
+      tuition: 10,
     },
   });
 
   const router = useRouter();
 
-  // フォーム送信時の処理
-  const onSubmit = (data: any) => {
-    // フォームデータをクエリパラメータに変換
-    const queryString = new URLSearchParams({
-      tuition: String(data.tuition),
+  const onSubmit = (data: FormValues) => {
+    // フォームの値を取得
+    const { tuition } = data;
+
+    // クエリパラメータを生成して /search ページへ遷移
+    const query = new URLSearchParams({
+      tuition: tuition.toString(),
     }).toString();
 
-    // クエリパラメータを付けてページ遷移
-    router.push(`/search?${queryString}`);
+    router.push(`/search?${query}`);
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/*学費*/}
       <Box sx={{ my: 4 }}>
-        <Controller
-          name="tuition"
-          control={control}
-          render={({ field }) => <Component.TuitionSlider {...field} />}
-        />
+        <Component.TuitionSlider />
       </Box>
       {/*検索ボタン*/}
       <Box sx={{ my: 3 }}>

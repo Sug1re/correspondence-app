@@ -1,86 +1,56 @@
-// "use client";
-
-// import * as React from "react";
-// import Box from "@mui/material/Box";
-// import Typography from "@mui/material/Typography";
-// import Slider from "@mui/material/Slider";
-
-// export default function NonLinearSlider() {
-//   const [value, setValue] = React.useState<number>(10);
-
-//   const handleChange = (event: Event, newValue: number | number[]) => {
-//     if (typeof newValue === "number") {
-//       setValue(newValue);
-//     }
-//   };
-
-//   return (
-//     <Box>
-//       <Typography id="non-linear-slider" gutterBottom>
-//         学費（万円）: {value}万円
-//       </Typography>
-//       <Slider
-//         value={value}
-//         min={1}
-//         step={1}
-//         max={100}
-//         onChange={handleChange}
-//         valueLabelDisplay="auto"
-//         aria-labelledby="non-linear-slider"
-//       />
-//     </Box>
-//   );
-// }
-
 "use client";
 
-import React from "react";
-import { Controller } from "react-hook-form";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Slider from "@mui/material/Slider";
+import * as React from "react";
+import { useForm, Controller } from "react-hook-form";
+import { Box, Typography, Slider, Button } from "@mui/material";
+import { useRouter } from "next/navigation";
 
-interface TuitionSliderProps {
-  control: any; // React Hook Formのコントロールオブジェクト
-  name: string; // フォームでのスライダーの名前
-  errors: any; // React Hook Formでのエラーオブジェクト
-}
+type FormValues = {
+  tuition: number;
+};
 
-export default function TuitionSlider({
-  control,
-  name,
-  errors,
-}: TuitionSliderProps) {
+export default function TuitionSlider() {
+  const { control, handleSubmit, getValues, watch } = useForm<FormValues>({
+    defaultValues: {
+      tuition: 10,
+    },
+  });
+
+  const router = useRouter();
+
+  const tuitionValue = watch("tuition");
+
+  const onSubmit = () => {
+    const value = getValues("tuition");
+    router.push(`/search?tuition=${value}`); // /search　ページに遷移
+  };
+
   return (
     <Box>
-      <Typography id="tuition-slider" gutterBottom>
-        学費（万円）
+      <Typography id="non-linear-slider" gutterBottom>
+        学費（万円）:{tuitionValue}万円
       </Typography>
       <Controller
-        name={name}
+        name="tuition"
         control={control}
-        rules={{
-          required: "学費を選択してください。",
-          validate: (value) => value > 0 || "学費を選択してください。",
-        }}
         render={({ field }) => (
-          <>
-            <Slider
-              {...field}
-              value={field.value || 0} // 初期値を設定
-              onChange={(_, value) => field.onChange(value)} // Slider用のonChangeを適応
-              min={1}
-              step={1}
-              max={100}
-              valueLabelDisplay="auto"
-              aria-labelledby="tuition-slider"
-            />
-            {errors[name] && (
-              <Typography color="error">{errors[name].message}</Typography>
-            )}
-          </>
+          <Slider
+            {...field}
+            min={1}
+            step={1}
+            max={200}
+            valueLabelDisplay="auto"
+            aria-labelledby="non-linear-slider"
+          />
         )}
       />
+      <Button
+        variant="contained"
+        onClick={handleSubmit(onSubmit)} // onSubmit を実行
+        sx={{ mt: 2 }}
+      >
+        現在の値を取得
+      </Button>
     </Box>
   );
 }
