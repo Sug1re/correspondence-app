@@ -1,84 +1,112 @@
+//           {/* {schoolsData.length > 0 ? (
+//             schoolsData.map((school, index) => (
+//               <Card key={index} sx={{ my: 2 }}>
+//                 <CardContent>
+//                   <Typography variant="h5" component="div">
+//                     {school.name}
+//                   </Typography>
+//                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
+//                     学費:年間約{school.tuition}万円
+//                   </Typography>
+//                 </CardContent>
+//                 <CardActions>
+//                   <Button size="small">詳細を見る</Button>
+//                 </CardActions>
+//               </Card>
+//             ))
+//           ) : (
+//             <Typography variant="body1">
+//               条件に一致する学校が見つかりませんでした。
+//             </Typography>
+//           )} */}
+
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
+import * as Component from "@/components/component";
 import {
   Box,
-  Card,
-  CardContent,
-  CardActions,
   Button,
-  Typography,
+  Card,
+  CardActions,
+  CardContent,
   Container,
+  Typography,
 } from "@mui/material";
-
-type School = {
-  name: string;
-  tuition: number;
-};
 
 const SearchResultPage = () => {
   const searchParams = useSearchParams();
-  const tuitionParam = searchParams.get("tuition");
-  const [schoolsData, setSchoolsData] = useState<School[]>([]);
-  const [loading, setLoading] = useState(true);
 
+  //   // クエリパラメータの取得
+  const tuitionParams = searchParams.get("tuition"); // クエリパラメータ ”tuition” を獲得
   useEffect(() => {
     const fetchSchools = async () => {
-      try {
-        const snapshot = await getDocs(collection(db, "schools"));
-        const allSchools = snapshot.docs.map((doc) => doc.data() as School);
-
-        const filteredSchools = allSchools.filter((school) => {
-          return (
-            school.tuition <= (tuitionParam ? parseInt(tuitionParam) : 200)
-          );
-        });
-
-        setSchoolsData(filteredSchools);
-      } catch (error) {
-        console.error("Error fetching schools:", error);
-      } finally {
-        setLoading(false);
-      }
+      const schoolRef = collection(db, "schools");
+      const q = query(schoolRef, where("tuition", "<=", tuition));
+      const snapshot = await getDocs(q);
+      const schoolsData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      console.log(schoolsData);
     };
-
     fetchSchools();
-  }, [tuitionParam]);
+  }, []);
+
+  // nullチェックしてから、stringをnumberに変換
+  const tuition = tuitionParams ? parseInt(tuitionParams) : NaN; // または、デフォルト値を設定することも可能
 
   return (
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" component="h2" gutterBottom>
-          検索結果
-        </Typography>
-        {loading ? (
-          <Typography variant="body1">読み込み中...</Typography>
-        ) : schoolsData.length > 0 ? (
-          schoolsData.map((school, index) => (
-            <Card key={index} sx={{ my: 2 }}>
-              <CardContent>
-                <Typography variant="h5" component="div">
-                  {school.name}
-                </Typography>
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                  学費:年間約{school.tuition}万円
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button size="small">詳細を見る</Button>
-              </CardActions>
-            </Card>
-          ))
-        ) : (
-          <Typography variant="body1">
-            条件に一致する学校が見つかりませんでした。
+    <>
+      <Component.Header />
+
+      <Container maxWidth="sm">
+        <Box sx={{ my: 4 }}>
+          <Typography variant="h4" component="h2" gutterBottom>
+            検索結果
           </Typography>
-        )}
-      </Box>
-    </Container>
+
+          <Card sx={{ my: 2 }}>
+            <CardContent>
+              <Typography variant="h5" component="div">
+                学校名
+              </Typography>
+              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                学費:年間約{tuitionParams}万円
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button size="small">詳細を見る</Button>
+            </CardActions>
+          </Card>
+
+          {/* {schoolsData.length > 0 ? (
+            schoolsData.map((school, index) => (
+              <Card key={index} sx={{ my: 2 }}>
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    {school.name}
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    学費:年間約{school.tuition}万円
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small">詳細を見る</Button>
+                </CardActions>
+              </Card>
+            ))
+          ) : (
+            <Typography variant="body1">
+              条件に一致する学校が見つかりませんでした。
+            </Typography>
+          )} */}
+        </Box>
+      </Container>
+    </>
   );
 };
 
