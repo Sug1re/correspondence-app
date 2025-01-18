@@ -1,28 +1,6 @@
-//           {/* {schoolsData.length > 0 ? (
-//             schoolsData.map((school, index) => (
-//               <Card key={index} sx={{ my: 2 }}>
-//                 <CardContent>
-//                   <Typography variant="h5" component="div">
-//                     {school.name}
-//                   </Typography>
-//                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-//                     学費:年間約{school.tuition}万円
-//                   </Typography>
-//                 </CardContent>
-//                 <CardActions>
-//                   <Button size="small">詳細を見る</Button>
-//                 </CardActions>
-//               </Card>
-//             ))
-//           ) : (
-//             <Typography variant="body1">
-//               条件に一致する学校が見つかりませんでした。
-//             </Typography>
-//           )} */}
-
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
@@ -37,27 +15,39 @@ import {
   Typography,
 } from "@mui/material";
 
+type School = {
+  id: string;
+  name: string;
+  tuition: number;
+};
+
 const SearchResultPage = () => {
+  const [schools, setSchools] = useState<School[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
   const searchParams = useSearchParams();
 
-  //   // クエリパラメータの取得
+  // クエリパラメータの取得
   const tuitionParams = searchParams.get("tuition"); // クエリパラメータ ”tuition” を獲得
+
+  // nullチェックしてから、stringをnumberに変換
+  const tuition = tuitionParams ? parseInt(tuitionParams) : NaN; // または、デフォルト値を設定することも可能
+
+  // データベースからデータを取得する
   useEffect(() => {
     const fetchSchools = async () => {
       const schoolRef = collection(db, "schools");
       const q = query(schoolRef, where("tuition", "<=", tuition));
       const snapshot = await getDocs(q);
-      const schoolsData = snapshot.docs.map((doc) => ({
+      const schoolsData: School[] = snapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data(),
+        name: doc.data().name,
+        tuition: doc.data().tuition,
       }));
-      console.log(schoolsData);
+      setSchools(schoolsData);
+      setIsLoading(false); // データ取得後にロード完了
     };
     fetchSchools();
-  }, []);
-
-  // nullチェックしてから、stringをnumberに変換
-  const tuition = tuitionParams ? parseInt(tuitionParams) : NaN; // または、デフォルト値を設定することも可能
+  }, [tuition]);
 
   return (
     <>
@@ -69,23 +59,20 @@ const SearchResultPage = () => {
             検索結果
           </Typography>
 
-          <Card sx={{ my: 2 }}>
-            <CardContent>
-              <Typography variant="h5" component="div">
-                学校名
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                学費:年間約{tuitionParams}万円
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">詳細を見る</Button>
-            </CardActions>
-          </Card>
-
-          {/* {schoolsData.length > 0 ? (
-            schoolsData.map((school, index) => (
-              <Card key={index} sx={{ my: 2 }}>
+          {/* ロード中の場合 */}
+          {isLoading ? (
+            <Typography variant="h6" color="text.secondary">
+              読み込み中...
+            </Typography>
+          ) : // 学校が見つからない場合にメッセージを表示
+          schools.length === 0 ? (
+            <Typography variant="h6" color="text.secondary">
+              条件に一致する学校はありませんでした
+            </Typography>
+          ) : (
+            // 学校が見つかった場合
+            schools.map((school) => (
+              <Card key={school.id} sx={{ my: 2 }}>
                 <CardContent>
                   <Typography variant="h5" component="div">
                     {school.name}
@@ -99,11 +86,7 @@ const SearchResultPage = () => {
                 </CardActions>
               </Card>
             ))
-          ) : (
-            <Typography variant="body1">
-              条件に一致する学校が見つかりませんでした。
-            </Typography>
-          )} */}
+          )}
         </Box>
       </Container>
     </>
