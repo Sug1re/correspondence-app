@@ -1,30 +1,24 @@
 import React from "react";
-import Link from "next/link";
-import Header from "./header";
+import { Box, Container } from "@mui/material";
+import * as Component from "@/components/component";
 
-export default function Home() {
+export default async function Home() {
   return (
-    <main className=" min-h-screen bg-gray-100 pt-40">
-      <section>
-        <Header />
-      </section>
-      <section className=" px-2 mb-8">
-        <h1 className="text-lg">当サイトの説明</h1>
-        {/* 説明を考える*/}
-        <p>
-          簡単なアンケートに答えるだけで
-          {/* <br />で改行*/}
-          <br />
-          自分に合った高校が候補別でわかります。これはdevelop branch
-        </p>
-      </section>
-      <section className=" flex justify-center px-4">
-        <button className=" bg-blue-500 px-5 py-4 text-white font-bold rounded w-2/3 hover:scale-105 hover:bg-blue-600 duration-200">
-          <Link href="/Questionnaire" className=" whitespace-nowrap">
-            高校を見つける
-          </Link>
-        </button>
-      </section>
-    </main>
+    <>
+      <Component.Header />
+
+      <Container maxWidth="sm">
+        <Box
+          sx={{
+            display: "flex-col",
+            justifyContent: "center", // 水平中央
+            alignItems: "center", // 垂直中央
+            height: "100vh", // 画面全体の高さ
+          }}
+        >
+          <Component.Form />
+        </Box>
+      </Container>
+    </>
   );
 }
