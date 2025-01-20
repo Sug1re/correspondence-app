@@ -19,6 +19,8 @@ type School = {
   id: string;
   name: string;
   tuition: number;
+  attendanceFrequency: string;
+  // fireStoreのコレクションを追加
 };
 
 const SearchResultPage = () => {
@@ -28,26 +30,44 @@ const SearchResultPage = () => {
 
   // クエリパラメータの取得
   const tuitionParams = searchParams.get("tuition"); // クエリパラメータ ”tuition” を獲得
+  const attendanceFrequencyParams = searchParams.get("attendanceFrequency"); // クエリパラメータ　”attendanceFrequency”　を獲得
+  // fireStoreのコレクションを追加
 
   // nullチェックしてから、stringをnumberに変換
   const tuition = tuitionParams ? parseInt(tuitionParams) : NaN; // または、デフォルト値を設定することも可能
+  const attendanceFrequency = attendanceFrequencyParams || "";
 
   // データベースからデータを取得する
   useEffect(() => {
     const fetchSchools = async () => {
       const schoolRef = collection(db, "schools");
-      const q = query(schoolRef, where("tuition", "<=", tuition));
+
+      // 複数条件を適用するために条件を設定
+      let q = query(schoolRef);
+
+      // 学費のフィルタリング（最大値を指定）
+      if (!isNaN(tuition)) {
+        q = query(q, where("tuition", "<=", tuition));
+      }
+
+      // 登校スタイルのフィルタリング
+      if (attendanceFrequency) {
+        q = query(q, where("attendanceFrequency", "==", attendanceFrequency));
+      }
+
       const snapshot = await getDocs(q);
       const schoolsData: School[] = snapshot.docs.map((doc) => ({
         id: doc.id,
         name: doc.data().name,
         tuition: doc.data().tuition,
+        attendanceFrequency: doc.data().attendanceFrequency,
+        // fireStoreのコレクションを追加
       }));
       setSchools(schoolsData);
       setIsLoading(false); // データ取得後にロード完了
     };
     fetchSchools();
-  }, [tuition]);
+  }, [tuition, attendanceFrequency]); // tuition と attendanceFrequency が変更されるたびに再実行
 
   return (
     <>
