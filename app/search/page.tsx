@@ -14,12 +14,13 @@ import {
   Container,
   Typography,
 } from "@mui/material";
+import { School } from "lucide-react";
 
 type School = {
   id: string;
   name: string;
-  tuition: number;
-  attendanceFrequency: string;
+  // tuition: number;
+  attendanceFrequency: string[]; // 配列に変更
   // fireStoreのコレクションを追加
 };
 
@@ -29,12 +30,12 @@ const SearchResultPage = () => {
   const searchParams = useSearchParams();
 
   // クエリパラメータの取得
-  const tuitionParams = searchParams.get("tuition"); // クエリパラメータ ”tuition” を獲得
+  // const tuitionParams = searchParams.get("tuition"); // クエリパラメータ ”tuition” を獲得
   const attendanceFrequencyParams = searchParams.get("attendanceFrequency"); // クエリパラメータ　”attendanceFrequency”　を獲得
   // fireStoreのコレクションを追加
 
   // nullチェックしてから、stringをnumberに変換
-  const tuition = tuitionParams ? parseInt(tuitionParams) : NaN; // または、デフォルト値を設定することも可能
+  // const tuition = tuitionParams ? parseInt(tuitionParams) : NaN; // または、デフォルト値を設定することも可能
   const attendanceFrequency = attendanceFrequencyParams || "";
 
   // データベースからデータを取得する
@@ -42,24 +43,17 @@ const SearchResultPage = () => {
     const fetchSchools = async () => {
       const schoolRef = collection(db, "schools");
 
-      // 複数条件を適用するために条件を設定
-      let q = query(schoolRef);
-
-      // 学費のフィルタリング（最大値を指定）
-      if (!isNaN(tuition)) {
-        q = query(q, where("tuition", "<=", tuition));
-      }
-
-      // 登校スタイルのフィルタリング
-      if (attendanceFrequency) {
-        q = query(q, where("attendanceFrequency", "==", attendanceFrequency));
-      }
+      // const q = query(schoolRef, where("tuition", "<=", tuition));
+      const q = query(
+        schoolRef,
+        where("attendanceFrequency", "array-contains", attendanceFrequency)
+      );
 
       const snapshot = await getDocs(q);
       const schoolsData: School[] = snapshot.docs.map((doc) => ({
         id: doc.id,
         name: doc.data().name,
-        tuition: doc.data().tuition,
+        // tuition: doc.data().tuition,
         attendanceFrequency: doc.data().attendanceFrequency,
         // fireStoreのコレクションを追加
       }));
@@ -67,7 +61,7 @@ const SearchResultPage = () => {
       setIsLoading(false); // データ取得後にロード完了
     };
     fetchSchools();
-  }, [tuition, attendanceFrequency]); // tuition と attendanceFrequency が変更されるたびに再実行
+  }, [attendanceFrequency]); // tuition と attendanceFrequency が変更されるたびに再実行
 
   return (
     <>
@@ -97,8 +91,11 @@ const SearchResultPage = () => {
                   <Typography variant="h5" component="div">
                     {school.name}
                   </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
                     学費:年間約{school.tuition}万円
+                  </Typography> */}
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    登校スタイル：{school.attendanceFrequency.join("・")}コース
                   </Typography>
                 </CardContent>
                 <CardActions>
