@@ -105,15 +105,10 @@ const Form = () => {
                 <FormControlLabel value="週4" control={<Radio />} label="週4" />
                 <FormControlLabel value="週5" control={<Radio />} label="週5" />
                 <FormControlLabel
-                  value="登校なし(ネット)"
                   control={<Radio />}
                   label="登校なし(ネット)"
                 />
-                <FormControlLabel
-                  value="プログラミングコース"
-                  control={<Radio />}
-                  label="プログラミングコース"
-                />
+                <FormControlLabel />
               </RadioGroup>
             </FormControl>
           )}

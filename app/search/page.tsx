@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import * as Component from "@/components/component";
 import {
@@ -19,7 +18,6 @@ type School = {
   id: string;
   name: string;
   tuition: number;
-  attendanceFrequency: string;
   // fireStoreのコレクションを追加
 };
 
@@ -34,7 +32,6 @@ const SearchResultPage = () => {
   // fireStoreのコレクションを追加
 
   // nullチェックしてから、stringをnumberに変換
-  const tuition = tuitionParams ? parseInt(tuitionParams) : NaN; // または、デフォルト値を設定することも可能
   const attendanceFrequency = attendanceFrequencyParams || "";
 
   // データベースからデータを取得する
@@ -42,32 +39,7 @@ const SearchResultPage = () => {
     const fetchSchools = async () => {
       const schoolRef = collection(db, "schools");
 
-      // 複数条件を適用するために条件を設定
-      let q = query(schoolRef);
-
-      // 学費のフィルタリング（最大値を指定）
-      if (!isNaN(tuition)) {
-        q = query(q, where("tuition", "<=", tuition));
-      }
-
-      // 登校スタイルのフィルタリング
-      if (attendanceFrequency) {
-        q = query(q, where("attendanceFrequency", "==", attendanceFrequency));
-      }
-
-      const snapshot = await getDocs(q);
-      const schoolsData: School[] = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        name: doc.data().name,
-        tuition: doc.data().tuition,
-        attendanceFrequency: doc.data().attendanceFrequency,
-        // fireStoreのコレクションを追加
-      }));
-      setSchools(schoolsData);
-      setIsLoading(false); // データ取得後にロード完了
-    };
-    fetchSchools();
-  }, [tuition, attendanceFrequency]); // tuition と attendanceFrequency が変更されるたびに再実行
+    
 
   return (
     <>
