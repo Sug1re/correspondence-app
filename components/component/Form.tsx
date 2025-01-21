@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import {
   Box,
   Button,
@@ -11,13 +12,14 @@ import {
   Slider,
   Typography,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
+
 // React Hook Form の設定
 type FormValues = {
   tuition: number;
   attendanceFrequency: string;
   // fireStoreのコレクションを追加
 };
+
 const Form = () => {
   const { control, handleSubmit, watch } = useForm<FormValues>({
     defaultValues: {
@@ -26,6 +28,7 @@ const Form = () => {
       // fireStoreのコレクションを追加
     },
   });
+
   // ユーザーが選択したデータを可視化
   const tuitionValue = watch("tuition");
   const attendanceFrequencyValue = watch("attendanceFrequency");
@@ -38,6 +41,7 @@ const Form = () => {
     const { tuition } = data;
     const { attendanceFrequency } = data;
     // fireStoreのコレクションを追加
+
     // クエリパラメータを生成して検索ページへ遷移
     const query = new URLSearchParams({
       tuition: tuition.toString(), // number型を文字列に変換
@@ -70,6 +74,7 @@ const Form = () => {
           )}
         />
       </Box>
+
       {/* 登校頻度 */}
       <Box sx={{ my: 4 }}>
         <Typography
@@ -113,6 +118,7 @@ const Form = () => {
           )}
         />
       </Box>
+
       {/* 検索ボタン */}
       <Box sx={{ my: 3 }}>
         <Button variant="contained" type="submit">

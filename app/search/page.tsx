@@ -97,6 +97,7 @@ const SearchResultPage = () => {
           <Typography variant="h4" component="h2" gutterBottom>
             検索結果
           </Typography>
+
           {/* ロード中の場合 */}
           {isLoading ? (
             <Typography variant="h6" color="text.secondary">
