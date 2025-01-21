@@ -112,7 +112,7 @@ const Form = () => {
                 <FormControlLabel
                   value="プログラミング通学"
                   control={<Radio />}
-                  label="プログラミングコース"
+                  label="プログラミング通学"
                 />
               </RadioGroup>
             </FormControl>
