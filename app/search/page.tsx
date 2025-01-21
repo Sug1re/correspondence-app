@@ -36,19 +36,34 @@ const SearchResultPage = () => {
   // nullチェックしてから、stringをnumberに変換
   const tuition = tuitionParams ? parseInt(tuitionParams) : NaN; // tuition がNaNの場合は最大値を設定
   const attendanceFrequency = attendanceFrequencyParams || "";
-  //   const attendanceFrequency = attendanceFrequencyParams ? attendanceFrequencyParams.split(",") :[];
 
   // データベースからデータを取得する
   useEffect(() => {
     const fetchSchools = async () => {
       const schoolRef = collection(db, "schools");
 
-      const q = query(
-        schoolRef,
-        where("attendanceFrequency", "array-contains", attendanceFrequency),
-        where("tuition", "<=", tuition),
-        orderBy("tuition", "asc")
-      );
+      // tuitionが0の場合、最大値を設定
+      const maxTuition = 200; // 例えば最大値として200を設定
+
+      const tuitionValue = tuition === 0 ? maxTuition : tuition; // tuitionが0なら最大値に設定
+
+      let q;
+
+      // "登校スタイルを選択"の場合、attendanceFrequencyフィールドをフィルタリングしない
+      if (attendanceFrequency === "登校スタイルを選択") {
+        q = query(
+          schoolRef,
+          where("tuition", "<=", tuitionValue),
+          orderBy("tuition", "asc")
+        );
+      } else {
+        q = query(
+          schoolRef,
+          where("attendanceFrequency", "array-contains", attendanceFrequency),
+          where("tuition", "<=", tuitionValue),
+          orderBy("tuition", "asc")
+        );
+      }
 
       try {
         const snapshot = await getDocs(q);
