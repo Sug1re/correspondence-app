@@ -9,14 +9,14 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
-  // Slider,
+  Slider,
   Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 // React Hook Form の設定
 type FormValues = {
-  // tuition: number;
+  tuition: number;
   attendanceFrequency: string;
   // fireStoreのコレクションを追加
 };
@@ -24,14 +24,14 @@ type FormValues = {
 const Form = () => {
   const { control, handleSubmit, watch } = useForm<FormValues>({
     defaultValues: {
-      // tuition: 10, // 初期値設定
+      tuition: 10, // 初期値設定
       attendanceFrequency: "登校スタイルを選択",
       // fireStoreのコレクションを追加
     },
   });
 
   // ユーザーが選択したデータを可視化
-  // const tuitionValue = watch("tuition");
+  const tuitionValue = watch("tuition");
   const attendanceFrequencyValue = watch("attendanceFrequency");
   // fireStoreのコレクションを追加
 
@@ -39,13 +39,13 @@ const Form = () => {
 
   const onSubmit = (data: FormValues) => {
     // フォームの値を取得
-    // const { tuition } = data;
+    const { tuition } = data;
     const { attendanceFrequency } = data;
     // fireStoreのコレクションを追加
 
     // クエリパラメータを生成して検索ページへ遷移
     const query = new URLSearchParams({
-      // tuition: tuition.toString(), // number型を文字列に変換
+      tuition: tuition.toString(), // number型を文字列に変換
       attendanceFrequency: attendanceFrequency,
       // fireStoreのコレクションを追加
     }).toString();
@@ -56,7 +56,7 @@ const Form = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* 学費スライダー */}
-      {/* <Box sx={{ my: 4 }}>
+      <Box sx={{ my: 4 }}>
         <Typography id="tuition-slider" sx={{ fontWeight: 600 }} gutterBottom>
           学費（万円）：{tuitionValue}万円
         </Typography>
@@ -74,7 +74,7 @@ const Form = () => {
             />
           )}
         />
-      </Box> */}
+      </Box>
 
       {/* 登校頻度 */}
       <Box sx={{ my: 4 }}>
@@ -107,12 +107,12 @@ const Form = () => {
                 <FormControlLabel
                   value="ネット"
                   control={<Radio />}
-                  label="ネット(登校なし)"
+                  label="登校なし(ネット)"
                 />
                 <FormControlLabel
                   value="プログラミング通学"
                   control={<Radio />}
-                  label="プログラミング通学"
+                  label="プログラミングコース"
                 />
               </RadioGroup>
             </FormControl>
