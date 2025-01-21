@@ -128,7 +128,7 @@ const SearchResultPage = () => {
                     size="small"
                     onClick={() => handleSchoolDetail(school.id)}
                   >
-                    詳細を見る
+                    詳細を見る test
                   </Button>
                 </CardActions>
               </Card>
