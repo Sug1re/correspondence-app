@@ -28,17 +28,23 @@ const SearchResultPage = () => {
   const tuitionParams = searchParams.get("tuition"); // クエリパラメータ ”tuition” を獲得
   const attendanceFrequencyParams = searchParams.get("attendanceFrequency"); // クエリパラメータ　”attendanceFrequency”　を獲得
   // fireStoreのコレクションを追加
+
   // nullチェックしてから、stringをnumberに変換
   const tuition = tuitionParams ? parseInt(tuitionParams) : NaN; // tuition がNaNの場合は最大値を設定
   const attendanceFrequency = attendanceFrequencyParams || "";
+
   // データベースからデータを取得する
   useEffect(() => {
     const fetchSchools = async () => {
       const schoolRef = collection(db, "schools");
+
       // tuitionが0の場合、最大値を設定
       const maxTuition = 200; // 例えば最大値として200を設定
+
       const tuitionValue = tuition === 0 ? maxTuition : tuition; // tuitionが0なら最大値に設定
+
       let q;
+
       // "登校スタイルを選択"の場合、attendanceFrequencyフィールドをフィルタリングしない
       if (attendanceFrequency === "登校スタイルを選択") {
         q = query(
@@ -71,11 +77,14 @@ const SearchResultPage = () => {
         setIsLoading(false); // データ取得後にロード完了
       }
     };
+
     fetchSchools();
   }, [tuition, attendanceFrequency]);
+
   return (
     <>
       <Component.Header />
+
       <Container maxWidth="sm">
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" component="h2" gutterBottom>

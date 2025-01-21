@@ -30,7 +30,9 @@ const Form = () => {
   const tuitionValue = watch("tuition");
   const attendanceFrequencyValue = watch("attendanceFrequency");
   // fireStoreのコレクションを追加
+
   const router = useRouter();
+
   const onSubmit = (data: FormValues) => {
     // フォームの値を取得
     const { tuition } = data;
@@ -42,8 +44,10 @@ const Form = () => {
       attendanceFrequency: attendanceFrequency,
       // fireStoreのコレクションを追加
     }).toString();
+
     router.push(`/search?${query}`);
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* 学費スライダー */}
