@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import * as Component from "@/components/component";
@@ -13,6 +13,7 @@ import {
   Container,
   Typography,
 } from "@mui/material";
+
 type School = {
   id: string;
   name: string;
@@ -24,6 +25,8 @@ const SearchResultPage = () => {
   const [schools, setSchools] = useState<School[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
   const searchParams = useSearchParams();
+  const router = useRouter();
+
   // クエリパラメータの取得
   const tuitionParams = searchParams.get("tuition"); // クエリパラメータ ”tuition” を獲得
   const attendanceFrequencyParams = searchParams.get("attendanceFrequency"); // クエリパラメータ　”attendanceFrequency”　を獲得
@@ -81,6 +84,10 @@ const SearchResultPage = () => {
     fetchSchools();
   }, [tuition, attendanceFrequency]);
 
+  // 学校詳細ページの遷移処理
+  const handleSchoolDetail = (schoolId: string) => {
+    router.push(`/schoolsIntroduction?id=${schoolId}`); // /schoolIntroduction に遷移,schoolId　をクエリパラメータとして渡す
+  };
   return (
     <>
       <Component.Header />
@@ -116,7 +123,12 @@ const SearchResultPage = () => {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">詳細を見る</Button>
+                  <Button
+                    size="small"
+                    onClick={() => handleSchoolDetail(school.id)}
+                  >
+                    詳細を見る
+                  </Button>
                 </CardActions>
               </Card>
             ))
