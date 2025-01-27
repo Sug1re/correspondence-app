@@ -24,6 +24,7 @@ type School = {
   highSchool: string;
   schooling: boolean;
   movingOutsideThePrefecture: boolean;
+  course: string;
 
   // fireStoreのコレクションを追加
 };
@@ -43,6 +44,7 @@ const SearchResultPage = () => {
   const movingOutsideThePrefectureParams = searchParams.get(
     "movingOutsideThePrefecture"
   ); // クエリパラメータ "movingOutsideThePrefecture" を獲得
+  const courseParams = searchParams.get("course"); // クエリパラメータ "course" を獲得
   // fireStoreのコレクションを追加
 
   // nullチェックしてから、stringをnumberに変換
@@ -53,6 +55,7 @@ const SearchResultPage = () => {
   const tuitionFee = tuitionFeeParams ? parseInt(tuitionFeeParams) : NaN; // tuitionFee がNaNの場合は最大値を設定
   const attendanceFrequency = attendanceFrequencyParams || "";
   const highSchool = highSchoolParams || "";
+  const course = courseParams || "";
 
   // "true" なら true, それ以外（null, undefined, "false"）は false に変換
   const schooling = schoolingParams === "true";
@@ -103,6 +106,7 @@ const SearchResultPage = () => {
           highSchool: doc.data().highSchool,
           schooling: doc.data().schooling,
           movingOutsideThePrefecture: doc.data().movingOutsideThePrefecture,
+          course: doc.data().course,
         }));
         // 取得できているか確認
         console.log(schoolsData);
@@ -123,6 +127,7 @@ const SearchResultPage = () => {
     attendanceFrequency,
     schooling,
     movingOutsideThePrefecture,
+    course,
   ]);
 
   // 学校詳細ページの遷移処理
@@ -168,7 +173,7 @@ const SearchResultPage = () => {
                     授業料: 3年間 {school.tuitionFee}万円
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    登校スタイル: {school.attendanceFrequency.join("・")}
+                    登校頻度: {school.attendanceFrequency.join("・")}
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
                     スクーリング: {school.schooling ? "あり" : "なし"}
@@ -177,13 +182,16 @@ const SearchResultPage = () => {
                     県外移動:{" "}
                     {school.movingOutsideThePrefecture ? "あり" : "なし"}
                   </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    通学形態: {school.course}
+                  </Typography>
                 </CardContent>
-                <CardActions>
+                <CardActions sx={{ justifyContent: "flex-end" }}>
                   <Button
                     size="small"
                     onClick={() => handleSchoolDetail(school.id)}
                   >
-                    詳細を見る test
+                    詳細
                   </Button>
                 </CardActions>
               </Card>

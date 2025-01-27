@@ -22,6 +22,7 @@ type FormValues = {
   highSchool: string;
   schooling: string;
   movingOutsideThePrefecture: string;
+  course: string;
   // fireStoreのコレクションを追加
 };
 
@@ -31,10 +32,11 @@ const Form = () => {
       initialSetupCosts: 10, // 初期値設定
       testFee: 10,
       tuitionFee: 10,
-      attendanceFrequency: "登校スタイルを選択",
+      attendanceFrequency: "登校頻度を選択",
       highSchool: "学校の種類を選択",
       schooling: "スクーリングの有無を選択",
       movingOutsideThePrefecture: "県外移動の有無を選択",
+      course: "通学かオンラインを選択",
       // fireStoreのコレクションを追加
     },
   });
@@ -45,6 +47,7 @@ const Form = () => {
   const testFeeValue = watch("testFee");
   const tuitionFeeValue = watch("tuitionFee");
   const highSchoolValue = watch("highSchool");
+  const courseValue = watch("course");
   //   const movingOutsideThePrefectureValue = watch("movingOutsideThePrefecture");
   //   const schoolingValue = watch("schooling");
   // fireStoreのコレクションを追加
@@ -60,6 +63,7 @@ const Form = () => {
     const { highSchool } = data;
     const { schooling } = data;
     const { movingOutsideThePrefecture } = data;
+    const { course } = data;
     // fireStoreのコレクションを追加
 
     // クエリパラメータを生成して検索ページへ遷移
@@ -71,6 +75,7 @@ const Form = () => {
       highSchool: highSchool,
       schooling: schooling,
       movingOutsideThePrefecture: movingOutsideThePrefecture,
+      course: course,
       // fireStoreのコレクションを追加
     }).toString();
 
@@ -257,6 +262,41 @@ const Form = () => {
         />
       </Box>
 
+      {/* 通学かオンラインか */}
+      <Box sx={{ my: 4 }}>
+        <Typography id="course" sx={{ fontWeight: 600 }} gutterBottom>
+          通学形態 : {courseValue}
+        </Typography>
+        <Controller
+          name="course"
+          control={control}
+          render={({ field }) => (
+            <FormControl>
+              <RadioGroup
+                {...field} // field.value と field.onChange を適用
+                row // 横並びにするプロパティ
+                sx={{
+                  gap: 1,
+                }}
+                aria-labelledby="course"
+                name="radio-buttons-group"
+              >
+                <FormControlLabel
+                  value="通学"
+                  control={<Radio />}
+                  label="通学"
+                />
+                <FormControlLabel
+                  value="オンライン"
+                  control={<Radio />}
+                  label="オンライン"
+                />
+              </RadioGroup>
+            </FormControl>
+          )}
+        />
+      </Box>
+
       {/* 登校頻度 */}
       <Box sx={{ my: 4 }}>
         <Typography
@@ -264,7 +304,7 @@ const Form = () => {
           sx={{ fontWeight: 600 }}
           gutterBottom
         >
-          登校スタイル：{attendanceFrequencyValue}
+          登校頻度：{attendanceFrequencyValue}
         </Typography>
         <Controller
           name="attendanceFrequency"
@@ -289,6 +329,11 @@ const Form = () => {
                   value="オンライン"
                   control={<Radio />}
                   label="オンライン"
+                />
+                <FormControlLabel
+                  value="自由"
+                  control={<Radio />}
+                  label="自由"
                 />
                 <FormControlLabel
                   value="プログラミング通学"
