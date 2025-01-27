@@ -17,8 +17,12 @@ import {
 type School = {
   id: string;
   name: string;
-  tuition: number;
+  initialSetupCosts: number;
+  testFee: number;
+  tuitionFee: number;
   attendanceFrequency: string[];
+  highSchool: string;
+
   // fireStoreのコレクションを追加
 };
 const SearchResultPage = () => {
@@ -28,23 +32,36 @@ const SearchResultPage = () => {
   const router = useRouter();
 
   // クエリパラメータの取得
-  const tuitionParams = searchParams.get("tuition"); // クエリパラメータ ”tuition” を獲得
+  const initialSetupCostsParams = searchParams.get("initialSetupCosts"); // クエリパラメータ ”initialSetupCosts” を獲得
+  const testFeeParams = searchParams.get("testFee"); // クエリパラメータ "testFee" を獲得
+  const tuitionFeeParams = searchParams.get("tuitionFee"); // クエリパラメータ "tuitionFee" を獲得
   const attendanceFrequencyParams = searchParams.get("attendanceFrequency"); // クエリパラメータ　”attendanceFrequency”　を獲得
+  const highSchoolParams = searchParams.get("highSchool"); // クエリパラメータ　”highSchool”　を獲得
   // fireStoreのコレクションを追加
 
   // nullチェックしてから、stringをnumberに変換
-  const tuition = tuitionParams ? parseInt(tuitionParams) : NaN; // tuition がNaNの場合は最大値を設定
+  const initialSetupCosts = initialSetupCostsParams
+    ? parseInt(initialSetupCostsParams)
+    : NaN; // initialSetupCosts がNaNの場合は最大値を設定
+  const testFee = testFeeParams ? parseInt(testFeeParams) : NaN; // testFee がNaNの場合は最大値を設定
+  const tuitionFee = tuitionFeeParams ? parseInt(tuitionFeeParams) : NaN; // tuitionFee がNaNの場合は最大値を設定
   const attendanceFrequency = attendanceFrequencyParams || "";
+  const highSchool = highSchoolParams || "";
 
   // データベースからデータを取得する
   useEffect(() => {
     const fetchSchools = async () => {
       const schoolRef = collection(db, "schools");
 
-      // tuitionが0の場合、最大値を設定
-      const maxTuition = 200; // 例えば最大値として200を設定
+      // initialSetupCostsが0の場合、最大値を設定
+      const maxInitialSetupCosts = 200; // 例えば最大値として200を設定
 
-      const tuitionValue = tuition === 0 ? maxTuition : tuition; // tuitionが0なら最大値に設定
+      const initialSetupCostsValue =
+        initialSetupCosts === 0 ? maxInitialSetupCosts : initialSetupCosts; // initialSetupCostsが0なら最大値に設定
+
+      // フィルタリング機能
+      // testFee, tuitionFee, highSchool を追加
+      // attendanceFrequency も変化
 
       let q;
 
@@ -52,15 +69,15 @@ const SearchResultPage = () => {
       if (attendanceFrequency === "登校スタイルを選択") {
         q = query(
           schoolRef,
-          where("tuition", "<=", tuitionValue),
-          orderBy("tuition", "asc")
+          where("initialSetupCosts", "<=", initialSetupCostsValue),
+          orderBy("initialSetupCosts", "asc")
         );
       } else {
         q = query(
           schoolRef,
           where("attendanceFrequency", "array-contains", attendanceFrequency),
-          where("tuition", "<=", tuitionValue),
-          orderBy("tuition", "asc")
+          where("initialSetupCosts", "<=", initialSetupCostsValue),
+          orderBy("initialSetupCosts", "asc")
         );
       }
       try {
@@ -68,8 +85,11 @@ const SearchResultPage = () => {
         const schoolsData: School[] = snapshot.docs.map((doc) => ({
           id: doc.id,
           name: doc.data().name,
-          tuition: doc.data().tuition,
+          initialSetupCosts: doc.data().initialSetupCosts,
+          testFee: doc.data().testFee,
+          tuitionFee: doc.data().tuitionFee,
           attendanceFrequency: doc.data().attendanceFrequency,
+          highSchool: doc.data().highSchool,
         }));
         // 取得できているか確認
         console.log(schoolsData);
@@ -82,7 +102,7 @@ const SearchResultPage = () => {
     };
 
     fetchSchools();
-  }, [tuition, attendanceFrequency]);
+  }, [initialSetupCosts, testFee, tuitionFee, highSchool, attendanceFrequency]);
 
   // 学校詳細ページの遷移処理
   const handleSchoolDetail = (schoolId: string) => {
@@ -114,13 +134,20 @@ const SearchResultPage = () => {
               <Card key={school.id} sx={{ my: 2 }}>
                 <CardContent>
                   <Typography variant="h5" component="div">
-                    {school.name}
+                    {school.name} :
+                    <span className="text-gray-500"> {school.highSchool}</span>
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    学費:年間約{school.tuition}万円
+                    初期費用: 1年次 {school.initialSetupCosts}万円
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    登校スタイル:{school.attendanceFrequency.join("・")}コース
+                    受験料: {school.testFee}万円
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    授業料: 3年間 {school.tuitionFee}万円
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    登校スタイル: {school.attendanceFrequency.join("・")}コース
                   </Typography>
                 </CardContent>
                 <CardActions>
