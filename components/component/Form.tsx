@@ -20,6 +20,7 @@ type FormValues = {
   tuitionFee: number;
   attendanceFrequency: string;
   highSchool: string;
+  schooling: string;
   // fireStoreのコレクションを追加
 };
 
@@ -31,6 +32,7 @@ const Form = () => {
       tuitionFee: 10,
       attendanceFrequency: "登校スタイルを選択",
       highSchool: "学校の種類を選択",
+      schooling: "スクーリングの有無を選択",
       // fireStoreのコレクションを追加
     },
   });
@@ -41,6 +43,7 @@ const Form = () => {
   const testFeeValue = watch("testFee");
   const tuitionFeeValue = watch("tuitionFee");
   const highSchoolValue = watch("highSchool");
+  //   const schoolingValue = watch("schooling");
   // fireStoreのコレクションを追加
 
   const router = useRouter();
@@ -52,6 +55,7 @@ const Form = () => {
     const { tuitionFee } = data;
     const { attendanceFrequency } = data;
     const { highSchool } = data;
+    const { schooling } = data;
     // fireStoreのコレクションを追加
 
     // クエリパラメータを生成して検索ページへ遷移
@@ -61,7 +65,7 @@ const Form = () => {
       tuitionFee: tuitionFee.toString(), // number型を文字列に変換
       attendanceFrequency: attendanceFrequency,
       highSchool: highSchool,
-
+      schooling: schooling,
       // fireStoreのコレクションを追加
     }).toString();
 
@@ -165,6 +169,42 @@ const Form = () => {
                   value="サポート校"
                   control={<Radio />}
                   label="サポート校"
+                />
+              </RadioGroup>
+            </FormControl>
+          )}
+        />
+      </Box>
+
+      {/* スクーリングがあるかどうか */}
+      <Box sx={{ my: 4 }}>
+        <Typography id="schooling" sx={{ fontWeight: 600 }} gutterBottom>
+          スクーリング
+          {/* ：{schoolingValue} */}
+        </Typography>
+        <Controller
+          name="schooling"
+          control={control}
+          render={({ field }) => (
+            <FormControl>
+              <RadioGroup
+                {...field} // field.value と field.onChange を適用
+                row // 横並びにするプロパティ
+                sx={{
+                  gap: 1,
+                }}
+                aria-labelledby="schooling"
+                name="radio-buttons-group"
+              >
+                <FormControlLabel
+                  value="true"
+                  control={<Radio />}
+                  label="スクーリング有り"
+                />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio />}
+                  label="スクーリング無し"
                 />
               </RadioGroup>
             </FormControl>

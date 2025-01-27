@@ -22,6 +22,7 @@ type School = {
   tuitionFee: number;
   attendanceFrequency: string[];
   highSchool: string;
+  schooling: boolean;
 
   // fireStoreのコレクションを追加
 };
@@ -37,6 +38,7 @@ const SearchResultPage = () => {
   const tuitionFeeParams = searchParams.get("tuitionFee"); // クエリパラメータ "tuitionFee" を獲得
   const attendanceFrequencyParams = searchParams.get("attendanceFrequency"); // クエリパラメータ　”attendanceFrequency”　を獲得
   const highSchoolParams = searchParams.get("highSchool"); // クエリパラメータ　”highSchool”　を獲得
+  const schoolingParams = searchParams.get("schooling"); // クエリパラメータ　”schooling”　を獲得
   // fireStoreのコレクションを追加
 
   // nullチェックしてから、stringをnumberに変換
@@ -47,6 +49,9 @@ const SearchResultPage = () => {
   const tuitionFee = tuitionFeeParams ? parseInt(tuitionFeeParams) : NaN; // tuitionFee がNaNの場合は最大値を設定
   const attendanceFrequency = attendanceFrequencyParams || "";
   const highSchool = highSchoolParams || "";
+
+  // "true" なら true, それ以外（null, undefined, "false"）は false に変換
+  const schooling = schoolingParams === "true";
 
   // データベースからデータを取得する
   useEffect(() => {
@@ -90,6 +95,7 @@ const SearchResultPage = () => {
           tuitionFee: doc.data().tuitionFee,
           attendanceFrequency: doc.data().attendanceFrequency,
           highSchool: doc.data().highSchool,
+          schooling: doc.data().schooling,
         }));
         // 取得できているか確認
         console.log(schoolsData);
@@ -102,7 +108,14 @@ const SearchResultPage = () => {
     };
 
     fetchSchools();
-  }, [initialSetupCosts, testFee, tuitionFee, highSchool, attendanceFrequency]);
+  }, [
+    initialSetupCosts,
+    testFee,
+    tuitionFee,
+    highSchool,
+    attendanceFrequency,
+    schooling,
+  ]);
 
   // 学校詳細ページの遷移処理
   const handleSchoolDetail = (schoolId: string) => {
@@ -148,6 +161,9 @@ const SearchResultPage = () => {
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
                     登校スタイル: {school.attendanceFrequency.join("・")}コース
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    スクーリング: {school.schooling ? "あり" : "なし"}
                   </Typography>
                 </CardContent>
                 <CardActions>
