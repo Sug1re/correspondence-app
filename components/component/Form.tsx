@@ -21,6 +21,7 @@ type FormValues = {
   attendanceFrequency: string;
   highSchool: string;
   schooling: string;
+  movingOutsideThePrefecture: string;
   // fireStoreのコレクションを追加
 };
 
@@ -33,6 +34,7 @@ const Form = () => {
       attendanceFrequency: "登校スタイルを選択",
       highSchool: "学校の種類を選択",
       schooling: "スクーリングの有無を選択",
+      movingOutsideThePrefecture: "県外移動の有無を選択",
       // fireStoreのコレクションを追加
     },
   });
@@ -43,6 +45,7 @@ const Form = () => {
   const testFeeValue = watch("testFee");
   const tuitionFeeValue = watch("tuitionFee");
   const highSchoolValue = watch("highSchool");
+  //   const movingOutsideThePrefectureValue = watch("movingOutsideThePrefecture");
   //   const schoolingValue = watch("schooling");
   // fireStoreのコレクションを追加
 
@@ -56,6 +59,7 @@ const Form = () => {
     const { attendanceFrequency } = data;
     const { highSchool } = data;
     const { schooling } = data;
+    const { movingOutsideThePrefecture } = data;
     // fireStoreのコレクションを追加
 
     // クエリパラメータを生成して検索ページへ遷移
@@ -66,6 +70,7 @@ const Form = () => {
       attendanceFrequency: attendanceFrequency,
       highSchool: highSchool,
       schooling: schooling,
+      movingOutsideThePrefecture: movingOutsideThePrefecture,
       // fireStoreのコレクションを追加
     }).toString();
 
@@ -205,6 +210,46 @@ const Form = () => {
                   value="false"
                   control={<Radio />}
                   label="スクーリング無し"
+                />
+              </RadioGroup>
+            </FormControl>
+          )}
+        />
+      </Box>
+
+      {/* 県外移動があるかどうか */}
+      <Box sx={{ my: 4 }}>
+        <Typography
+          id="movingOutsideThePrefecture"
+          sx={{ fontWeight: 600 }}
+          gutterBottom
+        >
+          県外移動
+          {/* : {movingOutsideThePrefectureValue} */}
+        </Typography>
+        <Controller
+          name="movingOutsideThePrefecture"
+          control={control}
+          render={({ field }) => (
+            <FormControl>
+              <RadioGroup
+                {...field} // field.value と field.onChange を適用
+                row // 横並びにするプロパティ
+                sx={{
+                  gap: 1,
+                }}
+                aria-labelledby="movingOutsideThePrefecture"
+                name="radio-buttons-group"
+              >
+                <FormControlLabel
+                  value="true"
+                  control={<Radio />}
+                  label="県外移動有り"
+                />
+                <FormControlLabel
+                  value="false"
+                  control={<Radio />}
+                  label="県外移動無し"
                 />
               </RadioGroup>
             </FormControl>

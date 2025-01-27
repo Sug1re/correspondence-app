@@ -23,6 +23,7 @@ type School = {
   attendanceFrequency: string[];
   highSchool: string;
   schooling: boolean;
+  movingOutsideThePrefecture: boolean;
 
   // fireStoreのコレクションを追加
 };
@@ -39,6 +40,9 @@ const SearchResultPage = () => {
   const attendanceFrequencyParams = searchParams.get("attendanceFrequency"); // クエリパラメータ　”attendanceFrequency”　を獲得
   const highSchoolParams = searchParams.get("highSchool"); // クエリパラメータ　”highSchool”　を獲得
   const schoolingParams = searchParams.get("schooling"); // クエリパラメータ　”schooling”　を獲得
+  const movingOutsideThePrefectureParams = searchParams.get(
+    "movingOutsideThePrefecture"
+  ); // クエリパラメータ "movingOutsideThePrefecture" を獲得
   // fireStoreのコレクションを追加
 
   // nullチェックしてから、stringをnumberに変換
@@ -52,6 +56,8 @@ const SearchResultPage = () => {
 
   // "true" なら true, それ以外（null, undefined, "false"）は false に変換
   const schooling = schoolingParams === "true";
+  const movingOutsideThePrefecture =
+    movingOutsideThePrefectureParams === "true";
 
   // データベースからデータを取得する
   useEffect(() => {
@@ -65,7 +71,7 @@ const SearchResultPage = () => {
         initialSetupCosts === 0 ? maxInitialSetupCosts : initialSetupCosts; // initialSetupCostsが0なら最大値に設定
 
       // フィルタリング機能
-      // testFee, tuitionFee, highSchool を追加
+      // testFee, tuitionFee, highSchool, movingOutsideThePrefecture を追加
       // attendanceFrequency も変化
 
       let q;
@@ -96,6 +102,7 @@ const SearchResultPage = () => {
           attendanceFrequency: doc.data().attendanceFrequency,
           highSchool: doc.data().highSchool,
           schooling: doc.data().schooling,
+          movingOutsideThePrefecture: doc.data().movingOutsideThePrefecture,
         }));
         // 取得できているか確認
         console.log(schoolsData);
@@ -115,6 +122,7 @@ const SearchResultPage = () => {
     highSchool,
     attendanceFrequency,
     schooling,
+    movingOutsideThePrefecture,
   ]);
 
   // 学校詳細ページの遷移処理
@@ -160,10 +168,14 @@ const SearchResultPage = () => {
                     授業料: 3年間 {school.tuitionFee}万円
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    登校スタイル: {school.attendanceFrequency.join("・")}コース
+                    登校スタイル: {school.attendanceFrequency.join("・")}
                   </Typography>
                   <Typography sx={{ mb: 1.5 }} color="text.secondary">
                     スクーリング: {school.schooling ? "あり" : "なし"}
+                  </Typography>
+                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                    県外移動:{" "}
+                    {school.movingOutsideThePrefecture ? "あり" : "なし"}
                   </Typography>
                 </CardContent>
                 <CardActions>
