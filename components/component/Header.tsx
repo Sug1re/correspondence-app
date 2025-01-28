@@ -27,7 +27,7 @@ export default function Header() {
             component={Link}
             href="/"
           >
-            通信制高校検索サイト(新潟県版)
+            通信制高校マッチングアプリ（新潟県版）
           </Typography>
         </Toolbar>
       </AppBar>

@@ -14,17 +14,19 @@ import {
   Typography,
 } from "@mui/material";
 
+// fireStore の型定義
 type School = {
   id: string;
   name: string;
+  course: string;
   initialSetupCosts: number;
-  testFee: number;
   tuitionFee: number;
-  attendanceFrequency: string[];
-  highSchool: string;
+  testFee: number;
   schooling: boolean;
   movingOutsideThePrefecture: boolean;
-  course: string;
+  commutingStyle: string;
+  highSchool: string;
+  attendanceFrequency: string[];
 
   // fireStoreのコレクションを追加
 };
@@ -32,31 +34,38 @@ const SearchResultPage = () => {
   const [schools, setSchools] = useState<School[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const router = useRouter(); // ページ遷移時に必要な変数
 
   // クエリパラメータの取得
+  const courseParams = searchParams.get("course"); // クエリパラメータ "course" を獲得
   const initialSetupCostsParams = searchParams.get("initialSetupCosts"); // クエリパラメータ ”initialSetupCosts” を獲得
-  const testFeeParams = searchParams.get("testFee"); // クエリパラメータ "testFee" を獲得
   const tuitionFeeParams = searchParams.get("tuitionFee"); // クエリパラメータ "tuitionFee" を獲得
-  const attendanceFrequencyParams = searchParams.get("attendanceFrequency"); // クエリパラメータ　”attendanceFrequency”　を獲得
-  const highSchoolParams = searchParams.get("highSchool"); // クエリパラメータ　”highSchool”　を獲得
+  const testFeeParams = searchParams.get("testFee"); // クエリパラメータ "testFee" を獲得
   const schoolingParams = searchParams.get("schooling"); // クエリパラメータ　”schooling”　を獲得
   const movingOutsideThePrefectureParams = searchParams.get(
     "movingOutsideThePrefecture"
   ); // クエリパラメータ "movingOutsideThePrefecture" を獲得
-  const courseParams = searchParams.get("course"); // クエリパラメータ "course" を獲得
+  const commutingStyleParams = searchParams.get("commutingStyle"); // クエリパラメータ "commutingStyle" を獲得
+  const highSchoolParams = searchParams.get("highSchool"); // クエリパラメータ　”highSchool”　を獲得
+  const attendanceFrequencyParams = searchParams.get("attendanceFrequency"); // クエリパラメータ　”attendanceFrequency”　を獲得
+
   // fireStoreのコレクションを追加
 
+  // number型
   // nullチェックしてから、stringをnumberに変換
   const initialSetupCosts = initialSetupCostsParams
     ? parseInt(initialSetupCostsParams)
     : NaN; // initialSetupCosts がNaNの場合は最大値を設定
   const testFee = testFeeParams ? parseInt(testFeeParams) : NaN; // testFee がNaNの場合は最大値を設定
   const tuitionFee = tuitionFeeParams ? parseInt(tuitionFeeParams) : NaN; // tuitionFee がNaNの場合は最大値を設定
+
+  // string型
   const attendanceFrequency = attendanceFrequencyParams || "";
   const highSchool = highSchoolParams || "";
   const course = courseParams || "";
+  const commutingStyle = commutingStyleParams || "";
 
+  // boolean型
   // "true" なら true, それ以外（null, undefined, "false"）は false に変換
   const schooling = schoolingParams === "true";
   const movingOutsideThePrefecture =
@@ -74,7 +83,7 @@ const SearchResultPage = () => {
         initialSetupCosts === 0 ? maxInitialSetupCosts : initialSetupCosts; // initialSetupCostsが0なら最大値に設定
 
       // フィルタリング機能
-      // testFee, tuitionFee, highSchool, movingOutsideThePrefecture を追加
+      // testFee, tuitionFee, highSchool, movingOutsideThePrefecture, course, commutingStyle を追加しよう
       // attendanceFrequency も変化
 
       let q;
@@ -99,14 +108,15 @@ const SearchResultPage = () => {
         const schoolsData: School[] = snapshot.docs.map((doc) => ({
           id: doc.id,
           name: doc.data().name,
+          course: doc.data().course,
           initialSetupCosts: doc.data().initialSetupCosts,
-          testFee: doc.data().testFee,
           tuitionFee: doc.data().tuitionFee,
-          attendanceFrequency: doc.data().attendanceFrequency,
-          highSchool: doc.data().highSchool,
+          testFee: doc.data().testFee,
           schooling: doc.data().schooling,
           movingOutsideThePrefecture: doc.data().movingOutsideThePrefecture,
-          course: doc.data().course,
+          commutingStyle: doc.data().commutingStyle,
+          highSchool: doc.data().highSchool,
+          attendanceFrequency: doc.data().attendanceFrequency,
         }));
         // 取得できているか確認
         console.log(schoolsData);
@@ -128,6 +138,7 @@ const SearchResultPage = () => {
     schooling,
     movingOutsideThePrefecture,
     course,
+    commutingStyle,
   ]);
 
   // 学校詳細ページの遷移処理
@@ -138,7 +149,7 @@ const SearchResultPage = () => {
     <>
       <Component.Header />
 
-      <Container maxWidth="sm">
+      <Container maxWidth="md">
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" component="h2" gutterBottom>
             検索結果
@@ -157,34 +168,61 @@ const SearchResultPage = () => {
           ) : (
             // 学校が見つかった場合
             schools.map((school) => (
-              <Card key={school.id} sx={{ my: 2 }}>
+              <Card key={school.id} sx={{ my: 3 }}>
                 <CardContent>
-                  <Typography variant="h5" component="div">
+                  <Typography variant="h6" component="div" sx={{ mb: 1 }}>
                     {school.name} :
-                    <span className="text-gray-500"> {school.highSchool}</span>
+                    <span className="text-blue-600"> {school.course}</span>
                   </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    初期費用: 1年次 {school.initialSetupCosts}万円
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    受験料: {school.testFee}万円
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    授業料: 3年間 {school.tuitionFee}万円
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    登校頻度: {school.attendanceFrequency.join("・")}
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    スクーリング: {school.schooling ? "あり" : "なし"}
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    県外移動:{" "}
-                    {school.movingOutsideThePrefecture ? "あり" : "なし"}
-                  </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    通学形態: {school.course}
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: 2,
+                      mb: 1.5,
+                    }}
+                  >
+                    <Typography color="text.secondary">
+                      初期費用：1年次{school.initialSetupCosts}万円
+                    </Typography>
+                    <Typography color="text.secondary">
+                      授業料：3年間{school.tuitionFee}万円
+                    </Typography>
+                    <Typography color="text.secondary">
+                      受験料：{school.testFee}万円
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: 2,
+                      mb: 1.5,
+                    }}
+                  >
+                    <Typography color="text.secondary">
+                      通学形態：{school.commutingStyle}
+                    </Typography>
+                    <Typography color="text.secondary">
+                      スクーリング：{school.schooling ? "あり" : "なし"}
+                    </Typography>
+                    <Typography color="text.secondary">
+                      県外移動：
+                      {school.movingOutsideThePrefecture ? "あり" : "なし"}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      gap: 2,
+                      mb: 1.5,
+                    }}
+                  >
+                    <Typography color="text.secondary">
+                      登校頻度：{school.attendanceFrequency.join("/")}
+                    </Typography>
+                    <Typography color="text.secondary">
+                      {school.highSchool}
+                    </Typography>
+                  </Box>
                 </CardContent>
                 <CardActions sx={{ justifyContent: "flex-end" }}>
                   <Button
