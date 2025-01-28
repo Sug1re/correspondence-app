@@ -8,6 +8,7 @@ import {
   Container,
   FormControl,
   FormControlLabel,
+  FormHelperText,
   Radio,
   RadioGroup,
   Slider,
@@ -29,11 +30,16 @@ type FormValues = {
 };
 
 const Form = () => {
-  const { control, handleSubmit, watch } = useForm<FormValues>({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormValues>({
     defaultValues: {
-      initialSetupCosts: 10, // 初期値設定
-      tuitionFee: 10,
-      testFee: 1,
+      initialSetupCosts: 0, // 初期値設定
+      tuitionFee: 0,
+      testFee: 0,
       schooling: "スクーリングの有無を選択",
       movingOutsideThePrefecture: "県外移動の有無を選択",
       commutingStyle: "通学かオンラインを選択",
@@ -55,27 +61,32 @@ const Form = () => {
   const router = useRouter();
 
   const onSubmit = (data: FormValues) => {
-    // フォームの値を取得
-    const { initialSetupCosts } = data;
-    const { tuitionFee } = data;
-    const { testFee } = data;
-    const { schooling } = data;
-    const { movingOutsideThePrefecture } = data;
-    const { commutingStyle } = data;
-    const { highSchool } = data;
-    const { attendanceFrequency } = data;
-    // fireStoreのコレクションを追加
+    // // フォームの値を取得
+    // const { initialSetupCosts } = data;
+    // const { tuitionFee } = data;
+    // const { testFee } = data;
+    // const { schooling } = data;
+    // const { movingOutsideThePrefecture } = data;
+    // const { commutingStyle } = data;
+    // const { highSchool } = data;
+    // const { attendanceFrequency } = data;
+    // // fireStoreのコレクションを追加
+
+    // エラーがある場合、ページ遷移を行わずエラーメッセージを表示
+    if (Object.keys(errors).length > 0) {
+      return; // エラーがあれば処理を中断
+    }
 
     // クエリパラメータを生成して検索ページへ遷移
     const query = new URLSearchParams({
-      initialSetupCosts: initialSetupCosts.toString(), // number型を文字列に変換
-      tuitionFee: tuitionFee.toString(), // number型を文字列に変換
-      testFee: testFee.toString(), // number型を文字列に変換
-      schooling: schooling,
-      movingOutsideThePrefecture: movingOutsideThePrefecture,
-      commutingStyle: commutingStyle,
-      highSchool: highSchool,
-      attendanceFrequency: attendanceFrequency,
+      initialSetupCosts: data.initialSetupCosts.toString(), // number型を文字列に変換
+      tuitionFee: data.tuitionFee.toString(), // number型を文字列に変換
+      testFee: data.testFee.toString(), // number型を文字列に変換
+      schooling: data.schooling,
+      movingOutsideThePrefecture: data.movingOutsideThePrefecture,
+      commutingStyle: data.commutingStyle,
+      highSchool: data.highSchool,
+      attendanceFrequency: data.attendanceFrequency,
       // fireStoreのコレクションを追加
     }).toString();
 
@@ -106,6 +117,7 @@ const Form = () => {
               <Controller
                 name="initialSetupCosts"
                 control={control}
+                rules={{ required: "初期費用を選択してください。" }}
                 render={({ field }) => (
                   <Slider
                     {...field}
@@ -117,6 +129,9 @@ const Form = () => {
                   />
                 )}
               />
+              {errors.initialSetupCosts && (
+                <Typography>{errors.initialSetupCosts.message}</Typography>
+              )}
             </Box>
 
             {/* 授業料スライダー */}
@@ -131,6 +146,7 @@ const Form = () => {
               <Controller
                 name="tuitionFee"
                 control={control}
+                rules={{ required: "授業料を選択してください。" }}
                 render={({ field }) => (
                   <Slider
                     {...field}
@@ -142,6 +158,11 @@ const Form = () => {
                   />
                 )}
               />
+              {errors.tuitionFee && (
+                <FormHelperText error>
+                  {errors.tuitionFee.message}
+                </FormHelperText>
+              )}
             </Box>
 
             {/* 受験料スライダー */}
@@ -156,6 +177,7 @@ const Form = () => {
               <Controller
                 name="testFee"
                 control={control}
+                rules={{ required: "受験料を選択してください。" }}
                 render={({ field }) => (
                   <Slider
                     {...field}
@@ -167,12 +189,15 @@ const Form = () => {
                   />
                 )}
               />
+              {errors.testFee && (
+                <FormHelperText error>{errors.testFee.message}</FormHelperText>
+              )}
             </Box>
           </Box>
 
           {/* boolean型データ */}
           <Box>
-            {/* スクーリングがあるかどうか */}
+            {/* スクーリングの有無 */}
             <Box sx={{ my: 4 }}>
               <Typography id="schooling" sx={{ fontWeight: 600 }} gutterBottom>
                 スクーリング
@@ -180,6 +205,7 @@ const Form = () => {
               <Controller
                 name="schooling"
                 control={control}
+                rules={{ required: "スクーリングの有無を選択してください。" }}
                 render={({ field }) => (
                   <FormControl>
                     <RadioGroup
@@ -205,6 +231,11 @@ const Form = () => {
                   </FormControl>
                 )}
               />
+              {errors.schooling && (
+                <FormHelperText error>
+                  {errors.schooling.message}
+                </FormHelperText>
+              )}
             </Box>
 
             {/* 県外移動があるかどうか */}
@@ -219,6 +250,7 @@ const Form = () => {
               <Controller
                 name="movingOutsideThePrefecture"
                 control={control}
+                rules={{ required: "県外移動の有無を選択してください。" }}
                 render={({ field }) => (
                   <FormControl>
                     <RadioGroup
@@ -244,6 +276,11 @@ const Form = () => {
                   </FormControl>
                 )}
               />
+              {errors.movingOutsideThePrefecture && (
+                <FormHelperText error>
+                  {errors.movingOutsideThePrefecture.message}
+                </FormHelperText>
+              )}
             </Box>
           </Box>
 
@@ -257,6 +294,7 @@ const Form = () => {
               <Controller
                 name="highSchool"
                 control={control}
+                rules={{ required: "学校の種類を選択してください。" }}
                 render={({ field }) => (
                   <FormControl>
                     <RadioGroup
@@ -282,6 +320,11 @@ const Form = () => {
                   </FormControl>
                 )}
               />
+              {errors.highSchool && (
+                <FormHelperText error>
+                  {errors.highSchool.message}
+                </FormHelperText>
+              )}
             </Box>
 
             {/* 通学形態 */}
@@ -296,6 +339,7 @@ const Form = () => {
               <Controller
                 name="commutingStyle"
                 control={control}
+                rules={{ required: "通学形態を選択してください。" }}
                 render={({ field }) => (
                   <FormControl>
                     <RadioGroup
@@ -321,6 +365,11 @@ const Form = () => {
                   </FormControl>
                 )}
               />
+              {errors.commutingStyle && (
+                <FormHelperText error>
+                  {errors.commutingStyle.message}
+                </FormHelperText>
+              )}
             </Box>
 
             {/* 登校頻度 */}
@@ -335,6 +384,7 @@ const Form = () => {
               <Controller
                 name="attendanceFrequency"
                 control={control}
+                rules={{ required: "登校頻度を選択してください。" }}
                 render={({ field }) => (
                   <FormControl>
                     <RadioGroup
@@ -385,6 +435,11 @@ const Form = () => {
                   </FormControl>
                 )}
               />
+              {errors.attendanceFrequency && (
+                <FormHelperText error>
+                  {errors.attendanceFrequency.message}
+                </FormHelperText>
+              )}
             </Box>
           </Box>
 
