@@ -76,33 +76,22 @@ const SearchResultPage = () => {
     const fetchSchools = async () => {
       const schoolRef = collection(db, "schools");
 
-      // initialSetupCostsが0の場合、最大値を設定
-      const maxInitialSetupCosts = 200; // 例えば最大値として200を設定
-
-      const initialSetupCostsValue =
-        initialSetupCosts === 0 ? maxInitialSetupCosts : initialSetupCosts; // initialSetupCostsが0なら最大値に設定
-
       // フィルタリング機能
-      // testFee, tuitionFee, highSchool, movingOutsideThePrefecture, course, commutingStyle を追加しよう
-      // attendanceFrequency も変化
+      const q = query(
+        schoolRef,
+        where("initialSetupCosts", "<=", initialSetupCosts),
+        where("tuitionFee", "<=", tuitionFee),
+        where("testFee", "<=", testFee),
+        orderBy("initialSetupCosts", "asc"),
+        orderBy("tuitionFee", "asc"),
+        orderBy("testFee", "asc"),
+        where("schooling", "==", schooling),
+        where("movingOutsideThePrefecture", "==", movingOutsideThePrefecture),
+        where("commutingStyle", "==", commutingStyle),
+        where("highSchool", "==", highSchool),
+        where("attendanceFrequency", "array-contains", attendanceFrequency)
+      );
 
-      let q;
-
-      // "登校スタイルを選択"の場合、attendanceFrequencyフィールドをフィルタリングしない
-      if (attendanceFrequency === "登校スタイルを選択") {
-        q = query(
-          schoolRef,
-          where("initialSetupCosts", "<=", initialSetupCostsValue),
-          orderBy("initialSetupCosts", "asc")
-        );
-      } else {
-        q = query(
-          schoolRef,
-          where("attendanceFrequency", "array-contains", attendanceFrequency),
-          where("initialSetupCosts", "<=", initialSetupCostsValue),
-          orderBy("initialSetupCosts", "asc")
-        );
-      }
       try {
         const snapshot = await getDocs(q);
         const schoolsData: School[] = snapshot.docs.map((doc) => ({
