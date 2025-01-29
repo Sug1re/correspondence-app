@@ -2,6 +2,8 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
   Button,
@@ -15,19 +17,32 @@ import {
   Typography,
 } from "@mui/material";
 
-// React Hook Form の設定
-type FormValues = {
-  initialSetupCosts: number;
-  tuitionFee: number;
-  testFee: number;
-  schooling: string;
-  movingOutsideThePrefecture: string;
-  commutingStyle: string;
-  highSchool: string;
-  attendanceFrequency: string;
+// Zodスキーマの定義
+const formSchema = z.object({
+  initialSetupCosts: z.number().min(1, "初期費用を選択してください。"),
+  tuitionFee: z.number().min(1, "授業料を選択してください。"),
+  testFee: z.number().min(1, "受験料を選択してください。"),
+  schooling: z.enum(["true", "false"], {
+    errorMap: () => ({ message: "スクーリングの有無を選択してください。" }),
+  }),
+  movingOutsideThePrefecture: z.enum(["true", "false"], {
+    errorMap: () => ({ message: "県外移動の有無を選択してください。" }),
+  }),
+  commutingStyle: z.enum(["通学", "オンライン"], {
+    errorMap: () => ({ message: "通学形態を選択してください。" }),
+  }),
+  highSchool: z.enum(["通信制高等学校", "サポート校"], {
+    errorMap: () => ({ message: "学校の種類を選択してください。" }),
+  }),
+  attendanceFrequency: z.enum(
+    ["週1", "週2", "週3", "週4", "週5", "オンライン", "自由"],
+    {
+      errorMap: () => ({ message: "登校頻度を選択してください。" }),
+    }
+  ),
+});
 
-  // fireStoreのコレクションを追加
-};
+type FormValues = z.infer<typeof formSchema>;
 
 const Form = () => {
   const {
@@ -36,15 +51,16 @@ const Form = () => {
     watch,
     formState: { errors },
   } = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       initialSetupCosts: 0, // 初期値設定
       tuitionFee: 0,
       testFee: 0,
-      schooling: "スクーリングの有無を選択",
-      movingOutsideThePrefecture: "県外移動の有無を選択",
-      commutingStyle: "通学かオンラインを選択",
-      highSchool: "学校の種類を選択",
-      attendanceFrequency: "登校頻度を選択",
+      schooling: undefined, // 初期値をundefinedに設定
+      movingOutsideThePrefecture: undefined,
+      commutingStyle: undefined,
+      highSchool: undefined,
+      attendanceFrequency: undefined,
       // fireStoreのコレクションを追加
     },
   });
@@ -53,32 +69,14 @@ const Form = () => {
   const initialSetupCostsValue = watch("initialSetupCosts");
   const testFeeValue = watch("testFee");
   const tuitionFeeValue = watch("tuitionFee");
-  const commutingStyleValue = watch("commutingStyle");
-  const highSchoolValue = watch("highSchool");
-  const attendanceFrequencyValue = watch("attendanceFrequency");
   // fireStoreのコレクションを追加
 
   const router = useRouter();
 
   const onSubmit = (data: FormValues) => {
-    // // フォームの値を取得
-    // const { initialSetupCosts } = data;
-    // const { tuitionFee } = data;
-    // const { testFee } = data;
-    // const { schooling } = data;
-    // const { movingOutsideThePrefecture } = data;
-    // const { commutingStyle } = data;
-    // const { highSchool } = data;
-    // const { attendanceFrequency } = data;
-    // // fireStoreのコレクションを追加
-
-    // エラーがある場合、ページ遷移を行わずエラーメッセージを表示
-    if (Object.keys(errors).length > 0) {
-      return; // エラーがあれば処理を中断
-    }
-
     // クエリパラメータを生成して検索ページへ遷移
     const query = new URLSearchParams({
+      // フォームの値を取得
       initialSetupCosts: data.initialSetupCosts.toString(), // number型を文字列に変換
       tuitionFee: data.tuitionFee.toString(), // number型を文字列に変換
       testFee: data.testFee.toString(), // number型を文字列に変換
@@ -112,7 +110,7 @@ const Form = () => {
                 sx={{ fontWeight: 600 }}
                 gutterBottom
               >
-                初期費用（万円）：{initialSetupCostsValue}万円
+                1年次の初期費用（万円）：{initialSetupCostsValue}万円
               </Typography>
               <Controller
                 name="initialSetupCosts"
@@ -130,7 +128,9 @@ const Form = () => {
                 )}
               />
               {errors.initialSetupCosts && (
-                <Typography>{errors.initialSetupCosts.message}</Typography>
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
+                  {errors.initialSetupCosts.message}
+                </FormHelperText>
               )}
             </Box>
 
@@ -141,7 +141,7 @@ const Form = () => {
                 sx={{ fontWeight: 600 }}
                 gutterBottom
               >
-                授業料（万円）：{tuitionFeeValue}万円
+                3年間の授業料（万円）：{tuitionFeeValue}万円
               </Typography>
               <Controller
                 name="tuitionFee"
@@ -159,7 +159,7 @@ const Form = () => {
                 )}
               />
               {errors.tuitionFee && (
-                <FormHelperText error>
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
                   {errors.tuitionFee.message}
                 </FormHelperText>
               )}
@@ -190,7 +190,9 @@ const Form = () => {
                 )}
               />
               {errors.testFee && (
-                <FormHelperText error>{errors.testFee.message}</FormHelperText>
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
+                  {errors.testFee.message}
+                </FormHelperText>
               )}
             </Box>
           </Box>
@@ -232,7 +234,7 @@ const Form = () => {
                 )}
               />
               {errors.schooling && (
-                <FormHelperText error>
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
                   {errors.schooling.message}
                 </FormHelperText>
               )}
@@ -277,7 +279,7 @@ const Form = () => {
                 )}
               />
               {errors.movingOutsideThePrefecture && (
-                <FormHelperText error>
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
                   {errors.movingOutsideThePrefecture.message}
                 </FormHelperText>
               )}
@@ -289,7 +291,7 @@ const Form = () => {
             {/* 学校の種類 */}
             <Box sx={{ my: 4 }}>
               <Typography id="highSchool" sx={{ fontWeight: 600 }} gutterBottom>
-                学校の種類：{highSchoolValue}
+                学校の種類
               </Typography>
               <Controller
                 name="highSchool"
@@ -321,7 +323,7 @@ const Form = () => {
                 )}
               />
               {errors.highSchool && (
-                <FormHelperText error>
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
                   {errors.highSchool.message}
                 </FormHelperText>
               )}
@@ -334,7 +336,7 @@ const Form = () => {
                 sx={{ fontWeight: 600 }}
                 gutterBottom
               >
-                通学形態 : {commutingStyleValue}
+                通学形態
               </Typography>
               <Controller
                 name="commutingStyle"
@@ -366,7 +368,7 @@ const Form = () => {
                 )}
               />
               {errors.commutingStyle && (
-                <FormHelperText error>
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
                   {errors.commutingStyle.message}
                 </FormHelperText>
               )}
@@ -379,7 +381,7 @@ const Form = () => {
                 sx={{ fontWeight: 600 }}
                 gutterBottom
               >
-                登校頻度：{attendanceFrequencyValue}
+                登校頻度
               </Typography>
               <Controller
                 name="attendanceFrequency"
@@ -436,7 +438,7 @@ const Form = () => {
                 )}
               />
               {errors.attendanceFrequency && (
-                <FormHelperText error>
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
                   {errors.attendanceFrequency.message}
                 </FormHelperText>
               )}
@@ -444,8 +446,18 @@ const Form = () => {
           </Box>
 
           {/* 検索ボタン */}
-          <Box>
-            <Button variant="contained" type="submit">
+          <Box sx={{ pb: 8 }}>
+            <Button
+              variant="contained"
+              type="submit"
+              sx={{
+                width: "100%", // ボタンの幅をフルに設定
+                transition: "transform 0.2s ease-in-out", // スムーズなスケールアニメーション
+                "&:hover": {
+                  transform: "scale(0.95)", // ホバー時のスケール
+                },
+              }}
+            >
               検索
             </Button>
           </Box>
