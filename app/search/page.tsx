@@ -11,8 +11,15 @@ import {
   CardActions,
   CardContent,
   Container,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
   Typography,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { blueGrey } from "@mui/material/colors";
 
 // fireStore の型定義
 type School = {
@@ -35,6 +42,7 @@ const SearchResultPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
   const searchParams = useSearchParams();
   const router = useRouter(); // ページ遷移時に必要な変数
+  const theme = useTheme();
 
   // クエリパラメータの取得
   const courseParams = searchParams.get("course"); // クエリパラメータ "course" を獲得
@@ -145,7 +153,7 @@ const SearchResultPage = () => {
           </Typography>
 
           {/* ロード中の場合 */}
-          {isLoading ? (
+          {/* {isLoading ? (
             <Typography variant="h6" color="text.secondary">
               読み込み中...
             </Typography>
@@ -216,6 +224,392 @@ const SearchResultPage = () => {
                 <CardActions sx={{ justifyContent: "flex-end" }}>
                   <Button
                     size="small"
+                    onClick={() => handleSchoolDetail(school.id)}
+                  >
+                    詳細
+                  </Button>
+                </CardActions>
+              </Card>
+            ))
+          )} */}
+          {isLoading ? (
+            <Typography variant="h6" color="text.secondary">
+              読み込み中...
+            </Typography>
+          ) : // 学校が見つからない場合にメッセージを表示
+          schools.length === 0 ? (
+            <Typography variant="h6" color="text.secondary">
+              条件に一致する学校はありませんでした
+            </Typography>
+          ) : (
+            // 学校が見つかった場合
+            schools.map((school) => (
+              <Card
+                key={school.id}
+                sx={{
+                  pt: 2,
+                  px: 2,
+                  my: 3,
+                  boxShadow: 5,
+                  borderRadius: 2,
+                  backgroundColor: blueGrey[100],
+                  border: `1px solid ${
+                    theme.palette.primary?.light || "#90CAF9"
+                  }`, // 修正: `?.` でSSRエラーを防ぐ
+                  flexDirection: "row",
+                  gap: 3,
+                }}
+              >
+                {/* カードタイトル */}
+                <CardContent>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      mb: 0.5,
+                      color: theme.palette.primary?.main || "#1976D2", // SSR時はデフォルトの青を適用
+                    }}
+                  >
+                    {school.name}
+                    <br />
+                    {school.course}
+                  </Typography>
+                </CardContent>
+
+                {/* 学校情報 */}
+                <CardContent sx={{ display: "flex" }}>
+                  {/* 左側の情報 */}
+                  <CardContent sx={{ flex: 1 }}>
+                    {/* 基本情報 */}
+                    <Box>
+                      {/* 小見出し */}
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          mb: 1,
+                          color: theme.palette.primary?.main || "#1976D2",
+                        }}
+                      >
+                        基本情報
+                      </Typography>
+                      <TableContainer>
+                        <Table>
+                          <TableBody>
+                            <TableRow
+                              sx={{
+                                backgroundColor: blueGrey[50],
+                              }}
+                            >
+                              <TableCell
+                                align="center"
+                                sx={{
+                                  fontWeight: "bold",
+                                  width: "40%",
+                                  fontSize: "0.875rem",
+                                  color: blueGrey[900],
+                                }}
+                              >
+                                通学形態
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                        <Table>
+                          <TableBody>
+                            <TableRow
+                              sx={{
+                                backgroundColor: blueGrey[50],
+                              }}
+                            >
+                              <TableCell
+                                align="center"
+                                sx={{
+                                  color: blueGrey[900],
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                {school.commutingStyle}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                        <Table>
+                          <TableBody>
+                            <TableRow
+                              sx={{
+                                backgroundColor: blueGrey[50],
+                              }}
+                            >
+                              <TableCell
+                                align="center"
+                                sx={{
+                                  fontWeight: "bold",
+                                  width: "40%",
+                                  fontSize: "0.875rem",
+                                  color: blueGrey[900],
+                                }}
+                              >
+                                学校の種類
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                        <Table>
+                          <TableBody>
+                            <TableRow
+                              sx={{
+                                backgroundColor: blueGrey[50],
+                              }}
+                            >
+                              <TableCell
+                                align="center"
+                                sx={{
+                                  color: blueGrey[900],
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                {school.highSchool}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                        <Table>
+                          <TableBody>
+                            <TableRow
+                              sx={{
+                                backgroundColor: blueGrey[50],
+                              }}
+                            >
+                              <TableCell
+                                align="center"
+                                sx={{
+                                  fontWeight: "bold",
+                                  width: "40%",
+                                  fontSize: "0.875rem",
+                                  color: blueGrey[900],
+                                }}
+                              >
+                                登校頻度
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                        <Table>
+                          <TableBody>
+                            <TableRow
+                              sx={{
+                                backgroundColor: blueGrey[50],
+                              }}
+                            >
+                              <TableCell
+                                align="center"
+                                sx={{
+                                  color: blueGrey[900],
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                {school.attendanceFrequency}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Box>
+                  </CardContent>
+                  {/* 右側の情報 */}
+                  <CardContent sx={{ flex: 2 }}>
+                    {/* 費用情報 */}
+                    <Box>
+                      {/* 小見出し */}
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          mb: 1,
+                          color: theme.palette.primary?.main || "#1976D2",
+                        }}
+                      >
+                        費用情報
+                      </Typography>
+                      <TableContainer>
+                        <Table>
+                          <TableBody>
+                            <TableRow
+                              sx={{
+                                backgroundColor: blueGrey[50],
+                              }}
+                            >
+                              <TableCell
+                                sx={{
+                                  fontWeight: "bold",
+                                  width: "60%",
+                                  fontSize: "0.875rem",
+                                  color: blueGrey[800],
+                                }}
+                              >
+                                1年次の初期費用
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  color: blueGrey[700],
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                {school.initialSetupCosts}万円
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                        <Table>
+                          <TableBody>
+                            <TableRow
+                              sx={{
+                                backgroundColor: blueGrey[50],
+                              }}
+                            >
+                              <TableCell
+                                sx={{
+                                  fontWeight: "bold",
+                                  width: "60%",
+                                  fontSize: "0.875rem",
+                                  color: blueGrey[800],
+                                }}
+                              >
+                                3年間の授業料
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  color: blueGrey[700],
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                {school.tuitionFee}万円
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                        <Table>
+                          <TableBody>
+                            <TableRow
+                              sx={{
+                                backgroundColor: blueGrey[50],
+                              }}
+                            >
+                              <TableCell
+                                sx={{
+                                  fontWeight: "bold",
+                                  width: "60%",
+                                  fontSize: "0.875rem",
+                                  color: blueGrey[800],
+                                }}
+                              >
+                                受験料
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  color: blueGrey[700],
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                {school.testFee}万円
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Box>
+
+                    {/* その他 */}
+                    <Box>
+                      {/* 小見出し */}
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          mt: 2,
+                          mb: 1,
+                          color: theme.palette.primary?.main || "#1976D2",
+                        }}
+                      >
+                        その他
+                      </Typography>
+                      <TableContainer>
+                        <Table>
+                          <TableBody>
+                            <TableRow
+                              sx={{
+                                backgroundColor: blueGrey[50],
+                              }}
+                            >
+                              <TableCell
+                                sx={{
+                                  fontWeight: "bold",
+                                  width: "60%",
+                                  fontSize: "0.875rem",
+                                  color: blueGrey[800],
+                                }}
+                              >
+                                スクーリング
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  color: blueGrey[700],
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                {school.schooling ? "あり" : "なし"}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                        <Table>
+                          <TableBody>
+                            <TableRow
+                              sx={{
+                                backgroundColor: blueGrey[50],
+                              }}
+                            >
+                              <TableCell
+                                sx={{
+                                  fontWeight: "bold",
+                                  width: "60%",
+                                  fontSize: "0.875rem",
+                                  color: blueGrey[800],
+                                }}
+                              >
+                                県外移動
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  color: blueGrey[700],
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                {school.movingOutsideThePrefecture
+                                  ? "あり"
+                                  : "なし"}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Box>
+                  </CardContent>
+                </CardContent>
+
+                {/* ボタン */}
+                <CardActions sx={{ justifyContent: "flex-end" }}>
+                  <Button
+                    size="small"
+                    sx={{
+                      fontWeight: "bold",
+                      color: theme.palette.primary?.main || "#1976D2",
+                    }}
                     onClick={() => handleSchoolDetail(school.id)}
                   >
                     詳細
