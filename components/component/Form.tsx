@@ -95,7 +95,7 @@ const Form = () => {
 
   const router = useRouter();
 
-  // 登校頻度の「オンライン」を無効化する状態
+  // 通学形態と登校頻度の連動ロジック
   const [disableOnline, setDisableOnline] = useState(false);
 
   useEffect(() => {
