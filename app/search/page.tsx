@@ -19,7 +19,6 @@ import {
   Typography,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { blueGrey } from "@mui/material/colors";
 
 // fireStore の型定義
 type School = {
@@ -252,9 +251,8 @@ const SearchResultPage = () => {
                   my: 3,
                   boxShadow: 5,
                   borderRadius: 2,
-                  backgroundColor: blueGrey[100],
                   border: `1px solid ${
-                    theme.palette.primary?.light || "#90CAF9"
+                    theme.palette.primary?.light || "#7DD3FC"
                   }`, // 修正: `?.` でSSRエラーを防ぐ
                   flexDirection: "row",
                   gap: 3,
@@ -290,6 +288,8 @@ const SearchResultPage = () => {
                           fontWeight: "bold",
                           textAlign: "center",
                           mb: 1,
+                          background: "#b2ebf2",
+                          borderRadius: "9px",
                           color: theme.palette.primary?.main || "#1976D2",
                         }}
                       >
@@ -298,18 +298,13 @@ const SearchResultPage = () => {
                       <TableContainer>
                         <Table>
                           <TableBody>
-                            <TableRow
-                              sx={{
-                                backgroundColor: blueGrey[50],
-                              }}
-                            >
+                            <TableRow sx={{}}>
                               <TableCell
                                 align="center"
                                 sx={{
                                   fontWeight: "bold",
                                   width: "40%",
                                   fontSize: "0.875rem",
-                                  color: blueGrey[900],
                                 }}
                               >
                                 通学形態
@@ -319,15 +314,10 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow
-                              sx={{
-                                backgroundColor: blueGrey[50],
-                              }}
-                            >
+                            <TableRow sx={{}}>
                               <TableCell
                                 align="center"
                                 sx={{
-                                  color: blueGrey[900],
                                   fontSize: "0.875rem",
                                 }}
                               >
@@ -338,18 +328,13 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow
-                              sx={{
-                                backgroundColor: blueGrey[50],
-                              }}
-                            >
+                            <TableRow sx={{}}>
                               <TableCell
                                 align="center"
                                 sx={{
                                   fontWeight: "bold",
                                   width: "40%",
                                   fontSize: "0.875rem",
-                                  color: blueGrey[900],
                                 }}
                               >
                                 学校の種類
@@ -359,15 +344,10 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow
-                              sx={{
-                                backgroundColor: blueGrey[50],
-                              }}
-                            >
+                            <TableRow sx={{}}>
                               <TableCell
                                 align="center"
                                 sx={{
-                                  color: blueGrey[900],
                                   fontSize: "0.875rem",
                                 }}
                               >
@@ -378,18 +358,13 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow
-                              sx={{
-                                backgroundColor: blueGrey[50],
-                              }}
-                            >
+                            <TableRow sx={{}}>
                               <TableCell
                                 align="center"
                                 sx={{
                                   fontWeight: "bold",
                                   width: "40%",
                                   fontSize: "0.875rem",
-                                  color: blueGrey[900],
                                 }}
                               >
                                 登校頻度
@@ -399,15 +374,10 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow
-                              sx={{
-                                backgroundColor: blueGrey[50],
-                              }}
-                            >
+                            <TableRow sx={{}}>
                               <TableCell
                                 align="center"
                                 sx={{
-                                  color: blueGrey[900],
                                   fontSize: "0.875rem",
                                 }}
                               >
@@ -430,6 +400,8 @@ const SearchResultPage = () => {
                           fontWeight: "bold",
                           textAlign: "center",
                           mb: 1,
+                          background: "#b2ebf2",
+                          borderRadius: "9px",
                           color: theme.palette.primary?.main || "#1976D2",
                         }}
                       >
@@ -438,24 +410,18 @@ const SearchResultPage = () => {
                       <TableContainer>
                         <Table>
                           <TableBody>
-                            <TableRow
-                              sx={{
-                                backgroundColor: blueGrey[50],
-                              }}
-                            >
+                            <TableRow sx={{}}>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
                                   width: "60%",
                                   fontSize: "0.875rem",
-                                  color: blueGrey[800],
                                 }}
                               >
                                 1年次の初期費用
                               </TableCell>
                               <TableCell
                                 sx={{
-                                  color: blueGrey[700],
                                   fontSize: "0.875rem",
                                 }}
                               >
@@ -466,24 +432,18 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow
-                              sx={{
-                                backgroundColor: blueGrey[50],
-                              }}
-                            >
+                            <TableRow sx={{}}>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
                                   width: "60%",
                                   fontSize: "0.875rem",
-                                  color: blueGrey[800],
                                 }}
                               >
                                 3年間の授業料
                               </TableCell>
                               <TableCell
                                 sx={{
-                                  color: blueGrey[700],
                                   fontSize: "0.875rem",
                                 }}
                               >
@@ -494,24 +454,18 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow
-                              sx={{
-                                backgroundColor: blueGrey[50],
-                              }}
-                            >
+                            <TableRow sx={{}}>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
                                   width: "60%",
                                   fontSize: "0.875rem",
-                                  color: blueGrey[800],
                                 }}
                               >
                                 受験料
                               </TableCell>
                               <TableCell
                                 sx={{
-                                  color: blueGrey[700],
                                   fontSize: "0.875rem",
                                 }}
                               >
@@ -533,6 +487,8 @@ const SearchResultPage = () => {
                           textAlign: "center",
                           mt: 2,
                           mb: 1,
+                          background: "#b2ebf2",
+                          borderRadius: "9px",
                           color: theme.palette.primary?.main || "#1976D2",
                         }}
                       >
@@ -541,24 +497,18 @@ const SearchResultPage = () => {
                       <TableContainer>
                         <Table>
                           <TableBody>
-                            <TableRow
-                              sx={{
-                                backgroundColor: blueGrey[50],
-                              }}
-                            >
+                            <TableRow sx={{}}>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
                                   width: "60%",
                                   fontSize: "0.875rem",
-                                  color: blueGrey[800],
                                 }}
                               >
                                 スクーリング
                               </TableCell>
                               <TableCell
                                 sx={{
-                                  color: blueGrey[700],
                                   fontSize: "0.875rem",
                                 }}
                               >
@@ -569,24 +519,18 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow
-                              sx={{
-                                backgroundColor: blueGrey[50],
-                              }}
-                            >
+                            <TableRow sx={{}}>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
                                   width: "60%",
                                   fontSize: "0.875rem",
-                                  color: blueGrey[800],
                                 }}
                               >
                                 県外移動
                               </TableCell>
                               <TableCell
                                 sx={{
-                                  color: blueGrey[700],
                                   fontSize: "0.875rem",
                                 }}
                               >
