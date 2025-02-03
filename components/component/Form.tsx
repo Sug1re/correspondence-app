@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
@@ -67,6 +68,7 @@ const Form = () => {
     control,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -83,13 +85,40 @@ const Form = () => {
     },
   });
 
-  // ユーザーが選択したデータを可視化
+  // ユーザーが選択した値を監視
   const initialSetupCostsValue = watch("initialSetupCosts");
   const testFeeValue = watch("testFee");
   const tuitionFeeValue = watch("tuitionFee");
+  const commutingStyleValue = watch("commutingStyle");
+  const attendanceFrequencyValue = watch("attendanceFrequency");
   // fireStoreのコレクションを追加
 
   const router = useRouter();
+
+  // 通学形態と登校頻度の連動ロジック
+  const [disableOnline, setDisableOnline] = useState(false);
+
+  useEffect(() => {
+    if (commutingStyleValue === "通学") {
+      setDisableOnline(true);
+      if (attendanceFrequencyValue === "オンライン") {
+        setValue("attendanceFrequency", "");
+      }
+    } else if (commutingStyleValue === "オンライン") {
+      setDisableOnline(false);
+    }
+  }, [commutingStyleValue, setValue, attendanceFrequencyValue]);
+
+  useEffect(() => {
+    if (attendanceFrequencyValue === "通学") {
+      setDisableOnline(true);
+      if (commutingStyleValue === "オンライン") {
+        setValue("attendanceFrequency", "");
+      }
+    } else if (attendanceFrequencyValue === "オンライン") {
+      setDisableOnline(false);
+    }
+  }, [commutingStyleValue, setValue, attendanceFrequencyValue]);
 
   const onSubmit = (data: FormValues) => {
     // クエリパラメータを生成して検索ページへ遷移
@@ -375,11 +404,20 @@ const Form = () => {
                         value="通学"
                         control={<Radio />}
                         label="通学"
+                        disabled={attendanceFrequencyValue === "オンライン"} // 登校頻度が「オンライン」の場合、通学を無効化
                       />
                       <FormControlLabel
                         value="オンライン"
                         control={<Radio />}
                         label="オンライン"
+                        disabled={[
+                          "週1",
+                          "週2",
+                          "週3",
+                          "週4",
+                          "週5",
+                          "自由",
+                        ].includes(attendanceFrequencyValue)} // 登校頻度が「オンライン」の場合、通学を無効化
                       />
                     </RadioGroup>
                   </FormControl>
@@ -420,36 +458,43 @@ const Form = () => {
                         value="週1"
                         control={<Radio />}
                         label="週1"
+                        disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
                       />
                       <FormControlLabel
                         value="週2"
                         control={<Radio />}
                         label="週2"
+                        disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
                       />
                       <FormControlLabel
                         value="週3"
                         control={<Radio />}
                         label="週3"
+                        disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
                       />
                       <FormControlLabel
                         value="週4"
                         control={<Radio />}
                         label="週4"
+                        disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
                       />
                       <FormControlLabel
                         value="週5"
                         control={<Radio />}
                         label="週5"
+                        disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
                       />
                       <FormControlLabel
                         value="オンライン"
                         control={<Radio />}
                         label="オンライン"
+                        disabled={disableOnline} // 無効化ロジック
                       />
                       <FormControlLabel
                         value="自由"
                         control={<Radio />}
                         label="自由"
+                        disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
                       />
                     </RadioGroup>
                   </FormControl>
