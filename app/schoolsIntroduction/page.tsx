@@ -44,7 +44,7 @@ export default function schoolsIntroductionPage() {
           </Box>
         </Box>
         {/* スローガン(正味いらんかも) */}
-        <Box sx={{ backgroundColor: "crimson", margin: "5px", padding: "3px"}}>
+        { /*<Box sx={{ backgroundColor: "crimson", margin: "5px", padding: "3px"}}>
           <Typography variant="h1"
             sx={{
               color: "white",
@@ -55,7 +55,7 @@ export default function schoolsIntroductionPage() {
           >
             2+2 = 5
           </Typography>
-        </Box>
+        </Box> */ }
         {/* 詳細 */}
         <Box sx={{ m: "5px" }}>
           <Typography
