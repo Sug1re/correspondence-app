@@ -67,6 +67,63 @@ export default function schoolsIntroductionPage() {
               borderBottom: "solid 4px cornflowerblue",
             }}
           >
+            概要
+          </Typography>
+          <Typography 
+            variant="h4"
+            sx={{
+              ml: "30px",
+              fontSize: "25px",
+              borderLeft: "solid 4px crimson"
+            }}
+          >
+            授業形態
+          </Typography>
+          <Box sx={{ ml: "50px" }}>
+            <Typography variant="p" sx={{ display: "block", fontSize: "22px" }}>
+              スクーリング：(ここに展開)
+            </Typography>
+            <Typography variant="p" sx={{ display: "block", fontSize: "22px" }}>
+              授業での県外移動：(ここに展開)
+            </Typography>
+            <Typography variant="p" sx={{ display: "block", fontSize: "22px" }}>
+              通学形態：(ここに展開)
+            </Typography>
+          </Box>
+          {/* 費用 */}
+          <Typography 
+            variant="h4"
+            sx={{
+              ml: "30px",
+              fontSize: "25px",
+              borderLeft: "solid 4px crimson"
+            }}
+          >
+            費用
+          </Typography>
+          <Box sx={{ ml: "50px" }}>
+            <Typography variant="p" sx={{ display: "block", fontSize: "22px" }}>
+              初期費用：(ここに展開)
+            </Typography>
+            <Typography variant="p" sx={{ display: "block", fontSize: "22px" }}>
+              受験料：(ここに展開)
+            </Typography>
+            <Typography variant="p" sx={{ display: "block", fontSize: "22px" }}>
+              授業料：(ここに展開)
+            </Typography>
+          </Box>
+        </Box>
+        {/* 詳細 */}
+        <Box sx={{ m: "5px" }}>
+          <Typography
+            variant="h3"
+            sx={{
+              m: "10px",
+              textAlign: "center",
+              fontSize: "1.8rem",
+              borderBottom: "solid 4px cornflowerblue",
+            }}
+          >
             詳細
           </Typography>
           {/* 強み */}
@@ -81,7 +138,18 @@ export default function schoolsIntroductionPage() {
             <InfoItem text="声優" />
             <InfoItem text="語学" />
           </Box>
-          {/* 通学 */}
+          {/* コース */}
+          <Typography
+            variant="h4"
+            sx={{ textAlign: "center", fontSize: "1.4rem" }}
+          >
+            コース
+          </Typography>
+          <Box sx={{ display: "flex", p: "5px" }}>
+            <InfoItem text="通学コース" />
+            <InfoItem text="プログラミングコース(一部キャンパスのみ)" />
+          </Box>
+          {/* 登校頻度 */}
           <Typography
             variant="h4"
             sx={{ textAlign: "center", fontSize: "1.4rem" }}
@@ -92,7 +160,6 @@ export default function schoolsIntroductionPage() {
             <InfoItem text="週１" />
             <InfoItem text="週３" />
             <InfoItem text="週５" />
-            <InfoItem text="プログラミングコース" />
           </Box>
         </Box>
       </Box>
