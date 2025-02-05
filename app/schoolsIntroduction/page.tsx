@@ -1,20 +1,31 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, ThemeProvider, Typography } from "@mui/material";
 import * as Component from "@/components/component";
+import InfoItem from "@/components/component/InfoItem";
 
 // // Nissy がここに学校の詳細ページをコーディング
 export default function schoolsIntroductionPage() {
   return (
     <>
+      
       <Component.Header />
 
-      <Box sx={{ p: "20px 10%", bgcolor: "cornflowerblue" }}>
+      <Box sx={{ p: "20px 0", color: "#333"}}>
         {/* 見出し */}
-        <Typography variant="h2" sx={{ fontWeight: 600, fontSize: "2.5rem" }}>
+        <Typography variant="h2" sx={{ 
+          fontWeight: 600, 
+          fontSize: "2.5rem",
+          display: "block", 
+          borderBottom: "solid 4px #6495ed",
+          padding: "4px 10%",
+        }}>
           N高等学校
         </Typography>
       </Box>
-      <Box sx={{ p: 0, width: "70%", m: "10px auto" }}>
+      <Box sx={{ 
+        p: 0, width: "70%", 
+        m: "10px auto", 
+      }}>
         {/* メイン */}
         {/* 説明と画像 */}
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -31,6 +42,19 @@ export default function schoolsIntroductionPage() {
             {/* 説明欄 */}
             <Typography>沖縄に本校があるよん</Typography>
           </Box>
+        </Box>
+        {/* スローガン(正味いらんかも) */}
+        <Box sx={{ backgroundColor: "crimson", margin: "5px", padding: "3px"}}>
+          <Typography variant="h1"
+            sx={{
+              color: "white",
+              fontSize: "35px",
+              textAlign: "center",
+              fontWeight: "600"
+            }}
+          >
+            2+2 = 5
+          </Typography>
         </Box>
         {/* 詳細 */}
         <Box sx={{ m: "5px" }}>
@@ -53,36 +77,9 @@ export default function schoolsIntroductionPage() {
             強み
           </Typography>
           <Box sx={{ display: "flex", p: "5px" }}>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              IT
-            </Typography>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              声優
-            </Typography>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              語学
-            </Typography>
+            <InfoItem text="IT" />
+            <InfoItem text="声優" />
+            <InfoItem text="語学" />
           </Box>
           {/* 通学 */}
           <Typography
@@ -92,46 +89,10 @@ export default function schoolsIntroductionPage() {
             通学
           </Typography>
           <Box sx={{ display: "flex", p: "5px" }}>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              週5日
-            </Typography>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              週3日
-            </Typography>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              週1日
-            </Typography>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              プログラミングコース
-            </Typography>
+            <InfoItem text="週１" />
+            <InfoItem text="週３" />
+            <InfoItem text="週５" />
+            <InfoItem text="プログラミングコース" />
           </Box>
         </Box>
       </Box>
