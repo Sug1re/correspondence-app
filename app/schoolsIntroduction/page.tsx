@@ -3,11 +3,11 @@ import { Box, ThemeProvider, Typography } from "@mui/material";
 import * as Component from "@/components/component";
 import InfoItem from "@/components/component/InfoItem";
 
+
 // // Nissy がここに学校の詳細ページをコーディング
 export default function schoolsIntroductionPage() {
   return (
     <>
-      
       <Component.Header />
 
       <Box sx={{ p: "20px 0", color: "#333"}}>
@@ -25,24 +25,7 @@ export default function schoolsIntroductionPage() {
       <Box sx={{ 
         p: 0, width: "70%", 
         m: "10px auto", 
-      }}>
-        {/* メイン */}
-        {/* 説明と画像 */}
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ width: "48%" }}>
-            {" "}
-            {/* 画像欄 */}
-            <Typography
-              sx={{ width: "100%", height: "200px", bgcolor: "gray" }}
-            >
-              ここに画像
-            </Typography>
-          </Box>
-          <Box sx={{ width: "48%", pl: "10px", borderLeft: "solid 1px #ccc" }}>
-            {/* 説明欄 */}
-            <Typography>沖縄に本校があるよん</Typography>
-          </Box>
-        </Box>
+      }}> 
         {/* スローガン(正味いらんかも) */}
         { /*<Box sx={{ backgroundColor: "crimson", margin: "5px", padding: "3px"}}>
           <Typography variant="h1"
