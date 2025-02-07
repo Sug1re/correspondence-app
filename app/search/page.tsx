@@ -302,7 +302,7 @@ const SearchResultPage = () => {
                                   fontSize: "0.875rem",
                                 }}
                               >
-                                {school.attendanceFrequency}
+                                {school.attendanceFrequency.join("・")}
                               </TableCell>
                             </TableRow>
                           </TableBody>

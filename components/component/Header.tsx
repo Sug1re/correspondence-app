@@ -39,7 +39,11 @@ export default function Header() {
             </svg>
           </IconButton>
 
-          <Typography variant="h6" sx={{ flexGrow: 1 }} component="h1">
+          <Typography
+            variant="h6"
+            sx={{ flexGrow: 1, textAlign: "center" }}
+            component="h1"
+          >
             通信制高校マッチングアプリ（新潟県版）
           </Typography>
         </Toolbar>
