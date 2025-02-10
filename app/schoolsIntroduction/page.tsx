@@ -11,6 +11,7 @@ import InfoItem from "@/components/component/InfoItem";
 // fireStore の型定義
 type School = {
   id: string;
+  url: string;
   name: string;
   course: string;
   initialSetupCosts: number;
@@ -24,9 +25,9 @@ type School = {
 };
 
 //仮の変数定義
-const link = "ここにリンク";
-const imgLink = "/schoolimg/defalut.png"; //ここにリンク
-const schoolName = "ここに学校名";
+// const link = "ここにリンク";
+const imgLink = "/imgSchool/default.png"; //ここにリンク
+// const schoolName = "ここに学校名";
 
 export default function schoolsIntroductionPage() {
   const searchParams = useSearchParams();
@@ -89,8 +90,8 @@ export default function schoolsIntroductionPage() {
           </Typography>
           {/* 画像とサイトへのリンク */}
           <Box sx={{ m: "10px auto", maxWidth: "85%" }}>
-            <a href={link}>
-              <img src={imgLink} alt={schoolName} />
+            <a href={school.url}>
+              <img src={imgLink} alt={school.name} />
             </a>
           </Box>
         </Box>
