@@ -168,7 +168,6 @@ const SearchResultPage = () => {
                 key={school.id}
                 sx={{
                   pt: 2,
-                  px: 2,
                   my: 3,
                   boxShadow: 5,
                   borderRadius: 2,
