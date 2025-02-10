@@ -1,140 +1,251 @@
-import React from "react";
-import { Box, Typography } from "@mui/material";
-import * as Component from "@/components/component";
+"use client";
 
-// // Nissy がここに学校の詳細ページをコーディング
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Box, Container, Typography } from "@mui/material";
+import * as Component from "@/components/component";
+import { db } from "@/firebase";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import InfoItem from "@/components/component/InfoItem";
+
+// fireStore の型定義
+type School = {
+  id: string;
+  name: string;
+  course: string;
+  initialSetupCosts: number;
+  tuitionFee: number;
+  testFee: number;
+  schooling: boolean;
+  movingOutsideThePrefecture: boolean;
+  commutingStyle: string;
+  highSchool: string;
+  attendanceFrequency: string[];
+};
+
+//仮の変数定義
+const link = "ここにリンク";
+const imgLink = "/schoolimg/defalut.png"; //ここにリンク
+const schoolName = "ここに学校名";
+
 export default function schoolsIntroductionPage() {
+  const searchParams = useSearchParams();
+  const schoolId = searchParams.get("id");
+  const [school, setSchool] = useState<School | null>(null);
+
+  useEffect(() => {
+    if (!schoolId) return;
+
+    const fetchSchool = async () => {
+      try {
+        const docRef = doc(db, "schools", schoolId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setSchool({ id: docSnap.id, ...docSnap.data() } as School);
+        }
+      } catch (error) {
+        console.error("Error fetching school:", error);
+      }
+    };
+
+    fetchSchool();
+  }, [schoolId]);
+
+  if (!school)
+    return (
+      <Typography
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
+      >
+        Loading...
+      </Typography>
+    );
   return (
     <>
       <Component.Header />
 
-      <Box sx={{ p: "20px 10%", bgcolor: "cornflowerblue" }}>
-        {/* 見出し */}
-        <Typography variant="h2" sx={{ fontWeight: 600, fontSize: "2.5rem" }}>
-          N高等学校
-        </Typography>
-      </Box>
-      <Box sx={{ p: 0, width: "70%", m: "10px auto" }}>
-        {/* メイン */}
-        {/* 説明と画像 */}
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ width: "48%" }}>
-            {" "}
-            {/* 画像欄 */}
-            <Typography
-              sx={{ width: "100%", height: "200px", bgcolor: "gray" }}
-            >
-              ここに画像
-            </Typography>
-          </Box>
-          <Box sx={{ width: "48%", pl: "10px", borderLeft: "solid 1px #ccc" }}>
-            {/* 説明欄 */}
-            <Typography>沖縄に本校があるよん</Typography>
-          </Box>
-        </Box>
-        {/* 詳細 */}
-        <Box sx={{ m: "5px" }}>
+      {/* 学校名 */}
+      <Container maxWidth="md">
+        <Box sx={{ mt: 2, color: "#333" }}>
           <Typography
-            variant="h3"
+            variant="h2"
             sx={{
-              m: "10px",
-              textAlign: "center",
-              fontSize: "1.8rem",
-              borderBottom: "solid 4px cornflowerblue",
+              px: 2,
+              fontWeight: 600,
+              fontSize: "30px",
+              display: "flex",
+              justifyContent: "space-between",
+              borderBottom: "solid 4px #6495ed",
             }}
           >
-            詳細
+            {school.name}
+            <br />
+            {school.course}
           </Typography>
-          {/* 強み */}
-          <Typography
-            variant="h4"
-            sx={{ textAlign: "center", fontSize: "1.4rem" }}
-          >
-            強み
-          </Typography>
-          <Box sx={{ display: "flex", p: "5px" }}>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              IT
-            </Typography>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              声優
-            </Typography>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              語学
-            </Typography>
-          </Box>
-          {/* 通学 */}
-          <Typography
-            variant="h4"
-            sx={{ textAlign: "center", fontSize: "1.4rem" }}
-          >
-            通学
-          </Typography>
-          <Box sx={{ display: "flex", p: "5px" }}>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              週5日
-            </Typography>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              週3日
-            </Typography>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              週1日
-            </Typography>
-            <Typography
-              sx={{
-                ml: "5px",
-                p: "5px 20px",
-                border: "solid 1px #ccc",
-                borderRadius: "4px",
-              }}
-            >
-              プログラミングコース
-            </Typography>
+          {/* 画像とサイトへのリンク */}
+          <Box sx={{ m: "10px auto", maxWidth: "85%" }}>
+            <a href={link}>
+              <img src={imgLink} alt={schoolName} />
+            </a>
           </Box>
         </Box>
-      </Box>
+
+        {/* 学校情報 */}
+        <Box>
+          {/* 学費 */}
+          <Box>
+            <Typography
+              variant="h3"
+              sx={{
+                mt: 2,
+                fontWeight: 550,
+                textAlign: "center",
+                fontSize: "28px",
+                borderBottom: "solid 4px cornflowerblue ",
+              }}
+            >
+              学費
+            </Typography>
+
+            {/* 小見出し */}
+            <Typography
+              variant="h3"
+              sx={{
+                mt: 1,
+                ml: 1,
+                fontSize: "20px",
+              }}
+            >
+              費用
+            </Typography>
+
+            {/* データ表示 */}
+            <Box sx={{ ml: "50px" }}>
+              <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                初期費用：{school.initialSetupCosts}万円
+              </Typography>
+              <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                授業料：{school.tuitionFee}万円
+              </Typography>
+              <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                受験料：{school.testFee}万円
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* 詳細 */}
+          <Box
+            sx={{
+              pb: 3,
+            }}
+          >
+            <Typography
+              variant="h3"
+              sx={{
+                mt: 1,
+                fontWeight: 550,
+                textAlign: "center",
+                fontSize: "28px",
+                borderBottom: "solid 4px cornflowerblue",
+              }}
+            >
+              詳細
+            </Typography>
+
+            <Box
+              sx={{
+                mt: 1,
+                display: "flex",
+              }}
+            >
+              {/* 小見出し */}
+              <Typography
+                variant="h4"
+                sx={{ ml: 1, fontSize: "20px", flex: 1 }}
+              >
+                学校の種類
+              </Typography>
+
+              {/* コンポーネント */}
+              <Box sx={{ display: "flex", justifyContent: "center", flex: 1 }}>
+                <InfoItem text={school.highSchool} />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                mt: 1,
+                display: "flex",
+              }}
+            >
+              {/* 小見出し */}
+              <Typography
+                variant="h4"
+                sx={{ ml: 1, fontSize: "20px", flex: 1 }}
+              >
+                通学形態
+              </Typography>
+
+              {/* コンポーネント */}
+              <Box sx={{ display: "flex", justifyContent: "center", flex: 1 }}>
+                <InfoItem text={school.attendanceFrequency} />
+                <InfoItem text={school.commutingStyle} />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                mt: 1,
+                display: "flex",
+              }}
+            >
+              {/* 小見出し */}
+              <Typography
+                variant="h4"
+                sx={{
+                  ml: 1,
+                  fontSize: "20px",
+                  flex: 1,
+                }}
+              >
+                県外移動
+              </Typography>
+
+              {/* コンポーネント */}
+              <Box sx={{ display: "flex", justifyContent: "center", flex: 1 }}>
+                <InfoItem
+                  text={school.movingOutsideThePrefecture ? "あり" : "なし"}
+                />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                mt: 1,
+                display: "flex",
+              }}
+            >
+              {/* 小見出し */}
+              <Typography
+                variant="h4"
+                sx={{ ml: 1, fontSize: "20px", flex: 1 }}
+              >
+                スクーリング
+              </Typography>
+
+              {/* コンポーネント */}
+              <Box sx={{ display: "flex", justifyContent: "center", flex: 1 }}>
+                <InfoItem text={school.schooling ? "あり" : "なし"} />
+              </Box>
+            </Box>
+          </Box>
+        </Box>
+      </Container>
     </>
   );
 }

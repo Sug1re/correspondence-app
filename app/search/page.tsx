@@ -168,7 +168,6 @@ const SearchResultPage = () => {
                 key={school.id}
                 sx={{
                   pt: 2,
-                  px: 2,
                   my: 3,
                   boxShadow: 5,
                   borderRadius: 2,
@@ -219,7 +218,7 @@ const SearchResultPage = () => {
                       <TableContainer>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 align="center"
                                 sx={{
@@ -235,7 +234,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 align="center"
                                 sx={{
@@ -249,7 +248,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 align="center"
                                 sx={{
@@ -265,7 +264,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 align="center"
                                 sx={{
@@ -279,7 +278,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 align="center"
                                 sx={{
@@ -295,14 +294,14 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 align="center"
                                 sx={{
                                   fontSize: "0.875rem",
                                 }}
                               >
-                                {school.attendanceFrequency}
+                                {school.attendanceFrequency.join("・")}
                               </TableCell>
                             </TableRow>
                           </TableBody>
@@ -331,7 +330,7 @@ const SearchResultPage = () => {
                       <TableContainer>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
@@ -353,7 +352,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
@@ -375,7 +374,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
@@ -418,7 +417,7 @@ const SearchResultPage = () => {
                       <TableContainer>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
@@ -440,7 +439,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
