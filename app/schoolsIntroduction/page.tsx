@@ -133,9 +133,14 @@ export default function schoolsIntroductionPage() {
 
             {/* コンポーネント */}
             <Box sx={{ display: "flex", p: "5px" }}>
-              <InfoItem text="IT" />
-              <InfoItem text="声優" />
-              <InfoItem text="語学" />
+              <InfoItem text="登校頻度" />
+
+              <InfoItem text="通学形態" />
+
+              <InfoItem text="学校の種類" />
+
+              <InfoItem text="県外移動" />
+              <InfoItem text="スクーリング" />
             </Box>
 
             {/* 小見出し */}
