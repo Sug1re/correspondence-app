@@ -5,13 +5,14 @@ import { useSearchParams } from "next/navigation";
 import { Box, Container, Typography } from "@mui/material";
 import * as Component from "@/components/component";
 import { db } from "@/firebase";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import InfoItem from "@/components/component/InfoItem";
 
 // fireStore の型定義
 type School = {
   id: string;
   url: string;
+  imgUrl: string;
   name: string;
   course: string;
   initialSetupCosts: number;
@@ -24,16 +25,12 @@ type School = {
   attendanceFrequency: string[];
 };
 
-//仮の変数定義
-// const link = "ここにリンク";
-const imgLink = "/imgSchool/default.png"; //ここにリンク
-// const schoolName = "ここに学校名";
-
 export default function schoolsIntroductionPage() {
   const searchParams = useSearchParams();
   const schoolId = searchParams.get("id");
   const [school, setSchool] = useState<School | null>(null);
 
+  // fireStore からデータを取得
   useEffect(() => {
     if (!schoolId) return;
 
@@ -91,7 +88,7 @@ export default function schoolsIntroductionPage() {
           {/* 画像とサイトへのリンク */}
           <Box sx={{ m: "10px auto", maxWidth: "85%" }}>
             <a href={school.url}>
-              <img src={imgLink} alt={school.name} />
+              <img src={`/imgSchool/${school.imgUrl}`} alt={school.name} />
             </a>
           </Box>
         </Box>
