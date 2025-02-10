@@ -3,6 +3,11 @@ import { Box, Container, Typography } from "@mui/material";
 import * as Component from "@/components/component";
 import InfoItem from "@/components/component/InfoItem";
 
+//仮の変数定義
+const link = "ここにリンク"
+const imgLink = "/schoolimg/defalut.png" //ここにリンク
+const schoolName = "ここに学校名"
+
 // // Nissy がここに学校の詳細ページをコーディング
 export default function schoolsIntroductionPage() {
   return (
@@ -24,6 +29,12 @@ export default function schoolsIntroductionPage() {
           >
             N高等学校
           </Typography>
+          {/* 画像とサイトへのリンク */}
+          <Box sx={{ m: "10px auto", maxWidth: "85%" }}>
+            <a href={link}>
+              <img src={imgLink} alt={schoolName} />
+            </a>
+          </Box>
         </Box>
 
         {/* 学校情報 */}
