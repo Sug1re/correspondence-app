@@ -87,16 +87,9 @@ export default function schoolsIntroductionPage() {
 
             {/* データ表示 */}
             <Box sx={{ ml: "50px" }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 4,
-                }}
-              >
-                <Typography variant="body1">初期費用：(ここに展開)</Typography>
-                <Typography variant="body1">受験料：(ここに展開)</Typography>
-                <Typography variant="body1">授業料：(ここに展開)</Typography>
-              </Box>
+              <Typography variant="body1" sx={{ fontSize: "20px" }}>初期費用：(ここに展開)</Typography>
+              <Typography variant="body1" sx={{ fontSize: "20px" }}>受験料：(ここに展開)</Typography>
+              <Typography variant="body1" sx={{ fontSize: "20px" }}>授業料：(ここに展開)</Typography>
             </Box>
           </Box>
 
