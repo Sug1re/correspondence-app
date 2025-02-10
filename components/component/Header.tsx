@@ -44,7 +44,9 @@ export default function Header() {
             sx={{ flexGrow: 1, textAlign: "center" }}
             component="h1"
           >
-            通信制高校マッチングアプリ（新潟県版）
+            通信制高校マッチングアプリ
+            <br />
+            （新潟県版）
           </Typography>
         </Toolbar>
       </AppBar>
