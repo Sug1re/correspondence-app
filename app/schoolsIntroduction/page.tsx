@@ -87,18 +87,23 @@ export default function schoolsIntroductionPage() {
 
             {/* データ表示 */}
             <Box sx={{ ml: "50px" }}>
-              <Typography variant="body1" sx={{ fontSize: "20px" }}>初期費用：(ここに展開)</Typography>
-              <Typography variant="body1" sx={{ fontSize: "20px" }}>受験料：(ここに展開)</Typography>
-              <Typography variant="body1" sx={{ fontSize: "20px" }}>授業料：(ここに展開)</Typography>
+              <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                初期費用：(ここに展開)
+              </Typography>
+              <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                受験料：(ここに展開)
+              </Typography>
+              <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                授業料：(ここに展開)
+              </Typography>
             </Box>
           </Box>
 
           {/* 詳細 */}
-          <Box sx={{ m: "5px" }}>
+          <Box>
             <Typography
               variant="h3"
               sx={{
-                m: "10px",
                 textAlign: "center",
                 fontSize: "1.8rem",
                 borderBottom: "solid 4px cornflowerblue",
@@ -123,33 +128,33 @@ export default function schoolsIntroductionPage() {
             </Box>
 
             {/* 小見出し */}
-            <Typography
+            {/* <Typography
               variant="h4"
               sx={{ textAlign: "center", fontSize: "1.4rem" }}
             >
               コース
-            </Typography>
+            </Typography> */}
 
             {/* コンポーネント */}
-            <Box sx={{ display: "flex", p: "5px" }}>
+            {/* <Box sx={{ display: "flex", p: "5px" }}>
               <InfoItem text="通学コース" />
               <InfoItem text="プログラミングコース(一部キャンパスのみ)" />
-            </Box>
+            </Box> */}
 
             {/* 小見出し */}
-            <Typography
+            {/* <Typography
               variant="h4"
               sx={{ textAlign: "center", fontSize: "1.4rem" }}
             >
               通学
-            </Typography>
+            </Typography> */}
 
             {/* コンポーネント */}
-            <Box sx={{ display: "flex", p: "5px" }}>
+            {/* <Box sx={{ display: "flex", p: "5px" }}>
               <InfoItem text="週１" />
               <InfoItem text="週３" />
               <InfoItem text="週５" />
-            </Box>
+            </Box> */}
           </Box>
         </Box>
       </Container>
