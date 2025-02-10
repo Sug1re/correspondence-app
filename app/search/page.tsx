@@ -218,7 +218,7 @@ const SearchResultPage = () => {
                       <TableContainer>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 align="center"
                                 sx={{
@@ -234,7 +234,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 align="center"
                                 sx={{
@@ -248,7 +248,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 align="center"
                                 sx={{
@@ -264,7 +264,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 align="center"
                                 sx={{
@@ -278,7 +278,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 align="center"
                                 sx={{
@@ -294,7 +294,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 align="center"
                                 sx={{
@@ -330,7 +330,7 @@ const SearchResultPage = () => {
                       <TableContainer>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
@@ -352,7 +352,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
@@ -374,7 +374,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
@@ -417,7 +417,7 @@ const SearchResultPage = () => {
                       <TableContainer>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
@@ -439,7 +439,7 @@ const SearchResultPage = () => {
                         </Table>
                         <Table>
                           <TableBody>
-                            <TableRow sx={{}}>
+                            <TableRow>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",

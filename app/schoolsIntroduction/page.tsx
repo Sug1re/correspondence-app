@@ -1,15 +1,70 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Box, Container, Typography } from "@mui/material";
 import * as Component from "@/components/component";
+import { db } from "@/firebase";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import InfoItem from "@/components/component/InfoItem";
 
-//仮の変数定義
-const link = "ここにリンク"
-const imgLink = "/schoolimg/defalut.png" //ここにリンク
-const schoolName = "ここに学校名"
+// fireStore の型定義
+type School = {
+  id: string;
+  name: string;
+  course: string;
+  initialSetupCosts: number;
+  tuitionFee: number;
+  testFee: number;
+  schooling: boolean;
+  movingOutsideThePrefecture: boolean;
+  commutingStyle: string;
+  highSchool: string;
+  attendanceFrequency: string[];
+};
 
-// // Nissy がここに学校の詳細ページをコーディング
+//仮の変数定義
+const link = "ここにリンク";
+const imgLink = "/schoolimg/defalut.png"; //ここにリンク
+const schoolName = "ここに学校名";
+
 export default function schoolsIntroductionPage() {
+  const searchParams = useSearchParams();
+  const schoolId = searchParams.get("id");
+  const [school, setSchool] = useState<School | null>(null);
+
+  useEffect(() => {
+    if (!schoolId) return;
+
+    const fetchSchool = async () => {
+      try {
+        const docRef = doc(db, "schools", schoolId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setSchool({ id: docSnap.id, ...docSnap.data() } as School);
+        }
+      } catch (error) {
+        console.error("Error fetching school:", error);
+      }
+    };
+
+    fetchSchool();
+  }, [schoolId]);
+
+  if (!school)
+    return (
+      <Typography
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100vh",
+        }}
+      >
+        Loading...
+      </Typography>
+    );
   return (
     <>
       <Component.Header />
@@ -20,14 +75,17 @@ export default function schoolsIntroductionPage() {
           <Typography
             variant="h2"
             sx={{
+              px: 2,
               fontWeight: 600,
-              fontSize: "35px",
-              display: "block",
+              fontSize: "30px",
+              display: "flex",
+              justifyContent: "space-between",
               borderBottom: "solid 4px #6495ed",
-              padding: "4px 10%",
             }}
           >
-            N高等学校
+            {school.name}
+            <br />
+            {school.course}
           </Typography>
           {/* 画像とサイトへのリンク */}
           <Box sx={{ m: "10px auto", maxWidth: "85%" }}>
@@ -45,6 +103,7 @@ export default function schoolsIntroductionPage() {
               variant="h3"
               sx={{
                 mt: 2,
+                fontWeight: 550,
                 textAlign: "center",
                 fontSize: "28px",
                 borderBottom: "solid 4px cornflowerblue ",
@@ -54,43 +113,12 @@ export default function schoolsIntroductionPage() {
             </Typography>
 
             {/* 小見出し */}
-            {/* <Typography
-              variant="h4"
-              sx={{
-                ml: "30px",
-                fontSize: "px",
-                borderLeft: "solid 4px crimson",
-              }}
-            >
-              授業形態
-            </Typography> */}
-
-            {/* データ表示 */}
-            {/* <Box sx={{ ml: "50px" }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  gap: 4,
-                }}
-              >
-                <Typography variant="body1">
-                  スクーリング：(ここに展開)
-                </Typography>
-                <Typography variant="body1">
-                  授業での県外移動：(ここに展開)
-                </Typography>
-                <Typography variant="body1">通学形態：(ここに展開)</Typography>
-              </Box>
-            </Box> */}
-
-            {/* 小見出し */}
             <Typography
               variant="h3"
               sx={{
                 mt: 1,
                 ml: 1,
                 fontSize: "20px",
-                borderLeft: "solid 4px crimson",
               }}
             >
               費用
@@ -99,78 +127,122 @@ export default function schoolsIntroductionPage() {
             {/* データ表示 */}
             <Box sx={{ ml: "50px" }}>
               <Typography variant="body1" sx={{ fontSize: "20px" }}>
-                初期費用：(ここに展開)
+                初期費用：{school.initialSetupCosts}万円
               </Typography>
               <Typography variant="body1" sx={{ fontSize: "20px" }}>
-                受験料：(ここに展開)
+                授業料：{school.tuitionFee}万円
               </Typography>
               <Typography variant="body1" sx={{ fontSize: "20px" }}>
-                授業料：(ここに展開)
+                受験料：{school.testFee}万円
               </Typography>
             </Box>
           </Box>
 
           {/* 詳細 */}
-          <Box>
+          <Box
+            sx={{
+              pb: 3,
+            }}
+          >
             <Typography
               variant="h3"
               sx={{
+                mt: 1,
+                fontWeight: 550,
                 textAlign: "center",
-                fontSize: "1.8rem",
+                fontSize: "28px",
                 borderBottom: "solid 4px cornflowerblue",
               }}
             >
               詳細
             </Typography>
 
-            {/* 小見出し */}
-            <Typography
-              variant="h4"
-              sx={{ textAlign: "center", fontSize: "1.4rem" }}
+            <Box
+              sx={{
+                mt: 1,
+                display: "flex",
+              }}
             >
-              強み
-            </Typography>
+              {/* 小見出し */}
+              <Typography
+                variant="h4"
+                sx={{ ml: 1, fontSize: "20px", flex: 1 }}
+              >
+                学校の種類
+              </Typography>
 
-            {/* コンポーネント */}
-            <Box sx={{ display: "flex", p: "5px" }}>
-              <InfoItem text="登校頻度" />
-
-              <InfoItem text="通学形態" />
-
-              <InfoItem text="学校の種類" />
-
-              <InfoItem text="県外移動" />
-              <InfoItem text="スクーリング" />
+              {/* コンポーネント */}
+              <Box sx={{ display: "flex", justifyContent: "center", flex: 1 }}>
+                <InfoItem text={school.highSchool} />
+              </Box>
             </Box>
 
-            {/* 小見出し */}
-            {/* <Typography
-              variant="h4"
-              sx={{ textAlign: "center", fontSize: "1.4rem" }}
+            <Box
+              sx={{
+                mt: 1,
+                display: "flex",
+              }}
             >
-              コース
-            </Typography> */}
+              {/* 小見出し */}
+              <Typography
+                variant="h4"
+                sx={{ ml: 1, fontSize: "20px", flex: 1 }}
+              >
+                通学形態
+              </Typography>
 
-            {/* コンポーネント */}
-            {/* <Box sx={{ display: "flex", p: "5px" }}>
-              <InfoItem text="通学コース" />
-              <InfoItem text="プログラミングコース(一部キャンパスのみ)" />
-            </Box> */}
+              {/* コンポーネント */}
+              <Box sx={{ display: "flex", justifyContent: "center", flex: 1 }}>
+                <InfoItem text={school.attendanceFrequency} />
+                <InfoItem text={school.commutingStyle} />
+              </Box>
+            </Box>
 
-            {/* 小見出し */}
-            {/* <Typography
-              variant="h4"
-              sx={{ textAlign: "center", fontSize: "1.4rem" }}
+            <Box
+              sx={{
+                mt: 1,
+                display: "flex",
+              }}
             >
-              通学
-            </Typography> */}
+              {/* 小見出し */}
+              <Typography
+                variant="h4"
+                sx={{
+                  ml: 1,
+                  fontSize: "20px",
+                  flex: 1,
+                }}
+              >
+                県外移動
+              </Typography>
 
-            {/* コンポーネント */}
-            {/* <Box sx={{ display: "flex", p: "5px" }}>
-              <InfoItem text="週１" />
-              <InfoItem text="週３" />
-              <InfoItem text="週５" />
-            </Box> */}
+              {/* コンポーネント */}
+              <Box sx={{ display: "flex", justifyContent: "center", flex: 1 }}>
+                <InfoItem
+                  text={school.movingOutsideThePrefecture ? "あり" : "なし"}
+                />
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                mt: 1,
+                display: "flex",
+              }}
+            >
+              {/* 小見出し */}
+              <Typography
+                variant="h4"
+                sx={{ ml: 1, fontSize: "20px", flex: 1 }}
+              >
+                スクーリング
+              </Typography>
+
+              {/* コンポーネント */}
+              <Box sx={{ display: "flex", justifyContent: "center", flex: 1 }}>
+                <InfoItem text={school.schooling ? "あり" : "なし"} />
+              </Box>
+            </Box>
           </Box>
         </Box>
       </Container>
