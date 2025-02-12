@@ -7,6 +7,7 @@ import * as Component from "@/components/component";
 import { db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import InfoItem from "@/components/component/InfoItem";
+import Image from "next/image";
 
 // fireStore の型定義
 type School = {
@@ -25,7 +26,7 @@ type School = {
   attendanceFrequency: string[];
 };
 
-export default function schoolsIntroductionPage() {
+export default function SchoolsIntroductionPage() {
   const searchParams = useSearchParams();
   const schoolId = searchParams.get("id");
   const [school, setSchool] = useState<School | null>(null);
@@ -86,9 +87,14 @@ export default function schoolsIntroductionPage() {
             {school.course}
           </Typography>
           {/* 画像とサイトへのリンク */}
-          <Box sx={{ m: "10px auto", maxWidth: "85%" }}>
+          <Box sx={{ m: 1, display: "flex", justifyContent: "center" }}>
             <a href={school.url}>
-              <img src={`/imgSchool/${school.imgUrl}`} alt={school.name} />
+              <Image
+                src={`/imgSchool/${school.imgUrl}`}
+                alt={school.name}
+                width="500"
+                height="400"
+              />
             </a>
           </Box>
         </Box>

@@ -17,6 +17,23 @@ import {
   Slider,
   Typography,
 } from "@mui/material";
+import { collection, getDocs, query } from "firebase/firestore";
+import { db } from "@/firebase";
+
+// // fireStore の型定義
+// type School = {
+//   id: string;
+//   name: string;
+//   course: string;
+//   initialSetupCosts: number;
+//   tuitionFee: number;
+//   testFee: number;
+//   schooling: boolean;
+//   movingOutsideThePrefecture: boolean;
+//   commutingStyle: string;
+//   highSchool: string;
+//   attendanceFrequency: string[];
+// };
 
 // Zodスキーマの定義
 const formSchema = z.object({
@@ -138,6 +155,25 @@ const Form = () => {
     router.push(`/search?${query}`);
   };
 
+  // fireStore から全データが取得できているか確認
+  useEffect(() => {
+    const fetchSchools = async () => {
+      const schoolRef = collection(db, "schools");
+      const q = query(schoolRef);
+      const snapshot = await getDocs(q);
+      const schoolsData = snapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          testFee: doc.data().testFee,
+        }))
+        .filter(
+          (school) => typeof school.testFee === "number" && school.testFee >= 0
+        );
+      console.log(schoolsData);
+    };
+    fetchSchools();
+  }, []);
+
   return (
     <>
       <Container maxWidth="sm">
@@ -199,7 +235,7 @@ const Form = () => {
                     {...field}
                     min={0}
                     step={0.5}
-                    max={200}
+                    max={300}
                     valueLabelDisplay="auto"
                     aria-labelledby="tuitionFeeSlider"
                   />
@@ -230,7 +266,7 @@ const Form = () => {
                     {...field}
                     min={0}
                     step={0.5}
-                    max={10}
+                    max={3}
                     valueLabelDisplay="auto"
                     aria-labelledby="testFeeSlider"
                   />
