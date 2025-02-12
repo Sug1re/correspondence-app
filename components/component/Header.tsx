@@ -12,7 +12,15 @@ export default function Header() {
   return (
     <>
       <CssBaseline />
-      <AppBar position="relative">
+      <AppBar
+        position="relative"
+        sx={{
+          height: "100px",
+        }}
+        style={{
+          backgroundImage: "url('/NIIGATA.jpg')",
+        }}
+      >
         <Toolbar>
           {/* ホームアイコン */}
           <IconButton
@@ -39,9 +47,14 @@ export default function Header() {
             </svg>
           </IconButton>
 
+          {/* タイトル */}
           <Typography
             variant="h6"
-            sx={{ flexGrow: 1, textAlign: "center" }}
+            sx={{
+              flexGrow: 1,
+              textAlign: "center",
+              height: "100px",
+            }}
             component="h1"
           >
             通信制高校マッチングアプリ
