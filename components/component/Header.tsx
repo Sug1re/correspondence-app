@@ -12,22 +12,36 @@ export default function Header() {
   return (
     <>
       <CssBaseline />
+
       <AppBar
         position="relative"
         sx={{
-          height: "100px",
+          height: {
+            xs: 100,
+            md: 270,
+            display: "flex",
+            textAlign: "center",
+            justifyItems: "center",
+          },
+          backgroundPosition: "center", // 画像を中央に配置
+          backgroundSize: "cover", // 画像を要素に合わせて拡大縮小
         }}
         style={{
           backgroundImage: "url('/NIIGATA.jpg')",
         }}
       >
-        <Toolbar>
+        <Toolbar
+          sx={{
+            display: "flex",
+            textAlign: "center",
+            justifyItems: "center",
+          }}
+        >
           {/* ホームアイコン */}
           <IconButton
             edge="start"
             color="inherit"
             aria-label="menu"
-            sx={{ mr: 2 }}
             component={Link}
             href="/"
           >
@@ -49,11 +63,11 @@ export default function Header() {
 
           {/* タイトル */}
           <Typography
-            variant="h6"
             sx={{
-              flexGrow: 1,
-              textAlign: "center",
-              height: "100px",
+              height: {
+                sm: 100,
+                md: 270,
+              },
             }}
             component="h1"
           >
