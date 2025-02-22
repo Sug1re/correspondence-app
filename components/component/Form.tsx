@@ -20,7 +20,6 @@ import {
 } from "@mui/material";
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "@/firebase";
-import { useTheme } from "@mui/material/styles";
 
 // Zodスキーマの定義
 const formSchema = z.object({
@@ -98,7 +97,6 @@ const Form = () => {
   // fireStoreのコレクションを追加
 
   const router = useRouter();
-  const theme = useTheme();
 
   // 通学形態と登校頻度の連動ロジック
   const [disableOnline, setDisableOnline] = useState(false);
@@ -169,7 +167,7 @@ const Form = () => {
           sx={{
             mt: 2,
             px: 3,
-            border: `1px solid ${theme.palette.primary?.light || "#7DD3FC"}`, // 修正: `?.` でSSRエラーを防ぐ
+            border: `1px solid #FF9100`,
           }}
         >
           <Box sx={{ my: 4 }}>

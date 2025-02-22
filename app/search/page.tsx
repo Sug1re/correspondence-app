@@ -18,7 +18,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useTheme } from "@mui/material/styles";
 
 // fireStore の型定義
 type School = {
@@ -41,7 +40,6 @@ const SearchResultPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
   const searchParams = useSearchParams();
   const router = useRouter(); // ページ遷移時に必要な変数
-  const theme = useTheme();
 
   // クエリパラメータの取得
   const courseParams = searchParams.get("course"); // クエリパラメータ "course" を獲得
@@ -171,9 +169,7 @@ const SearchResultPage = () => {
                   my: 3,
                   boxShadow: 5,
                   borderRadius: 2,
-                  border: `1px solid ${
-                    theme.palette.primary?.light || "#7DD3FC"
-                  }`, // 修正: `?.` でSSRエラーを防ぐ
+                  border: `1px solid #FF9100`,
                   flexDirection: "row",
                   gap: 3,
                 }}
@@ -186,7 +182,7 @@ const SearchResultPage = () => {
                       fontWeight: "bold",
                       textAlign: "center",
                       mb: 0.5,
-                      color: theme.palette.primary?.main || "#1976D2", // SSR時はデフォルトの青を適用
+                      color: "FF9100",
                     }}
                   >
                     {school.name}
@@ -210,7 +206,7 @@ const SearchResultPage = () => {
                           mb: 1,
                           background: "#b2ebf2",
                           borderRadius: "9px",
-                          color: theme.palette.primary?.main || "#1976D2",
+                          color: "FF9100",
                         }}
                       >
                         基本情報
@@ -322,7 +318,7 @@ const SearchResultPage = () => {
                           mb: 1,
                           background: "#b2ebf2",
                           borderRadius: "9px",
-                          color: theme.palette.primary?.main || "#1976D2",
+                          color: "FF9100",
                         }}
                       >
                         費用情報
@@ -409,7 +405,7 @@ const SearchResultPage = () => {
                           mb: 1,
                           background: "#b2ebf2",
                           borderRadius: "9px",
-                          color: theme.palette.primary?.main || "#1976D2",
+                          color: "FF9100",
                         }}
                       >
                         その他
@@ -472,7 +468,7 @@ const SearchResultPage = () => {
                     size="small"
                     sx={{
                       fontWeight: "bold",
-                      color: theme.palette.primary?.main || "#1976D2",
+                      color: "FF9100",
                     }}
                     onClick={() => handleSchoolDetail(school.id)}
                   >
