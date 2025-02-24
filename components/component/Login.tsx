@@ -22,7 +22,14 @@ const Login = () => {
               <Form />
             </>
           ) : (
-            <SignInButton />
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              height="70vh"
+            >
+              <SignInButton />
+            </Box>
           )}
         </Box>
       </Container>
@@ -40,8 +47,22 @@ function SignInButton() {
   };
 
   return (
-    <Button onClick={signInWithGoogle}>
-      <Typography>サインイン</Typography>
+    <Button
+      onClick={signInWithGoogle}
+      variant="contained"
+      type="submit"
+      sx={{
+        width: 200,
+        height: 50,
+        fontWeight: "bold",
+        fontSize: "1rem",
+        transition: "transform 0.2s ease-in-out", // スムーズなスケールアニメーション
+        "&:hover": {
+          transform: "scale(1.1)", // ホバー時のスケール
+        },
+      }}
+    >
+      サインイン
     </Button>
   );
 }
@@ -49,8 +70,20 @@ function SignInButton() {
 // googleButtonでSignOut
 function SignOutButton() {
   return (
-    <Button onClick={() => auth.signOut()}>
-      <Typography>サインアウト</Typography>
+    <Button
+      onClick={() => auth.signOut()}
+      variant="contained"
+      type="submit"
+      sx={{
+        fontWeight: "bold",
+        fontSize: "1rem",
+        transition: "transform 0.2s ease-in-out", // スムーズなスケールアニメーション
+        "&:hover": {
+          transform: "scale(0.95)", // ホバー時のスケール
+        },
+      }}
+    >
+      サインアウト
     </Button>
   );
 }
