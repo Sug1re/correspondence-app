@@ -1,25 +1,39 @@
-import {
-  AppBar,
-  CssBaseline,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import Link from "next/link";
 import * as React from "react";
+import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import Link from "next/link";
 
 export default function Header() {
   return (
     <>
-      <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
+      <AppBar
+        position="relative"
+        sx={{
+          backgroundPosition: "center", // 画像を中央に配置
+          backgroundSize: "cover", // 画像を要素に合わせて拡大縮小
+        }}
+        style={{
+          backgroundImage: "url('/NIIGATA.jpg')",
+        }}
+      >
+        <Toolbar
+          // ヘッダーのテキストを垂直方向に中央寄せ
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 4,
+            height: {
+              xs: 100,
+              md: 220,
+            },
+          }}
+        >
           {/* ホームアイコン */}
           <IconButton
             edge="start"
-            color="inherit"
+            sx={{
+              color: "#FF9100",
+            }}
             aria-label="menu"
-            sx={{ mr: 2 }}
             component={Link}
             href="/"
           >
@@ -39,10 +53,22 @@ export default function Header() {
             </svg>
           </IconButton>
 
+          {/* タイトル */}
           <Typography
+            sx={{
+              height: {
+                sm: 100,
+                md: 220,
+              },
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              fontWeight: "bold",
+              color: "#FF9100",
+            }}
             variant="h6"
-            sx={{ flexGrow: 1, textAlign: "center" }}
-            component="h1"
+            component="div"
           >
             通信制高校マッチングアプリ
             <br />
