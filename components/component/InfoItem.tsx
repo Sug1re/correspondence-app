@@ -1,6 +1,11 @@
+import React from "react";
 import "./InfoItem.css";
 
-const InfoItem = (props) => {
+interface InfoItemProps {
+  text: string;
+}
+
+const InfoItem: React.FC<InfoItemProps> = (props) => {
   return <div className="info_item">{props.text}</div>;
 };
 
