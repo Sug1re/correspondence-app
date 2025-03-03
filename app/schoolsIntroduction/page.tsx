@@ -28,8 +28,14 @@ type School = {
 
 export default function SchoolsIntroductionPage() {
   const searchParams = useSearchParams();
-  const schoolId = searchParams.get("id");
+  // const schoolId = searchParams.get("id");
   const [school, setSchool] = useState<School | null>(null);
+
+  const [schoolId, setSchoolId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setSchoolId(searchParams.get("id"));
+  }, [searchParams]);
 
   // fireStore からデータを取得
   useEffect(() => {

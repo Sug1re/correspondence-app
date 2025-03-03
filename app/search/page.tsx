@@ -36,6 +36,7 @@ type School = {
 
   // fireStoreのコレクションを追加
 };
+
 const SearchResultPage = () => {
   const [schools, setSchools] = useState<School[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
