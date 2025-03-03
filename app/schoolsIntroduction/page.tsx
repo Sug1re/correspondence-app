@@ -197,7 +197,7 @@ export default function SchoolsIntroductionPage() {
 
               {/* コンポーネント */}
               <Box sx={{ display: "flex", justifyContent: "center", flex: 1 }}>
-                <InfoItem text={school.attendanceFrequency} />
+                <InfoItem text={school.attendanceFrequency.join("/")} />
                 <InfoItem text={school.commutingStyle} />
               </Box>
             </Box>

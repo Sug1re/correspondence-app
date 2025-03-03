@@ -11,7 +11,7 @@ const Login = () => {
   const [user] = useAuthState(auth);
   return (
     <>
-      <Container maxWidth="md">
+      <Container maxWidth="sm">
         <Box sx={{ mt: 2 }}>
           {user ? (
             <>
