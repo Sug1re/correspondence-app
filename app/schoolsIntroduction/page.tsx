@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Box, Container, Typography } from "@mui/material";
 import * as Component from "@/components/component";
@@ -26,7 +26,7 @@ type School = {
   attendanceFrequency: string[];
 };
 
-export default function SchoolsIntroductionPage() {
+const SchoolsIntroductionPage = () => {
   const searchParams = useSearchParams();
   // const schoolId = searchParams.get("id");
   const [school, setSchool] = useState<School | null>(null);
@@ -258,4 +258,11 @@ export default function SchoolsIntroductionPage() {
       </Container>
     </>
   );
-}
+};
+const SchoolsIntroductionPageWithSuspense = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <SchoolsIntroductionPage />
+  </Suspense>
+);
+
+export default SchoolsIntroductionPageWithSuspense;

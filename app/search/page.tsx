@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
@@ -485,4 +485,11 @@ const SearchResultPage = () => {
     </>
   );
 };
-export default SearchResultPage;
+
+const SearchPageWithSuspense = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <SearchResultPage />
+  </Suspense>
+);
+
+export default SearchPageWithSuspense;
