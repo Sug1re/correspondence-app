@@ -55,7 +55,7 @@ function SignInButton() {
         width: 200,
         height: 50,
         fontWeight: "bold",
-        fontSize: "1rem",
+        fontSize: "0.9rem",
         transition: "transform 0.2s ease-in-out", // スムーズなスケールアニメーション
         "&:hover": {
           transform: "scale(1.1)", // ホバー時のスケール
