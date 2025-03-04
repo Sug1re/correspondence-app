@@ -62,7 +62,7 @@ function SignInButton() {
         },
       }}
     >
-      サインイン
+      google で サインイン
     </Button>
   );
 }
