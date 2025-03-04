@@ -17,7 +17,7 @@ export default async function Home() {
           }}
         >
           <Component.Form />
-          {/* <Component.Login /> */}
+          <Component.Login />
         </Box>
       </Container>
     </>
