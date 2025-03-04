@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Avatar, Box, Button, Container, Typography } from "@mui/material";
-import { signInWithPopup, signInWithRedirect, User } from "firebase/auth";
+import { signInWithPopup, User } from "firebase/auth";
 import { auth, provider } from "@/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Form from "./Form";
