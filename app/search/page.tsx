@@ -28,7 +28,6 @@ type School = {
   initialSetupCosts: number;
   tuitionFee: number;
   testFee: number;
-  // schooling: boolean;
   movingOutsideThePrefecture: boolean;
   commutingStyle: string;
   highSchool: string;
@@ -48,7 +47,6 @@ const SearchResultPage = () => {
   const initialSetupCostsParams = searchParams.get("initialSetupCosts"); // クエリパラメータ ”initialSetupCosts” を獲得
   const tuitionFeeParams = searchParams.get("tuitionFee"); // クエリパラメータ "tuitionFee" を獲得
   const testFeeParams = searchParams.get("testFee"); // クエリパラメータ "testFee" を獲得
-  // const schoolingParams = searchParams.get("schooling"); // クエリパラメータ　”schooling”　を獲得
   const movingOutsideThePrefectureParams = searchParams.get(
     "movingOutsideThePrefecture"
   ); // クエリパラメータ "movingOutsideThePrefecture" を獲得
@@ -74,7 +72,7 @@ const SearchResultPage = () => {
 
   // boolean型
   // "true" なら true, それ以外（null, undefined, "false"）は false に変換
-  // const schooling = schoolingParams === "true";
+
   const movingOutsideThePrefecture =
     movingOutsideThePrefectureParams === "true";
 
@@ -92,7 +90,6 @@ const SearchResultPage = () => {
         orderBy("initialSetupCosts", "asc"),
         orderBy("tuitionFee", "asc"),
         orderBy("testFee", "asc"),
-        // where("schooling", "==", schooling),
         where("movingOutsideThePrefecture", "==", movingOutsideThePrefecture),
         where("commutingStyle", "==", commutingStyle),
         where("highSchool", "==", highSchool),
@@ -108,7 +105,6 @@ const SearchResultPage = () => {
           initialSetupCosts: doc.data().initialSetupCosts,
           tuitionFee: doc.data().tuitionFee,
           testFee: doc.data().testFee,
-          // schooling: doc.data().schooling,
           movingOutsideThePrefecture: doc.data().movingOutsideThePrefecture,
           commutingStyle: doc.data().commutingStyle,
           highSchool: doc.data().highSchool,
@@ -146,6 +142,166 @@ const SearchResultPage = () => {
       <Component.Header />
 
       <Container maxWidth="md">
+        <Box sx={{ my: 4 }}>
+          {/* ロード中の場合 */}
+          {isLoading ? (
+            <Typography
+              variant="h6"
+              color="text.secondary"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              読み込み中...
+            </Typography>
+          ) : // 学校が見つからない場合にメッセージを表示
+          schools.length === 0 ? (
+            <Typography variant="h6" color="text.secondary">
+              条件に一致する学校はありませんでした
+            </Typography>
+          ) : (
+            // 学校が見つかった場合
+            schools.map((school) => (
+              <Card
+                key={school.id}
+                sx={{
+                  pt: 2,
+                  my: 3,
+                  boxShadow: 5,
+                  borderRadius: 2,
+                  border: `1px solid #FF9100`,
+                  flexDirection: "row",
+                  gap: 3,
+                }}
+              >
+                {/* カードタイトル */}
+                <CardContent>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      mb: 0.5,
+                      color: "FF9100",
+                    }}
+                  >
+                    {school.name}
+                    <br />
+                    {school.course}
+                  </Typography>
+                </CardContent>
+
+                {/* 学校情報 */}
+                <CardContent sx={{ display: "flex" }}>
+                  <CardContent sx={{ flex: 2 }}>
+                    {/* 費用情報 */}
+                    <Box>
+                      {/* 小見出し */}
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          mb: 1,
+                          background: "#b2ebf2",
+                          borderRadius: "9px",
+                          color: "FF9100",
+                        }}
+                      >
+                        費用情報
+                      </Typography>
+                      <TableContainer>
+                        <Table>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell
+                                sx={{
+                                  fontWeight: "bold",
+                                  width: "60%",
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                1年次の初期費用
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                ¥{school.initialSetupCosts}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                        <Table>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell
+                                sx={{
+                                  fontWeight: "bold",
+                                  width: "60%",
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                3年間の授業料
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                ¥{school.tuitionFee}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                        <Table>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell
+                                sx={{
+                                  fontWeight: "bold",
+                                  width: "60%",
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                受験料
+                              </TableCell>
+                              <TableCell
+                                sx={{
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                ¥{school.testFee}
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
+                    </Box>
+                  </CardContent>
+                </CardContent>
+
+                {/* ボタン */}
+                {/* <CardActions sx={{ justifyContent: "flex-end" }}>
+                  <Button
+                    size="small"
+                    sx={{
+                      fontWeight: "bold",
+                      color: "FF9100",
+                    }}
+                    onClick={() => handleSchoolDetail(school.id)}
+                  >
+                    詳細
+                  </Button>
+                </CardActions> */}
+              </Card>
+            ))
+          )}
+        </Box>
+
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" component="h2" gutterBottom>
             検索結果
@@ -195,119 +351,6 @@ const SearchResultPage = () => {
 
                 {/* 学校情報 */}
                 <CardContent sx={{ display: "flex" }}>
-                  {/* 左側の情報 */}
-                  <CardContent sx={{ flex: 1 }}>
-                    {/* 基本情報 */}
-                    <Box>
-                      {/* 小見出し */}
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          mb: 1,
-                          background: "#b2ebf2",
-                          borderRadius: "9px",
-                          color: "FF9100",
-                        }}
-                      >
-                        基本情報
-                      </Typography>
-                      <TableContainer>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                align="center"
-                                sx={{
-                                  fontWeight: "bold",
-                                  width: "40%",
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                通学形態
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                align="center"
-                                sx={{
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                {school.commutingStyle}
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                align="center"
-                                sx={{
-                                  fontWeight: "bold",
-                                  width: "40%",
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                学校の種類
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                align="center"
-                                sx={{
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                {school.highSchool}
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                align="center"
-                                sx={{
-                                  fontWeight: "bold",
-                                  width: "40%",
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                登校頻度
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                align="center"
-                                sx={{
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                {school.attendanceFrequency.join("・")}
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                    </Box>
-                  </CardContent>
-                  {/* 右側の情報 */}
                   <CardContent sx={{ flex: 2 }}>
                     {/* 費用情報 */}
                     <Box>
@@ -388,51 +431,6 @@ const SearchResultPage = () => {
                                 }}
                               >
                                 {school.testFee}万円
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                    </Box>
-
-                    {/* その他 */}
-                    <Box>
-                      {/* 小見出し */}
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          mt: 2,
-                          mb: 1,
-                          background: "#b2ebf2",
-                          borderRadius: "9px",
-                          color: "FF9100",
-                        }}
-                      >
-                        その他
-                      </Typography>
-                      <TableContainer>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                sx={{
-                                  fontWeight: "bold",
-                                  width: "60%",
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                県外移動
-                              </TableCell>
-                              <TableCell
-                                sx={{
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                {school.movingOutsideThePrefecture
-                                  ? "あり"
-                                  : "なし"}
                               </TableCell>
                             </TableRow>
                           </TableBody>

@@ -176,7 +176,7 @@ const Form = () => {
                   sx={{ fontWeight: 600 }}
                   gutterBottom
                 >
-                  1年次の初期費用（万円）：{initialSetupCostsValue}万円
+                  1年次の初期費用：¥{initialSetupCostsValue}
                 </Typography>
                 <Controller
                   name="initialSetupCosts"
@@ -186,8 +186,8 @@ const Form = () => {
                     <Slider
                       {...field}
                       min={0}
-                      step={0.5}
-                      max={200}
+                      step={100000}
+                      max={1000000}
                       valueLabelDisplay="auto"
                       aria-labelledby="initialSetupCostsSlider"
                     />
@@ -207,7 +207,7 @@ const Form = () => {
                   sx={{ fontWeight: 600 }}
                   gutterBottom
                 >
-                  3年間の授業料（万円）：{tuitionFeeValue}万円
+                  3年間の授業料：¥{tuitionFeeValue}
                 </Typography>
                 <Controller
                   name="tuitionFee"
@@ -217,8 +217,8 @@ const Form = () => {
                     <Slider
                       {...field}
                       min={0}
-                      step={0.5}
-                      max={300}
+                      step={200000}
+                      max={2600000}
                       valueLabelDisplay="auto"
                       aria-labelledby="tuitionFeeSlider"
                     />
@@ -238,7 +238,7 @@ const Form = () => {
                   sx={{ fontWeight: 600 }}
                   gutterBottom
                 >
-                  受験料（万円）：{testFeeValue}万円
+                  受験料：¥{testFeeValue}
                 </Typography>
                 <Controller
                   name="testFee"
@@ -248,8 +248,8 @@ const Form = () => {
                     <Slider
                       {...field}
                       min={0}
-                      step={0.5}
-                      max={3}
+                      step={5000}
+                      max={20000}
                       valueLabelDisplay="auto"
                       aria-labelledby="testFeeSlider"
                     />
