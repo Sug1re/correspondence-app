@@ -26,14 +26,6 @@ const formSchema = z.object({
   initialSetupCosts: z.number().min(1, "初期費用を選択してください。"),
   tuitionFee: z.number().min(1, "授業料を選択してください。"),
   testFee: z.number().min(1, "受験料を選択してください。"),
-  schooling: z
-    .string()
-    .refine((val) => val !== "", {
-      message: "スクーリングの有無を選択してください。",
-    })
-    .refine((val) => ["true", "false"].includes(val), {
-      message: "スクーリングの有無を正しく選択してください。",
-    }),
   movingOutsideThePrefecture: z
     .string()
     .refine((val) => val !== "", {
@@ -79,7 +71,6 @@ const Form = () => {
       initialSetupCosts: 0, // 初期値設定
       tuitionFee: 0,
       testFee: 0,
-      schooling: "",
       movingOutsideThePrefecture: "",
       commutingStyle: "",
       highSchool: "",
@@ -130,7 +121,6 @@ const Form = () => {
       initialSetupCosts: data.initialSetupCosts.toString(), // number型を文字列に変換
       tuitionFee: data.tuitionFee.toString(), // number型を文字列に変換
       testFee: data.testFee.toString(), // number型を文字列に変換
-      schooling: data.schooling,
       movingOutsideThePrefecture: data.movingOutsideThePrefecture,
       commutingStyle: data.commutingStyle,
       highSchool: data.highSchool,
@@ -275,51 +265,6 @@ const Form = () => {
 
             {/* boolean型データ */}
             <Box>
-              {/* スクーリングの有無 */}
-              <Box sx={{ my: 4 }}>
-                <Typography
-                  id="schooling"
-                  sx={{ fontWeight: 600 }}
-                  gutterBottom
-                >
-                  スクーリング
-                </Typography>
-                <Controller
-                  name="schooling"
-                  control={control}
-                  rules={{ required: "スクーリングの有無を選択してください。" }}
-                  render={({ field }) => (
-                    <FormControl>
-                      <RadioGroup
-                        {...field} // field.value と field.onChange を適用
-                        row // 横並びにするプロパティ
-                        sx={{
-                          gap: 1,
-                        }}
-                        aria-labelledby="schooling"
-                        name="radio-buttons-group"
-                      >
-                        <FormControlLabel
-                          value="true"
-                          control={<Radio />}
-                          label="スクーリング有り"
-                        />
-                        <FormControlLabel
-                          value="false"
-                          control={<Radio />}
-                          label="スクーリング無し"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  )}
-                />
-                {errors.schooling && (
-                  <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.schooling.message}
-                  </FormHelperText>
-                )}
-              </Box>
-
               {/* 県外移動があるかどうか */}
               <Box sx={{ my: 4 }}>
                 <Typography

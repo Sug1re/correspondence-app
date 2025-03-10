@@ -28,7 +28,7 @@ type School = {
   initialSetupCosts: number;
   tuitionFee: number;
   testFee: number;
-  schooling: boolean;
+  // schooling: boolean;
   movingOutsideThePrefecture: boolean;
   commutingStyle: string;
   highSchool: string;
@@ -48,7 +48,7 @@ const SearchResultPage = () => {
   const initialSetupCostsParams = searchParams.get("initialSetupCosts"); // クエリパラメータ ”initialSetupCosts” を獲得
   const tuitionFeeParams = searchParams.get("tuitionFee"); // クエリパラメータ "tuitionFee" を獲得
   const testFeeParams = searchParams.get("testFee"); // クエリパラメータ "testFee" を獲得
-  const schoolingParams = searchParams.get("schooling"); // クエリパラメータ　”schooling”　を獲得
+  // const schoolingParams = searchParams.get("schooling"); // クエリパラメータ　”schooling”　を獲得
   const movingOutsideThePrefectureParams = searchParams.get(
     "movingOutsideThePrefecture"
   ); // クエリパラメータ "movingOutsideThePrefecture" を獲得
@@ -74,7 +74,7 @@ const SearchResultPage = () => {
 
   // boolean型
   // "true" なら true, それ以外（null, undefined, "false"）は false に変換
-  const schooling = schoolingParams === "true";
+  // const schooling = schoolingParams === "true";
   const movingOutsideThePrefecture =
     movingOutsideThePrefectureParams === "true";
 
@@ -92,7 +92,7 @@ const SearchResultPage = () => {
         orderBy("initialSetupCosts", "asc"),
         orderBy("tuitionFee", "asc"),
         orderBy("testFee", "asc"),
-        where("schooling", "==", schooling),
+        // where("schooling", "==", schooling),
         where("movingOutsideThePrefecture", "==", movingOutsideThePrefecture),
         where("commutingStyle", "==", commutingStyle),
         where("highSchool", "==", highSchool),
@@ -108,7 +108,7 @@ const SearchResultPage = () => {
           initialSetupCosts: doc.data().initialSetupCosts,
           tuitionFee: doc.data().tuitionFee,
           testFee: doc.data().testFee,
-          schooling: doc.data().schooling,
+          // schooling: doc.data().schooling,
           movingOutsideThePrefecture: doc.data().movingOutsideThePrefecture,
           commutingStyle: doc.data().commutingStyle,
           highSchool: doc.data().highSchool,
@@ -131,7 +131,7 @@ const SearchResultPage = () => {
     tuitionFee,
     highSchool,
     attendanceFrequency,
-    schooling,
+    // schooling,
     movingOutsideThePrefecture,
     course,
     commutingStyle,
@@ -413,28 +413,6 @@ const SearchResultPage = () => {
                         その他
                       </Typography>
                       <TableContainer>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                sx={{
-                                  fontWeight: "bold",
-                                  width: "60%",
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                スクーリング
-                              </TableCell>
-                              <TableCell
-                                sx={{
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                {school.schooling ? "あり" : "なし"}
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
                         <Table>
                           <TableBody>
                             <TableRow>
