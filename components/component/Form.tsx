@@ -160,12 +160,7 @@ const Form = () => {
             border: `1px solid #FF9100`,
           }}
         >
-          <Box sx={{ my: 4 }}>
-            <Typography variant="h5" component="h1" gutterBottom>
-              検索条件
-            </Typography>
-          </Box>
-
+          {/* 検索窓 */}
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* number型データ */}
             <Box>
@@ -176,7 +171,8 @@ const Form = () => {
                   sx={{ fontWeight: 600 }}
                   gutterBottom
                 >
-                  1年次の初期費用：¥{initialSetupCostsValue}
+                  1年次の初期費用：￥
+                  {initialSetupCostsValue.toLocaleString("ja-JP")}
                 </Typography>
                 <Controller
                   name="initialSetupCosts"
@@ -207,7 +203,7 @@ const Form = () => {
                   sx={{ fontWeight: 600 }}
                   gutterBottom
                 >
-                  3年間の授業料：¥{tuitionFeeValue}
+                  3年間の授業料：￥{tuitionFeeValue.toLocaleString("ja-JP")}
                 </Typography>
                 <Controller
                   name="tuitionFee"
@@ -238,7 +234,7 @@ const Form = () => {
                   sx={{ fontWeight: 600 }}
                   gutterBottom
                 >
-                  受験料：¥{testFeeValue}
+                  受験料：￥{testFeeValue.toLocaleString("ja-JP")}
                 </Typography>
                 <Controller
                   name="testFee"

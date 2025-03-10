@@ -127,16 +127,16 @@ const SearchResultPage = () => {
     tuitionFee,
     highSchool,
     attendanceFrequency,
-    // schooling,
     movingOutsideThePrefecture,
     course,
     commutingStyle,
   ]);
 
-  // 学校詳細ページの遷移処理
-  const handleSchoolDetail = (schoolId: string) => {
-    router.push(`/schoolsIntroduction?id=${schoolId}`); // /schoolIntroduction に遷移,schoolId　をクエリパラメータとして渡す
-  };
+  // ページ遷移後の処理
+  // const handleSchoolDetail = (schoolId: string) => {
+  //   router.push(`/schoolsIntroduction?id=${schoolId}`); // /schoolIntroduction に遷移,schoolId　をクエリパラメータとして渡す
+  // };
+
   return (
     <>
       <Component.Header />
@@ -168,10 +168,10 @@ const SearchResultPage = () => {
                 key={school.id}
                 sx={{
                   pt: 2,
-                  my: 3,
+                  mt: 3,
                   boxShadow: 5,
                   borderRadius: 2,
-                  border: `1px solid #FF9100`,
+                  border: `1px solid  #003399`,
                   flexDirection: "row",
                   gap: 3,
                 }}
@@ -194,43 +194,68 @@ const SearchResultPage = () => {
                 </CardContent>
 
                 {/* 学校情報 */}
-                <CardContent sx={{ display: "flex" }}>
-                  <CardContent sx={{ flex: 2 }}>
-                    {/* 費用情報 */}
+                <CardContent>
+                  <CardContent>
                     <Box>
-                      {/* 小見出し */}
-                      <Typography
-                        variant="h6"
+                      {/* 合計費用 */}
+                      <Card
                         sx={{
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          mb: 1,
-                          background: "#b2ebf2",
-                          borderRadius: "9px",
-                          color: "FF9100",
+                          borderRadius: 2,
+                          border: `1px solid #FF6600`,
+                          flexDirection: "row",
+                          gap: 3,
                         }}
                       >
-                        費用情報
-                      </Typography>
-                      <TableContainer>
+                        <CardContent>
+                          <Typography
+                            sx={{
+                              fontWeight: "bold",
+                              textAlign: "center",
+                              color: "FF9100",
+                            }}
+                          >
+                            ￥{"学費総額"}
+                          </Typography>
+                          <CardActions sx={{ justifyContent: "center" }}>
+                            <Button
+                              size="small"
+                              sx={{
+                                px: 8,
+                                borderRadius: 4,
+                                backgroundColor: "#FF6600",
+                                fontWeight: "bold",
+                                color: "#FFFFFF",
+                              }}
+                            >
+                              詳細はこちら ＞
+                            </Button>
+                          </CardActions>
+                        </CardContent>
+                      </Card>
+
+                      {/* <TableContainer>
                         <Table>
                           <TableBody>
                             <TableRow>
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
-                                  width: "60%",
-                                  fontSize: "0.875rem",
+                                  width: "50%",
+                                  fontSize: "0.85rem",
                                 }}
                               >
                                 1年次の初期費用
                               </TableCell>
                               <TableCell
                                 sx={{
-                                  fontSize: "0.875rem",
+                                  fontSize: "0.85rem",
                                 }}
                               >
-                                ¥{school.initialSetupCosts}
+                                ￥
+                                {school.initialSetupCosts.toLocaleString(
+                                  "ja-JP"
+                                )}
+                                から
                               </TableCell>
                             </TableRow>
                           </TableBody>
@@ -241,18 +266,19 @@ const SearchResultPage = () => {
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
-                                  width: "60%",
-                                  fontSize: "0.875rem",
+                                  width: "50%",
+                                  fontSize: "0.85rem",
                                 }}
                               >
                                 3年間の授業料
                               </TableCell>
                               <TableCell
                                 sx={{
-                                  fontSize: "0.875rem",
+                                  fontSize: "0.85rem",
                                 }}
                               >
-                                ¥{school.tuitionFee}
+                                ￥{school.tuitionFee.toLocaleString("ja-JP")}
+                                から
                               </TableCell>
                             </TableRow>
                           </TableBody>
@@ -263,23 +289,23 @@ const SearchResultPage = () => {
                               <TableCell
                                 sx={{
                                   fontWeight: "bold",
-                                  width: "60%",
-                                  fontSize: "0.875rem",
+                                  width: "50%",
+                                  fontSize: "0.85rem",
                                 }}
                               >
                                 受験料
                               </TableCell>
                               <TableCell
                                 sx={{
-                                  fontSize: "0.875rem",
+                                  fontSize: "0.85rem",
                                 }}
                               >
-                                ¥{school.testFee}
+                                ￥{school.testFee.toLocaleString("ja-JP")}
                               </TableCell>
                             </TableRow>
                           </TableBody>
                         </Table>
-                      </TableContainer>
+                      </TableContainer> */}
                     </Box>
                   </CardContent>
                 </CardContent>
@@ -297,162 +323,6 @@ const SearchResultPage = () => {
                     詳細
                   </Button>
                 </CardActions> */}
-              </Card>
-            ))
-          )}
-        </Box>
-
-        <Box sx={{ my: 4 }}>
-          <Typography variant="h4" component="h2" gutterBottom>
-            検索結果
-          </Typography>
-
-          {/* ロード中の場合 */}
-          {isLoading ? (
-            <Typography variant="h6" color="text.secondary">
-              読み込み中...
-            </Typography>
-          ) : // 学校が見つからない場合にメッセージを表示
-          schools.length === 0 ? (
-            <Typography variant="h6" color="text.secondary">
-              条件に一致する学校はありませんでした
-            </Typography>
-          ) : (
-            // 学校が見つかった場合
-            schools.map((school) => (
-              <Card
-                key={school.id}
-                sx={{
-                  pt: 2,
-                  my: 3,
-                  boxShadow: 5,
-                  borderRadius: 2,
-                  border: `1px solid #FF9100`,
-                  flexDirection: "row",
-                  gap: 3,
-                }}
-              >
-                {/* カードタイトル */}
-                <CardContent>
-                  <Typography
-                    variant="h5"
-                    sx={{
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      mb: 0.5,
-                      color: "FF9100",
-                    }}
-                  >
-                    {school.name}
-                    <br />
-                    {school.course}
-                  </Typography>
-                </CardContent>
-
-                {/* 学校情報 */}
-                <CardContent sx={{ display: "flex" }}>
-                  <CardContent sx={{ flex: 2 }}>
-                    {/* 費用情報 */}
-                    <Box>
-                      {/* 小見出し */}
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontWeight: "bold",
-                          textAlign: "center",
-                          mb: 1,
-                          background: "#b2ebf2",
-                          borderRadius: "9px",
-                          color: "FF9100",
-                        }}
-                      >
-                        費用情報
-                      </Typography>
-                      <TableContainer>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                sx={{
-                                  fontWeight: "bold",
-                                  width: "60%",
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                1年次の初期費用
-                              </TableCell>
-                              <TableCell
-                                sx={{
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                {school.initialSetupCosts}万円
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                sx={{
-                                  fontWeight: "bold",
-                                  width: "60%",
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                3年間の授業料
-                              </TableCell>
-                              <TableCell
-                                sx={{
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                {school.tuitionFee}万円
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                sx={{
-                                  fontWeight: "bold",
-                                  width: "60%",
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                受験料
-                              </TableCell>
-                              <TableCell
-                                sx={{
-                                  fontSize: "0.875rem",
-                                }}
-                              >
-                                {school.testFee}万円
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                    </Box>
-                  </CardContent>
-                </CardContent>
-
-                {/* ボタン */}
-                <CardActions sx={{ justifyContent: "flex-end" }}>
-                  <Button
-                    size="small"
-                    sx={{
-                      fontWeight: "bold",
-                      color: "FF9100",
-                    }}
-                    onClick={() => handleSchoolDetail(school.id)}
-                  >
-                    詳細
-                  </Button>
-                </CardActions>
               </Card>
             ))
           )}

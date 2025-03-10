@@ -8,11 +8,7 @@ export default function Header() {
       <AppBar
         position="relative"
         sx={{
-          backgroundPosition: "center", // 画像を中央に配置
-          backgroundSize: "cover", // 画像を要素に合わせて拡大縮小
-        }}
-        style={{
-          backgroundImage: "url('/NIIGATA.jpg')",
+          backgroundColor: "#003399",
         }}
       >
         <Toolbar
@@ -21,17 +17,13 @@ export default function Header() {
             display: "flex",
             alignItems: "center",
             gap: 4,
-            height: {
-              xs: 100,
-              md: 220,
-            },
           }}
         >
           {/* ホームアイコン */}
           <IconButton
             edge="start"
             sx={{
-              color: "#FF9100",
+              color: "#FF6600",
             }}
             aria-label="menu"
             component={Link}
@@ -56,16 +48,12 @@ export default function Header() {
           {/* タイトル */}
           <Typography
             sx={{
-              height: {
-                sm: 100,
-                md: 220,
-              },
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               textAlign: "center",
               fontWeight: "bold",
-              color: "#FF9100",
+              color: "#FF6600",
             }}
             variant="h6"
             component="div"
