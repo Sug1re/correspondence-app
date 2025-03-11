@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import * as Component from "@/components/component";
@@ -12,11 +12,11 @@ import {
   CardActions,
   CardContent,
   Container,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
+  // Table,
+  // TableBody,
+  // TableCell,
+  // TableContainer,
+  // TableRow,
   Typography,
 } from "@mui/material";
 
@@ -40,7 +40,7 @@ const SearchResultPage = () => {
   const [schools, setSchools] = useState<School[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
   const searchParams = useSearchParams();
-  const router = useRouter(); // ページ遷移時に必要な変数
+  // const router = useRouter(); // ページ遷移時に必要な変数
 
   // クエリパラメータの取得
   const courseParams = searchParams.get("course"); // クエリパラメータ "course" を獲得
@@ -133,9 +133,9 @@ const SearchResultPage = () => {
   ]);
 
   // ページ遷移後の処理
-  const handleSchoolDetail = (schoolId: string) => {
-    router.push(`/schoolsIntroduction?id=${schoolId}`); // /schoolIntroduction に遷移,schoolId　をクエリパラメータとして渡す
-  };
+  // const handleSchoolDetail = (schoolId: string) => {
+  //   router.push(`/schoolsIntroduction?id=${schoolId}`); // /schoolIntroduction に遷移,schoolId　をクエリパラメータとして渡す
+  // };
 
   return (
     <>

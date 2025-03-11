@@ -60,12 +60,17 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const Form = () => {
+  // Radioのカラーリング
   const CustomRadio = styled(Radio)({
     color: "#003399",
     "&.Mui-checked": {
       color: "#003399",
     },
   });
+
+  // sliderの最小値と最大値を管理
+  // const []= useState(0);
+  // const []= useState(1000000);
 
   const {
     control,
@@ -165,7 +170,7 @@ const Form = () => {
           sx={{
             mt: 2,
             px: 3,
-            border: `2px solid #003399`,
+            border: `2px solid #FF6600`,
           }}
         >
           {/* 検索窓 */}
@@ -304,51 +309,49 @@ const Form = () => {
             </Box>
 
             {/* boolean型データ */}
-            <Box>
-              {/* 県外移動があるかどうか */}
-              <Box sx={{ my: 4 }}>
-                <Typography
-                  id="movingOutsideThePrefecture"
-                  sx={{ fontWeight: 600 }}
-                  gutterBottom
-                >
-                  県外移動
-                </Typography>
-                <Controller
-                  name="movingOutsideThePrefecture"
-                  control={control}
-                  rules={{ required: "県外移動の有無を選択してください。" }}
-                  render={({ field }) => (
-                    <FormControl>
-                      <RadioGroup
-                        {...field} // field.value と field.onChange を適用
-                        row // 横並びにするプロパティ
-                        sx={{
-                          gap: 1,
-                        }}
-                        aria-labelledby="movingOutsideThePrefecture"
-                        name="radio-buttons-group"
-                      >
-                        <FormControlLabel
-                          value="true"
-                          control={<CustomRadio />}
-                          label="県外移動有り"
-                        />
-                        <FormControlLabel
-                          value="false"
-                          control={<CustomRadio />}
-                          label="県外移動無し"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  )}
-                />
-                {errors.movingOutsideThePrefecture && (
-                  <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.movingOutsideThePrefecture.message}
-                  </FormHelperText>
+            {/* スクーリング会場 */}
+            <Box sx={{ my: 4 }}>
+              <Typography
+                id="movingOutsideThePrefecture"
+                sx={{ fontWeight: 600 }}
+                gutterBottom
+              >
+                スクーリング会場
+              </Typography>
+              <Controller
+                name="movingOutsideThePrefecture"
+                control={control}
+                rules={{ required: "県外移動の有無を選択してください。" }}
+                render={({ field }) => (
+                  <FormControl>
+                    <RadioGroup
+                      {...field} // field.value と field.onChange を適用
+                      row // 横並びにするプロパティ
+                      sx={{
+                        gap: 1,
+                      }}
+                      aria-labelledby="movingOutsideThePrefecture"
+                      name="radio-buttons-group"
+                    >
+                      <FormControlLabel
+                        value="true"
+                        control={<CustomRadio />}
+                        label="県外"
+                      />
+                      <FormControlLabel
+                        value="false"
+                        control={<CustomRadio />}
+                        label="県内"
+                      />
+                    </RadioGroup>
+                  </FormControl>
                 )}
-              </Box>
+              />
+              {errors.movingOutsideThePrefecture && (
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
+                  {errors.movingOutsideThePrefecture.message}
+                </FormHelperText>
+              )}
             </Box>
 
             {/* string型データ */}
