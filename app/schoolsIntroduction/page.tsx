@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { Box, Container, Typography } from "@mui/material";
 import * as Component from "@/components/component";
@@ -26,10 +26,16 @@ type School = {
   attendanceFrequency: string[];
 };
 
-export default function SchoolsIntroductionPage() {
+const SchoolsIntroductionPage = () => {
   const searchParams = useSearchParams();
-  const schoolId = searchParams.get("id");
+  // const schoolId = searchParams.get("id");
   const [school, setSchool] = useState<School | null>(null);
+
+  const [schoolId, setSchoolId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setSchoolId(searchParams.get("id"));
+  }, [searchParams]);
 
   // fireStore からデータを取得
   useEffect(() => {
@@ -197,7 +203,7 @@ export default function SchoolsIntroductionPage() {
 
               {/* コンポーネント */}
               <Box sx={{ display: "flex", justifyContent: "center", flex: 1 }}>
-                <InfoItem text={school.attendanceFrequency} />
+                <InfoItem text={school.attendanceFrequency.join("/")} />
                 <InfoItem text={school.commutingStyle} />
               </Box>
             </Box>
@@ -252,4 +258,11 @@ export default function SchoolsIntroductionPage() {
       </Container>
     </>
   );
-}
+};
+const SchoolsIntroductionPageWithSuspense = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <SchoolsIntroductionPage />
+  </Suspense>
+);
+
+export default SchoolsIntroductionPageWithSuspense;

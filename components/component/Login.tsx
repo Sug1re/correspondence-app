@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Avatar, Box, Button, Container, Typography } from "@mui/material";
 import { signInWithPopup, User } from "firebase/auth";
 import { auth, provider } from "@/firebase";
@@ -11,7 +11,7 @@ const Login = () => {
   const [user] = useAuthState(auth);
   return (
     <>
-      <Container maxWidth="md">
+      <Container maxWidth="sm">
         <Box sx={{ mt: 2 }}>
           {user ? (
             <>
@@ -41,9 +41,17 @@ export default Login;
 
 // googleButtonでSignIn
 function SignInButton() {
-  const signInWithGoogle = () => {
-    // firebaseを使ってgoogleでSignInする
-    signInWithPopup(auth, provider);
+  const [loading, setLoading] = useState(false);
+
+  const signInWithGoogle = async () => {
+    setLoading(true);
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error("Googleログインエラー:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -51,18 +59,20 @@ function SignInButton() {
       onClick={signInWithGoogle}
       variant="contained"
       type="submit"
+      disabled={loading}
       sx={{
         width: 200,
         height: 50,
+        backgroundColor: "#003399",
         fontWeight: "bold",
-        fontSize: "1rem",
-        transition: "transform 0.2s ease-in-out", // スムーズなスケールアニメーション
+        fontSize: "0.9rem",
+        transition: "transform 0.2s ease-in-out",
         "&:hover": {
-          transform: "scale(1.1)", // ホバー時のスケール
+          transform: "scale(1.1)",
         },
       }}
     >
-      サインイン
+      {loading ? "処理中..." : "Google で サインイン"}
     </Button>
   );
 }
@@ -75,11 +85,12 @@ function SignOutButton() {
       variant="contained"
       type="submit"
       sx={{
+        backgroundColor: "#003399",
         fontWeight: "bold",
         fontSize: "1rem",
-        transition: "transform 0.2s ease-in-out", // スムーズなスケールアニメーション
+        transition: "transform 0.2s ease-in-out",
         "&:hover": {
-          transform: "scale(0.95)", // ホバー時のスケール
+          transform: "scale(0.95)",
         },
       }}
     >
