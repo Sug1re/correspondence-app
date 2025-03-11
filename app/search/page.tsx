@@ -133,9 +133,9 @@ const SearchResultPage = () => {
   ]);
 
   // ページ遷移後の処理
-  // const handleSchoolDetail = (schoolId: string) => {
-  //   router.push(`/schoolsIntroduction?id=${schoolId}`); // /schoolIntroduction に遷移,schoolId　をクエリパラメータとして渡す
-  // };
+  const handleSchoolDetail = (schoolId: string) => {
+    router.push(`/schoolsIntroduction?id=${schoolId}`); // /schoolIntroduction に遷移,schoolId　をクエリパラメータとして渡す
+  };
 
   return (
     <>
@@ -167,73 +167,66 @@ const SearchResultPage = () => {
               <Card
                 key={school.id}
                 sx={{
-                  pt: 2,
-                  mt: 3,
+                  mt: 2,
                   boxShadow: 5,
                   borderRadius: 2,
                   border: `1px solid  #003399`,
-                  flexDirection: "row",
-                  gap: 3,
                 }}
               >
+                {/* 学校の画像を挿入 */}
+                <Box sx={{ py: 7, backgroundColor: "#003399" }}></Box>
+
                 {/* カードタイトル */}
+                <Typography
+                  sx={{
+                    pt: 2,
+                    px: 2,
+                    fontWeight: "bold",
+                    color: "FF9100",
+                  }}
+                >
+                  {school.name}
+                  <br />
+                  {school.course}
+                </Typography>
+
+                {/* 学費総額 */}
                 <CardContent>
-                  <Typography
-                    variant="h5"
+                  <Card
                     sx={{
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      mb: 0.5,
-                      color: "FF9100",
+                      borderRadius: 2,
+                      border: `1px solid #FF6600`,
+                      flexDirection: "row",
+                      gap: 3,
                     }}
                   >
-                    {school.name}
-                    <br />
-                    {school.course}
-                  </Typography>
-                </CardContent>
-
-                {/* 学校情報 */}
-                <CardContent>
-                  <CardContent>
-                    <Box>
-                      {/* 合計費用 */}
-                      <Card
+                    <Typography
+                      sx={{
+                        pt: 1,
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        color: "FF9100",
+                      }}
+                    >
+                      ￥{"学費総額"}
+                    </Typography>
+                    <CardActions sx={{ justifyContent: "center" }}>
+                      <Button
+                        size="small"
                         sx={{
-                          borderRadius: 2,
-                          border: `1px solid #FF6600`,
-                          flexDirection: "row",
-                          gap: 3,
+                          px: 8,
+                          borderRadius: 4,
+                          backgroundColor: "#FF6600",
+                          fontWeight: "bold",
+                          color: "#FFFFFF",
                         }}
                       >
-                        <CardContent>
-                          <Typography
-                            sx={{
-                              fontWeight: "bold",
-                              textAlign: "center",
-                              color: "FF9100",
-                            }}
-                          >
-                            ￥{"学費総額"}
-                          </Typography>
-                          <CardActions sx={{ justifyContent: "center" }}>
-                            <Button
-                              size="small"
-                              sx={{
-                                px: 8,
-                                borderRadius: 4,
-                                backgroundColor: "#FF6600",
-                                fontWeight: "bold",
-                                color: "#FFFFFF",
-                              }}
-                            >
-                              詳細はこちら ＞
-                            </Button>
-                          </CardActions>
-                        </CardContent>
-                      </Card>
+                        詳細はこちら ＞
+                      </Button>
+                    </CardActions>
+                  </Card>
 
-                      {/* <TableContainer>
+                  {/* <TableContainer>
                         <Table>
                           <TableBody>
                             <TableRow>
@@ -306,8 +299,6 @@ const SearchResultPage = () => {
                           </TableBody>
                         </Table>
                       </TableContainer> */}
-                    </Box>
-                  </CardContent>
                 </CardContent>
 
                 {/* ボタン */}

@@ -16,6 +16,7 @@ import {
   Radio,
   RadioGroup,
   Slider,
+  styled,
   Typography,
 } from "@mui/material";
 import { collection, getDocs, query } from "firebase/firestore";
@@ -59,6 +60,13 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 const Form = () => {
+  const CustomRadio = styled(Radio)({
+    color: "#003399",
+    "&.Mui-checked": {
+      color: "#003399",
+    },
+  });
+
   const {
     control,
     handleSubmit,
@@ -157,7 +165,7 @@ const Form = () => {
           sx={{
             mt: 2,
             px: 3,
-            border: `1px solid #FF9100`,
+            border: `2px solid #003399`,
           }}
         >
           {/* 検索窓 */}
@@ -186,6 +194,18 @@ const Form = () => {
                       max={1000000}
                       valueLabelDisplay="auto"
                       aria-labelledby="initialSetupCostsSlider"
+                      sx={{
+                        color: "#003399", // スライダーの色を変更
+                        "& .MuiSlider-thumb": {
+                          backgroundColor: "#003399", // 進捗部分の色を変更
+                        },
+                        "& .MuiSlider-track": {
+                          backgroundColor: "#003399", // 丸いスライダーの色を変更
+                        },
+                        "& .MuiSlider-rail": {
+                          backgroundColor: "#b0c4de", // 未選択部分の色を薄めの青に
+                        },
+                      }}
                     />
                   )}
                 />
@@ -217,6 +237,18 @@ const Form = () => {
                       max={2600000}
                       valueLabelDisplay="auto"
                       aria-labelledby="tuitionFeeSlider"
+                      sx={{
+                        color: "#003399", // スライダーの色を変更
+                        "& .MuiSlider-thumb": {
+                          backgroundColor: "#003399", // 進捗部分の色を変更
+                        },
+                        "& .MuiSlider-track": {
+                          backgroundColor: "#003399", // 丸いスライダーの色を変更
+                        },
+                        "& .MuiSlider-rail": {
+                          backgroundColor: "#b0c4de", // 未選択部分の色を薄めの青に
+                        },
+                      }}
                     />
                   )}
                 />
@@ -248,6 +280,18 @@ const Form = () => {
                       max={20000}
                       valueLabelDisplay="auto"
                       aria-labelledby="testFeeSlider"
+                      sx={{
+                        color: "#003399", // スライダーの色を変更
+                        "& .MuiSlider-thumb": {
+                          backgroundColor: "#003399", // 進捗部分の色を変更
+                        },
+                        "& .MuiSlider-track": {
+                          backgroundColor: "#003399", // 丸いスライダーの色を変更
+                        },
+                        "& .MuiSlider-rail": {
+                          backgroundColor: "#b0c4de", // 未選択部分の色を薄めの青に
+                        },
+                      }}
                     />
                   )}
                 />
@@ -287,12 +331,12 @@ const Form = () => {
                       >
                         <FormControlLabel
                           value="true"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="県外移動有り"
                         />
                         <FormControlLabel
                           value="false"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="県外移動無し"
                         />
                       </RadioGroup>
@@ -335,12 +379,12 @@ const Form = () => {
                       >
                         <FormControlLabel
                           value="通信制高等学校"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="通信制高等学校"
                         />
                         <FormControlLabel
                           value="サポート校"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="サポート校"
                         />
                       </RadioGroup>
@@ -380,13 +424,13 @@ const Form = () => {
                       >
                         <FormControlLabel
                           value="通学"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="通学"
                           disabled={attendanceFrequencyValue === "オンライン"} // 登校頻度が「オンライン」の場合、通学を無効化
                         />
                         <FormControlLabel
                           value="オンライン"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="オンライン"
                           disabled={[
                             "週1",
@@ -434,43 +478,43 @@ const Form = () => {
                       >
                         <FormControlLabel
                           value="週1"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="週1"
                           disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
                         />
                         <FormControlLabel
                           value="週2"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="週2"
                           disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
                         />
                         <FormControlLabel
                           value="週3"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="週3"
                           disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
                         />
                         <FormControlLabel
                           value="週4"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="週4"
                           disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
                         />
                         <FormControlLabel
                           value="週5"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="週5"
                           disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
                         />
                         <FormControlLabel
                           value="オンライン"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="オンライン"
                           disabled={disableOnline} // 無効化ロジック
                         />
                         <FormControlLabel
                           value="自由"
-                          control={<Radio />}
+                          control={<CustomRadio />}
                           label="自由"
                           disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
                         />
@@ -487,11 +531,13 @@ const Form = () => {
             </Box>
 
             {/* 検索ボタン */}
-            <Box sx={{ pb: 8 }}>
+            <Box sx={{ pb: 3 }}>
               <Button
                 variant="contained"
                 type="submit"
                 sx={{
+                  backgroundColor: "#FF6600",
+                  fontWeight: "bold",
                   width: "100%", // ボタンの幅をフルに設定
                   transition: "transform 0.2s ease-in-out", // スムーズなスケールアニメーション
                   "&:hover": {

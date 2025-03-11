@@ -63,6 +63,7 @@ function SignInButton() {
       sx={{
         width: 200,
         height: 50,
+        backgroundColor: "#003399",
         fontWeight: "bold",
         fontSize: "0.9rem",
         transition: "transform 0.2s ease-in-out",
@@ -84,6 +85,7 @@ function SignOutButton() {
       variant="contained"
       type="submit"
       sx={{
+        backgroundColor: "#003399",
         fontWeight: "bold",
         fontSize: "1rem",
         transition: "transform 0.2s ease-in-out",
