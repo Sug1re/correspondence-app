@@ -8,7 +8,7 @@ export default function Header() {
       <AppBar
         position="relative"
         sx={{
-          backgroundColor: "#FF6600",
+          background: "linear-gradient(to right, #003399, #FF6600)",
         }}
       >
         <Toolbar
@@ -23,7 +23,7 @@ export default function Header() {
           <IconButton
             edge="start"
             sx={{
-              color: "#003399",
+              color: "#FFFFFF",
             }}
             aria-label="menu"
             component={Link}
@@ -53,7 +53,7 @@ export default function Header() {
               justifyContent: "center",
               textAlign: "center",
               fontWeight: "bold",
-              color: "#003399",
+              color: "#FFFFFF",
             }}
             variant="h6"
             component="div"
