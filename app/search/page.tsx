@@ -12,6 +12,13 @@ import {
   CardActions,
   CardContent,
   Container,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
   Typography,
 } from "@mui/material";
 
@@ -128,6 +135,16 @@ const SearchResultPage = () => {
     commutingStyle,
   ]);
 
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   // ページ遷移後の処理
   // const handleSchoolDetail = (schoolId: string) => {
   //   router.push(`/schoolsIntroduction?id=${schoolId}`); // /schoolIntroduction に遷移,schoolId　をクエリパラメータとして渡す
@@ -216,12 +233,46 @@ const SearchResultPage = () => {
                           fontWeight: "bold",
                           color: "#FFFFFF",
                         }}
+                        onClick={handleClickOpen}
                       >
                         詳細はこちら ＞
                       </Button>
                     </CardActions>
                   </Card>
                 </CardContent>
+                <Dialog open={open} onClose={handleClose}>
+                  <DialogTitle>学費の詳細</DialogTitle>
+                  <DialogContent>
+                    <Table>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell>初年次の学費</TableCell>
+                          <TableCell>
+                            ￥{school.testFee.toLocaleString("ja-JP")}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>2年次の学費</TableCell>
+                          <TableCell>
+                            ￥{school.testFee.toLocaleString("ja-JP")}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>3年次の学費</TableCell>
+                          <TableCell>
+                            ￥{school.testFee.toLocaleString("ja-JP")}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell>検定料</TableCell>
+                          <TableCell>
+                            ￥{school.testFee.toLocaleString("ja-JP")}
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </DialogContent>
+                </Dialog>
 
                 {/* ボタン */}
                 {/* <CardActions sx={{ justifyContent: "flex-end" }}>
