@@ -12,11 +12,6 @@ import {
   CardActions,
   CardContent,
   Container,
-  Dialog,
-  DialogTitle,
-  List,
-  ListItem,
-  ListItemText,
   Typography,
 } from "@mui/material";
 
@@ -36,35 +31,6 @@ type School = {
   attendanceFrequency: string[];
   // fireStoreのコレクションを追加
 };
-
-const emails = ["username@gmail.com", "user02@gmail.com"];
-
-export interface SimpleDialogProps {
-  open: boolean;
-  selectedValue: string;
-  onClose: (value: string) => void;
-}
-
-function SimpleDialog(props: SimpleDialogProps) {
-  const { onClose, selectedValue, open } = props;
-
-  const handleClose = () => {
-    onClose(selectedValue);
-  };
-
-  return (
-    <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>学費総額の詳細</DialogTitle>
-      <List sx={{ pt: 1 }}>
-        {emails.map((email, index) => (
-          <ListItem disablePadding key={index}>
-            <ListItemText primary={email} />
-          </ListItem>
-        ))}
-      </List>
-    </Dialog>
-  );
-}
 
 const SearchResultPage = () => {
   const [schools, setSchools] = useState<School[]>([]);
@@ -156,18 +122,6 @@ const SearchResultPage = () => {
     commutingStyle,
   ]);
 
-  const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState(emails[1]);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (value: string) => {
-    setOpen(false);
-    setSelectedValue(value);
-  };
-
   // ページ遷移後の処理
   // const handleSchoolDetail = (schoolId: string) => {
   //   router.push(`/schoolsIntroduction?id=${schoolId}`); // /schoolIntroduction に遷移,schoolId　をクエリパラメータとして渡す
@@ -256,15 +210,9 @@ const SearchResultPage = () => {
                           fontWeight: "bold",
                           color: "#FFFFFF",
                         }}
-                        onClick={handleClickOpen}
                       >
                         詳細はこちら ＞
                       </Button>
-                      <SimpleDialog
-                        selectedValue={selectedValue}
-                        open={open}
-                        onClose={handleClose}
-                      />
                     </CardActions>
                   </Card>
                 </CardContent>
