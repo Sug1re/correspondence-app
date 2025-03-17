@@ -13,12 +13,10 @@ import {
   CardContent,
   Container,
   Dialog,
-  DialogContent,
   DialogTitle,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
+  List,
+  ListItem,
+  ListItemText,
   Typography,
 } from "@mui/material";
 
@@ -28,17 +26,45 @@ type School = {
   name: string;
   course: string;
   totalTuitionFee: number;
-  "1-tuitionFee": number;
-  "2-tuitionFee": number;
-  "3-tuitionFee": number;
+  firstYearFee: number;
+  secondYearFee: number;
+  thirdYearFee: number;
   testFee: number;
   movingOutsideThePrefecture: boolean;
   commutingStyle: string;
   highSchool: string;
   attendanceFrequency: string[];
-
   // fireStoreのコレクションを追加
 };
+
+const emails = ["username@gmail.com", "user02@gmail.com"];
+
+export interface SimpleDialogProps {
+  open: boolean;
+  selectedValue: string;
+  onClose: (value: string) => void;
+}
+
+function SimpleDialog(props: SimpleDialogProps) {
+  const { onClose, selectedValue, open } = props;
+
+  const handleClose = () => {
+    onClose(selectedValue);
+  };
+
+  return (
+    <Dialog onClose={handleClose} open={open}>
+      <DialogTitle>学費総額の詳細</DialogTitle>
+      <List sx={{ pt: 1 }}>
+        {emails.map((email, index) => (
+          <ListItem disablePadding key={index}>
+            <ListItemText primary={email} />
+          </ListItem>
+        ))}
+      </List>
+    </Dialog>
+  );
+}
 
 const SearchResultPage = () => {
   const [schools, setSchools] = useState<School[]>([]);
@@ -49,7 +75,6 @@ const SearchResultPage = () => {
   // クエリパラメータの取得
   const courseParams = searchParams.get("course"); // クエリパラメータ "course" を獲得
   const totalTuitionFeeParams = searchParams.get("totalTuitionFee"); // クエリパラメータ ”totalTuitionFee” を獲得
-  const testFeeParams = searchParams.get("testFee"); // クエリパラメータ "testFee" を獲得
   const movingOutsideThePrefectureParams = searchParams.get(
     "movingOutsideThePrefecture"
   ); // クエリパラメータ "movingOutsideThePrefecture" を獲得
@@ -64,7 +89,6 @@ const SearchResultPage = () => {
   const totalTuitionFee = totalTuitionFeeParams
     ? parseInt(totalTuitionFeeParams)
     : NaN; // testFee がNaNの場合は最大値を設定
-  const testFee = testFeeParams ? parseInt(testFeeParams) : NaN; // testFee がNaNの場合は最大値を設定
 
   // string型
   const attendanceFrequency = attendanceFrequencyParams || "";
@@ -101,12 +125,10 @@ const SearchResultPage = () => {
             id: doc.id,
             name: data.name,
             course: data.course,
-            initialSetupCosts: data.initialSetupCosts,
             totalTuitionFee: data.totalTuitionFee,
-            "1-tuitionFee": data["1-tuitionFee"], //  ブラケット記法を使う
-            "2-tuitionFee": data["2-tuitionFee"],
-            "3-tuitionFee": data["3-tuitionFee"],
-            tuitionFee: data.tuitionFee,
+            firstYearFee: data.firstYearFee,
+            secondYearFee: data.secondYearFee,
+            thirdYearFee: data.thirdYearFee,
             testFee: data.testFee,
             movingOutsideThePrefecture: data.movingOutsideThePrefecture,
             commutingStyle: data.commutingStyle,
@@ -127,7 +149,6 @@ const SearchResultPage = () => {
     fetchSchools();
   }, [
     totalTuitionFee,
-    testFee,
     highSchool,
     attendanceFrequency,
     movingOutsideThePrefecture,
@@ -135,14 +156,16 @@ const SearchResultPage = () => {
     commutingStyle,
   ]);
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState(emails[1]);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (value: string) => {
     setOpen(false);
+    setSelectedValue(value);
   };
 
   // ページ遷移後の処理
@@ -237,42 +260,14 @@ const SearchResultPage = () => {
                       >
                         詳細はこちら ＞
                       </Button>
+                      <SimpleDialog
+                        selectedValue={selectedValue}
+                        open={open}
+                        onClose={handleClose}
+                      />
                     </CardActions>
                   </Card>
                 </CardContent>
-                <Dialog open={open} onClose={handleClose}>
-                  <DialogTitle>学費の詳細</DialogTitle>
-                  <DialogContent>
-                    <Table>
-                      <TableBody>
-                        <TableRow>
-                          <TableCell>初年次の学費</TableCell>
-                          <TableCell>
-                            ￥{school.testFee.toLocaleString("ja-JP")}
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>2年次の学費</TableCell>
-                          <TableCell>
-                            ￥{school.testFee.toLocaleString("ja-JP")}
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>3年次の学費</TableCell>
-                          <TableCell>
-                            ￥{school.testFee.toLocaleString("ja-JP")}
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell>検定料</TableCell>
-                          <TableCell>
-                            ￥{school.testFee.toLocaleString("ja-JP")}
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </DialogContent>
-                </Dialog>
 
                 {/* ボタン */}
                 {/* <CardActions sx={{ justifyContent: "flex-end" }}>
