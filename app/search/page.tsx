@@ -12,6 +12,9 @@ import {
   CardActions,
   CardContent,
   Container,
+  List,
+  ListItem,
+  Modal,
   Typography,
 } from "@mui/material";
 
@@ -32,7 +35,24 @@ type School = {
   // fireStoreのコレクションを追加
 };
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 330,
+  bgcolor: "background.paper",
+  px: 4,
+  py: 2,
+  borderRadius: 3,
+  border: `2px solid #FF6600`,
+};
+
 const SearchResultPage = () => {
+  const [openModalId, setOpenModalId] = useState<string | null>(null); // 各学校ごとのモーダルのIDを管理
+  const handleOpen = (schoolId: string) => setOpenModalId(schoolId); // モーダルを開く関数
+  const handleClose = () => setOpenModalId(null); // モーダルを閉じる関数
+
   const [schools, setSchools] = useState<School[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
   const searchParams = useSearchParams();
@@ -210,12 +230,39 @@ const SearchResultPage = () => {
                           fontWeight: "bold",
                           color: "#FFFFFF",
                         }}
+                        onClick={() => handleOpen(school.id)}
                       >
                         詳細はこちら ＞
                       </Button>
                     </CardActions>
                   </Card>
                 </CardContent>
+
+                {/* モーダル */}
+                <Modal
+                  open={openModalId === school.id}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                  BackdropProps={{
+                    sx: { backgroundColor: "rgba(0, 0, 0, 0.07)" },
+                  }}
+                >
+                  <Box sx={style}>
+                    <Typography
+                      id="modal-modal-title"
+                      sx={{ fontWeight: "bold", color: "FF9100" }}
+                    >
+                      学費総額の詳細
+                    </Typography>
+                    <List id="modal-modal-description">
+                      <ListItem>{school.firstYearFee}</ListItem>
+                      <ListItem>{school.secondYearFee}</ListItem>
+                      <ListItem>{school.thirdYearFee}</ListItem>
+                      <ListItem>{school.testFee}</ListItem>
+                    </List>
+                  </Box>
+                </Modal>
 
                 {/* ボタン */}
                 {/* <CardActions sx={{ justifyContent: "flex-end" }}>
