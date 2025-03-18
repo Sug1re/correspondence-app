@@ -12,6 +12,7 @@ import {
   CardActions,
   CardContent,
   Container,
+  Link,
   Modal,
   Table,
   TableBody,
@@ -33,10 +34,12 @@ type School = {
   movingOutsideThePrefecture: boolean;
   commutingStyle: string;
   highSchool: string;
+  url: string;
   attendanceFrequency: string[];
   // fireStoreのコレクションを追加
 };
 
+// モーダルのUI
 const style = {
   position: "absolute",
   top: "50%",
@@ -121,6 +124,7 @@ const SearchResultPage = () => {
             movingOutsideThePrefecture: data.movingOutsideThePrefecture,
             commutingStyle: data.commutingStyle,
             highSchool: data.highSchool,
+            url: data.url,
             attendanceFrequency: data.attendanceFrequency,
           };
         });
@@ -193,25 +197,35 @@ const SearchResultPage = () => {
                 <Box sx={{ py: 7, backgroundColor: "#003399" }}></Box>
 
                 {/* カードタイトル */}
-                <Typography
-                  sx={{
-                    pt: 2,
-                    px: 2,
-                    fontWeight: "bold",
-                  }}
-                >
-                  {school.name}
-                  <br />
-                  {school.course}
-                </Typography>
-
-                {/* 学費総額 */}
                 <CardContent>
+                  <Link
+                    href={school.url}
+                    sx={{
+                      textDecoration: "none", // 下線をなくす
+                      fontWeight: "bold",
+                      color: "text.primary",
+                      "&:hover": {
+                        color: "primary.main", // ホバー時のテキストカラー
+                        textDecoration: "underLine",
+                      },
+                    }}
+                  >
+                    {school.name}
+                  </Link>
+                  <Typography
+                    sx={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {school.course}
+                  </Typography>
+
+                  {/* 学費総額 */}
                   <Card
                     sx={{
+                      mt: 1,
                       borderRadius: 2,
                       border: `1px solid #FF6600`,
-                      flexDirection: "row",
                       gap: 3,
                     }}
                   >
@@ -222,7 +236,8 @@ const SearchResultPage = () => {
                         textAlign: "center",
                       }}
                     >
-                      ￥{school.totalTuitionFee.toLocaleString("ja-JP")}
+                      3年次の学費総額：￥
+                      {school.totalTuitionFee.toLocaleString("ja-JP")}
                     </Typography>
                     <CardActions sx={{ justifyContent: "center" }}>
                       <Button
