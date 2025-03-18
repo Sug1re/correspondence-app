@@ -1,6 +1,7 @@
 import * as React from "react";
 import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import Link from "next/link";
+import Login from "./Login";
 
 export default function Header() {
   return (
@@ -55,13 +56,14 @@ export default function Header() {
               fontWeight: "bold",
               color: "#FFFFFF",
             }}
-            variant="h6"
-            component="div"
           >
             通信制高校マッチングアプリ
             <br />
             （新潟県版）
           </Typography>
+
+          {/* ログインサインイン */}
+          <Login />
         </Toolbar>
       </AppBar>
     </>
