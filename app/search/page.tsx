@@ -12,9 +12,11 @@ import {
   CardActions,
   CardContent,
   Container,
-  List,
-  ListItem,
   Modal,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
   Typography,
 } from "@mui/material";
 
@@ -248,20 +250,130 @@ const SearchResultPage = () => {
                     sx: { backgroundColor: "rgba(0, 0, 0, 0.07)" },
                   }}
                 >
-                  <Box sx={style}>
+                  <Card sx={style}>
                     <Typography
                       id="modal-modal-title"
-                      sx={{ fontWeight: "bold", color: "FF9100" }}
+                      sx={{
+                        fontWeight: "bold",
+                        color: "#FFFFFF",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        py: 1,
+                        gap: 1,
+                        borderRadius: 4,
+                        backgroundColor: "#FF6600",
+                      }}
                     >
                       学費総額の詳細
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                        />
+                      </svg>
                     </Typography>
-                    <List id="modal-modal-description">
-                      <ListItem>{school.firstYearFee}</ListItem>
-                      <ListItem>{school.secondYearFee}</ListItem>
-                      <ListItem>{school.thirdYearFee}</ListItem>
-                      <ListItem>{school.testFee}</ListItem>
-                    </List>
-                  </Box>
+                    <Table>
+                      <TableBody>
+                        <TableRow
+                          sx={{
+                            "& td": { borderBottom: "1.5px solid #003399" },
+                          }}
+                        >
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            初年次の学費
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            ￥{school.firstYearFee.toLocaleString("JA-JP")}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "& td": { borderBottom: "1.5px solid #003399" },
+                          }}
+                        >
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            2年次の学費
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            ￥{school.secondYearFee.toLocaleString("JA-JP")}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "& td": { borderBottom: "1.5px solid #003399" },
+                          }}
+                        >
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            3年次の学費
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            ￥{school.thirdYearFee.toLocaleString("JA-JP")}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "& td": { borderBottom: "1.5px solid #003399" },
+                          }}
+                        >
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            受験料
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            ￥{school.testFee.toLocaleString("JA-JP")}
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </Card>
                 </Modal>
 
                 {/* ボタン */}
