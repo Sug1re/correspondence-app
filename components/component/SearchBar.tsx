@@ -9,6 +9,9 @@ const SearchBar = () => {
   const handleOpen = () => {
     setOpen(true);
   };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
@@ -49,8 +52,8 @@ const SearchBar = () => {
           </Button>
 
           {/* モーダル */}
-          <Modal open={open}>
-            <Form />
+          <Modal open={open} onClose={handleClose}>
+            <Form handleClose={handleClose} />
           </Modal>
         </CardActions>
       </Card>

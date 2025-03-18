@@ -22,6 +22,11 @@ import {
 import { collection, getDocs, query } from "firebase/firestore";
 import { db } from "@/firebase";
 
+// Searchページのモーダルを閉じる関数
+interface FormProps {
+  handleClose: () => void;
+}
+
 // Zodスキーマの定義
 const formSchema = z.object({
   totalTuitionFee: z.number().min(1, "学費総額を選択してください。"),
@@ -57,7 +62,7 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-const Form = () => {
+const Form: React.FC<FormProps> = ({ handleClose }) => {
   // Radioのカラーリング
   const CustomRadio = styled(Radio)({
     color: "#003399",
@@ -65,10 +70,6 @@ const Form = () => {
       color: "#003399",
     },
   });
-
-  // sliderの最小値と最大値を管理
-  // const []= useState(0);
-  // const []= useState(1000000);
 
   const {
     control,
@@ -134,6 +135,7 @@ const Form = () => {
     }).toString();
 
     router.push(`/search?${query}`);
+    handleClose(); // モーダルを閉じる
   };
 
   // fireStore から全データが取得できているか確認
