@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Avatar, Box, Button, Container } from "@mui/material";
+import { Avatar, Box, Button } from "@mui/material";
 import { signInWithPopup, User } from "firebase/auth";
 import { auth, provider } from "@/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -47,8 +47,8 @@ function SignInButton() {
       type="submit"
       disabled={loading}
       sx={{
-        width: 40, // 幅
-        height: 40, // 高さ
+        width: 35, // 幅
+        height: 35, // 高さ
         borderRadius: "50%", // 円形にする
         padding: 0, // 内部の余白をなくす
         minWidth: 0, // ボタンの最小幅を0にして、幅が正確に反映されるように
@@ -57,8 +57,8 @@ function SignInButton() {
     >
       <Avatar
         sx={{
-          width: 36, // 幅
-          height: 36, // 高さ
+          width: 31, // 幅
+          height: 31, // 高さ
           backgroundColor: "#003399",
           color: "#FFFFFF",
         }}
@@ -75,8 +75,8 @@ function SignOutButton({ user }: { user: User }) {
       variant="contained"
       type="submit"
       sx={{
-        width: 40, // 幅
-        height: 40, // 高さ
+        width: 35, // 幅
+        height: 35, // 高さ
         borderRadius: "50%", // 円形にする
         padding: 0, // 内部の余白をなくす
         minWidth: 0, // ボタンの最小幅を0にして、幅が正確に反映されるように
@@ -87,8 +87,8 @@ function SignOutButton({ user }: { user: User }) {
         src={user.photoURL || ""}
         alt={user.displayName || "User"}
         sx={{
-          width: 36, // 幅
-          height: 36, // 高さ
+          width: 31, // 幅
+          height: 31, // 高さ
         }}
       />
     </Button>

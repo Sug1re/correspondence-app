@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import Link from "next/link";
 import Login from "./Login";
 
@@ -17,7 +17,8 @@ export default function Header() {
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: 4,
+            // gap: 4,
+            width: "full",
           }}
         >
           {/* ホームアイコン */}
@@ -25,6 +26,7 @@ export default function Header() {
             edge="start"
             sx={{
               color: "#FFFFFF",
+              width: "10%",
             }}
             aria-label="menu"
             component={Link}
@@ -55,6 +57,7 @@ export default function Header() {
               textAlign: "center",
               fontWeight: "bold",
               color: "#FFFFFF",
+              width: "80%",
             }}
           >
             通信制高校マッチングアプリ
@@ -63,7 +66,13 @@ export default function Header() {
           </Typography>
 
           {/* ログインサインイン */}
-          <Login />
+          <Box
+            sx={{
+              width: "10%",
+            }}
+          >
+            <Login />
+          </Box>
         </Toolbar>
       </AppBar>
     </>
