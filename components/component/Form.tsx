@@ -162,74 +162,108 @@ const Form = () => {
       <Container maxWidth="sm">
         <Card
           sx={{
-            mt: 2,
+            mt: 1,
             px: 3,
             border: `2px solid #FF6600`,
           }}
         >
           {/* 検索窓 */}
           <form onSubmit={handleSubmit(onSubmit)}>
-            {/* number型データ */}
-            <Box>
-              {/* 学費総額スライダー */}
-              <Box sx={{ my: 4 }}>
-                <Typography
-                  id="totalTuitionFeeSlider"
-                  sx={{ fontWeight: 600 }}
-                  gutterBottom
-                >
-                  3年間の学費総額：￥
-                  {totalTuitionFeeValue.toLocaleString("ja-JP")}
-                </Typography>
-                <Controller
-                  name="totalTuitionFee"
-                  control={control}
-                  rules={{ required: "初期費用を選択してください。" }}
-                  render={({ field }) => (
-                    <Slider
-                      {...field}
-                      min={0}
-                      step={100000}
-                      max={4000000}
-                      valueLabelDisplay="auto"
-                      aria-labelledby="totalTuitionFeeSlider"
-                      sx={{
-                        color: "#003399", // スライダーの色を変更
-                        "& .MuiSlider-thumb": {
-                          backgroundColor: "#003399", // 進捗部分の色を変更
-                        },
-                        "& .MuiSlider-track": {
-                          backgroundColor: "#003399", // 丸いスライダーの色を変更
-                        },
-                        "& .MuiSlider-rail": {
-                          backgroundColor: "#b0c4de", // 未選択部分の色を薄めの青に
-                        },
-                      }}
-                    />
-                  )}
+            {/* 学費総額スライダー */}
+            <Typography
+              id="totalTuitionFeeSlider"
+              sx={{ fontWeight: 600, mt: 1 }}
+              gutterBottom
+            >
+              3年間の学費総額：￥
+              {totalTuitionFeeValue.toLocaleString("ja-JP")}
+            </Typography>
+            <Controller
+              name="totalTuitionFee"
+              control={control}
+              rules={{ required: "初期費用を選択してください。" }}
+              render={({ field }) => (
+                <Slider
+                  {...field}
+                  min={0}
+                  step={100000}
+                  max={4000000}
+                  valueLabelDisplay="auto"
+                  aria-labelledby="totalTuitionFeeSlider"
+                  sx={{
+                    color: "#003399", // スライダーの色を変更
+                    "& .MuiSlider-thumb": {
+                      backgroundColor: "#003399", // 進捗部分の色を変更
+                    },
+                    "& .MuiSlider-track": {
+                      backgroundColor: "#003399", // 丸いスライダーの色を変更
+                    },
+                    "& .MuiSlider-rail": {
+                      backgroundColor: "#b0c4de", // 未選択部分の色を薄めの青に
+                    },
+                  }}
                 />
-                {errors.totalTuitionFee && (
-                  <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.totalTuitionFee.message}
-                  </FormHelperText>
-                )}
-              </Box>
-            </Box>
+              )}
+            />
+            {errors.totalTuitionFee && (
+              <FormHelperText error sx={{ fontSize: "1rem" }}>
+                {errors.totalTuitionFee.message}
+              </FormHelperText>
+            )}
 
-            {/* boolean型データ */}
             {/* スクーリング会場 */}
-            <Box sx={{ my: 4 }}>
-              <Typography
-                id="movingOutsideThePrefecture"
-                sx={{ fontWeight: 600 }}
-                gutterBottom
-              >
-                スクーリング会場
+            <Typography
+              id="movingOutsideThePrefecture"
+              sx={{ fontWeight: 600 }}
+              gutterBottom
+            >
+              スクーリング会場
+            </Typography>
+            <Controller
+              name="movingOutsideThePrefecture"
+              control={control}
+              rules={{ required: "県外移動の有無を選択してください。" }}
+              render={({ field }) => (
+                <FormControl>
+                  <RadioGroup
+                    {...field} // field.value と field.onChange を適用
+                    row // 横並びにするプロパティ
+                    sx={{
+                      gap: 1,
+                      pb: 1,
+                    }}
+                    aria-labelledby="movingOutsideThePrefecture"
+                    name="radio-buttons-group"
+                  >
+                    <FormControlLabel
+                      value="true"
+                      control={<CustomRadio />}
+                      label="県外"
+                    />
+                    <FormControlLabel
+                      value="false"
+                      control={<CustomRadio />}
+                      label="県内"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              )}
+            />
+            {errors.movingOutsideThePrefecture && (
+              <FormHelperText error sx={{ fontSize: "1rem" }}>
+                {errors.movingOutsideThePrefecture.message}
+              </FormHelperText>
+            )}
+
+            {/* 学校の種類 */}
+            <Box>
+              <Typography id="highSchool" sx={{ fontWeight: 600 }} gutterBottom>
+                学校の種類
               </Typography>
               <Controller
-                name="movingOutsideThePrefecture"
+                name="highSchool"
                 control={control}
-                rules={{ required: "県外移動の有無を選択してください。" }}
+                rules={{ required: "学校の種類を選択してください。" }}
                 render={({ field }) => (
                   <FormControl>
                     <RadioGroup
@@ -237,208 +271,163 @@ const Form = () => {
                       row // 横並びにするプロパティ
                       sx={{
                         gap: 1,
+                        pb: 1,
                       }}
-                      aria-labelledby="movingOutsideThePrefecture"
+                      aria-labelledby="highSchool"
                       name="radio-buttons-group"
                     >
                       <FormControlLabel
-                        value="true"
+                        value="通信制高等学校"
                         control={<CustomRadio />}
-                        label="県外"
+                        label="通信制高校"
                       />
                       <FormControlLabel
-                        value="false"
+                        value="サポート校"
                         control={<CustomRadio />}
-                        label="県内"
+                        label="サポート校"
                       />
                     </RadioGroup>
                   </FormControl>
                 )}
               />
-              {errors.movingOutsideThePrefecture && (
+              {errors.highSchool && (
                 <FormHelperText error sx={{ fontSize: "1rem" }}>
-                  {errors.movingOutsideThePrefecture.message}
+                  {errors.highSchool.message}
                 </FormHelperText>
               )}
             </Box>
 
-            {/* string型データ */}
+            {/* 通学形態 */}
             <Box>
-              {/* 学校の種類 */}
-              <Box sx={{ my: 4 }}>
-                <Typography
-                  id="highSchool"
-                  sx={{ fontWeight: 600 }}
-                  gutterBottom
-                >
-                  学校の種類
-                </Typography>
-                <Controller
-                  name="highSchool"
-                  control={control}
-                  rules={{ required: "学校の種類を選択してください。" }}
-                  render={({ field }) => (
-                    <FormControl>
-                      <RadioGroup
-                        {...field} // field.value と field.onChange を適用
-                        row // 横並びにするプロパティ
-                        sx={{
-                          gap: 1,
-                        }}
-                        aria-labelledby="highSchool"
-                        name="radio-buttons-group"
-                      >
-                        <FormControlLabel
-                          value="通信制高等学校"
-                          control={<CustomRadio />}
-                          label="通信制高等学校"
-                        />
-                        <FormControlLabel
-                          value="サポート校"
-                          control={<CustomRadio />}
-                          label="サポート校"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  )}
-                />
-                {errors.highSchool && (
-                  <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.highSchool.message}
-                  </FormHelperText>
+              <Typography
+                id="commutingStyle"
+                sx={{ fontWeight: 600 }}
+                gutterBottom
+              >
+                通学形態
+              </Typography>
+              <Controller
+                name="commutingStyle"
+                control={control}
+                rules={{ required: "通学形態を選択してください。" }}
+                render={({ field }) => (
+                  <FormControl>
+                    <RadioGroup
+                      {...field} // field.value と field.onChange を適用
+                      row // 横並びにするプロパティ
+                      sx={{
+                        gap: 1,
+                        pb: 1,
+                      }}
+                      aria-labelledby="commutingStyle"
+                      name="radio-buttons-group"
+                    >
+                      <FormControlLabel
+                        value="通学"
+                        control={<CustomRadio />}
+                        label="通学"
+                        disabled={attendanceFrequencyValue === "オンライン"} // 登校頻度が「オンライン」の場合、通学を無効化
+                      />
+                      <FormControlLabel
+                        value="オンライン"
+                        control={<CustomRadio />}
+                        label="オンライン"
+                        disabled={[
+                          "週1",
+                          "週2",
+                          "週3",
+                          "週4",
+                          "週5",
+                          "自由",
+                        ].includes(attendanceFrequencyValue)} // 登校頻度が「オンライン」の場合、通学を無効化
+                      />
+                    </RadioGroup>
+                  </FormControl>
                 )}
-              </Box>
+              />
+              {errors.commutingStyle && (
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
+                  {errors.commutingStyle.message}
+                </FormHelperText>
+              )}
+            </Box>
 
-              {/* 通学形態 */}
-              <Box sx={{ my: 4 }}>
-                <Typography
-                  id="commutingStyle"
-                  sx={{ fontWeight: 600 }}
-                  gutterBottom
-                >
-                  通学形態
-                </Typography>
-                <Controller
-                  name="commutingStyle"
-                  control={control}
-                  rules={{ required: "通学形態を選択してください。" }}
-                  render={({ field }) => (
-                    <FormControl>
-                      <RadioGroup
-                        {...field} // field.value と field.onChange を適用
-                        row // 横並びにするプロパティ
-                        sx={{
-                          gap: 1,
-                        }}
-                        aria-labelledby="commutingStyle"
-                        name="radio-buttons-group"
-                      >
-                        <FormControlLabel
-                          value="通学"
-                          control={<CustomRadio />}
-                          label="通学"
-                          disabled={attendanceFrequencyValue === "オンライン"} // 登校頻度が「オンライン」の場合、通学を無効化
-                        />
-                        <FormControlLabel
-                          value="オンライン"
-                          control={<CustomRadio />}
-                          label="オンライン"
-                          disabled={[
-                            "週1",
-                            "週2",
-                            "週3",
-                            "週4",
-                            "週5",
-                            "自由",
-                          ].includes(attendanceFrequencyValue)} // 登校頻度が「オンライン」の場合、通学を無効化
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  )}
-                />
-                {errors.commutingStyle && (
-                  <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.commutingStyle.message}
-                  </FormHelperText>
+            {/* 登校頻度 */}
+            <Box>
+              <Typography
+                id="attendance-frequency"
+                sx={{ fontWeight: 600 }}
+                gutterBottom
+              >
+                登校頻度
+              </Typography>
+              <Controller
+                name="attendanceFrequency"
+                control={control}
+                rules={{ required: "登校頻度を選択してください。" }}
+                render={({ field }) => (
+                  <FormControl>
+                    <RadioGroup
+                      {...field} // field.value と field.onChange を適用
+                      row // 横並びにするプロパティ
+                      sx={{
+                        gap: 2,
+                        pb: 1,
+                      }}
+                      aria-labelledby="attendance-frequency"
+                      name="radio-buttons-group"
+                    >
+                      <FormControlLabel
+                        value="週1"
+                        control={<CustomRadio />}
+                        label="週1"
+                        disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
+                      />
+                      <FormControlLabel
+                        value="週2"
+                        control={<CustomRadio />}
+                        label="週2"
+                        disabled={commutingStyleValue === "オンライン"}
+                      />
+                      <FormControlLabel
+                        value="週3"
+                        control={<CustomRadio />}
+                        label="週3"
+                        disabled={commutingStyleValue === "オンライン"}
+                      />
+                      <FormControlLabel
+                        value="週4"
+                        control={<CustomRadio />}
+                        label="週4"
+                        disabled={commutingStyleValue === "オンライン"}
+                      />
+                      <FormControlLabel
+                        value="週5"
+                        control={<CustomRadio />}
+                        label="週5"
+                        disabled={commutingStyleValue === "オンライン"}
+                      />
+                      <FormControlLabel
+                        value="オンライン"
+                        control={<CustomRadio />}
+                        label="オンライン"
+                        disabled={disableOnline} // 無効化ロジック
+                      />
+                      <FormControlLabel
+                        value="自由"
+                        control={<CustomRadio />}
+                        label="自由"
+                        disabled={commutingStyleValue === "オンライン"}
+                      />
+                    </RadioGroup>
+                  </FormControl>
                 )}
-              </Box>
-
-              {/* 登校頻度 */}
-              <Box sx={{ my: 4 }}>
-                <Typography
-                  id="attendance-frequency"
-                  sx={{ fontWeight: 600 }}
-                  gutterBottom
-                >
-                  登校頻度
-                </Typography>
-                <Controller
-                  name="attendanceFrequency"
-                  control={control}
-                  rules={{ required: "登校頻度を選択してください。" }}
-                  render={({ field }) => (
-                    <FormControl>
-                      <RadioGroup
-                        {...field} // field.value と field.onChange を適用
-                        row // 横並びにするプロパティ
-                        sx={{
-                          gap: 2,
-                        }}
-                        aria-labelledby="attendance-frequency"
-                        name="radio-buttons-group"
-                      >
-                        <FormControlLabel
-                          value="週1"
-                          control={<CustomRadio />}
-                          label="週1"
-                          disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
-                        />
-                        <FormControlLabel
-                          value="週2"
-                          control={<CustomRadio />}
-                          label="週2"
-                          disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
-                        />
-                        <FormControlLabel
-                          value="週3"
-                          control={<CustomRadio />}
-                          label="週3"
-                          disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
-                        />
-                        <FormControlLabel
-                          value="週4"
-                          control={<CustomRadio />}
-                          label="週4"
-                          disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
-                        />
-                        <FormControlLabel
-                          value="週5"
-                          control={<CustomRadio />}
-                          label="週5"
-                          disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
-                        />
-                        <FormControlLabel
-                          value="オンライン"
-                          control={<CustomRadio />}
-                          label="オンライン"
-                          disabled={disableOnline} // 無効化ロジック
-                        />
-                        <FormControlLabel
-                          value="自由"
-                          control={<CustomRadio />}
-                          label="自由"
-                          disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  )}
-                />
-                {errors.attendanceFrequency && (
-                  <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.attendanceFrequency.message}
-                  </FormHelperText>
-                )}
-              </Box>
+              />
+              {errors.attendanceFrequency && (
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
+                  {errors.attendanceFrequency.message}
+                </FormHelperText>
+              )}
             </Box>
 
             {/* 検索ボタン */}

@@ -1,7 +1,15 @@
-import React from "react";
-import { Box, Button, Card, CardActions } from "@mui/material";
+"use client";
+
+import React, { useState } from "react";
+import { Box, Button, Card, CardActions, Modal } from "@mui/material";
+import Form from "./Form";
 
 const SearchBar = () => {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
   return (
     <>
       <Card
@@ -9,7 +17,7 @@ const SearchBar = () => {
           mt: 2,
           borderRadius: 2,
           boxShadow: 3,
-          border: `1px solid #003399`,
+          border: `2px solid #003399`,
         }}
       >
         <CardActions>
@@ -19,6 +27,7 @@ const SearchBar = () => {
               justifyContent: "flex-start",
               color: "#003399",
             }}
+            onClick={handleOpen}
           >
             <Box>
               <svg
@@ -38,6 +47,11 @@ const SearchBar = () => {
             </Box>
             検索
           </Button>
+
+          {/* モーダル */}
+          <Modal open={open}>
+            <Form />
+          </Modal>
         </CardActions>
       </Card>
     </>

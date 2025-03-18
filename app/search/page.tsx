@@ -246,15 +246,12 @@ const SearchResultPage = () => {
                 <Modal
                   open={openModalId === school.id}
                   onClose={handleClose}
-                  aria-labelledby="modal-modal-title"
-                  aria-describedby="modal-modal-description"
                   BackdropProps={{
                     sx: { backgroundColor: "rgba(0, 0, 0, 0.07)" },
                   }}
                 >
                   <Card sx={style}>
                     <Typography
-                      id="modal-modal-title"
                       sx={{
                         fontWeight: "bold",
                         color: "#FFFFFF",
