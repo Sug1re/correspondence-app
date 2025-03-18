@@ -24,9 +24,7 @@ import { db } from "@/firebase";
 
 // Zodスキーマの定義
 const formSchema = z.object({
-  initialSetupCosts: z.number().min(1, "初期費用を選択してください。"),
-  tuitionFee: z.number().min(1, "授業料を選択してください。"),
-  testFee: z.number().min(1, "受験料を選択してください。"),
+  totalTuitionFee: z.number().min(1, "学費総額を選択してください。"),
   movingOutsideThePrefecture: z
     .string()
     .refine((val) => val !== "", {
@@ -81,9 +79,7 @@ const Form = () => {
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      initialSetupCosts: 0, // 初期値設定
-      tuitionFee: 0,
-      testFee: 0,
+      totalTuitionFee: 0,
       movingOutsideThePrefecture: "",
       commutingStyle: "",
       highSchool: "",
@@ -93,9 +89,7 @@ const Form = () => {
   });
 
   // ユーザーが選択した値を監視
-  const initialSetupCostsValue = watch("initialSetupCosts");
-  const testFeeValue = watch("testFee");
-  const tuitionFeeValue = watch("tuitionFee");
+  const totalTuitionFeeValue = watch("totalTuitionFee");
   const commutingStyleValue = watch("commutingStyle");
   const attendanceFrequencyValue = watch("attendanceFrequency");
   // fireStoreのコレクションを追加
@@ -131,9 +125,7 @@ const Form = () => {
     // クエリパラメータを生成して検索ページへ遷移
     const query = new URLSearchParams({
       // フォームの値を取得
-      initialSetupCosts: data.initialSetupCosts.toString(), // number型を文字列に変換
-      tuitionFee: data.tuitionFee.toString(), // number型を文字列に変換
-      testFee: data.testFee.toString(), // number型を文字列に変換
+      totalTuitionFee: data.totalTuitionFee.toString(),
       movingOutsideThePrefecture: data.movingOutsideThePrefecture,
       commutingStyle: data.commutingStyle,
       highSchool: data.highSchool,
@@ -153,10 +145,12 @@ const Form = () => {
       const schoolsData = snapshot.docs
         .map((doc) => ({
           id: doc.id,
-          testFee: doc.data().testFee,
+          totalTuitionFee: doc.data().totalTuitionFee,
         }))
         .filter(
-          (school) => typeof school.testFee === "number" && school.testFee >= 0
+          (school) =>
+            typeof school.totalTuitionFee === "number" &&
+            school.totalTuitionFee >= 0
         );
       console.log(schoolsData);
     };
@@ -177,18 +171,18 @@ const Form = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* number型データ */}
             <Box>
-              {/* 初期費用スライダー */}
+              {/* 学費総額スライダー */}
               <Box sx={{ my: 4 }}>
                 <Typography
-                  id="initialSetupCostsSlider"
+                  id="totalTuitionFeeSlider"
                   sx={{ fontWeight: 600 }}
                   gutterBottom
                 >
-                  1年次の初期費用：￥
-                  {initialSetupCostsValue.toLocaleString("ja-JP")}
+                  3年間の学費総額：￥
+                  {totalTuitionFeeValue.toLocaleString("ja-JP")}
                 </Typography>
                 <Controller
-                  name="initialSetupCosts"
+                  name="totalTuitionFee"
                   control={control}
                   rules={{ required: "初期費用を選択してください。" }}
                   render={({ field }) => (
@@ -196,9 +190,9 @@ const Form = () => {
                       {...field}
                       min={0}
                       step={100000}
-                      max={1000000}
+                      max={4000000}
                       valueLabelDisplay="auto"
-                      aria-labelledby="initialSetupCostsSlider"
+                      aria-labelledby="totalTuitionFeeSlider"
                       sx={{
                         color: "#003399", // スライダーの色を変更
                         "& .MuiSlider-thumb": {
@@ -214,95 +208,9 @@ const Form = () => {
                     />
                   )}
                 />
-                {errors.initialSetupCosts && (
+                {errors.totalTuitionFee && (
                   <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.initialSetupCosts.message}
-                  </FormHelperText>
-                )}
-              </Box>
-
-              {/* 授業料スライダー */}
-              <Box sx={{ my: 4 }}>
-                <Typography
-                  id="tuitionFeeSlider"
-                  sx={{ fontWeight: 600 }}
-                  gutterBottom
-                >
-                  3年間の授業料：￥{tuitionFeeValue.toLocaleString("ja-JP")}
-                </Typography>
-                <Controller
-                  name="tuitionFee"
-                  control={control}
-                  rules={{ required: "授業料を選択してください。" }}
-                  render={({ field }) => (
-                    <Slider
-                      {...field}
-                      min={0}
-                      step={200000}
-                      max={2600000}
-                      valueLabelDisplay="auto"
-                      aria-labelledby="tuitionFeeSlider"
-                      sx={{
-                        color: "#003399", // スライダーの色を変更
-                        "& .MuiSlider-thumb": {
-                          backgroundColor: "#003399", // 進捗部分の色を変更
-                        },
-                        "& .MuiSlider-track": {
-                          backgroundColor: "#003399", // 丸いスライダーの色を変更
-                        },
-                        "& .MuiSlider-rail": {
-                          backgroundColor: "#b0c4de", // 未選択部分の色を薄めの青に
-                        },
-                      }}
-                    />
-                  )}
-                />
-                {errors.tuitionFee && (
-                  <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.tuitionFee.message}
-                  </FormHelperText>
-                )}
-              </Box>
-
-              {/* 受験料スライダー */}
-              <Box sx={{ my: 4 }}>
-                <Typography
-                  id="testFeeSlider"
-                  sx={{ fontWeight: 600 }}
-                  gutterBottom
-                >
-                  受験料：￥{testFeeValue.toLocaleString("ja-JP")}
-                </Typography>
-                <Controller
-                  name="testFee"
-                  control={control}
-                  rules={{ required: "受験料を選択してください。" }}
-                  render={({ field }) => (
-                    <Slider
-                      {...field}
-                      min={0}
-                      step={5000}
-                      max={20000}
-                      valueLabelDisplay="auto"
-                      aria-labelledby="testFeeSlider"
-                      sx={{
-                        color: "#003399", // スライダーの色を変更
-                        "& .MuiSlider-thumb": {
-                          backgroundColor: "#003399", // 進捗部分の色を変更
-                        },
-                        "& .MuiSlider-track": {
-                          backgroundColor: "#003399", // 丸いスライダーの色を変更
-                        },
-                        "& .MuiSlider-rail": {
-                          backgroundColor: "#b0c4de", // 未選択部分の色を薄めの青に
-                        },
-                      }}
-                    />
-                  )}
-                />
-                {errors.testFee && (
-                  <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.testFee.message}
+                    {errors.totalTuitionFee.message}
                   </FormHelperText>
                 )}
               </Box>
@@ -539,7 +447,7 @@ const Form = () => {
                 variant="contained"
                 type="submit"
                 sx={{
-                  backgroundColor: "#FF6600",
+                  backgroundColor: "#003399",
                   fontWeight: "bold",
                   width: "100%", // ボタンの幅をフルに設定
                   transition: "transform 0.2s ease-in-out", // スムーズなスケールアニメーション

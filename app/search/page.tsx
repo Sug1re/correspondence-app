@@ -2,7 +2,7 @@
 
 import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import * as Component from "@/components/component";
 import {
@@ -12,11 +12,11 @@ import {
   CardActions,
   CardContent,
   Container,
-  // Table,
-  // TableBody,
-  // TableCell,
-  // TableContainer,
-  // TableRow,
+  Modal,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
   Typography,
 } from "@mui/material";
 
@@ -25,18 +25,36 @@ type School = {
   id: string;
   name: string;
   course: string;
-  initialSetupCosts: number;
-  tuitionFee: number;
+  totalTuitionFee: number;
+  firstYearFee: number;
+  secondYearFee: number;
+  thirdYearFee: number;
   testFee: number;
   movingOutsideThePrefecture: boolean;
   commutingStyle: string;
   highSchool: string;
   attendanceFrequency: string[];
-
   // fireStoreのコレクションを追加
 };
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 330,
+  bgcolor: "background.paper",
+  px: 4,
+  py: 2,
+  borderRadius: 3,
+  border: `2px solid #FF6600`,
+};
+
 const SearchResultPage = () => {
+  const [openModalId, setOpenModalId] = useState<string | null>(null); // 各学校ごとのモーダルのIDを管理
+  const handleOpen = (schoolId: string) => setOpenModalId(schoolId); // モーダルを開く関数
+  const handleClose = () => setOpenModalId(null); // モーダルを閉じる関数
+
   const [schools, setSchools] = useState<School[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
   const searchParams = useSearchParams();
@@ -44,9 +62,7 @@ const SearchResultPage = () => {
 
   // クエリパラメータの取得
   const courseParams = searchParams.get("course"); // クエリパラメータ "course" を獲得
-  const initialSetupCostsParams = searchParams.get("initialSetupCosts"); // クエリパラメータ ”initialSetupCosts” を獲得
-  const tuitionFeeParams = searchParams.get("tuitionFee"); // クエリパラメータ "tuitionFee" を獲得
-  const testFeeParams = searchParams.get("testFee"); // クエリパラメータ "testFee" を獲得
+  const totalTuitionFeeParams = searchParams.get("totalTuitionFee"); // クエリパラメータ ”totalTuitionFee” を獲得
   const movingOutsideThePrefectureParams = searchParams.get(
     "movingOutsideThePrefecture"
   ); // クエリパラメータ "movingOutsideThePrefecture" を獲得
@@ -58,11 +74,9 @@ const SearchResultPage = () => {
 
   // number型
   // nullチェックしてから、stringをnumberに変換
-  const initialSetupCosts = initialSetupCostsParams
-    ? parseInt(initialSetupCostsParams)
-    : NaN; // initialSetupCosts がNaNの場合は最大値を設定
-  const testFee = testFeeParams ? parseInt(testFeeParams) : NaN; // testFee がNaNの場合は最大値を設定
-  const tuitionFee = tuitionFeeParams ? parseInt(tuitionFeeParams) : NaN; // tuitionFee がNaNの場合は最大値を設定
+  const totalTuitionFee = totalTuitionFeeParams
+    ? parseInt(totalTuitionFeeParams)
+    : NaN; // testFee がNaNの場合は最大値を設定
 
   // string型
   const attendanceFrequency = attendanceFrequencyParams || "";
@@ -84,12 +98,7 @@ const SearchResultPage = () => {
       // フィルタリング機能
       const q = query(
         schoolRef,
-        where("initialSetupCosts", "<=", initialSetupCosts),
-        where("tuitionFee", "<=", tuitionFee),
-        where("testFee", "<=", testFee),
-        orderBy("initialSetupCosts", "asc"),
-        orderBy("tuitionFee", "asc"),
-        orderBy("testFee", "asc"),
+        where("totalTuitionFee", "<=", totalTuitionFee),
         where("movingOutsideThePrefecture", "==", movingOutsideThePrefecture),
         where("commutingStyle", "==", commutingStyle),
         where("highSchool", "==", highSchool),
@@ -98,18 +107,23 @@ const SearchResultPage = () => {
 
       try {
         const snapshot = await getDocs(q);
-        const schoolsData: School[] = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          name: doc.data().name,
-          course: doc.data().course,
-          initialSetupCosts: doc.data().initialSetupCosts,
-          tuitionFee: doc.data().tuitionFee,
-          testFee: doc.data().testFee,
-          movingOutsideThePrefecture: doc.data().movingOutsideThePrefecture,
-          commutingStyle: doc.data().commutingStyle,
-          highSchool: doc.data().highSchool,
-          attendanceFrequency: doc.data().attendanceFrequency,
-        }));
+        const schoolsData: School[] = snapshot.docs.map((doc) => {
+          const data = doc.data(); // doc.data() を変数に代入
+          return {
+            id: doc.id,
+            name: data.name,
+            course: data.course,
+            totalTuitionFee: data.totalTuitionFee,
+            firstYearFee: data.firstYearFee,
+            secondYearFee: data.secondYearFee,
+            thirdYearFee: data.thirdYearFee,
+            testFee: data.testFee,
+            movingOutsideThePrefecture: data.movingOutsideThePrefecture,
+            commutingStyle: data.commutingStyle,
+            highSchool: data.highSchool,
+            attendanceFrequency: data.attendanceFrequency,
+          };
+        });
         // 取得できているか確認
         console.log(schoolsData);
         setSchools(schoolsData);
@@ -122,9 +136,7 @@ const SearchResultPage = () => {
 
     fetchSchools();
   }, [
-    initialSetupCosts,
-    testFee,
-    tuitionFee,
+    totalTuitionFee,
     highSchool,
     attendanceFrequency,
     movingOutsideThePrefecture,
@@ -208,7 +220,7 @@ const SearchResultPage = () => {
                         color: "FF9100",
                       }}
                     >
-                      ￥{"学費総額"}
+                      ￥{school.totalTuitionFee.toLocaleString("ja-JP")}
                     </Typography>
                     <CardActions sx={{ justifyContent: "center" }}>
                       <Button
@@ -220,86 +232,149 @@ const SearchResultPage = () => {
                           fontWeight: "bold",
                           color: "#FFFFFF",
                         }}
+                        onClick={() => handleOpen(school.id)}
                       >
                         詳細はこちら ＞
                       </Button>
                     </CardActions>
                   </Card>
-
-                  {/* <TableContainer>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                sx={{
-                                  fontWeight: "bold",
-                                  width: "50%",
-                                  fontSize: "0.85rem",
-                                }}
-                              >
-                                1年次の初期費用
-                              </TableCell>
-                              <TableCell
-                                sx={{
-                                  fontSize: "0.85rem",
-                                }}
-                              >
-                                ￥
-                                {school.initialSetupCosts.toLocaleString(
-                                  "ja-JP"
-                                )}
-                                から
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                sx={{
-                                  fontWeight: "bold",
-                                  width: "50%",
-                                  fontSize: "0.85rem",
-                                }}
-                              >
-                                3年間の授業料
-                              </TableCell>
-                              <TableCell
-                                sx={{
-                                  fontSize: "0.85rem",
-                                }}
-                              >
-                                ￥{school.tuitionFee.toLocaleString("ja-JP")}
-                                から
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                        <Table>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell
-                                sx={{
-                                  fontWeight: "bold",
-                                  width: "50%",
-                                  fontSize: "0.85rem",
-                                }}
-                              >
-                                受験料
-                              </TableCell>
-                              <TableCell
-                                sx={{
-                                  fontSize: "0.85rem",
-                                }}
-                              >
-                                ￥{school.testFee.toLocaleString("ja-JP")}
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
-                      </TableContainer> */}
                 </CardContent>
+
+                {/* モーダル */}
+                <Modal
+                  open={openModalId === school.id}
+                  onClose={handleClose}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                  BackdropProps={{
+                    sx: { backgroundColor: "rgba(0, 0, 0, 0.07)" },
+                  }}
+                >
+                  <Card sx={style}>
+                    <Typography
+                      id="modal-modal-title"
+                      sx={{
+                        fontWeight: "bold",
+                        color: "#FFFFFF",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        py: 1,
+                        gap: 1,
+                        borderRadius: 4,
+                        backgroundColor: "#FF6600",
+                      }}
+                    >
+                      学費総額の詳細
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                        />
+                      </svg>
+                    </Typography>
+                    <Table>
+                      <TableBody>
+                        <TableRow
+                          sx={{
+                            "& td": { borderBottom: "1.5px solid #003399" },
+                          }}
+                        >
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            初年次の学費
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            ￥{school.firstYearFee.toLocaleString("JA-JP")}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "& td": { borderBottom: "1.5px solid #003399" },
+                          }}
+                        >
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            2年次の学費
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            ￥{school.secondYearFee.toLocaleString("JA-JP")}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "& td": { borderBottom: "1.5px solid #003399" },
+                          }}
+                        >
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            3年次の学費
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            ￥{school.thirdYearFee.toLocaleString("JA-JP")}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow
+                          sx={{
+                            "& td": { borderBottom: "1.5px solid #003399" },
+                          }}
+                        >
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            受験料
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontWeight: "bold",
+                              color: "FF9100",
+                            }}
+                          >
+                            ￥{school.testFee.toLocaleString("JA-JP")}
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </Card>
+                </Modal>
 
                 {/* ボタン */}
                 {/* <CardActions sx={{ justifyContent: "flex-end" }}>
