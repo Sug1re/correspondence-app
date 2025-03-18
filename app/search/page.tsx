@@ -154,6 +154,10 @@ const SearchResultPage = () => {
       <Component.Header />
 
       <Container maxWidth="md">
+        {/* 検索窓 */}
+        <Component.SearchBar />
+
+        {/* 学校情報 */}
         <Box sx={{ my: 4 }}>
           {/* ロード中の場合 */}
           {isLoading ? (
@@ -194,7 +198,6 @@ const SearchResultPage = () => {
                     pt: 2,
                     px: 2,
                     fontWeight: "bold",
-                    color: "FF9100",
                   }}
                 >
                   {school.name}
@@ -217,7 +220,6 @@ const SearchResultPage = () => {
                         pt: 1,
                         fontWeight: "bold",
                         textAlign: "center",
-                        color: "FF9100",
                       }}
                     >
                       ￥{school.totalTuitionFee.toLocaleString("ja-JP")}

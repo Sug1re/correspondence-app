@@ -16,6 +16,7 @@ export default async function Home() {
             height: "100vh", // 画面全体の高さ
           }}
         >
+          <Component.SearchBar />
           <Component.Form />
         </Box>
       </Container>
