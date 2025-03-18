@@ -9,7 +9,7 @@ export default function Header() {
       <AppBar
         position="relative"
         sx={{
-          background: "linear-gradient(to right, #003399, #FF6600)",
+          background: "linear-gradient(to right, #003399, #FF6600)", //グラデーション
         }}
       >
         <Toolbar

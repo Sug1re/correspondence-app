@@ -10,26 +10,15 @@ const Login = () => {
   const [user] = useAuthState(auth);
   return (
     <>
-      <Container maxWidth="sm">
-        <Box sx={{ mt: 2 }}>
-          {user ? (
-            <>
-              <Box display="flex" gap={4}>
-                <SignOutButton user={user} />
-              </Box>
-            </>
-          ) : (
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              height="70vh"
-            >
-              <SignInButton />
-            </Box>
-          )}
-        </Box>
-      </Container>
+      <Box>
+        {user ? (
+          <>
+            <SignOutButton user={user} />
+          </>
+        ) : (
+          <SignInButton />
+        )}
+      </Box>
     </>
   );
 };
@@ -58,21 +47,18 @@ function SignInButton() {
       type="submit"
       disabled={loading}
       sx={{
-        width: 50, // 幅
-        height: 50, // 高さ
+        width: 40, // 幅
+        height: 40, // 高さ
         borderRadius: "50%", // 円形にする
         padding: 0, // 内部の余白をなくす
         minWidth: 0, // ボタンの最小幅を0にして、幅が正確に反映されるように
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
         backgroundColor: "#FFFFFF",
       }}
     >
       <Avatar
         sx={{
-          width: 46, // 幅
-          height: 46, // 高さ
+          width: 36, // 幅
+          height: 36, // 高さ
           backgroundColor: "#003399",
           color: "#FFFFFF",
         }}
@@ -89,14 +75,11 @@ function SignOutButton({ user }: { user: User }) {
       variant="contained"
       type="submit"
       sx={{
-        width: 50, // 幅
-        height: 50, // 高さ
+        width: 40, // 幅
+        height: 40, // 高さ
         borderRadius: "50%", // 円形にする
         padding: 0, // 内部の余白をなくす
         minWidth: 0, // ボタンの最小幅を0にして、幅が正確に反映されるように
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
         backgroundColor: "#003399",
       }}
     >
@@ -104,8 +87,8 @@ function SignOutButton({ user }: { user: User }) {
         src={user.photoURL || ""}
         alt={user.displayName || "User"}
         sx={{
-          width: 46, // 幅
-          height: 46, // 高さ
+          width: 36, // 幅
+          height: 36, // 高さ
         }}
       />
     </Button>
