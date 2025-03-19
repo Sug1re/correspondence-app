@@ -20,7 +20,7 @@ const SearchBar = () => {
           mt: 2,
           borderRadius: 2,
           boxShadow: 3,
-          border: `2px solid #003399`,
+          border: `1.5px solid #003399`,
         }}
       >
         <CardActions>
@@ -29,6 +29,7 @@ const SearchBar = () => {
               minWidth: 327,
               justifyContent: "flex-start",
               color: "#003399",
+              fontWeight: "bold",
             }}
             onClick={handleOpen}
           >
