@@ -17,7 +17,7 @@ export default async function Home() {
           }}
         >
           <Component.SearchBar />
-          <Component.SchoolCard />
+          {/* <Component.SchoolCard /> */}
         </Box>
       </Container>
     </>
