@@ -35,6 +35,7 @@ type School = {
   commutingStyle: string;
   highSchool: string;
   url: string;
+  imgUrl: string;
   attendanceFrequency: string[];
   // fireStoreのコレクションを追加
 };
@@ -125,6 +126,7 @@ const SearchResultPage = () => {
             commutingStyle: data.commutingStyle,
             highSchool: data.highSchool,
             url: data.url,
+            imgUrl: data.imgUrl,
             attendanceFrequency: data.attendanceFrequency,
           };
         });
@@ -190,11 +192,31 @@ const SearchResultPage = () => {
                   mt: 2,
                   boxShadow: 5,
                   borderRadius: 2,
-                  border: `1px solid  #003399`,
+                  border: `1.5px solid  #003399`,
                 }}
               >
                 {/* 学校の画像を挿入 */}
-                <Box sx={{ py: 7, backgroundColor: "#003399" }}></Box>
+                <Box
+                  sx={{
+                    backgroundColor: "#003399",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={`/imgSchool/${school.imgUrl}`}
+                    alt={school.name}
+                    sx={{
+                      backgroundSize: "cover", // 画像を要素いっぱいに広げる
+                      backgroundPosition: "center", // 画像の中央を表示（Tailwindのbg-centerと同じ）
+                      backgroundRepeat: "no-repeat", // 繰り返しを無効
+                      width: "100%",
+                      height: 200,
+                    }}
+                  />
+                </Box>
 
                 {/* カードタイトル */}
                 <CardContent>

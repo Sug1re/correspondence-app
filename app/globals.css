@@ -3,4 +3,5 @@
 @tailwind utilities;
 body {
   overscroll-behavior: none; /* オーバースクロールを無効化 */
+  background-color: #f8f8f8
 }
