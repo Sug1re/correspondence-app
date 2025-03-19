@@ -1,6 +1,7 @@
 import * as React from "react";
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import Link from "next/link";
+import Login from "./Login";
 
 export default function Header() {
   return (
@@ -8,7 +9,7 @@ export default function Header() {
       <AppBar
         position="relative"
         sx={{
-          background: "linear-gradient(to right, #003399, #FF6600)",
+          background: "linear-gradient(to right, #003399, #FF6600)", //グラデーション
         }}
       >
         <Toolbar
@@ -16,7 +17,8 @@ export default function Header() {
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: 4,
+            // gap: 4,
+            width: "full",
           }}
         >
           {/* ホームアイコン */}
@@ -24,6 +26,7 @@ export default function Header() {
             edge="start"
             sx={{
               color: "#FFFFFF",
+              width: "10%",
             }}
             aria-label="menu"
             component={Link}
@@ -54,14 +57,22 @@ export default function Header() {
               textAlign: "center",
               fontWeight: "bold",
               color: "#FFFFFF",
+              width: "80%",
             }}
-            variant="h6"
-            component="div"
           >
             通信制高校マッチングアプリ
             <br />
             （新潟県版）
           </Typography>
+
+          {/* ログインサインイン */}
+          <Box
+            sx={{
+              width: "10%",
+            }}
+          >
+            <Login />
+          </Box>
         </Toolbar>
       </AppBar>
     </>
