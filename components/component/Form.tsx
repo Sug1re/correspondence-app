@@ -161,7 +161,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
 
   return (
     <>
-      <Container maxWidth="sm">
+      <Container>
         <Card
           sx={{
             mt: 1,

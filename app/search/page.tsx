@@ -174,6 +174,7 @@ const SearchResultPage = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                fontWeight: "bold",
               }}
             >
               読み込み中...
@@ -258,7 +259,7 @@ const SearchResultPage = () => {
                         textAlign: "center",
                       }}
                     >
-                      3年次の学費総額：￥
+                      3年間の学費総額：￥
                       {school.totalTuitionFee.toLocaleString("ja-JP")}
                     </Typography>
                     <CardActions sx={{ justifyContent: "center" }}>
