@@ -6,6 +6,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import * as Component from "@/components/component";
 import {
+  AppBar,
   Box,
   Button,
   Card,
@@ -18,6 +19,7 @@ import {
   TableBody,
   TableCell,
   TableRow,
+  Toolbar,
   Typography,
 } from "@mui/material";
 
@@ -55,6 +57,11 @@ const style = {
 };
 
 const SearchResultPage = () => {
+  // スクロールで見えるヘッダー関係の関数
+  const [showHeader, setShowHeader] = useState(true);
+  const [prevScrollY, setPrevScrollY] = useState(0);
+
+  // モーダル関係の関数
   const [openModalId, setOpenModalId] = useState<string | null>(null); // 各学校ごとのモーダルのIDを管理
   const handleOpen = (schoolId: string) => setOpenModalId(schoolId); // モーダルを開く関数
   const handleClose = () => setOpenModalId(null); // モーダルを閉じる関数
@@ -93,6 +100,25 @@ const SearchResultPage = () => {
 
   const movingOutsideThePrefecture =
     movingOutsideThePrefectureParams === "true";
+
+  // スクロールヘッダーのコード
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // スクロールが下方向かつ、一定量以上スクロールした場合
+      if (currentScrollY > prevScrollY && currentScrollY > 100) {
+        setShowHeader(true); // 下にスクロールしたらヘッダーを隠す
+      } else if (currentScrollY < prevScrollY) {
+        setShowHeader(false); // 上にスクロールしたらヘッダーを表示
+      }
+
+      setPrevScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollY]);
 
   // データベースからデータを取得する
   useEffect(() => {
@@ -159,6 +185,16 @@ const SearchResultPage = () => {
     <>
       <Component.Header />
 
+      {/* ヘッダーの表示制御 */}
+      <AppBar
+        position="fixed"
+        sx={{ transition: "top 0.3s", top: showHeader ? 0 : "-64px" }}
+      >
+        <Toolbar>
+          <Typography variant="h6">スクロールで表示されるヘッダー</Typography>
+        </Toolbar>
+      </AppBar>
+
       <Container maxWidth="md">
         {/* 検索窓 */}
         <Component.SearchBar />
@@ -174,6 +210,7 @@ const SearchResultPage = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                fontWeight: "bold",
               }}
             >
               読み込み中...
@@ -258,7 +295,7 @@ const SearchResultPage = () => {
                         textAlign: "center",
                       }}
                     >
-                      3年次の学費総額：￥
+                      3年間の学費総額：￥
                       {school.totalTuitionFee.toLocaleString("ja-JP")}
                     </Typography>
                     <CardActions sx={{ justifyContent: "center" }}>
