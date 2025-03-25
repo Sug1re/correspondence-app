@@ -400,35 +400,60 @@ const SearchResultPage = () => {
                   }}
                 >
                   <Card sx={style}>
-                    <Typography
-                      sx={{
-                        fontWeight: "bold",
-                        color: "#FFFFFF",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        py: 1,
-                        gap: 1,
-                        borderRadius: 4,
-                        backgroundColor: "#FF6600",
-                      }}
-                    >
-                      学費総額の詳細
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-6"
+                    {/* 閉じるボタン */}
+                    <Box sx={{ display: "flex" }}>
+                      <Typography
+                        sx={{
+                          fontWeight: "bold",
+                          color: "#FFFFFF",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          py: 1,
+                          gap: 1,
+                          borderRadius: 4,
+                          backgroundColor: "#FF6600",
+                          width: "80%",
+                        }}
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                        />
-                      </svg>
-                    </Typography>
+                        学費総額の詳細
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                          />
+                        </svg>
+                      </Typography>
+                      <Button
+                        onClick={handleClose}
+                        sx={{ color: "#000000", width: "20%" }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6 18 18 6M6 6l12 12"
+                          />
+                        </svg>
+                      </Button>
+                    </Box>
+
+                    {/* 学費情報 */}
                     <Table>
                       <TableBody>
                         <TableRow
@@ -439,7 +464,6 @@ const SearchResultPage = () => {
                           <TableCell
                             sx={{
                               fontWeight: "bold",
-                              color: "FF9100",
                             }}
                           >
                             初年次の学費
@@ -447,7 +471,6 @@ const SearchResultPage = () => {
                           <TableCell
                             sx={{
                               fontWeight: "bold",
-                              color: "FF9100",
                             }}
                           >
                             ￥{school.firstYearFee.toLocaleString("JA-JP")}
@@ -461,7 +484,6 @@ const SearchResultPage = () => {
                           <TableCell
                             sx={{
                               fontWeight: "bold",
-                              color: "FF9100",
                             }}
                           >
                             2年次の学費
@@ -469,7 +491,6 @@ const SearchResultPage = () => {
                           <TableCell
                             sx={{
                               fontWeight: "bold",
-                              color: "FF9100",
                             }}
                           >
                             ￥{school.secondYearFee.toLocaleString("JA-JP")}
@@ -483,7 +504,6 @@ const SearchResultPage = () => {
                           <TableCell
                             sx={{
                               fontWeight: "bold",
-                              color: "FF9100",
                             }}
                           >
                             3年次の学費
@@ -491,7 +511,6 @@ const SearchResultPage = () => {
                           <TableCell
                             sx={{
                               fontWeight: "bold",
-                              color: "FF9100",
                             }}
                           >
                             ￥{school.thirdYearFee.toLocaleString("JA-JP")}
@@ -505,7 +524,6 @@ const SearchResultPage = () => {
                           <TableCell
                             sx={{
                               fontWeight: "bold",
-                              color: "FF9100",
                             }}
                           >
                             受験料
@@ -513,7 +531,6 @@ const SearchResultPage = () => {
                           <TableCell
                             sx={{
                               fontWeight: "bold",
-                              color: "FF9100",
                             }}
                           >
                             ￥{school.testFee.toLocaleString("JA-JP")}
