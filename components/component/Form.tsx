@@ -164,9 +164,11 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
       <Container>
         <Card
           sx={{
-            mt: 1,
-            px: 3,
+            mt: 3,
+            p: 3,
             border: `2px solid #FF6600`,
+            maxHeight: "80vh",
+            overflowY: "auto",
           }}
         >
           {/* 検索窓 */}
