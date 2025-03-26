@@ -280,7 +280,7 @@ const SearchResultPage = () => {
         <Component.SearchBar />
 
         {/* 学校情報 */}
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ pb: 4 }}>
           {/* ロード中の場合 */}
           {isLoading ? (
             <Typography
