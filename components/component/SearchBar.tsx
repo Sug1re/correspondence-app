@@ -17,7 +17,7 @@ const SearchBar = () => {
     <>
       <Card
         sx={{
-          mt: 2,
+          my: 2,
           borderRadius: 2,
           boxShadow: 3,
           border: `1.5px solid #003399`,
@@ -26,7 +26,7 @@ const SearchBar = () => {
         <CardActions>
           <Button
             sx={{
-              minWidth: 327,
+              minWidth: "100%",
               justifyContent: "flex-start",
               color: "#003399",
               fontWeight: "bold",
