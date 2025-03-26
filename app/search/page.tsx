@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
@@ -58,8 +58,8 @@ const style = {
 
 const SearchResultPage = () => {
   // スクロールで見えるヘッダー関係の関数
-  const [showHeader, setShowHeader] = useState(true);
-  const [prevScrollY, setPrevScrollY] = useState(0);
+  const [showHeader, setShowHeader] = useState(false);
+  const prevScrollY = useRef(0);
 
   // モーダル関係の関数
   const [openModalId, setOpenModalId] = useState<string | null>(null); // 各学校ごとのモーダルのIDを管理
@@ -103,22 +103,28 @@ const SearchResultPage = () => {
 
   // スクロールヘッダーのコード
   useEffect(() => {
+    // 初期スクロール位置を設定（ページリロード時にヘッダーが表示されないように）
+    const currentScrollY = window.scrollY;
+    if (currentScrollY < 100) {
+      setShowHeader(false); // スクロール位置が100px未満の場合、ヘッダーを隠す
+    }
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // スクロールが下方向かつ、一定量以上スクロールした場合
-      if (currentScrollY > prevScrollY && currentScrollY > 100) {
+      //
+      if (currentScrollY > 100) {
         setShowHeader(true); // 下にスクロールしたらヘッダーを表示
       } else if (currentScrollY < 100) {
         setShowHeader(false); // 上にスクロールしたらヘッダーを隠す
       }
 
-      setPrevScrollY(currentScrollY);
+      prevScrollY.current = currentScrollY; // 前回のスクロール位置を更新
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [prevScrollY]);
+  }, []); // prevScrollY を useRef で管理しているので、依存配列は空にする
 
   // データベースからデータを取得する
   useEffect(() => {
@@ -274,7 +280,7 @@ const SearchResultPage = () => {
         <Component.SearchBar />
 
         {/* 学校情報 */}
-        <Box sx={{ mb: 4 }}>
+        <Box sx={{ pb: 4 }}>
           {/* ロード中の場合 */}
           {isLoading ? (
             <Typography
