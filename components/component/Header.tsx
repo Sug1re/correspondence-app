@@ -17,7 +17,6 @@ export default function Header() {
           sx={{
             display: "flex",
             alignItems: "center",
-            // gap: 4,
             width: "full",
           }}
         >
