@@ -195,6 +195,7 @@ const SchoolCard = () => {
                       mt: 1,
                       borderRadius: 2,
                       border: `1px solid #FF6600`,
+                      backgroundColor: "#FDD35C",
                     }}
                   >
                     <Typography
