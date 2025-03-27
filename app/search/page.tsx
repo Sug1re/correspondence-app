@@ -376,7 +376,7 @@ const SearchResultPage = () => {
                         mt: 1,
                         borderRadius: 2,
                         border: `1px solid #FF6600`,
-                        gap: 3,
+                        backgroundColor: "#FDD35C",
                       }}
                     >
                       <Typography
@@ -575,6 +575,7 @@ const SearchResultPage = () => {
             </>
           )}
         </Box>
+        <Component.Footer />
       </Container>
     </>
   );
