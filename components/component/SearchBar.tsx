@@ -20,7 +20,7 @@ const SearchBar = () => {
           my: 2,
           borderRadius: 2,
           boxShadow: 3,
-          border: `1.5px solid #003399`,
+          border: `0.5px solid #003399`,
         }}
       >
         <CardActions>
