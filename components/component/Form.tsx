@@ -167,12 +167,25 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
         <Card
           sx={{
             mt: 3,
-            border: `2px solid #FF6600`,
+            border: `0.5px solid #FF6600`,
             maxHeight: "90vh",
             overflowY: "auto",
+            position: "relative",
           }}
         >
-          <CardActions sx={{ justifyContent: "flex-end" }}>
+          <CardActions
+            sx={{
+              justifyContent: "flex-end",
+              position: "sticky",
+              top: 0,
+              left: 0,
+              width: "100%",
+              backgroundColor: "#fff", // 背景色
+              zIndex: 10, // 前面に表示
+              borderBottom: "1px solid #ddd", // 境界線
+              py: 1, // 余白
+            }}
+          >
             <Button onClick={handleClose} sx={{ color: "#000000" }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +204,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
             </Button>
           </CardActions>
 
-          <Box sx={{ px: 3 }}>
+          <Box sx={{ px: 3, pt: 2 }}>
             <form onSubmit={handleSubmit(onSubmit)}>
               {/* 3年間の学費総額 */}
               <Box>

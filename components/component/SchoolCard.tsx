@@ -48,7 +48,7 @@ const style = {
   px: 4,
   py: 2,
   borderRadius: 3,
-  border: `2px solid #FF6600`,
+  border: `0.5px solid #FF6600`,
 };
 
 const SchoolCard = () => {
@@ -129,7 +129,7 @@ const SchoolCard = () => {
               >
                 {schools.length}
               </Box>
-              件の学校が見つかりました
+              件の学校情報が見つかりました
             </Typography>
 
             {schools.map((school) => (
@@ -139,17 +139,14 @@ const SchoolCard = () => {
                   mt: 2,
                   boxShadow: 5,
                   borderRadius: 2,
-                  border: `1.5px solid  #003399`,
+                  border: `0.5px solid  #003399`,
                 }}
               >
                 {/* 学校の画像を挿入 */}
-                <Box
-                  sx={{
-                    backgroundColor: "#003399",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+                <Link
+                  href={school.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <Box
                     component="img"
@@ -163,13 +160,16 @@ const SchoolCard = () => {
                       height: 200,
                     }}
                   />
-                </Box>
+                </Link>
 
                 {/* カードタイトル */}
                 <CardContent>
                   <Link
                     href={school.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     sx={{
+                      display: "flex",
                       textDecoration: "none", // 下線をなくす
                       fontWeight: "bold",
                       color: "text.primary",
@@ -179,6 +179,29 @@ const SchoolCard = () => {
                       },
                     }}
                   >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        pr: 0.5,
+                      }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+                        />
+                      </svg>
+                    </Box>
+
                     {school.name}
                   </Link>
                   <Typography
@@ -194,8 +217,7 @@ const SchoolCard = () => {
                     sx={{
                       mt: 1,
                       borderRadius: 2,
-                      border: `1px solid #FF6600`,
-                      backgroundColor: "#FDD35C",
+                      border: `0.5px solid #FF6600`,
                     }}
                   >
                     <Typography
@@ -217,6 +239,7 @@ const SchoolCard = () => {
                           backgroundColor: "#FF6600",
                           fontWeight: "bold",
                           color: "#FFFFFF",
+                          boxShadow: "0px 4px 10px rgba(255, 102, 0, 0.4)",
                         }}
                         onClick={() => handleOpen(school.id)}
                       >
@@ -231,7 +254,7 @@ const SchoolCard = () => {
                   open={openModalId === school.id}
                   onClose={handleClose}
                   BackdropProps={{
-                    sx: { backgroundColor: "rgba(0, 0, 0, 0.07)" },
+                    sx: { backgroundColor: "rgba(0, 0, 0, 0.5)" },
                   }}
                 >
                   <Card sx={style}>
@@ -244,7 +267,6 @@ const SchoolCard = () => {
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
-                          //   py: 1,
                           gap: 1,
                           borderRadius: 4,
                           backgroundColor: "#FF6600",
@@ -293,7 +315,7 @@ const SchoolCard = () => {
                       <TableBody>
                         <TableRow
                           sx={{
-                            "& td": { borderBottom: "1.5px solid #003399" },
+                            "& td": { borderBottom: "1px solid #003399" },
                           }}
                         >
                           <TableCell
@@ -313,7 +335,7 @@ const SchoolCard = () => {
                         </TableRow>
                         <TableRow
                           sx={{
-                            "& td": { borderBottom: "1.5px solid #003399" },
+                            "& td": { borderBottom: "1px solid #003399" },
                           }}
                         >
                           <TableCell
@@ -333,7 +355,7 @@ const SchoolCard = () => {
                         </TableRow>
                         <TableRow
                           sx={{
-                            "& td": { borderBottom: "1.5px solid #003399" },
+                            "& td": { borderBottom: "1px solid #003399" },
                           }}
                         >
                           <TableCell
@@ -353,7 +375,7 @@ const SchoolCard = () => {
                         </TableRow>
                         <TableRow
                           sx={{
-                            "& td": { borderBottom: "1.5px solid #003399" },
+                            "& td": { borderBottom: "1px solid #003399" },
                           }}
                         >
                           <TableCell
