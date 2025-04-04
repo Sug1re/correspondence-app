@@ -10,6 +10,7 @@ import {
   Button,
   Card,
   CardActions,
+  CardContent,
   Container,
   FormControl,
   FormControlLabel,
@@ -178,12 +179,10 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
               justifyContent: "flex-end",
               position: "sticky",
               top: 0,
-              left: 0,
               width: "100%",
               backgroundColor: "#fff", // 背景色
               zIndex: 10, // 前面に表示
               borderBottom: "1px solid #ddd", // 境界線
-              py: 1, // 余白
             }}
           >
             <Button onClick={handleClose} sx={{ color: "#000000" }}>
@@ -204,8 +203,12 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
             </Button>
           </CardActions>
 
-          <Box sx={{ px: 3, pt: 2 }}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <CardContent
+              sx={{
+                px: 2,
+              }}
+            >
               {/* 3年間の学費総額 */}
               <Box>
                 <Typography
@@ -544,27 +547,34 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   </FormHelperText>
                 )}
               </Box>
+            </CardContent>
 
-              {/* 検索ボタン */}
-              <Box sx={{ pb: 3 }}>
-                <Button
-                  variant="contained"
-                  type="submit"
-                  sx={{
-                    backgroundColor: "#003399",
-                    fontWeight: "bold",
-                    width: "100%", // ボタンの幅をフルに設定
-                    transition: "transform 0.2s ease-in-out", // スムーズなスケールアニメーション
-                    "&:hover": {
-                      transform: "scale(0.95)", // ホバー時のスケール
-                    },
-                  }}
-                >
-                  検索
-                </Button>
-              </Box>
-            </form>
-          </Box>
+            {/* 検索ボタン */}
+            <CardActions
+              sx={{
+                pb: 1,
+                justifyContent: "center",
+                position: "sticky",
+                bottom: 0,
+                backgroundColor: "#fff", // 背景色
+                zIndex: 10, // 前面に表示
+                borderTop: "1px solid #ddd", // 境界線
+              }}
+            >
+              <Button
+                variant="contained"
+                type="submit"
+                sx={{
+                  backgroundColor: "#003399",
+                  fontWeight: "bold",
+                  width: "80%", // ボタンの幅をフルに設定
+                  boxShadow: "0px 4px 10px rgba(255, 102, 0, 0.4)",
+                }}
+              >
+                検索
+              </Button>
+            </CardActions>
+          </form>
         </Card>
       </Container>
     </>
