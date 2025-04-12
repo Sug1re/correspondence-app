@@ -14,11 +14,11 @@ import {
   TableCell,
   TableRow,
   Typography,
-  useMediaQuery,
-  useTheme,
 } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import * as Component from "@/components/component";
+import * as CustomHook from "@/components/customHook";
 
 // fireStore の型定義
 type School = {
@@ -98,28 +98,16 @@ const SchoolCard = () => {
     fetchSchools();
   }, []);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const theme = useTheme(); // MUIのテーマを取得
+  const {
+    currentPage,
+    totalPages,
+    startIndex,
+    endIndex,
+    handleNextPage,
+    handlePrevPage,
+  } = CustomHook.usePagination(schools.length); // usePagination に schools.length を渡す
 
-  const isMdOrUp = useMediaQuery(theme.breakpoints.up("md")); // ブレークポイントで判定
-
-  // 画面サイズに応じて itemsPerPage を切り替え
-  const itemsPerPage = isMdOrUp ? 8 : 4;
-
-  // ページごとのアイテム取得
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentSchools = schools.slice(startIndex, startIndex + itemsPerPage);
-
-  // 総ページ数
-  const totalPages = Math.ceil(schools.length / itemsPerPage);
-
-  // ページ変更ハンドラ
-  const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
-  };
-  const handlePrevPage = () => {
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
-  };
+  const currentSchools = schools.slice(startIndex, endIndex);
 
   return (
     <>
@@ -148,44 +136,12 @@ const SchoolCard = () => {
           // 学校が見つかった場合
           <>
             {/* ページネーションボタン */}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                gap: 2,
-                mt: 2,
-              }}
-            >
-              <Button
-                variant="outlined"
-                disabled={currentPage === 1}
-                onClick={handlePrevPage}
-                sx={{
-                  fontWeight: 600,
-                  border: `1px solid #003399`,
-                  color: "#003399",
-                  backgroundColor: "#FFFFFF",
-                }}
-              >
-                前のページ
-              </Button>
-              <Typography sx={{ display: "flex", alignItems: "center" }}>
-                {currentPage} / {totalPages}
-              </Typography>
-              <Button
-                variant="outlined"
-                disabled={currentPage === totalPages}
-                onClick={handleNextPage}
-                sx={{
-                  fontWeight: 600,
-                  border: `1px solid #FF6600`,
-                  color: "#FF6600",
-                  backgroundColor: "#FFFFFF",
-                }}
-              >
-                次のページ
-              </Button>
-            </Box>
+            <Component.PaginationButtons
+              currentPage={currentPage}
+              totalPages={totalPages}
+              handlePrevPage={handlePrevPage}
+              handleNextPage={handleNextPage}
+            />
 
             <Grid
               container
