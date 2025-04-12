@@ -14,6 +14,8 @@ import {
   TableCell,
   TableRow,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
@@ -96,8 +98,13 @@ const SchoolCard = () => {
     fetchSchools();
   }, []);
 
-  const itemsPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
+  const theme = useTheme(); // MUIのテーマを取得
+
+  const isMdOrUp = useMediaQuery(theme.breakpoints.up("md")); // ブレークポイントで判定
+
+  // 画面サイズに応じて itemsPerPage を切り替え
+  const itemsPerPage = isMdOrUp ? 8 : 4;
 
   // ページごとのアイテム取得
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -140,6 +147,7 @@ const SchoolCard = () => {
         ) : (
           // 学校が見つかった場合
           <>
+            {/* ページネーションボタン */}
             <Box
               sx={{
                 display: "flex",
@@ -220,7 +228,7 @@ const SchoolCard = () => {
                     </Link>
 
                     {/* カードタイトル */}
-                    <Box sx={{ mt: 1 }}>
+                    <Box sx={{ my: 1, mx: 0.5 }}>
                       <Link
                         href={school.url}
                         target="_blank"
