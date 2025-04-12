@@ -181,6 +181,24 @@ const SearchResultPage = () => {
     commutingStyle,
   ]);
 
+  const itemsPerPage = 4;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // ページごとのアイテム取得
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentSchools = schools.slice(startIndex, startIndex + itemsPerPage);
+
+  // 総ページ数
+  const totalPages = Math.ceil(schools.length / itemsPerPage);
+
+  // ページ変更ハンドラ
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+  };
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+  };
+
   return (
     <>
       <Component.Header />
@@ -297,15 +315,44 @@ const SearchResultPage = () => {
           ) : (
             // 学校が見つかった場合
             <>
-              <Typography component="span">
-                <Box
-                  component="span"
-                  sx={{ fontWeight: "bold", color: "#000000" }}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: 2,
+                  mt: 2,
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  disabled={currentPage === 1}
+                  onClick={handlePrevPage}
+                  sx={{
+                    fontWeight: 600,
+                    border: `1px solid #003399`,
+                    color: "#003399",
+                    backgroundColor: "#FFFFFF",
+                  }}
                 >
-                  {schools.length}
-                </Box>
-                件の学校情報が見つかりました
-              </Typography>
+                  前のページ
+                </Button>
+                <Typography sx={{ display: "flex", alignItems: "center" }}>
+                  {currentPage} / {totalPages}
+                </Typography>
+                <Button
+                  variant="outlined"
+                  disabled={currentPage === totalPages}
+                  onClick={handleNextPage}
+                  sx={{
+                    fontWeight: 600,
+                    border: `1px solid #FF6600`,
+                    color: "#FF6600",
+                    backgroundColor: "#FFFFFF",
+                  }}
+                >
+                  次のページ
+                </Button>
+              </Box>
 
               <Grid
                 container
@@ -313,7 +360,7 @@ const SearchResultPage = () => {
                 columns={{ sm: 4, md: 8 }}
                 sx={{ pt: 2 }}
               >
-                {schools.map((school) => (
+                {currentSchools.map((school) => (
                   <Grid key={school.id} size={2}>
                     <Card
                       sx={{

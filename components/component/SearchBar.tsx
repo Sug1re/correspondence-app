@@ -61,7 +61,13 @@ const SearchBar = () => {
             </Button>
 
             {/* モーダル */}
-            <Modal open={open} onClose={handleClose}>
+            <Modal
+              open={open}
+              onClose={handleClose}
+              BackdropProps={{
+                sx: { backgroundColor: "rgba(0, 0, 0, 0.7)" },
+              }}
+            >
               <Form handleClose={handleClose} />
             </Modal>
           </CardActions>
