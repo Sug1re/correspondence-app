@@ -7,7 +7,9 @@ export default async function Home() {
     <>
       <Component.Header />
 
-      <Container maxWidth="sm">
+      <Component.SearchBar />
+
+      <Container maxWidth="lg">
         <Box
           sx={{
             display: "flex-col",
@@ -16,7 +18,6 @@ export default async function Home() {
             height: "100vh", // 画面全体の高さ
           }}
         >
-          <Component.SearchBar />
           <Component.SchoolCard />
         </Box>
 
