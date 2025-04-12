@@ -192,7 +192,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="size-6"
+                style={{ width: "24px", height: "24px" }}
               >
                 <path
                   strokeLinecap="round"
@@ -222,7 +222,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="size-6 text-orange-600"
+                    style={{ width: "24px", height: "24px", color: "#FF6600" }}
                   >
                     <path
                       strokeLinecap="round"
@@ -280,7 +280,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="size-6  text-orange-600"
+                    style={{ width: "24px", height: "24px", color: "#FF6600" }}
                   >
                     <path
                       strokeLinecap="round"
@@ -340,7 +340,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="size-6 text-orange-600"
+                    style={{ width: "24px", height: "24px", color: "#FF6600" }}
                   >
                     <path
                       strokeLinecap="round"
@@ -400,7 +400,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="size-6 text-orange-600"
+                    style={{ width: "24px", height: "24px", color: "#FF6600" }}
                   >
                     <path
                       strokeLinecap="round"
@@ -469,7 +469,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="size-6  text-orange-600"
+                    style={{ width: "24px", height: "24px", color: "#FF6600" }}
                   >
                     <path
                       strokeLinecap="round"

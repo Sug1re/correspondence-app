@@ -215,7 +215,7 @@ const SchoolCard = () => {
                             viewBox="0 0 24 24"
                             strokeWidth={1.5}
                             stroke="currentColor"
-                            className="size-4"
+                            style={{ width: "11px", height: "11px" }}
                           >
                             <path
                               strokeLinecap="round"
@@ -309,7 +309,7 @@ const SchoolCard = () => {
                               alignItems: "center",
                               py: 1,
                               gap: 1,
-                              borderRadius: 4,
+                              borderRadius: 2,
                               backgroundColor: "#FF6600",
                               width: "80%",
                             }}
@@ -321,7 +321,7 @@ const SchoolCard = () => {
                               viewBox="0 0 24 24"
                               strokeWidth={1.5}
                               stroke="currentColor"
-                              className="size-6"
+                              style={{ width: "24px", height: "24px" }}
                             >
                               <path
                                 strokeLinecap="round"
@@ -340,7 +340,7 @@ const SchoolCard = () => {
                               viewBox="0 0 24 24"
                               strokeWidth={1.5}
                               stroke="currentColor"
-                              className="size-6"
+                              style={{ width: "24px", height: "24px" }}
                             >
                               <path
                                 strokeLinecap="round"
