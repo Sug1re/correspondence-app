@@ -1,5 +1,5 @@
 import React from "react";
-import * as CustomHook from "@/components/customHook";
+import * as CustomHook from "@/components/customHooks";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 
 type HeaderBarProps = {

@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import * as Component from "@/components/component";
-import * as CustomHook from "@/components/customHook";
+import * as CustomHook from "@/components/customHooks";
 import { School } from "../types/school";
 import {
   Box,
@@ -38,13 +38,12 @@ const style = {
 };
 
 const SearchResultPage = () => {
-  // モーダル関係の関数
-  const [openModalId, setOpenModalId] = useState<string | null>(null); // 各学校ごとのモーダルのIDを管理
-  const handleOpen = (schoolId: string) => setOpenModalId(schoolId); // モーダルを開く関数
-  const handleClose = () => setOpenModalId(null); // モーダルを閉じる関数
+  // カスタムフックuseModal
+  const { openModalId, handleOpen, handleClose } = CustomHook.useModal();
 
   const [schools, setSchools] = useState<School[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
+
   const searchParams = useSearchParams();
 
   const course = searchParams.get("course") || "";
@@ -113,7 +112,7 @@ const SearchResultPage = () => {
     commutingStyle,
   ]);
 
-  // usePaginationのカスタムフック
+  // カスタムフックusePagination
   const {
     currentPage,
     totalPages,

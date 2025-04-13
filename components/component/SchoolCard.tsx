@@ -18,26 +18,8 @@ import {
 import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import * as Component from "@/components/component";
-import * as CustomHook from "@/components/customHook";
-
-// fireStore の型定義
-type School = {
-  id: string;
-  name: string;
-  course: string;
-  totalTuitionFee: number;
-  firstYearFee: number;
-  secondYearFee: number;
-  thirdYearFee: number;
-  testFee: number;
-  movingOutsideThePrefecture: boolean;
-  commutingStyle: string;
-  highSchool: string;
-  url: string;
-  imgUrl: string;
-  attendanceFrequency: string[];
-  // fireStoreのコレクションを追加
-};
+import * as CustomHook from "@/components/customHooks";
+import { School } from "@/app/types/school";
 
 // モーダルのUI
 const style = {
@@ -54,9 +36,8 @@ const style = {
 };
 
 const SchoolCard = () => {
-  const [openModalId, setOpenModalId] = useState<string | null>(null); // 各学校ごとのモーダルのIDを管理
-  const handleOpen = (schoolId: string) => setOpenModalId(schoolId); // モーダルを開く関数
-  const handleClose = () => setOpenModalId(null); // モーダルを閉じる関数
+  // カスタムフックuseModal
+  const { openModalId, handleOpen, handleClose } = CustomHook.useModal();
 
   const [schools, setSchools] = useState<School[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
