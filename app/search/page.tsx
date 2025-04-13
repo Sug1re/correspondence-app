@@ -14,7 +14,7 @@ const SearchResultPage = () => {
   // カスタムフックuseSearchSchoolParams
   const {
     course,
-    totalTuitionFee,
+    totalTuitionFeeValue,
     movingOutsideThePrefecture,
     commutingStyle,
     highSchool,
@@ -26,7 +26,7 @@ const SearchResultPage = () => {
       setIsLoading(true);
       const data = await getFilteredFirestoreData({
         course,
-        totalTuitionFee,
+        totalTuitionFeeValue,
         movingOutsideThePrefecture,
         commutingStyle,
         highSchool,
@@ -38,7 +38,7 @@ const SearchResultPage = () => {
 
     fetchSchools();
   }, [
-    totalTuitionFee,
+    totalTuitionFeeValue,
     highSchool,
     attendanceFrequency,
     movingOutsideThePrefecture,
