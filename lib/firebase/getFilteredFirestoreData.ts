@@ -12,7 +12,7 @@ type Params = {
   attendanceFrequency?: string;
 };
 
-export const getDesignationFirestoreData = async ({
+export const getFilteredFirestoreData = async ({
   totalTuitionFee,
   movingOutsideThePrefecture,
   commutingStyle,
