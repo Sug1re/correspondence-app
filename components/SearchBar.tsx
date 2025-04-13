@@ -37,18 +37,22 @@ const SearchBar = () => {
                 minWidth: "100%",
                 justifyContent: "flex-start",
                 color: "#003399",
-                fontWeight: "bold",
+                fontWeight: 600,
               }}
               onClick={handleOpen}
             >
-              <Box>
+              <Box
+                sx={{
+                  pr: 2,
+                }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="size-6"
+                  style={{ width: "24px", height: "24px" }}
                 >
                   <path
                     strokeLinecap="round"

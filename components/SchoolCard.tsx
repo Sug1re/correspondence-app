@@ -1,6 +1,10 @@
 "use client";
 
-import { db } from "@/firebase";
+import React, { useEffect, useState } from "react";
+import * as Component from "@/components/index";
+import * as CustomHook from "@/hooks/index";
+import { getAllFirestoreData } from "@/lib/firebase/getAllFirestoreData";
+import { School } from "@/app/types/school";
 import {
   Box,
   Button,
@@ -15,76 +19,18 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { collection, getDocs } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-
-// fireStore の型定義
-type School = {
-  id: string;
-  name: string;
-  course: string;
-  totalTuitionFee: number;
-  firstYearFee: number;
-  secondYearFee: number;
-  thirdYearFee: number;
-  testFee: number;
-  movingOutsideThePrefecture: boolean;
-  commutingStyle: string;
-  highSchool: string;
-  url: string;
-  imgUrl: string;
-  attendanceFrequency: string[];
-  // fireStoreのコレクションを追加
-};
-
-// モーダルのUI
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 330,
-  bgcolor: "background.paper",
-  px: 4,
-  py: 2,
-  borderRadius: 3,
-  border: `0.5px solid #FF6600`,
-};
 
 const SchoolCard = () => {
-  const [openModalId, setOpenModalId] = useState<string | null>(null); // 各学校ごとのモーダルのIDを管理
-  const handleOpen = (schoolId: string) => setOpenModalId(schoolId); // モーダルを開く関数
-  const handleClose = () => setOpenModalId(null); // モーダルを閉じる関数
+  // カスタムフックuseModal
+  const { openModalId, handleOpen, handleClose } = CustomHook.useModal();
 
   const [schools, setSchools] = useState<School[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
 
   useEffect(() => {
     const fetchSchools = async () => {
-      const schoolRef = collection(db, "schools");
-
       try {
-        const snapshot = await getDocs(schoolRef); // すべてのデータを取得
-        const schoolsData: School[] = snapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            name: data.name,
-            course: data.course,
-            totalTuitionFee: data.totalTuitionFee,
-            firstYearFee: data.firstYearFee,
-            secondYearFee: data.secondYearFee,
-            thirdYearFee: data.thirdYearFee,
-            testFee: data.testFee,
-            movingOutsideThePrefecture: data.movingOutsideThePrefecture,
-            commutingStyle: data.commutingStyle,
-            highSchool: data.highSchool,
-            url: data.url,
-            imgUrl: data.imgUrl,
-            attendanceFrequency: data.attendanceFrequency,
-          };
-        });
-        console.log(schoolsData); // データ取得確認
+        const schoolsData = await getAllFirestoreData();
         setSchools(schoolsData);
       } catch (error) {
         console.error("Error fetching schools:", error);
@@ -96,23 +42,17 @@ const SchoolCard = () => {
     fetchSchools();
   }, []);
 
-  const itemsPerPage = 4;
-  const [currentPage, setCurrentPage] = useState(1);
+  // カスタムフックusePagination
+  const {
+    currentPage,
+    totalPages,
+    startIndex,
+    endIndex,
+    handleNextPage,
+    handlePrevPage,
+  } = CustomHook.usePagination(schools.length);
 
-  // ページごとのアイテム取得
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentSchools = schools.slice(startIndex, startIndex + itemsPerPage);
-
-  // 総ページ数
-  const totalPages = Math.ceil(schools.length / itemsPerPage);
-
-  // ページ変更ハンドラ
-  const handleNextPage = () => {
-    if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
-  };
-  const handlePrevPage = () => {
-    if (currentPage > 1) setCurrentPage((prev) => prev - 1);
-  };
+  const currentSchools = schools.slice(startIndex, endIndex);
 
   return (
     <>
@@ -140,44 +80,13 @@ const SchoolCard = () => {
         ) : (
           // 学校が見つかった場合
           <>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                gap: 2,
-                mt: 2,
-              }}
-            >
-              <Button
-                variant="outlined"
-                disabled={currentPage === 1}
-                onClick={handlePrevPage}
-                sx={{
-                  fontWeight: 600,
-                  border: `1px solid #003399`,
-                  color: "#003399",
-                  backgroundColor: "#FFFFFF",
-                }}
-              >
-                前のページ
-              </Button>
-              <Typography sx={{ display: "flex", alignItems: "center" }}>
-                {currentPage} / {totalPages}
-              </Typography>
-              <Button
-                variant="outlined"
-                disabled={currentPage === totalPages}
-                onClick={handleNextPage}
-                sx={{
-                  fontWeight: 600,
-                  border: `1px solid #FF6600`,
-                  color: "#FF6600",
-                  backgroundColor: "#FFFFFF",
-                }}
-              >
-                次のページ
-              </Button>
-            </Box>
+            {/* ページネーションボタン */}
+            <Component.PaginationButton
+              currentPage={currentPage}
+              totalPages={totalPages}
+              handlePrevPage={handlePrevPage}
+              handleNextPage={handleNextPage}
+            />
 
             <Grid
               container
@@ -220,7 +129,7 @@ const SchoolCard = () => {
                     </Link>
 
                     {/* カードタイトル */}
-                    <Box sx={{ mt: 1 }}>
+                    <Box sx={{ my: 1, mx: 0.5 }}>
                       <Link
                         href={school.url}
                         target="_blank"
@@ -251,7 +160,7 @@ const SchoolCard = () => {
                             viewBox="0 0 24 24"
                             strokeWidth={1.5}
                             stroke="currentColor"
-                            className="size-4"
+                            style={{ width: "11px", height: "11px" }}
                           >
                             <path
                               strokeLinecap="round"
@@ -333,7 +242,20 @@ const SchoolCard = () => {
                         sx: { backgroundColor: "rgba(0, 0, 0, 0.7)" },
                       }}
                     >
-                      <Card sx={style}>
+                      <Card
+                        sx={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          width: 330,
+                          bgcolor: "background.paper",
+                          px: 4,
+                          py: 2,
+                          borderRadius: 3,
+                          border: `0.5px solid #FF6600`,
+                        }}
+                      >
                         {/* 閉じるボタン */}
                         <Box sx={{ display: "flex" }}>
                           <Typography
@@ -345,7 +267,7 @@ const SchoolCard = () => {
                               alignItems: "center",
                               py: 1,
                               gap: 1,
-                              borderRadius: 4,
+                              borderRadius: 2,
                               backgroundColor: "#FF6600",
                               width: "80%",
                             }}
@@ -357,7 +279,7 @@ const SchoolCard = () => {
                               viewBox="0 0 24 24"
                               strokeWidth={1.5}
                               stroke="currentColor"
-                              className="size-6"
+                              style={{ width: "24px", height: "24px" }}
                             >
                               <path
                                 strokeLinecap="round"
@@ -376,7 +298,7 @@ const SchoolCard = () => {
                               viewBox="0 0 24 24"
                               strokeWidth={1.5}
                               stroke="currentColor"
-                              className="size-6"
+                              style={{ width: "24px", height: "24px" }}
                             >
                               <path
                                 strokeLinecap="round"

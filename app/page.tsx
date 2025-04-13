@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Container } from "@mui/material";
-import * as Component from "@/components/component";
+import * as Component from "@/components/index";
 
 export default async function Home() {
   return (
