@@ -1,5 +1,5 @@
 import React from "react";
-import * as CustomHook from "@/components/customHooks";
+import * as CustomHook from "@/hooks";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 
 type HeaderBarProps = {
@@ -15,7 +15,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   highSchool,
   attendanceFrequency,
 }) => {
-  const { showHeader } = CustomHook.useHeadBar();
+  const { showHeader } = CustomHook.useHeaderBar();
 
   return (
     <>

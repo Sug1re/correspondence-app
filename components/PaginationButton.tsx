@@ -8,7 +8,7 @@ type PaginationButtonsProps = {
   handleNextPage: () => void;
 };
 
-const PaginationButtons: React.FC<PaginationButtonsProps> = ({
+const PaginationButton: React.FC<PaginationButtonsProps> = ({
   currentPage,
   totalPages,
   handlePrevPage,
@@ -58,4 +58,4 @@ const PaginationButtons: React.FC<PaginationButtonsProps> = ({
   );
 };
 
-export default PaginationButtons;
+export default PaginationButton;

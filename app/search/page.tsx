@@ -1,8 +1,8 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import * as Component from "@/components/component";
-import * as CustomHook from "@/components/customHooks";
+import * as Component from "@/components/index";
+import * as CustomHook from "@/hooks/index";
 import { getDesignationFirestoreData } from "@/lib/firebase/getDesignationFirestoreData";
 import { School } from "../types/school";
 import {
@@ -116,7 +116,7 @@ const SearchResultPage = () => {
             // 学校が見つかった場合
             <>
               {/* ページネーションボタン */}
-              <Component.PaginationButtons
+              <Component.PaginationButton
                 currentPage={currentPage}
                 totalPages={totalPages}
                 handlePrevPage={handlePrevPage}
