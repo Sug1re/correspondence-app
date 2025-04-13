@@ -38,7 +38,12 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
         >
           <Box sx={{ color: "#696969", display: "center", gap: 2 }}>
             <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                alignItems: "center",
+                pr: 0.5,
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +64,12 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
               </Typography>
             </Box>
             <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                alignItems: "center",
+                pr: 0.5,
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +90,12 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
               </Typography>
             </Box>
             <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                alignItems: "center",
+                pr: 0.5,
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +114,12 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
               <Typography sx={{ fontSize: "0.8rem" }}>{highSchool}</Typography>
             </Box>
             <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                alignItems: "center",
+                pr: 0.5,
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

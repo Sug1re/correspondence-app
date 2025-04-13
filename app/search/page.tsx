@@ -2,8 +2,8 @@
 
 import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import * as Component from "@/components/component";
 import * as CustomHook from "@/components/customHooks";
 import { School } from "../types/school";

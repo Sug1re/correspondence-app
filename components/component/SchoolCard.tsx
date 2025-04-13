@@ -1,6 +1,11 @@
 "use client";
 
+import React, { useEffect, useState } from "react";
 import { db } from "@/firebase";
+import { collection, getDocs } from "firebase/firestore";
+import * as Component from "@/components/component";
+import * as CustomHook from "@/components/customHooks";
+import { School } from "@/app/types/school";
 import {
   Box,
   Button,
@@ -15,11 +20,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { collection, getDocs } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
-import * as Component from "@/components/component";
-import * as CustomHook from "@/components/customHooks";
-import { School } from "@/app/types/school";
 
 // モーダルのUI
 const style = {
@@ -79,6 +79,7 @@ const SchoolCard = () => {
     fetchSchools();
   }, []);
 
+  // カスタムフックusePagination
   const {
     currentPage,
     totalPages,
@@ -86,7 +87,7 @@ const SchoolCard = () => {
     endIndex,
     handleNextPage,
     handlePrevPage,
-  } = CustomHook.usePagination(schools.length); // usePagination に schools.length を渡す
+  } = CustomHook.usePagination(schools.length);
 
   const currentSchools = schools.slice(startIndex, endIndex);
 
