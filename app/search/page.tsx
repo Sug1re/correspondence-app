@@ -1,13 +1,13 @@
 "use client";
 
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase";
 import * as Component from "@/components/component";
 import * as CustomHook from "@/components/customHook";
+import { School } from "../types/school";
 import {
-  AppBar,
   Box,
   Button,
   Card,
@@ -20,28 +20,8 @@ import {
   TableBody,
   TableCell,
   TableRow,
-  Toolbar,
   Typography,
 } from "@mui/material";
-
-// fireStore の型定義
-type School = {
-  id: string;
-  name: string;
-  course: string;
-  totalTuitionFee: number;
-  firstYearFee: number;
-  secondYearFee: number;
-  thirdYearFee: number;
-  testFee: number;
-  movingOutsideThePrefecture: boolean;
-  commutingStyle: string;
-  highSchool: string;
-  url: string;
-  imgUrl: string;
-  attendanceFrequency: string[];
-  // fireStoreのコレクションを追加
-};
 
 // モーダルのUI
 const style = {
@@ -58,10 +38,6 @@ const style = {
 };
 
 const SearchResultPage = () => {
-  // スクロールで見えるヘッダー関係の関数
-  const [showHeader, setShowHeader] = useState(false);
-  const prevScrollY = useRef(0);
-
   // モーダル関係の関数
   const [openModalId, setOpenModalId] = useState<string | null>(null); // 各学校ごとのモーダルのIDを管理
   const handleOpen = (schoolId: string) => setOpenModalId(schoolId); // モーダルを開く関数
@@ -71,60 +47,15 @@ const SearchResultPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
   const searchParams = useSearchParams();
 
-  // クエリパラメータの取得
-  const courseParams = searchParams.get("course"); // クエリパラメータ "course" を獲得
-  const totalTuitionFeeParams = searchParams.get("totalTuitionFee"); // クエリパラメータ ”totalTuitionFee” を獲得
-  const movingOutsideThePrefectureParams = searchParams.get(
-    "movingOutsideThePrefecture"
-  ); // クエリパラメータ "movingOutsideThePrefecture" を獲得
-  const commutingStyleParams = searchParams.get("commutingStyle"); // クエリパラメータ "commutingStyle" を獲得
-  const highSchoolParams = searchParams.get("highSchool"); // クエリパラメータ　”highSchool”　を獲得
-  const attendanceFrequencyParams = searchParams.get("attendanceFrequency"); // クエリパラメータ　”attendanceFrequency”　を獲得
-
-  // fireStoreのコレクションを追加
-
-  // number型
-  // nullチェックしてから、stringをnumberに変換
-  const totalTuitionFee = totalTuitionFeeParams
-    ? parseInt(totalTuitionFeeParams)
-    : NaN; // testFee がNaNの場合は最大値を設定
-
-  // string型
-  const attendanceFrequency = attendanceFrequencyParams || "";
-  const highSchool = highSchoolParams || "";
-  const course = courseParams || "";
-  const commutingStyle = commutingStyleParams || "";
-
-  // boolean型
-  // "true" なら true, それ以外（null, undefined, "false"）は false に変換
-
+  const course = searchParams.get("course") || "";
+  const totalTuitionFee = searchParams.get("totalTuitionFee")
+    ? parseInt(searchParams.get("totalTuitionFee")!)
+    : NaN;
   const movingOutsideThePrefecture =
-    movingOutsideThePrefectureParams === "true";
-
-  // スクロールヘッダーのコード
-  useEffect(() => {
-    // 初期スクロール位置を設定（ページリロード時にヘッダーが表示されないように）
-    const currentScrollY = window.scrollY;
-    if (currentScrollY < 100) {
-      setShowHeader(false); // スクロール位置が100px未満の場合、ヘッダーを隠す
-    }
-
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      //
-      if (currentScrollY > 100) {
-        setShowHeader(true); // 下にスクロールしたらヘッダーを表示
-      } else if (currentScrollY < 100) {
-        setShowHeader(false); // 上にスクロールしたらヘッダーを隠す
-      }
-
-      prevScrollY.current = currentScrollY; // 前回のスクロール位置を更新
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []); // prevScrollY を useRef で管理しているので、依存配列は空にする
+    searchParams.get("movingOutsideThePrefecture") === "true";
+  const commutingStyle = searchParams.get("commutingStyle") || "";
+  const highSchool = searchParams.get("highSchool") || "";
+  const attendanceFrequency = searchParams.get("attendanceFrequency") || "";
 
   // データベースからデータを取得する
   useEffect(() => {
@@ -182,6 +113,7 @@ const SearchResultPage = () => {
     commutingStyle,
   ]);
 
+  // usePaginationのカスタムフック
   const {
     currentPage,
     totalPages,
@@ -189,7 +121,7 @@ const SearchResultPage = () => {
     endIndex,
     handleNextPage,
     handlePrevPage,
-  } = CustomHook.usePagination(schools.length); // usePagination に schools.length を渡す
+  } = CustomHook.usePagination(schools.length);
 
   const currentSchools = schools.slice(startIndex, endIndex);
 
@@ -197,110 +129,13 @@ const SearchResultPage = () => {
     <>
       <Component.Header />
 
-      {/* ヘッダーの表示制御 */}
-      <AppBar
-        position="fixed"
-        sx={{
-          transition: "top 0.5s",
-          top: showHeader ? 0 : "-64px",
-          background: "#FFFFFF",
-          padding: 0,
-        }}
-      >
-        <Toolbar
-          disableGutters
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-          }}
-        >
-          <Box sx={{ color: "#696969", display: "center", gap: 2 }}>
-            <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                style={{ width: "24px", height: "24px", color: "#FF6600" }}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"
-                />
-              </svg>
-              <Typography sx={{ fontSize: "0.8rem" }}>
-                {movingOutsideThePrefectureParams ? "県外" : "県内"}
-              </Typography>
-            </Box>
-            <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                style={{ width: "24px", height: "24px", color: "#FF6600" }}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"
-                />
-              </svg>
-              <Typography sx={{ fontSize: "0.8rem" }}>
-                {commutingStyle}
-              </Typography>
-            </Box>
-            <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                style={{ width: "24px", height: "24px", color: "#FF6600" }}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z"
-                />
-              </svg>
-              <Typography sx={{ fontSize: "0.8rem" }}>{highSchool}</Typography>
-            </Box>
-            <Box
-              sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                style={{ width: "24px", height: "24px", color: "#FF6600" }}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-                />
-              </svg>
-              <Typography sx={{ fontSize: "0.8rem" }}>
-                {attendanceFrequency}
-              </Typography>
-            </Box>
-          </Box>
-        </Toolbar>
-      </AppBar>
+      {/* ヘッダーバー */}
+      <Component.HeaderBar
+        movingOutsideThePrefecture={movingOutsideThePrefecture}
+        commutingStyle={commutingStyle}
+        highSchool={highSchool}
+        attendanceFrequency={attendanceFrequency}
+      />
 
       <Container maxWidth="lg">
         {/* 検索窓 */}
