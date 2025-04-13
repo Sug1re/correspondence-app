@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { db } from "@/firebase";
-import { collection, getDocs } from "firebase/firestore";
 import * as Component from "@/components/component";
 import * as CustomHook from "@/components/customHooks";
+import { getFirestoreData } from "@/lib/firebase/getFirestoreData";
 import { School } from "@/app/types/school";
 import {
   Box,
@@ -21,20 +20,6 @@ import {
   Typography,
 } from "@mui/material";
 
-// モーダルのUI
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 330,
-  bgcolor: "background.paper",
-  px: 4,
-  py: 2,
-  borderRadius: 3,
-  border: `0.5px solid #FF6600`,
-};
-
 const SchoolCard = () => {
   // カスタムフックuseModal
   const { openModalId, handleOpen, handleClose } = CustomHook.useModal();
@@ -44,30 +29,8 @@ const SchoolCard = () => {
 
   useEffect(() => {
     const fetchSchools = async () => {
-      const schoolRef = collection(db, "schools");
-
       try {
-        const snapshot = await getDocs(schoolRef); // すべてのデータを取得
-        const schoolsData: School[] = snapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            name: data.name,
-            course: data.course,
-            totalTuitionFee: data.totalTuitionFee,
-            firstYearFee: data.firstYearFee,
-            secondYearFee: data.secondYearFee,
-            thirdYearFee: data.thirdYearFee,
-            testFee: data.testFee,
-            movingOutsideThePrefecture: data.movingOutsideThePrefecture,
-            commutingStyle: data.commutingStyle,
-            highSchool: data.highSchool,
-            url: data.url,
-            imgUrl: data.imgUrl,
-            attendanceFrequency: data.attendanceFrequency,
-          };
-        });
-        console.log(schoolsData); // データ取得確認
+        const schoolsData = await getFirestoreData();
         setSchools(schoolsData);
       } catch (error) {
         console.error("Error fetching schools:", error);
@@ -279,7 +242,20 @@ const SchoolCard = () => {
                         sx: { backgroundColor: "rgba(0, 0, 0, 0.7)" },
                       }}
                     >
-                      <Card sx={style}>
+                      <Card
+                        sx={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          width: 330,
+                          bgcolor: "background.paper",
+                          px: 4,
+                          py: 2,
+                          borderRadius: 3,
+                          border: `0.5px solid #FF6600`,
+                        }}
+                      >
                         {/* 閉じるボタン */}
                         <Box sx={{ display: "flex" }}>
                           <Typography

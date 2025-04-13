@@ -23,20 +23,6 @@ import {
   Typography,
 } from "@mui/material";
 
-// モーダルのUI
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 330,
-  bgcolor: "background.paper",
-  px: 4,
-  py: 2,
-  borderRadius: 3,
-  border: `0.5px solid #FF6600`,
-};
-
 const SearchResultPage = () => {
   // カスタムフックuseModal
   const { openModalId, handleOpen, handleClose } = CustomHook.useModal();
@@ -330,7 +316,20 @@ const SearchResultPage = () => {
                           sx: { backgroundColor: "rgba(0, 0, 0, 0.7)" },
                         }}
                       >
-                        <Card sx={style}>
+                        <Card
+                          sx={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            width: 330,
+                            bgcolor: "background.paper",
+                            px: 4,
+                            py: 2,
+                            borderRadius: 3,
+                            border: `0.5px solid #FF6600`,
+                          }}
+                        >
                           {/* 閉じるボタン */}
                           <Box sx={{ display: "flex" }}>
                             <Typography
