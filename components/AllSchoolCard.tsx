@@ -20,7 +20,7 @@ import {
   Typography,
 } from "@mui/material";
 
-const SchoolCard = () => {
+const AllSchoolCard = () => {
   // カスタムフックuseModal
   const { openModalId, handleOpen, handleClose } = CustomHook.useModal();
 
@@ -407,4 +407,4 @@ const SchoolCard = () => {
   );
 };
 
-export default SchoolCard;
+export default AllSchoolCard;

@@ -18,7 +18,7 @@ export default async function Home() {
             height: "100vh", // 画面全体の高さ
           }}
         >
-          <Component.SchoolCard />
+          <Component.AllSchoolCard />
         </Box>
 
         <Component.Footer />
