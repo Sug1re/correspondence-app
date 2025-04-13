@@ -2,7 +2,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import { School } from "@/app/types/school";
 
-export const getFirestoreData = async (): Promise<School[]> => {
+export const getAllFirestoreData = async (): Promise<School[]> => {
   const snapshot = await getDocs(collection(db, "schools"));
   return snapshot.docs.map((doc) => {
     const data = doc.data();

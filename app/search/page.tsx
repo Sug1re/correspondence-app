@@ -1,11 +1,9 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { db } from "@/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
 import * as Component from "@/components/component";
 import * as CustomHook from "@/components/customHooks";
+import { getDesignationFirestoreData } from "@/lib/firebase/getDesignationFirestoreData";
 import { School } from "../types/school";
 import {
   Box,
@@ -30,62 +28,29 @@ const SearchResultPage = () => {
   const [schools, setSchools] = useState<School[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
 
-  const searchParams = useSearchParams();
+  // カスタムフックuseSearchSchoolParams
+  const {
+    course,
+    totalTuitionFee,
+    movingOutsideThePrefecture,
+    commutingStyle,
+    highSchool,
+    attendanceFrequency,
+  } = CustomHook.useSearchSchoolParams();
 
-  const course = searchParams.get("course") || "";
-  const totalTuitionFee = searchParams.get("totalTuitionFee")
-    ? parseInt(searchParams.get("totalTuitionFee")!)
-    : NaN;
-  const movingOutsideThePrefecture =
-    searchParams.get("movingOutsideThePrefecture") === "true";
-  const commutingStyle = searchParams.get("commutingStyle") || "";
-  const highSchool = searchParams.get("highSchool") || "";
-  const attendanceFrequency = searchParams.get("attendanceFrequency") || "";
-
-  // データベースからデータを取得する
   useEffect(() => {
     const fetchSchools = async () => {
-      const schoolRef = collection(db, "schools");
-
-      // フィルタリング機能
-      const q = query(
-        schoolRef,
-        where("totalTuitionFee", "<=", totalTuitionFee),
-        where("movingOutsideThePrefecture", "==", movingOutsideThePrefecture),
-        where("commutingStyle", "==", commutingStyle),
-        where("highSchool", "==", highSchool),
-        where("attendanceFrequency", "array-contains", attendanceFrequency)
-      );
-
-      try {
-        const snapshot = await getDocs(q);
-        const schoolsData: School[] = snapshot.docs.map((doc) => {
-          const data = doc.data(); // doc.data() を変数に代入
-          return {
-            id: doc.id,
-            name: data.name,
-            course: data.course,
-            totalTuitionFee: data.totalTuitionFee,
-            firstYearFee: data.firstYearFee,
-            secondYearFee: data.secondYearFee,
-            thirdYearFee: data.thirdYearFee,
-            testFee: data.testFee,
-            movingOutsideThePrefecture: data.movingOutsideThePrefecture,
-            commutingStyle: data.commutingStyle,
-            highSchool: data.highSchool,
-            url: data.url,
-            imgUrl: data.imgUrl,
-            attendanceFrequency: data.attendanceFrequency,
-          };
-        });
-        // 取得できているか確認
-        console.log(schoolsData);
-        setSchools(schoolsData);
-      } catch (error) {
-        console.error("Error fetching schools:", error);
-      } finally {
-        setIsLoading(false); // データ取得後にロード完了
-      }
+      setIsLoading(true);
+      const data = await getDesignationFirestoreData({
+        course,
+        totalTuitionFee,
+        movingOutsideThePrefecture,
+        commutingStyle,
+        highSchool,
+        attendanceFrequency,
+      });
+      setSchools(data);
+      setIsLoading(false);
     };
 
     fetchSchools();

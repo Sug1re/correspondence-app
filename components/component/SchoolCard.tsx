@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import * as Component from "@/components/component";
 import * as CustomHook from "@/components/customHooks";
-import { getFirestoreData } from "@/lib/firebase/getFirestoreData";
+import { getAllFirestoreData } from "@/lib/firebase/getAllFirestoreData";
 import { School } from "@/app/types/school";
 import {
   Box,
@@ -30,7 +30,7 @@ const SchoolCard = () => {
   useEffect(() => {
     const fetchSchools = async () => {
       try {
-        const schoolsData = await getFirestoreData();
+        const schoolsData = await getAllFirestoreData();
         setSchools(schoolsData);
       } catch (error) {
         console.error("Error fetching schools:", error);
