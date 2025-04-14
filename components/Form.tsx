@@ -21,8 +21,8 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import { collection, getDocs, query } from "firebase/firestore";
-import { db } from "@/firebase";
+
+// Formコンポーネント内を細かく切り出す
 
 // Searchページのモーダルを閉じる関数
 interface FormProps {
@@ -31,7 +31,11 @@ interface FormProps {
 
 // Zodスキーマの定義
 const formSchema = z.object({
-  totalTuitionFee: z.number().min(1, "学費総額を選択してください。"),
+  totalTuitionFeeValue: z
+    .tuple([z.number(), z.number().max(4000000)])
+    .refine(([, max]) => max > 0, {
+      message: "学費総額を選択してください。",
+    }),
   movingOutsideThePrefecture: z
     .string()
     .refine((val) => val !== "", {
@@ -82,20 +86,18 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      totalTuitionFee: 0,
+      totalTuitionFeeValue: [0, 1000000],
       movingOutsideThePrefecture: "",
       commutingStyle: "",
       highSchool: "",
       attendanceFrequency: "",
-      // fireStoreのコレクションを追加
     },
   });
 
   // ユーザーが選択した値を監視
-  const totalTuitionFeeValue = watch("totalTuitionFee");
+  const totalTuitionFeeValue = watch("totalTuitionFeeValue");
   const commutingStyleValue = watch("commutingStyle");
   const attendanceFrequencyValue = watch("attendanceFrequency");
-  // fireStoreのコレクションを追加
 
   const router = useRouter();
 
@@ -128,38 +130,17 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
     // クエリパラメータを生成して検索ページへ遷移
     const query = new URLSearchParams({
       // フォームの値を取得
-      totalTuitionFee: data.totalTuitionFee.toString(),
+      totalTuitionFeeMin: data.totalTuitionFeeValue[0].toString(),
+      totalTuitionFeeMax: data.totalTuitionFeeValue[1].toString(),
       movingOutsideThePrefecture: data.movingOutsideThePrefecture,
       commutingStyle: data.commutingStyle,
       highSchool: data.highSchool,
       attendanceFrequency: data.attendanceFrequency,
-      // fireStoreのコレクションを追加
     }).toString();
 
     router.push(`/search?${query}`);
     handleClose(); // モーダルを閉じる
   };
-
-  // fireStore から全データが取得できているか確認
-  useEffect(() => {
-    const fetchSchools = async () => {
-      const schoolRef = collection(db, "schools");
-      const q = query(schoolRef);
-      const snapshot = await getDocs(q);
-      const schoolsData = snapshot.docs
-        .map((doc) => ({
-          id: doc.id,
-          totalTuitionFee: doc.data().totalTuitionFee,
-        }))
-        .filter(
-          (school) =>
-            typeof school.totalTuitionFee === "number" &&
-            school.totalTuitionFee >= 0
-        );
-      console.log(schoolsData);
-    };
-    fetchSchools();
-  }, []);
 
   return (
     <>
@@ -231,15 +212,17 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                     />
                   </svg>
                   3年間の学費総額：￥
-                  {totalTuitionFeeValue.toLocaleString("ja-JP")}
+                  {totalTuitionFeeValue[0].toLocaleString("ja-JP")} 〜 ￥
+                  {totalTuitionFeeValue[1].toLocaleString("ja-JP")}
                 </Typography>
                 <Controller
-                  name="totalTuitionFee"
+                  name="totalTuitionFeeValue"
                   control={control}
-                  rules={{ required: "初期費用を選択してください。" }}
                   render={({ field }) => (
                     <Slider
                       {...field}
+                      value={field.value || [0, 1000000]} // 初期値を範囲に設定
+                      onChange={(_, newValue) => field.onChange(newValue)}
                       min={0}
                       step={100000}
                       max={4000000}
@@ -260,9 +243,9 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                     />
                   )}
                 />
-                {errors.totalTuitionFee && (
+                {errors.totalTuitionFeeValue && (
                   <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.totalTuitionFee.message}
+                    {errors.totalTuitionFeeValue.message}
                   </FormHelperText>
                 )}
               </Box>
@@ -293,7 +276,6 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                 <Controller
                   name="movingOutsideThePrefecture"
                   control={control}
-                  rules={{ required: "県外移動の有無を選択してください。" }}
                   render={({ field }) => (
                     <FormControl>
                       <RadioGroup
@@ -353,7 +335,6 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                 <Controller
                   name="highSchool"
                   control={control}
-                  rules={{ required: "学校の種類を選択してください。" }}
                   render={({ field }) => (
                     <FormControl>
                       <RadioGroup
@@ -413,7 +394,6 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                 <Controller
                   name="commutingStyle"
                   control={control}
-                  rules={{ required: "通学形態を選択してください。" }}
                   render={({ field }) => (
                     <FormControl>
                       <RadioGroup
@@ -482,7 +462,6 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                 <Controller
                   name="attendanceFrequency"
                   control={control}
-                  rules={{ required: "登校頻度を選択してください。" }}
                   render={({ field }) => (
                     <FormControl>
                       <RadioGroup

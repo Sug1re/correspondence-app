@@ -1,11 +1,10 @@
-// /lib/firebase/getDesignationFirestoreData.ts
 import { db } from "@/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { School } from "@/app/types/school";
 
 type Params = {
   course?: string;
-  totalTuitionFee?: number;
+  totalTuitionFeeValue?: number[];
   movingOutsideThePrefecture?: boolean;
   commutingStyle?: string;
   highSchool?: string;
@@ -13,7 +12,7 @@ type Params = {
 };
 
 export const getFilteredFirestoreData = async ({
-  totalTuitionFee,
+  totalTuitionFeeValue,
   movingOutsideThePrefecture,
   commutingStyle,
   highSchool,
@@ -23,8 +22,14 @@ export const getFilteredFirestoreData = async ({
     const schoolRef = collection(db, "schools");
     const filters = [];
 
-    if (typeof totalTuitionFee === "number" && !isNaN(totalTuitionFee)) {
-      filters.push(where("totalTuitionFee", "<=", totalTuitionFee));
+    if (
+      Array.isArray(totalTuitionFeeValue) &&
+      typeof totalTuitionFeeValue[0] === "number" &&
+      typeof totalTuitionFeeValue[1] === "number"
+    ) {
+      const [min, max] = totalTuitionFeeValue;
+      filters.push(where("totalTuitionFee", ">=", min));
+      filters.push(where("totalTuitionFee", "<=", max));
     }
 
     if (typeof movingOutsideThePrefecture === "boolean") {

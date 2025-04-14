@@ -273,7 +273,7 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
                             fontWeight: "bold",
                           }}
                         >
-                          2年次の学費
+                          二年次の学費
                         </TableCell>
                         <TableCell
                           sx={{
@@ -293,7 +293,7 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
                             fontWeight: "bold",
                           }}
                         >
-                          3年次の学費
+                          三年次の学費
                         </TableCell>
                         <TableCell
                           sx={{
