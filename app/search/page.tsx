@@ -15,6 +15,7 @@ const SearchResultPage = () => {
 
   // カスタムフックuseSearchSchoolParams
   const {
+    totalTuitionFeeValue,
     movingOutsideThePrefecture,
     commutingStyle,
     highSchool,
@@ -73,6 +74,7 @@ const SearchResultPage = () => {
 
       {/* ヘッダーバー */}
       <Component.HeaderBar
+        totalTuitionFeeValue={totalTuitionFeeValue}
         movingOutsideThePrefecture={movingOutsideThePrefecture}
         commutingStyle={commutingStyle}
         highSchool={highSchool}
