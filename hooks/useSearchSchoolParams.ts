@@ -6,10 +6,6 @@ const useSearchSchoolParams = () => {
   const searchParams = useSearchParams();
 
   const course = searchParams.get("course") || "";
-  // const totalTuitionFee = searchParams.get("totalTuitionFee")
-  //   ? parseInt(searchParams.get("totalTuitionFee")!)
-  //   : NaN;
-
 
   const totalTuitionFeeMin = searchParams.get("totalTuitionFeeMin");
   const totalTuitionFeeMax = searchParams.get("totalTuitionFeeMax");

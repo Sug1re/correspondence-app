@@ -22,10 +22,6 @@ export const getFilteredFirestoreData = async ({
     const schoolRef = collection(db, "schools");
     const filters = [];
 
-    // if (typeof totalTuitionFee === "number" && !isNaN(totalTuitionFee)) {
-    //   filters.push(where("totalTuitionFee", "<=", totalTuitionFee));
-    // }
-
     if (
       Array.isArray(totalTuitionFeeValue) &&
       typeof totalTuitionFeeValue[0] === "number" &&

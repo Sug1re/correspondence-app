@@ -1,11 +1,13 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 import * as Component from "@/components/index";
 import * as CustomHook from "@/hooks/index";
 import { getFilteredFirestoreData } from "@/lib/firebase/getFilteredFirestoreData";
 import { School } from "../types/school";
 import { Box, Container, Typography } from "@mui/material";
+
+// マウント/アマウントの原因あり
 
 const SearchResultPage = () => {
   const [schools, setSchools] = useState<School[]>([]);
@@ -13,38 +15,45 @@ const SearchResultPage = () => {
 
   // カスタムフックuseSearchSchoolParams
   const {
-    course,
-    totalTuitionFeeValue,
     movingOutsideThePrefecture,
     commutingStyle,
     highSchool,
     attendanceFrequency,
   } = CustomHook.useSearchSchoolParams();
 
+  // useMemoで安定化させる
+  const rawParams = CustomHook.useSearchSchoolParams();
+
+  const params = useMemo(
+    () => ({
+      course: rawParams.course,
+      totalTuitionFeeValue: rawParams.totalTuitionFeeValue,
+      movingOutsideThePrefecture: rawParams.movingOutsideThePrefecture,
+      commutingStyle: rawParams.commutingStyle,
+      highSchool: rawParams.highSchool,
+      attendanceFrequency: rawParams.attendanceFrequency,
+    }),
+    [
+      rawParams.course,
+      rawParams.totalTuitionFeeValue?.[0],
+      rawParams.totalTuitionFeeValue?.[1],
+      rawParams.movingOutsideThePrefecture,
+      rawParams.commutingStyle,
+      rawParams.highSchool,
+      rawParams.attendanceFrequency,
+    ]
+  );
+
   useEffect(() => {
     const fetchSchools = async () => {
       setIsLoading(true);
-      const data = await getFilteredFirestoreData({
-        course,
-        totalTuitionFeeValue,
-        movingOutsideThePrefecture,
-        commutingStyle,
-        highSchool,
-        attendanceFrequency,
-      });
+      const data = await getFilteredFirestoreData(params);
       setSchools(data);
       setIsLoading(false);
     };
 
     fetchSchools();
-  }, [
-    totalTuitionFeeValue,
-    highSchool,
-    attendanceFrequency,
-    movingOutsideThePrefecture,
-    course,
-    commutingStyle,
-  ]);
+  }, [params]);
 
   // カスタムフックusePagination
   const {

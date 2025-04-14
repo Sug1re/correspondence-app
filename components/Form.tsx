@@ -21,8 +21,8 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import { collection, getDocs, query } from "firebase/firestore";
-import { db } from "@/firebase";
+
+// Formコンポーネント内を細かく切り出す
 
 // Searchページのモーダルを閉じる関数
 interface FormProps {
@@ -31,7 +31,6 @@ interface FormProps {
 
 // Zodスキーマの定義
 const formSchema = z.object({
-  // totalTuitionFee: z.number().min(1, "学費総額を選択してください。"),
   totalTuitionFeeValue: z
     .tuple([z.number(), z.number().max(4000000)])
     .refine(([, max]) => max > 0, {
@@ -88,7 +87,6 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       totalTuitionFeeValue: [0, 1000000],
-      // totalTuitionFee: 0,
       movingOutsideThePrefecture: "",
       commutingStyle: "",
       highSchool: "",
@@ -98,7 +96,6 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
 
   // ユーザーが選択した値を監視
   const totalTuitionFeeValue = watch("totalTuitionFeeValue");
-  // const totalTuitionFeeValue = watch("totalTuitionFee");
   const commutingStyleValue = watch("commutingStyle");
   const attendanceFrequencyValue = watch("attendanceFrequency");
 
@@ -135,7 +132,6 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
       // フォームの値を取得
       totalTuitionFeeMin: data.totalTuitionFeeValue[0].toString(),
       totalTuitionFeeMax: data.totalTuitionFeeValue[1].toString(),
-      // totalTuitionFee: data.totalTuitionFee.toString(),
       movingOutsideThePrefecture: data.movingOutsideThePrefecture,
       commutingStyle: data.commutingStyle,
       highSchool: data.highSchool,
@@ -145,27 +141,6 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
     router.push(`/search?${query}`);
     handleClose(); // モーダルを閉じる
   };
-
-  // fireStore から全データが取得できているか確認
-  // useEffect(() => {
-  //   const fetchSchools = async () => {
-  //     const schoolRef = collection(db, "schools");
-  //     const q = query(schoolRef);
-  //     const snapshot = await getDocs(q);
-  //     const schoolsData = snapshot.docs
-  //       .map((doc) => ({
-  //         id: doc.id,
-  //         totalTuitionFee: doc.data().totalTuitionFee,
-  //       }))
-  //       .filter(
-  //         (school) =>
-  //           typeof school.totalTuitionFee === "number" &&
-  //           school.totalTuitionFee >= 0
-  //       );
-  //     console.log(schoolsData);
-  //   };
-  //   fetchSchools();
-  // }, []);
 
   return (
     <>
@@ -239,11 +214,9 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   3年間の学費総額：￥
                   {totalTuitionFeeValue[0].toLocaleString("ja-JP")} 〜 ￥
                   {totalTuitionFeeValue[1].toLocaleString("ja-JP")}
-                  {/* {totalTuitionFeeValue.toLocaleString("ja-JP")} */}
                 </Typography>
                 <Controller
                   name="totalTuitionFeeValue"
-                  // name="totalTuitionFee"
                   control={control}
                   render={({ field }) => (
                     <Slider
@@ -275,11 +248,6 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                     {errors.totalTuitionFeeValue.message}
                   </FormHelperText>
                 )}
-                {/* {errors.totalTuitionFee && (
-                  <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.totalTuitionFee.message}
-                  </FormHelperText>
-                )} */}
               </Box>
 
               {/* スクーリング会場 */}
