@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller, useController } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
+import { string, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
@@ -11,9 +11,11 @@ import {
   Card,
   CardActions,
   CardContent,
+  Checkbox,
   Container,
   FormControl,
   FormControlLabel,
+  FormGroup,
   FormHelperText,
   Radio,
   RadioGroup,
@@ -23,6 +25,16 @@ import {
 } from "@mui/material";
 
 // Formコンポーネント内を細かく切り出す
+
+const attendanceOptions = [
+  "週1",
+  "週2",
+  "週3",
+  "週4",
+  "週5",
+  "オンライン",
+  "自由",
+];
 
 // Searchページのモーダルを閉じる関数
 interface FormProps {
@@ -70,14 +82,17 @@ const formSchema = z.object({
     .refine((val) => ["通信制高等学校", "サポート校"].includes(val), {
       message: "学校の種類を正しく選択してください。",
     }),
+  // attendanceFrequency: z
+  //   .string()
+  //   .refine((val) => val !== "", { message: "登校頻度を選択してください。" })
+  //   .refine(
+  //     (val) =>
+  //       ["週1", "週2", "週3", "週4", "週5", "オンライン", "自由"].includes(val),
+  //     { message: "登校頻度を正しく選択してください。" }
+  //   ),
   attendanceFrequency: z
-    .string()
-    .refine((val) => val !== "", { message: "登校頻度を選択してください。" })
-    .refine(
-      (val) =>
-        ["週1", "週2", "週3", "週4", "週5", "オンライン", "自由"].includes(val),
-      { message: "登校頻度を正しく選択してください。" }
-    ),
+    .array(z.string())
+    .nonempty("少なくとも1つ選択してください"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -91,11 +106,19 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
     },
   });
 
+  // CheckBoxのカラーリング
+  const CustomCheckBox = styled(Checkbox)({
+    color: "#003399",
+    "&.Mui-checked": {
+      color: "#003399",
+    },
+  });
+
   const {
     control,
     handleSubmit,
     watch,
-    setValue,
+    // setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -104,7 +127,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
       movingOutsideThePrefecture: "",
       commutingStyle: "",
       highSchool: "",
-      attendanceFrequency: "",
+      attendanceFrequency: [],
     },
   });
 
@@ -116,29 +139,29 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
   const router = useRouter();
 
   // 通学形態と登校頻度の連動ロジック
-  const [disableOnline, setDisableOnline] = useState(false);
+  // const [disableOnline, setDisableOnline] = useState(false);
 
-  useEffect(() => {
-    if (commutingStyleValue === "通学") {
-      setDisableOnline(true);
-      if (attendanceFrequencyValue === "オンライン") {
-        setValue("attendanceFrequency", "");
-      }
-    } else if (commutingStyleValue === "オンライン") {
-      setDisableOnline(false);
-    }
-  }, [commutingStyleValue, setValue, attendanceFrequencyValue]);
+  // useEffect(() => {
+  //   if (commutingStyleValue === "通学") {
+  //     setDisableOnline(true);
+  //     if (attendanceFrequencyValue === "オンライン") {
+  //       setValue("attendanceFrequency", "");
+  //     }
+  //   } else if (commutingStyleValue === "オンライン") {
+  //     setDisableOnline(false);
+  //   }
+  // }, [commutingStyleValue, setValue, attendanceFrequencyValue]);
 
-  useEffect(() => {
-    if (attendanceFrequencyValue === "通学") {
-      setDisableOnline(true);
-      if (commutingStyleValue === "オンライン") {
-        setValue("attendanceFrequency", "");
-      }
-    } else if (attendanceFrequencyValue === "オンライン") {
-      setDisableOnline(false);
-    }
-  }, [commutingStyleValue, setValue, attendanceFrequencyValue]);
+  // useEffect(() => {
+  //   if (attendanceFrequencyValue === "通学") {
+  //     setDisableOnline(true);
+  //     if (commutingStyleValue === "オンライン") {
+  //       setValue("attendanceFrequency", "");
+  //     }
+  //   } else if (attendanceFrequencyValue === "オンライン") {
+  //     setDisableOnline(false);
+  //   }
+  // }, [commutingStyleValue, setValue, attendanceFrequencyValue]);
 
   const onSubmit = (data: FormValues) => {
     // クエリパラメータを生成して検索ページへ遷移
@@ -149,7 +172,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
       movingOutsideThePrefecture: data.movingOutsideThePrefecture,
       commutingStyle: data.commutingStyle,
       highSchool: data.highSchool,
-      attendanceFrequency: data.attendanceFrequency,
+      attendanceFrequency: data.attendanceFrequency.join(","),
     }).toString();
 
     router.push(`/search?${query}`);
@@ -425,20 +448,20 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                           value="通学"
                           control={<CustomRadio />}
                           label="通学"
-                          disabled={attendanceFrequencyValue === "オンライン"} // 登校頻度が「オンライン」の場合、通学を無効化
+                          // disabled={attendanceFrequencyValue === "オンライン"} // 登校頻度が「オンライン」の場合、通学を無効化
                         />
                         <FormControlLabel
                           value="オンライン"
                           control={<CustomRadio />}
                           label="オンライン"
-                          disabled={[
-                            "週1",
-                            "週2",
-                            "週3",
-                            "週4",
-                            "週5",
-                            "自由",
-                          ].includes(attendanceFrequencyValue)} // 登校頻度が「オンライン」の場合、通学を無効化
+                          // disabled={[
+                          //   "週1",
+                          //   "週2",
+                          //   "週3",
+                          //   "週4",
+                          //   "週5",
+                          //   "自由",
+                          // ].includes(attendanceFrequencyValue)} // 登校頻度が「オンライン」の場合、通学を無効化
                         />
                       </RadioGroup>
                     </FormControl>
@@ -474,7 +497,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   </svg>
                   登校頻度
                 </Typography>
-                <Controller
+                {/* <Controller
                   name="attendanceFrequency"
                   control={control}
                   render={({ field }) => (
@@ -534,6 +557,47 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                       </RadioGroup>
                     </FormControl>
                   )}
+                /> */}
+                <Controller
+                  name="attendanceFrequency"
+                  control={control}
+                  render={({ field }) => {
+                    const handleChange = (
+                      event: React.ChangeEvent<HTMLInputElement>
+                    ) => {
+                      const { value, checked } = event.target;
+                      const currentValue = (field.value || []) as string[];
+                      const newValue = checked
+                        ? [...currentValue, value]
+                        : currentValue.filter((v) => v !== value);
+                      field.onChange(newValue);
+                    };
+                    return (
+                      <FormControl component="fieldset">
+                        <FormGroup row sx={{ gap: 2, pb: 1 }}>
+                          {attendanceOptions.map((option) => (
+                            <FormControlLabel
+                              key={option}
+                              control={
+                                <CustomCheckBox
+                                  checked={(field.value || []).includes(option)}
+                                  onChange={handleChange}
+                                  value={option}
+
+                                  // disabled={
+                                  //   option === "オンライン"
+                                  //     ? disableOnline
+                                  //     : commutingStyleValue === "オンライン"
+                                  // }
+                                />
+                              }
+                              label={option}
+                            />
+                          ))}
+                        </FormGroup>
+                      </FormControl>
+                    );
+                  }}
                 />
                 {errors.attendanceFrequency && (
                   <FormHelperText error sx={{ fontSize: "1rem" }}>
