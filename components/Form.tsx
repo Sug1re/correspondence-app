@@ -33,9 +33,23 @@ interface FormProps {
 const formSchema = z.object({
   totalTuitionFeeValue: z
     .tuple([z.number(), z.number().max(4000000)])
-    .refine(([, max]) => max > 0, {
-      message: "学費総額を選択してください。",
+    .superRefine(([min, max], ctx) => {
+      if (min <= 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "最小値を0よりも大きくしてください。",
+          path: [0], // tuple の 0 番目の値（min）
+        });
+      }
+      if (max <= 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "最大値を0よりも大きくしてください。",
+          path: [1], // tuple の 1 番目の値（max）
+        });
+      }
     }),
+
   movingOutsideThePrefecture: z
     .string()
     .refine((val) => val !== "", {
@@ -243,11 +257,12 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                     />
                   )}
                 />
-                {errors.totalTuitionFeeValue && (
-                  <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.totalTuitionFeeValue.message}
-                  </FormHelperText>
-                )}
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
+                  {errors.totalTuitionFeeValue?.[0]?.message}
+                </FormHelperText>
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
+                  {errors.totalTuitionFeeValue?.[1]?.message}
+                </FormHelperText>
               </Box>
 
               {/* スクーリング会場 */}
