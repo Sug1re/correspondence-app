@@ -46,7 +46,7 @@ export const getFilteredFirestoreData = async ({
     }
 
     if (attendanceFrequency) {
-      filters.push(where("attendanceFrequency", "array-contains", attendanceFrequency));
+      filters.push(where("attendanceFrequency", "array-contains-any", attendanceFrequency));
     }
 
     const q = query(schoolRef, ...filters);
