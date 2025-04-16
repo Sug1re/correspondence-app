@@ -7,8 +7,6 @@ import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 export default function Header() {
   return (
     <>
-      {/* レスポンシブ対応にする */}
-
       <AppBar
         position="relative"
         sx={{
@@ -24,19 +22,6 @@ export default function Header() {
             width: "100%",
           }}
         >
-          {/* ホームボタン */}
-          <Box sx={{ flexGrow: 3, display: "flex", justifyContent: "center" }}>
-            <IconButton
-              edge="start"
-              sx={{ color: "#FFFFFF" }}
-              aria-label="menu"
-              component={Link}
-              href="/"
-            >
-              <Icon.HomeIcon />
-            </IconButton>
-          </Box>
-
           {/* タイトル */}
           <Box sx={{ flexGrow: 8, textAlign: "center" }}>
             <Typography
@@ -52,8 +37,34 @@ export default function Header() {
             </Typography>
           </Box>
 
+          {/* お気に入り閲覧ボタン */}
+          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+            <IconButton
+              edge="start"
+              sx={{ color: "#FFFFFF" }}
+              aria-label="menu"
+              component={Link}
+              href="/"
+            >
+              <Icon.HeartIcon />
+            </IconButton>
+          </Box>
+
+          {/* ホームボタン */}
+          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+            <IconButton
+              edge="start"
+              sx={{ color: "#FFFFFF" }}
+              aria-label="menu"
+              component={Link}
+              href="/"
+            >
+              <Icon.HomeIcon />
+            </IconButton>
+          </Box>
+
           {/* ログインボタン */}
-          <Box sx={{ flexGrow: 3, display: "flex", justifyContent: "center" }}>
+          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
             <Component.Login />
           </Box>
         </Toolbar>

@@ -26,8 +26,6 @@ import {
   Typography,
 } from "@mui/material";
 
-// Formコンポーネント内を細かく切り出す
-
 const attendanceOptions = [
   "週1",
   "週2",
