@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 const useSearchSchoolParams = () => {
   const searchParams = useSearchParams();
 
-  const course = searchParams.get("course") || "";
 
   const totalTuitionFeeMin = searchParams.get("totalTuitionFeeMin");
   const totalTuitionFeeMax = searchParams.get("totalTuitionFeeMax");
@@ -21,7 +20,6 @@ const useSearchSchoolParams = () => {
   const attendanceFrequency = searchParams.get("attendanceFrequency") || "";
 
   return {
-    course,
     totalTuitionFeeValue,
     movingOutsideThePrefecture,
     commutingStyle,

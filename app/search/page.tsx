@@ -14,20 +14,11 @@ const SearchResultPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
 
   // カスタムフックuseSearchSchoolParams
-  const {
-    totalTuitionFeeValue,
-    movingOutsideThePrefecture,
-    commutingStyle,
-    highSchool,
-    attendanceFrequency,
-  } = CustomHook.useSearchSchoolParams();
-
-  // useMemoで安定化させる
   const rawParams = CustomHook.useSearchSchoolParams();
 
+  // useMemoで安定化させる
   const params = useMemo(
     () => ({
-      course: rawParams.course,
       totalTuitionFeeValue: rawParams.totalTuitionFeeValue,
       movingOutsideThePrefecture: rawParams.movingOutsideThePrefecture,
       commutingStyle: rawParams.commutingStyle,
@@ -35,7 +26,6 @@ const SearchResultPage = () => {
       attendanceFrequency: rawParams.attendanceFrequency,
     }),
     [
-      rawParams.course,
       rawParams.totalTuitionFeeValue?.[0],
       rawParams.totalTuitionFeeValue?.[1],
       rawParams.movingOutsideThePrefecture,
@@ -76,11 +66,11 @@ const SearchResultPage = () => {
 
       {/* ヘッダーバー */}
       <Component.HeaderBar
-        totalTuitionFeeValue={totalTuitionFeeValue}
-        movingOutsideThePrefecture={movingOutsideThePrefecture}
-        commutingStyle={commutingStyle}
-        highSchool={highSchool}
-        attendanceFrequency={attendanceFrequency}
+        totalTuitionFeeValue={rawParams.totalTuitionFeeValue}
+        movingOutsideThePrefecture={rawParams.movingOutsideThePrefecture}
+        commutingStyle={rawParams.commutingStyle}
+        highSchool={rawParams.highSchool}
+        attendanceFrequency={rawParams.attendanceFrequency}
       />
 
       <Container maxWidth="lg">
