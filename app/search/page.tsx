@@ -72,6 +72,8 @@ const SearchResultPage = () => {
     <>
       <Component.Header />
 
+      <Component.SearchBar />
+
       {/* ヘッダーバー */}
       <Component.HeaderBar
         totalTuitionFeeValue={totalTuitionFeeValue}
@@ -83,7 +85,6 @@ const SearchResultPage = () => {
 
       <Container maxWidth="lg">
         {/* 検索窓 */}
-        <Component.SearchBar />
 
         {/* 学校情報 */}
         <Box sx={{ pb: 4 }}>
