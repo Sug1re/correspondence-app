@@ -45,7 +45,7 @@ export const formSchema = z.object({
 
   attendanceFrequency: z
     .array(z.string())
-    .nonempty("少なくとも1つ選択してください"),
+    .min(1,"少なくとも1つ選択してください"),
 });
 
 export type FormValues = z.infer<typeof formSchema>;

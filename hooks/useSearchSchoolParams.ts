@@ -32,7 +32,7 @@ const useSearchSchoolParams = () => {
     const value = searchParams.get("attendanceFrequency");
     return value ? value.split(",") : [];
   }, [searchParams]);
-  
+
 
   return {
     totalTuitionFeeValue,
