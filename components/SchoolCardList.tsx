@@ -26,6 +26,8 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
   // カスタムフックuseModal
   const { openModalId, handleOpen, handleClose } = CustomHook.useModal();
 
+  console.log(schools);
+
   return (
     <>
       <Grid container spacing={2} columns={{ sm: 4, md: 8 }} sx={{ pt: 2 }}>

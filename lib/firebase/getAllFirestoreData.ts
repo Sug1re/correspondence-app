@@ -4,6 +4,10 @@ import { School } from "@/app/types/school";
 
 export const getAllFirestoreData = async (): Promise<School[]> => {
   const snapshot = await getDocs(collection(db, "schools"));
+
+  // 取得したコレクション数を確認
+  console.log(snapshot.size)
+
   return snapshot.docs.map((doc) => {
     const data = doc.data();
     return {
@@ -23,4 +27,5 @@ export const getAllFirestoreData = async (): Promise<School[]> => {
       attendanceFrequency: data.attendanceFrequency,
     };
   });
+
 };
