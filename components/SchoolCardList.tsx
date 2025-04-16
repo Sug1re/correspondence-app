@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { School } from "@/app/types/school";
 import * as CustomHook from "@/hooks/index";
+import * as Icon from "@/components/icons/index";
 
 type SchoolCardListProps = {
   schools: School[];
@@ -87,20 +88,7 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
                       pr: 0.5,
                     }}
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      style={{ width: "11px", height: "11px" }}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
-                      />
-                    </svg>
+                    <Icon.LinkIcon />
                   </Box>
 
                   {school.name}
@@ -216,39 +204,13 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
                       }}
                     >
                       学費総額の内訳
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        style={{ width: "24px", height: "24px" }}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                        />
-                      </svg>
+                      <Icon.ChevronDownIcon />
                     </Typography>
                     <Button
                       onClick={handleClose}
                       sx={{ color: "#000000", width: "20%" }}
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        style={{ width: "24px", height: "24px" }}
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6 18 18 6M6 6l12 12"
-                        />
-                      </svg>
+                      <Icon.CloseIcon />
                     </Button>
                   </Box>
 

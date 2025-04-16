@@ -1,4 +1,4 @@
-import Footer from "./Footer"
+import ScrollTopButton from "./ScrollTopButton"
 import Form from "./Form"
 import Header from "./Header"
 import HeaderBar from "./HeaderBar"
@@ -8,6 +8,6 @@ import Home from "./Home"
 import SchoolCardList from "./SchoolCardList"
 import SearchBar from "./SearchBar"
 
-export { Footer, Form, Header, HeaderBar, Login, PaginationButton, Home, SchoolCardList, SearchBar };
+export { ScrollTopButton, Form, Header, HeaderBar, Login, PaginationButton, Home, SchoolCardList, SearchBar };
 
 

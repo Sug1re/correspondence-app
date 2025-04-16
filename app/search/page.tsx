@@ -111,14 +111,20 @@ const SearchResultPage = () => {
             </>
           )}
         </Box>
-        <Component.Footer />
+        <Component.ScrollTopButton />
       </Container>
     </>
   );
 };
 
 const SearchPageWithSuspense = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense
+    fallback={
+      <>
+        <Typography>Loading...</Typography>
+      </>
+    }
+  >
     <SearchResultPage />
   </Suspense>
 );

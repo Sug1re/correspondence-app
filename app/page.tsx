@@ -21,7 +21,7 @@ export default async function Home() {
           <Component.Home />
         </Box>
 
-        <Component.Footer />
+        <Component.ScrollTopButton />
       </Container>
     </>
   );
