@@ -4,6 +4,7 @@ import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { formSchema, FormValues } from "@/lib/validation/formSchema";
+import { handleFormSubmit } from "@/lib/handlers/handleFormSubmit";
 import * as Icon from "@/components/icons/index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -80,20 +81,9 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
 
   const router = useRouter();
 
+  // lib/handleFormSubmit
   const onSubmit = (data: FormValues) => {
-    // クエリパラメータを生成して検索ページへ遷移
-    const query = new URLSearchParams({
-      // フォームの値を取得
-      totalTuitionFeeMin: data.totalTuitionFeeValue[0].toString(),
-      totalTuitionFeeMax: data.totalTuitionFeeValue[1].toString(),
-      movingOutsideThePrefecture: data.movingOutsideThePrefecture,
-      commutingStyle: data.commutingStyle,
-      highSchool: data.highSchool,
-      attendanceFrequency: data.attendanceFrequency.join(","),
-    }).toString();
-
-    router.push(`/search?${query}`);
-    handleClose(); // モーダルを閉じる
+    handleFormSubmit(data, router, handleClose);
   };
 
   return (
@@ -302,7 +292,6 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                           value="通学"
                           control={<CustomRadio />}
                           label="通学"
-                          // disabled={attendanceFrequencyValue === "オンライン"} // 登校頻度が「オンライン」の場合、通学を無効化
                         />
                         <FormControlLabel
                           value="オンライン"
