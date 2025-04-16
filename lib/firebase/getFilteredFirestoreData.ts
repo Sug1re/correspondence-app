@@ -3,12 +3,11 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { School } from "@/app/types/school";
 
 type Params = {
-  course?: string;
-  totalTuitionFeeValue?: number[];
+  totalTuitionFeeValue?: [number,number];
   movingOutsideThePrefecture?: boolean;
   commutingStyle?: string;
   highSchool?: string;
-  attendanceFrequency?: string;
+  attendanceFrequency?: string[];
 };
 
 export const getFilteredFirestoreData = async ({
@@ -47,7 +46,7 @@ export const getFilteredFirestoreData = async ({
     }
 
     if (attendanceFrequency) {
-      filters.push(where("attendanceFrequency", "array-contains", attendanceFrequency));
+      filters.push(where("attendanceFrequency", "array-contains-any", attendanceFrequency));
     }
 
     const q = query(schoolRef, ...filters);

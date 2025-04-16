@@ -14,20 +14,11 @@ const SearchResultPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true); // ロード中かどうかの状態
 
   // カスタムフックuseSearchSchoolParams
-  const {
-    totalTuitionFeeValue,
-    movingOutsideThePrefecture,
-    commutingStyle,
-    highSchool,
-    attendanceFrequency,
-  } = CustomHook.useSearchSchoolParams();
-
-  // useMemoで安定化させる
   const rawParams = CustomHook.useSearchSchoolParams();
 
+  // useMemoで安定化させる
   const params = useMemo(
     () => ({
-      course: rawParams.course,
       totalTuitionFeeValue: rawParams.totalTuitionFeeValue,
       movingOutsideThePrefecture: rawParams.movingOutsideThePrefecture,
       commutingStyle: rawParams.commutingStyle,
@@ -35,9 +26,7 @@ const SearchResultPage = () => {
       attendanceFrequency: rawParams.attendanceFrequency,
     }),
     [
-      rawParams.course,
-      rawParams.totalTuitionFeeValue?.[0],
-      rawParams.totalTuitionFeeValue?.[1],
+      rawParams.totalTuitionFeeValue,
       rawParams.movingOutsideThePrefecture,
       rawParams.commutingStyle,
       rawParams.highSchool,
@@ -72,18 +61,19 @@ const SearchResultPage = () => {
     <>
       <Component.Header />
 
+      <Component.SearchBar />
+
       {/* ヘッダーバー */}
       <Component.HeaderBar
-        totalTuitionFeeValue={totalTuitionFeeValue}
-        movingOutsideThePrefecture={movingOutsideThePrefecture}
-        commutingStyle={commutingStyle}
-        highSchool={highSchool}
-        attendanceFrequency={attendanceFrequency}
+        totalTuitionFeeValue={rawParams.totalTuitionFeeValue}
+        movingOutsideThePrefecture={rawParams.movingOutsideThePrefecture}
+        commutingStyle={rawParams.commutingStyle}
+        highSchool={rawParams.highSchool}
+        attendanceFrequency={rawParams.attendanceFrequency}
       />
 
       <Container maxWidth="lg">
         {/* 検索窓 */}
-        <Component.SearchBar />
 
         {/* 学校情報 */}
         <Box sx={{ pb: 4 }}>
@@ -121,14 +111,20 @@ const SearchResultPage = () => {
             </>
           )}
         </Box>
-        <Component.Footer />
+        <Component.ScrollTopButton />
       </Container>
     </>
   );
 };
 
 const SearchPageWithSuspense = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense
+    fallback={
+      <>
+        <Typography>Loading...</Typography>
+      </>
+    }
+  >
     <SearchResultPage />
   </Suspense>
 );

@@ -1,27 +1,40 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import { useMemo } from "react";
 
 const useSearchSchoolParams = () => {
   const searchParams = useSearchParams();
 
-  const course = searchParams.get("course") || "";
+  const totalTuitionFeeValue = useMemo<[number, number]>(() => {
+    const min = searchParams.get("totalTuitionFeeMin");
+    const max = searchParams.get("totalTuitionFeeMax");
 
-  const totalTuitionFeeMin = searchParams.get("totalTuitionFeeMin");
-  const totalTuitionFeeMax = searchParams.get("totalTuitionFeeMax");
+    return [
+      min ? parseInt(min) : 0,
+      max ? parseInt(max) : 4000000,
+    ];
+  }, [searchParams]);
 
-  const totalTuitionFeeValue: [number, number] = [
-    totalTuitionFeeMin ? parseInt(totalTuitionFeeMin) : 0,
-    totalTuitionFeeMax ? parseInt(totalTuitionFeeMax) : 4000000,
-  ];
-  const movingOutsideThePrefecture =
-    searchParams.get("movingOutsideThePrefecture") === "true";
-  const commutingStyle = searchParams.get("commutingStyle") || "";
-  const highSchool = searchParams.get("highSchool") || "";
-  const attendanceFrequency = searchParams.get("attendanceFrequency") || "";
+  const movingOutsideThePrefecture = useMemo(() => {
+    return searchParams.get("movingOutsideThePrefecture") === "true";
+  }, [searchParams]);
+
+  const commutingStyle = useMemo(() => {
+    return searchParams.get("commutingStyle") || "";
+  }, [searchParams]);
+
+  const highSchool = useMemo(() => {
+    return searchParams.get("highSchool") || "";
+  }, [searchParams]);
+
+  const attendanceFrequency = useMemo(() => {
+    const value = searchParams.get("attendanceFrequency");
+    return value ? value.split(",") : [];
+  }, [searchParams]);
+
 
   return {
-    course,
     totalTuitionFeeValue,
     movingOutsideThePrefecture,
     commutingStyle,

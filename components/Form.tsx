@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { z } from "zod";
+import { formSchema, FormValues } from "@/lib/validation/formSchema";
+import { handleFormSubmit } from "@/lib/handlers/handleFormSubmit";
+import * as Icon from "@/components/icons/index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
@@ -11,9 +13,11 @@ import {
   Card,
   CardActions,
   CardContent,
+  Checkbox,
   Container,
   FormControl,
   FormControlLabel,
+  FormGroup,
   FormHelperText,
   Radio,
   RadioGroup,
@@ -24,53 +28,32 @@ import {
 
 // Formコンポーネント内を細かく切り出す
 
+const attendanceOptions = [
+  "週1",
+  "週2",
+  "週3",
+  "週4",
+  "週5",
+  "オンライン",
+  "自由",
+];
+
 // Searchページのモーダルを閉じる関数
 interface FormProps {
   handleClose: () => void;
 }
 
-// Zodスキーマの定義
-const formSchema = z.object({
-  totalTuitionFeeValue: z
-    .tuple([z.number(), z.number().max(4000000)])
-    .refine(([, max]) => max > 0, {
-      message: "学費総額を選択してください。",
-    }),
-  movingOutsideThePrefecture: z
-    .string()
-    .refine((val) => val !== "", {
-      message: "県外移動の有無を選択してください。",
-    })
-    .refine((val) => ["true", "false"].includes(val), {
-      message: "県外移動の有無を正しく選択してください。",
-    }),
-  commutingStyle: z
-    .string()
-    .refine((val) => val !== "", { message: "通学形態を選択してください。" })
-    .refine((val) => ["通学", "オンライン"].includes(val), {
-      message: "通学形態を正しく選択してください。",
-    }),
-  highSchool: z
-    .string()
-    .refine((val) => val !== "", { message: "学校の種類を選択してください。" })
-    .refine((val) => ["通信制高等学校", "サポート校"].includes(val), {
-      message: "学校の種類を正しく選択してください。",
-    }),
-  attendanceFrequency: z
-    .string()
-    .refine((val) => val !== "", { message: "登校頻度を選択してください。" })
-    .refine(
-      (val) =>
-        ["週1", "週2", "週3", "週4", "週5", "オンライン", "自由"].includes(val),
-      { message: "登校頻度を正しく選択してください。" }
-    ),
-});
-
-type FormValues = z.infer<typeof formSchema>;
-
 const Form: React.FC<FormProps> = ({ handleClose }) => {
   // Radioのカラーリング
   const CustomRadio = styled(Radio)({
+    color: "#003399",
+    "&.Mui-checked": {
+      color: "#003399",
+    },
+  });
+
+  // CheckBoxのカラーリング
+  const CustomCheckBox = styled(Checkbox)({
     color: "#003399",
     "&.Mui-checked": {
       color: "#003399",
@@ -90,56 +73,39 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
       movingOutsideThePrefecture: "",
       commutingStyle: "",
       highSchool: "",
-      attendanceFrequency: "",
+      attendanceFrequency: [],
     },
   });
 
   // ユーザーが選択した値を監視
   const totalTuitionFeeValue = watch("totalTuitionFeeValue");
   const commutingStyleValue = watch("commutingStyle");
-  const attendanceFrequencyValue = watch("attendanceFrequency");
+
+  // commutingStyleとattendanceFrequencyの連動ロジック
+  useEffect(() => {
+    const attendanceFrequencyValue = watch("attendanceFrequency") || [];
+
+    if (commutingStyleValue === "オンライン") {
+      // オンライン選択時：「オンライン」のみにする
+      if (!attendanceFrequencyValue.includes("オンライン")) {
+        setValue("attendanceFrequency", ["オンライン"]);
+      }
+    } else if (commutingStyleValue === "通学") {
+      // 通学選択時：「オンライン」を除外する
+      if (attendanceFrequencyValue.includes("オンライン")) {
+        const newValue = attendanceFrequencyValue.filter(
+          (v) => v !== "オンライン"
+        );
+        setValue("attendanceFrequency", newValue);
+      }
+    }
+  }, [commutingStyleValue, setValue, watch]);
 
   const router = useRouter();
 
-  // 通学形態と登校頻度の連動ロジック
-  const [disableOnline, setDisableOnline] = useState(false);
-
-  useEffect(() => {
-    if (commutingStyleValue === "通学") {
-      setDisableOnline(true);
-      if (attendanceFrequencyValue === "オンライン") {
-        setValue("attendanceFrequency", "");
-      }
-    } else if (commutingStyleValue === "オンライン") {
-      setDisableOnline(false);
-    }
-  }, [commutingStyleValue, setValue, attendanceFrequencyValue]);
-
-  useEffect(() => {
-    if (attendanceFrequencyValue === "通学") {
-      setDisableOnline(true);
-      if (commutingStyleValue === "オンライン") {
-        setValue("attendanceFrequency", "");
-      }
-    } else if (attendanceFrequencyValue === "オンライン") {
-      setDisableOnline(false);
-    }
-  }, [commutingStyleValue, setValue, attendanceFrequencyValue]);
-
+  // lib/handleFormSubmit
   const onSubmit = (data: FormValues) => {
-    // クエリパラメータを生成して検索ページへ遷移
-    const query = new URLSearchParams({
-      // フォームの値を取得
-      totalTuitionFeeMin: data.totalTuitionFeeValue[0].toString(),
-      totalTuitionFeeMax: data.totalTuitionFeeValue[1].toString(),
-      movingOutsideThePrefecture: data.movingOutsideThePrefecture,
-      commutingStyle: data.commutingStyle,
-      highSchool: data.highSchool,
-      attendanceFrequency: data.attendanceFrequency,
-    }).toString();
-
-    router.push(`/search?${query}`);
-    handleClose(); // モーダルを閉じる
+    handleFormSubmit(data, router, handleClose);
   };
 
   return (
@@ -167,20 +133,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
             }}
           >
             <Button onClick={handleClose} sx={{ color: "#000000" }}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                style={{ width: "24px", height: "24px" }}
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18 18 6M6 6l12 12"
-                />
-              </svg>
+              <Icon.CloseIcon />
             </Button>
           </CardActions>
 
@@ -197,22 +150,11 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    style={{ width: "24px", height: "24px", color: "#FF6600" }}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m9 7.5 3 4.5m0 0 3-4.5M12 12v5.25M15 12H9m6 3H9m12-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                    />
-                  </svg>
-                  3年間の学費総額：￥
-                  {totalTuitionFeeValue[0].toLocaleString("ja-JP")} 〜 ￥
+                  <Icon.YenIcon />
+                  3年間の学費総額
+                </Typography>
+                <Typography sx={{ fontWeight: 600, ml: 2 }}>
+                  ￥{totalTuitionFeeValue[0].toLocaleString("ja-JP")} 〜 ￥
                   {totalTuitionFeeValue[1].toLocaleString("ja-JP")}
                 </Typography>
                 <Controller
@@ -243,11 +185,12 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                     />
                   )}
                 />
-                {errors.totalTuitionFeeValue && (
-                  <FormHelperText error sx={{ fontSize: "1rem" }}>
-                    {errors.totalTuitionFeeValue.message}
-                  </FormHelperText>
-                )}
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
+                  {errors.totalTuitionFeeValue?.[0]?.message}
+                </FormHelperText>
+                <FormHelperText error sx={{ fontSize: "1rem" }}>
+                  {errors.totalTuitionFeeValue?.[1]?.message}
+                </FormHelperText>
               </Box>
 
               {/* スクーリング会場 */}
@@ -257,20 +200,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    style={{ width: "24px", height: "24px", color: "#FF6600" }}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"
-                    />
-                  </svg>
+                  <Icon.OfficeIcon />
                   スクーリング会場
                 </Typography>
                 <Controller
@@ -316,20 +246,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    style={{ width: "24px", height: "24px", color: "#FF6600" }}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z"
-                    />
-                  </svg>
+                  <Icon.SchoolIcon />
                   学校の種類
                 </Typography>
                 <Controller
@@ -375,20 +292,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    style={{ width: "24px", height: "24px", color: "#FF6600" }}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z"
-                    />
-                  </svg>
+                  <Icon.TvIcon />
                   通学形態
                 </Typography>
                 <Controller
@@ -410,20 +314,11 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                           value="通学"
                           control={<CustomRadio />}
                           label="通学"
-                          disabled={attendanceFrequencyValue === "オンライン"} // 登校頻度が「オンライン」の場合、通学を無効化
                         />
                         <FormControlLabel
                           value="オンライン"
                           control={<CustomRadio />}
                           label="オンライン"
-                          disabled={[
-                            "週1",
-                            "週2",
-                            "週3",
-                            "週4",
-                            "週5",
-                            "自由",
-                          ].includes(attendanceFrequencyValue)} // 登校頻度が「オンライン」の場合、通学を無効化
                         />
                       </RadioGroup>
                     </FormControl>
@@ -443,82 +338,55 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    style={{ width: "24px", height: "24px", color: "#FF6600" }}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"
-                    />
-                  </svg>
+                  <Icon.CalendarIcon />
                   登校頻度
                 </Typography>
+
                 <Controller
                   name="attendanceFrequency"
                   control={control}
-                  render={({ field }) => (
-                    <FormControl>
-                      <RadioGroup
-                        {...field} // field.value と field.onChange を適用
-                        row // 横並びにするプロパティ
-                        sx={{
-                          gap: 2,
-                          pb: 1,
-                        }}
-                        aria-labelledby="attendance-frequency"
-                        name="radio-buttons-group"
-                      >
-                        <FormControlLabel
-                          value="週1"
-                          control={<CustomRadio />}
-                          label="週1"
-                          disabled={commutingStyleValue === "オンライン"} // Disable if "オンライン" is selected
-                        />
-                        <FormControlLabel
-                          value="週2"
-                          control={<CustomRadio />}
-                          label="週2"
-                          disabled={commutingStyleValue === "オンライン"}
-                        />
-                        <FormControlLabel
-                          value="週3"
-                          control={<CustomRadio />}
-                          label="週3"
-                          disabled={commutingStyleValue === "オンライン"}
-                        />
-                        <FormControlLabel
-                          value="週4"
-                          control={<CustomRadio />}
-                          label="週4"
-                          disabled={commutingStyleValue === "オンライン"}
-                        />
-                        <FormControlLabel
-                          value="週5"
-                          control={<CustomRadio />}
-                          label="週5"
-                          disabled={commutingStyleValue === "オンライン"}
-                        />
-                        <FormControlLabel
-                          value="オンライン"
-                          control={<CustomRadio />}
-                          label="オンライン"
-                          disabled={disableOnline} // 無効化ロジック
-                        />
-                        <FormControlLabel
-                          value="自由"
-                          control={<CustomRadio />}
-                          label="自由"
-                          disabled={commutingStyleValue === "オンライン"}
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  )}
+                  render={({ field }) => {
+                    const handleChange = (
+                      event: React.ChangeEvent<HTMLInputElement>
+                    ) => {
+                      const { value, checked } = event.target;
+                      const currentValue = (field.value || []) as string[];
+                      const newValue = checked
+                        ? [...currentValue, value]
+                        : currentValue.filter((v) => v !== value);
+                      field.onChange(newValue);
+                    };
+                    return (
+                      <FormControl component="fieldset">
+                        <FormGroup row sx={{ gap: 2, pb: 1 }}>
+                          {attendanceOptions.map((option) => {
+                            const isDisabled =
+                              (commutingStyleValue === "オンライン" &&
+                                option !== "オンライン") ||
+                              (commutingStyleValue === "通学" &&
+                                option === "オンライン");
+
+                            return (
+                              <FormControlLabel
+                                key={option}
+                                control={
+                                  <CustomCheckBox
+                                    checked={(field.value || []).includes(
+                                      option
+                                    )}
+                                    onChange={handleChange}
+                                    value={option}
+                                    disabled={isDisabled}
+                                  />
+                                }
+                                label={option}
+                              />
+                            );
+                          })}
+                        </FormGroup>
+                      </FormControl>
+                    );
+                  }}
                 />
                 {errors.attendanceFrequency && (
                   <FormHelperText error sx={{ fontSize: "1rem" }}>
