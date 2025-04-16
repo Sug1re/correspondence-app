@@ -376,7 +376,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                                     )}
                                     onChange={handleChange}
                                     value={option}
-                                    disabled={isDisabled} // 🔥 ここがポイント
+                                    disabled={isDisabled}
                                   />
                                 }
                                 label={option}
