@@ -29,8 +29,10 @@ const useSearchSchoolParams = () => {
   }, [searchParams]);
 
   const attendanceFrequency = useMemo(() => {
-    return searchParams.getAll("attendanceFrequency");
-  }, [searchParams.toString()]); // .toString() で依存を安定化
+    const value = searchParams.get("attendanceFrequency");
+    return value ? value.split(",") : [];
+  }, [searchParams]);
+  
 
   return {
     totalTuitionFeeValue,
