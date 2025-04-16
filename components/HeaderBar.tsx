@@ -3,11 +3,11 @@ import * as CustomHook from "@/hooks";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 
 type HeaderBarProps = {
-  totalTuitionFeeValue: number[];
+  totalTuitionFeeValue: [number, number];
   movingOutsideThePrefecture: boolean;
   commutingStyle: string;
   highSchool: string;
-  attendanceFrequency: string;
+  attendanceFrequency: string[];
 };
 
 const HeaderBar: React.FC<HeaderBarProps> = ({
@@ -165,7 +165,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
                   />
                 </svg>
                 <Typography sx={{ fontSize: "0.8rem", px: 0.5 }}>
-                  {attendanceFrequency}
+                  {attendanceFrequency.join(",")}
                 </Typography>
               </Box>
             </Box>

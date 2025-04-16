@@ -17,7 +17,7 @@ const useSearchSchoolParams = () => {
     searchParams.get("movingOutsideThePrefecture") === "true";
   const commutingStyle = searchParams.get("commutingStyle") || "";
   const highSchool = searchParams.get("highSchool") || "";
-  const attendanceFrequency = searchParams.get("attendanceFrequency") || "";
+  const attendanceFrequency = searchParams.getAll("attendanceFrequency");
 
   return {
     totalTuitionFeeValue,

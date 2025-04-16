@@ -3,12 +3,11 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { School } from "@/app/types/school";
 
 type Params = {
-  course?: string;
-  totalTuitionFeeValue?: number[];
+  totalTuitionFeeValue?: [number,number];
   movingOutsideThePrefecture?: boolean;
   commutingStyle?: string;
   highSchool?: string;
-  attendanceFrequency?: string;
+  attendanceFrequency?: string[];
 };
 
 export const getFilteredFirestoreData = async ({
