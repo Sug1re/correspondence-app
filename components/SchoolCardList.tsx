@@ -18,6 +18,8 @@ import {
 import { School } from "@/app/types/school";
 import * as CustomHook from "@/hooks/index";
 import * as Icon from "@/components/icons/index";
+import { auth } from "@/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 type SchoolCardListProps = {
   schools: School[];
@@ -26,6 +28,8 @@ type SchoolCardListProps = {
 const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
   // カスタムフックuseModal
   const { openModalId, handleOpen, handleClose } = CustomHook.useModal();
+
+  const [user] = useAuthState(auth);
 
   console.log(schools);
 
@@ -46,6 +50,11 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
                 },
               }}
             >
+              {user && (
+                <Box sx={{ position: "absolute", top: 10, left: 10 }}>
+                  <Icon.HeartIcon />
+                </Box>
+              )}
               {/* 学校の画像を挿入 */}
               <Link href={school.url} target="_blank" rel="noopener noreferrer">
                 <Box
