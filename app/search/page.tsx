@@ -26,8 +26,7 @@ const SearchResultPage = () => {
       attendanceFrequency: rawParams.attendanceFrequency,
     }),
     [
-      rawParams.totalTuitionFeeValue?.[0],
-      rawParams.totalTuitionFeeValue?.[1],
+      rawParams.totalTuitionFeeValue,
       rawParams.movingOutsideThePrefecture,
       rawParams.commutingStyle,
       rawParams.highSchool,

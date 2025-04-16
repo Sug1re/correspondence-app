@@ -113,6 +113,16 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
                   }}
                 >
                   {school.course || "コース情報なし"}
+
+                  {school.attendanceFrequency?.length > 0 && (
+                    <Box component="span" sx={{ ml: 1, color: "#003399" }}>
+                      {school.attendanceFrequency.map((freq, index) => (
+                        <Box key={index} component="span" sx={{ mr: 0.5 }}>
+                          #{freq}
+                        </Box>
+                      ))}
+                    </Box>
+                  )}
                 </Typography>
 
                 {/* 学費総額 */}
