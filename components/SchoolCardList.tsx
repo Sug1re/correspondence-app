@@ -2,6 +2,7 @@
 
 import React from "react";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -9,6 +10,7 @@ import {
   Grid,
   Link,
   Modal,
+  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -26,6 +28,8 @@ type SchoolCardListProps = {
 };
 
 const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
+  const [user] = useAuthState(auth);
+
   // カスタムフックuseModal
   const { openModalId, handleOpen, handleClose } = CustomHook.useModal();
 
@@ -33,15 +37,18 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
   const [likedSchools, setLikedSchools] = React.useState<
     Record<string, boolean>
   >({});
+  const [errorOpen, setErrorOpen] = React.useState(false);
 
   const toggleLike = (schoolId: string) => {
+    if (!user) {
+      setErrorOpen(true); // エラーメッセージを表示
+      return;
+    }
     setLikedSchools((prev) => ({
       ...prev,
       [schoolId]: !prev[schoolId],
     }));
   };
-
-  const [user] = useAuthState(auth);
 
   console.log(schools);
 
@@ -63,26 +70,28 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
                 position: "relative",
               }}
             >
-              {user && (
-                <Box
+              {/* お気に入り登録ボタン */}
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 5,
+                  left: 5,
+                  color: "#FF0000",
+                }}
+              >
+                <Icon.HeartIcon
+                  filled={likedSchools[school.id]}
+                  fillColor="red"
+                  onClick={() => toggleLike(school.id)}
                   sx={{
-                    position: "absolute",
-                    top: 10,
-                    left: 10,
-                    color: "#FF00000",
+                    transition: "all 1s ease",
+                    // color: likedSchools[school.id] ? "#FF0000" : "#888888",
+                    color: "#FF0000",
+                    cursor: "pointer",
                   }}
-                >
-                  <Icon.HeartIcon
-                    filled={likedSchools[school.id]}
-                    fillColor="red"
-                    onClick={() => toggleLike(school.id)}
-                    sx={{
-                      transition: "all 0.5s ease",
-                      color: likedSchools[school.id] ? "#FF0000" : "#888888",
-                    }}
-                  />
-                </Box>
-              )}
+                />
+              </Box>
+
               {/* 学校の画像を挿入 */}
               <Link href={school.url} target="_blank" rel="noopener noreferrer">
                 <Box
@@ -338,6 +347,22 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
                   </Table>
                 </Card>
               </Modal>
+
+              <Snackbar
+                open={errorOpen}
+                autoHideDuration={3000}
+                onClose={() => setErrorOpen(false)}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+              >
+                <Alert
+                  onClose={() => setErrorOpen(false)}
+                  severity="warning"
+                  variant="filled"
+                  sx={{ width: "100%" }}
+                >
+                  お気に入り登録にはログインが必要です
+                </Alert>
+              </Snackbar>
             </Card>
           </Grid>
         ))}
