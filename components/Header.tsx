@@ -31,7 +31,7 @@ export default function Header() {
                 color: "#FFFFFF",
               }}
             >
-              通信制高校マッチングアプリ
+              通信制高校検索アプリ
               <br />
               （新潟県版）
             </Typography>

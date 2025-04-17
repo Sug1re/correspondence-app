@@ -29,6 +29,18 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
   // カスタムフックuseModal
   const { openModalId, handleOpen, handleClose } = CustomHook.useModal();
 
+  // HeartIconの用途別カスタム
+  const [likedSchools, setLikedSchools] = React.useState<
+    Record<string, boolean>
+  >({});
+
+  const toggleLike = (schoolId: string) => {
+    setLikedSchools((prev) => ({
+      ...prev,
+      [schoolId]: !prev[schoolId],
+    }));
+  };
+
   const [user] = useAuthState(auth);
 
   console.log(schools);
@@ -48,11 +60,27 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
                   sm: 330,
                   md: 280,
                 },
+                position: "relative",
               }}
             >
               {user && (
-                <Box sx={{ position: "absolute", top: 10, left: 10 }}>
-                  <Icon.HeartIcon />
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 10,
+                    left: 10,
+                    color: "#FF00000",
+                  }}
+                >
+                  <Icon.HeartIcon
+                    filled={likedSchools[school.id]}
+                    fillColor="red"
+                    onClick={() => toggleLike(school.id)}
+                    sx={{
+                      transition: "all 0.5s ease",
+                      color: likedSchools[school.id] ? "#FF0000" : "#888888",
+                    }}
+                  />
                 </Box>
               )}
               {/* 学校の画像を挿入 */}
