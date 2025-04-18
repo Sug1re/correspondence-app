@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import Link from "next/link";
 import * as Component from "@/components/index";
@@ -44,9 +46,9 @@ export default function Header() {
               sx={{ color: "#FFFFFF" }}
               aria-label="menu"
               component={Link}
-              href="/"
+              href="/favorites"
             >
-              <Icon.HeartIcon />
+              <Icon.BookmarkIcon />
             </IconButton>
           </Box>
 

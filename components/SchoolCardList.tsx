@@ -21,6 +21,11 @@ import { School } from "@/app/types/school";
 import * as CustomHook from "@/hooks/index";
 import * as Icon from "@/components/icons/index";
 import { auth } from "@/firebase";
+import {
+  getFavoriteSchools,
+  toggleFavoriteSchool,
+} from "@/lib/firebase/favorite";
+
 import { useAuthState } from "react-firebase-hooks/auth";
 
 type SchoolCardListProps = {
@@ -39,15 +44,31 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
   >({});
   const [errorOpen, setErrorOpen] = React.useState(false);
 
-  const toggleLike = (schoolId: string) => {
+  React.useEffect(() => {
+    const fetchFavorites = async () => {
+      if (user) {
+        const data = await getFavoriteSchools(user.uid);
+        const schoolStates = Object.keys(data).reduce((acc, key) => {
+          acc[key] = true;
+          return acc;
+        }, {} as Record<string, boolean>);
+        setLikedSchools(schoolStates);
+      }
+    };
+    fetchFavorites();
+  }, [user]);
+
+  const toggleLike = async (schoolId: string) => {
     if (!user) {
-      setErrorOpen(true); // エラーメッセージを表示
+      setErrorOpen(true);
       return;
     }
+    const updatedLike = !likedSchools[schoolId];
     setLikedSchools((prev) => ({
       ...prev,
-      [schoolId]: !prev[schoolId],
+      [schoolId]: updatedLike,
     }));
+    await toggleFavoriteSchool(user.uid, schoolId, updatedLike);
   };
 
   console.log(schools);
@@ -76,16 +97,14 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
                   position: "absolute",
                   top: 5,
                   left: 5,
-                  color: "#FF0000",
                 }}
               >
-                <Icon.HeartIcon
+                <Icon.BookmarkIcon
                   filled={likedSchools[school.id]}
                   fillColor="red"
                   onClick={() => toggleLike(school.id)}
                   sx={{
                     transition: "all 1s ease",
-                    // color: likedSchools[school.id] ? "#FF0000" : "#888888",
                     color: "#FF0000",
                     cursor: "pointer",
                   }}
@@ -348,6 +367,7 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
                 </Card>
               </Modal>
 
+              {/* アラート */}
               <Snackbar
                 open={errorOpen}
                 autoHideDuration={3000}
