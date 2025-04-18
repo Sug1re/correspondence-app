@@ -19,7 +19,7 @@ import {
 } from "@mui/material";
 import { School } from "@/app/types/school";
 import * as CustomHook from "@/hooks/index";
-import * as Icon from "@/components/icons/index";
+import * as Icon from "@/icons/index";
 import { auth } from "@/firebase";
 import {
   getFavoriteSchools,

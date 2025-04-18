@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { formSchema, FormValues } from "@/lib/validation/formSchema";
 import { handleFormSubmit } from "@/lib/handlers/handleFormSubmit";
-import * as Icon from "@/components/icons/index";
+import * as Icon from "@/icons/index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,

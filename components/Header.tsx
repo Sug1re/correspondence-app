@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import * as Component from "@/components/index";
-import * as Icon from "@/components/icons/index";
+import * as Icon from "@/icons/index";
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 
 export default function Header() {

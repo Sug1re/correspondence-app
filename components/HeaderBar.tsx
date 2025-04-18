@@ -1,6 +1,6 @@
 import React from "react";
 import * as CustomHook from "@/hooks";
-import * as Icon from "@/components/icons/index";
+import * as Icon from "@/icons/index";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 
 type HeaderBarProps = {
