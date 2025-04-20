@@ -21,11 +21,7 @@ import { School } from "@/app/types/school";
 import * as CustomHook from "@/hooks/index";
 import * as Icon from "@/icons/index";
 import { auth } from "@/firebase";
-import {
-  getFavoriteSchools,
-  toggleFavoriteSchool,
-} from "@/lib/firebase/favorite";
-
+import { toggleFavoriteSchool } from "@/lib/firebase/favorite";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 type SchoolCardListProps = {
@@ -48,20 +44,6 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({
   >({});
   const [errorOpen, setErrorOpen] = React.useState(false);
 
-  React.useEffect(() => {
-    const fetchFavorites = async () => {
-      if (user) {
-        const data = await getFavoriteSchools(user.uid);
-        const schoolStates = Object.keys(data).reduce((acc, key) => {
-          acc[key] = true;
-          return acc;
-        }, {} as Record<string, boolean>);
-        setLikedSchools(schoolStates);
-      }
-    };
-    fetchFavorites();
-  }, [user]);
-
   // ブックマーク切り替え処理
   const toggleLike = async (schoolId: string) => {
     if (!user) {
@@ -74,8 +56,9 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({
       [schoolId]: updatedLike,
     }));
     await toggleFavoriteSchool(user.uid, schoolId, updatedLike);
-  };
 
+    console.log(schoolId);
+  };
   return (
     <>
       <Grid container spacing={2} columns={{ sm: 4, md: 8 }} sx={{ pt: 2 }}>
@@ -99,7 +82,7 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({
                 sx={{
                   position: "absolute",
                   top: 5,
-                  left: 5,
+                  right: 5,
                 }}
               >
                 <Icon.BookmarkIcon
