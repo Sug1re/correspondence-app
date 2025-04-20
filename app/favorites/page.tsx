@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import * as Component from "@/components/index";
 import * as SchoolCard from "@/components/SchoolCardList/index";
+import * as CustomHook from "@/hooks/index";
 import * as Icon from "@/icons/index";
 import { useAuthContext } from "../context/AuthContext";
 import { Box, Card, Container, Grid, Typography } from "@mui/material";
@@ -37,6 +38,17 @@ const FavoritePage = () => {
 
     fetchData();
   }, [user]);
+
+  const {
+    currentPage,
+    totalPages,
+    startIndex,
+    endIndex,
+    handleNextPage,
+    handlePrevPage,
+  } = CustomHook.usePagination(favoriteSchools.length);
+
+  const currentFavoriteSchools = favoriteSchools.slice(startIndex, endIndex);
 
   return (
     <>
@@ -73,13 +85,20 @@ const FavoritePage = () => {
           <Typography sx={{ mt: 2 }}>お気に入りの学校はありません。</Typography>
         ) : (
           <>
+            <Component.PaginationButton
+              currentPage={currentPage}
+              totalPages={totalPages}
+              handlePrevPage={handlePrevPage}
+              handleNextPage={handleNextPage}
+            />
+
             <Grid
               container
               spacing={2}
               columns={{ sm: 4, md: 8 }}
-              sx={{ pt: 2 }}
+              sx={{ py: 2 }}
             >
-              {favoriteSchools.map((school) => (
+              {currentFavoriteSchools.map((school) => (
                 <Grid key={school.id} size={2}>
                   <Card
                     sx={{
