@@ -25,3 +25,4 @@ export const toggleFavoriteSchool = async (
     throw error;
   }
 };
+

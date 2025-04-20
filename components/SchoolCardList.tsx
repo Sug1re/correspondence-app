@@ -57,6 +57,7 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({
     }));
     await toggleFavoriteSchool(user.uid, schoolId, updatedLike);
   };
+
   return (
     <>
       <Grid container spacing={2} columns={{ sm: 4, md: 8 }} sx={{ pt: 2 }}>
