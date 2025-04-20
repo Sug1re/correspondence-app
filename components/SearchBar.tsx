@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import * as Component from "@/components/index";
-import * as Icon from "@/components/icons/index";
+import * as Icon from "@/icons/index";
 import {
   Box,
   Button,

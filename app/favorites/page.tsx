@@ -1,0 +1,136 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import * as Component from "@/components/index";
+import * as SchoolCard from "@/components/SchoolCardList/index";
+import * as CustomHook from "@/hooks/index";
+import * as Icon from "@/icons/index";
+import { useAuthContext } from "../context/AuthContext";
+import { Box, Card, Container, Grid, Typography } from "@mui/material";
+import { School } from "@/app/types/school";
+import { getAllFirestoreData } from "@/lib/firebase/getAllFirestoreData"; // この関数は既にある前提
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/firebase";
+
+const FavoritePage = () => {
+  const { user } = useAuthContext();
+  const [favoriteSchools, setFavoriteSchools] = useState<School[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!user) return;
+
+      try {
+        // ユーザーのお気に入り schoolId を取得
+        const favoritesSnapshot = await getDocs(
+          collection(db, "users", user.uid, "favorites")
+        );
+        const ids = favoritesSnapshot.docs.map((doc) => doc.id);
+
+        // 全学校データを取得してフィルタリング
+        const allSchools = await getAllFirestoreData();
+        const filtered = allSchools.filter((school) => ids.includes(school.id));
+        setFavoriteSchools(filtered);
+      } catch (error) {
+        console.error("お気に入り学校の取得に失敗しました", error);
+      }
+    };
+
+    fetchData();
+  }, [user]);
+
+  const {
+    currentPage,
+    totalPages,
+    startIndex,
+    endIndex,
+    handleNextPage,
+    handlePrevPage,
+  } = CustomHook.usePagination(favoriteSchools.length);
+
+  const currentFavoriteSchools = favoriteSchools.slice(startIndex, endIndex);
+
+  return (
+    <>
+      <Component.Header />
+
+      <Container maxWidth="lg">
+        <Card
+          sx={{
+            my: 2,
+            borderRadius: 2,
+            boxShadow: 3,
+            border: `0.5px solid #003399`,
+          }}
+        >
+          <Box
+            sx={{
+              minWidth: "100%",
+              justifyContent: "flex-start",
+              color: "#003399",
+              fontWeight: 600,
+              m: 1,
+              display: "flex",
+            }}
+          >
+            <Box sx={{ pr: 2 }}>
+              <Icon.ListIcon />
+            </Box>
+            お気に入り学校一覧
+          </Box>
+        </Card>
+
+        {/* 表示部分 */}
+        {favoriteSchools.length === 0 ? (
+          <Typography sx={{ mt: 2 }}>お気に入りの学校はありません。</Typography>
+        ) : (
+          <>
+            <Component.PaginationButton
+              currentPage={currentPage}
+              totalPages={totalPages}
+              handlePrevPage={handlePrevPage}
+              handleNextPage={handleNextPage}
+            />
+
+            <Grid
+              container
+              spacing={2}
+              columns={{ sm: 4, md: 8 }}
+              sx={{ py: 2 }}
+            >
+              {currentFavoriteSchools.map((school) => (
+                <Grid key={school.id} size={2}>
+                  <Card
+                    sx={{
+                      boxShadow: 5,
+                      borderRadius: 2,
+                      border: `0.5px solid #003399`,
+                      width: {
+                        xs: 160,
+                        sm: 330,
+                        md: 280,
+                      },
+                      position: "relative",
+                    }}
+                  >
+                    <SchoolCard.SchoolImage
+                      url={school.url}
+                      imgUrl={school.imgUrl}
+                      name={school.name}
+                    />
+
+                    <SchoolCard.SchoolCardText school={school} />
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </>
+        )}
+
+        <Component.ScrollTopButton />
+      </Container>
+    </>
+  );
+};
+
+export default FavoritePage;
