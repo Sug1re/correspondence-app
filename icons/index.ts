@@ -9,5 +9,6 @@ import HomeIcon from "./HomeIcon";
 import SearchIcon from "./SearchIcon";
 import ChevronDownIcon from "./ChevronDownIcon";
 import BookmarkIcon from "./BookmarkIcon";
+import ListIcon from "./ListIcon";
 
-export {CloseIcon, YenIcon, OfficeIcon, SchoolIcon, TvIcon, CalendarIcon, LinkIcon, HomeIcon, SearchIcon, ChevronDownIcon, BookmarkIcon};
+export {CloseIcon, YenIcon, OfficeIcon, SchoolIcon, TvIcon, CalendarIcon, LinkIcon, HomeIcon, SearchIcon, ChevronDownIcon, BookmarkIcon, ListIcon};
