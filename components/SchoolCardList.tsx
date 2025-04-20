@@ -30,9 +30,13 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 type SchoolCardListProps = {
   schools: School[];
+  onFavoritesChange?: (favorites: string[]) => void; // 追加
 };
 
-const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
+const SchoolCardList: React.FC<SchoolCardListProps> = ({
+  schools,
+  onFavoritesChange,
+}) => {
   const [user] = useAuthState(auth);
 
   // カスタムフックuseModal
@@ -58,6 +62,7 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
     fetchFavorites();
   }, [user]);
 
+  // ブックマーク切り替え処理
   const toggleLike = async (schoolId: string) => {
     if (!user) {
       setErrorOpen(true);
@@ -70,8 +75,6 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
     }));
     await toggleFavoriteSchool(user.uid, schoolId, updatedLike);
   };
-
-  console.log(schools);
 
   return (
     <>
@@ -101,11 +104,11 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
               >
                 <Icon.BookmarkIcon
                   filled={likedSchools[school.id]}
-                  fillColor="red"
+                  fillColor="#FF6611"
                   onClick={() => toggleLike(school.id)}
                   sx={{
                     transition: "all 1s ease",
-                    color: "#FF0000",
+                    color: "#FF6611",
                     cursor: "pointer",
                   }}
                 />

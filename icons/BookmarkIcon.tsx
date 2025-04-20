@@ -8,7 +8,7 @@ interface HeartIconProps extends SvgIconProps {
 
 const BookmarkIcon: React.FC<HeartIconProps> = ({
   filled = false,
-  fillColor = "red",
+  fillColor = "#FF6611",
   sx,
   ...props
 }) => {
