@@ -3,38 +3,47 @@
 import React, { useEffect, useState } from "react";
 import * as Component from "@/components/index";
 import * as Icon from "@/icons/index";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/firebase";
 import { useAuthContext } from "../context/AuthContext";
 import { Box, Card, Container, Typography } from "@mui/material";
+import { School } from "@/app/types/school";
+import { getAllFirestoreData } from "@/lib/firebase/getAllFirestoreData"; // この関数は既にある前提
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/firebase";
 
 const FavoritePage = () => {
-  const { user } = useAuthContext(); // ログインユーザー情報
+  const { user } = useAuthContext();
   const [favoriteSchoolIds, setFavoriteSchoolIds] = useState<string[]>([]);
+  const [favoriteSchools, setFavoriteSchools] = useState<School[]>([]);
 
   useEffect(() => {
-    const fetchFavoriteSchools = async () => {
+    const fetchData = async () => {
       if (!user) return;
 
-      const favoritesRef = collection(db, "users", user.uid, "favorites");
-
       try {
-        const snapshot = await getDocs(favoritesRef);
-        const ids = snapshot.docs.map((doc) => doc.id); // schoolId は doc.id に保存されている
+        // ユーザーのお気に入り schoolId を取得
+        const favoritesSnapshot = await getDocs(
+          collection(db, "users", user.uid, "favorites")
+        );
+        const ids = favoritesSnapshot.docs.map((doc) => doc.id);
         setFavoriteSchoolIds(ids);
+
+        // 全学校データを取得してフィルタリング
+        const allSchools = await getAllFirestoreData();
+        const filtered = allSchools.filter((school) => ids.includes(school.id));
+        setFavoriteSchools(filtered);
       } catch (error) {
         console.error("お気に入り学校の取得に失敗しました", error);
       }
     };
 
-    fetchFavoriteSchools();
+    fetchData();
   }, [user]);
+
   return (
     <>
       <Component.Header />
 
       <Container maxWidth="lg">
-        {/* 一覧ヘッダー */}
         <Card
           sx={{
             my: 2,
@@ -60,13 +69,18 @@ const FavoritePage = () => {
           </Box>
         </Card>
 
-        {/* お気に入りの schoolId 一覧 */}
-        {favoriteSchoolIds.length === 0 ? (
+        {/* 表示部分 */}
+        {favoriteSchools.length === 0 ? (
           <Typography sx={{ mt: 2 }}>お気に入りの学校はありません。</Typography>
         ) : (
-          favoriteSchoolIds.map((schoolId) => (
-            <Card key={schoolId} sx={{ my: 1, p: 2 }}>
-              <Typography>{schoolId}</Typography>
+          favoriteSchools.map((school) => (
+            <Card key={school.id} sx={{ my: 1, p: 2 }}>
+              <Typography variant="h6">{school.name}</Typography>
+              <Typography variant="body2">コース: {school.course}</Typography>
+              <Typography variant="body2">
+                学費: ¥{school.totalTuitionFee.toLocaleString()}
+              </Typography>
+              {/* 必要に応じて他の情報も追加 */}
             </Card>
           ))
         )}

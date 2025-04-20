@@ -56,8 +56,6 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({
       [schoolId]: updatedLike,
     }));
     await toggleFavoriteSchool(user.uid, schoolId, updatedLike);
-
-    console.log(schoolId);
   };
   return (
     <>

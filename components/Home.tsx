@@ -38,6 +38,8 @@ const Home = () => {
 
   const currentSchools = schools.slice(startIndex, endIndex);
 
+  console.log("表示中の学校一覧（currentSchools）:", currentSchools);
+
   return (
     <>
       {/* 学校情報 */}
