@@ -5,8 +5,6 @@ import { Avatar, Box, Button } from "@mui/material";
 import { signInWithPopup, User } from "firebase/auth";
 import { auth, provider } from "@/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { db } from "@/firebase";
-import { doc, setDoc } from "firebase/firestore";
 
 const Login = () => {
   const [user] = useAuthState(auth);
@@ -34,20 +32,7 @@ function SignInButton() {
   const signInWithGoogle = async () => {
     setLoading(true);
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      // Firestore に UID を追加
-      if (user) {
-        const userRef = doc(db, "users", user.uid);
-        await setDoc(
-          userRef,
-          {
-            uid: user.uid,
-          },
-          { merge: true } // merge: true で既存データに上書きされないように
-        );
-      }
+      await signInWithPopup(auth, provider);
     } catch (error) {
       console.error("Googleログインエラー:", error);
     } finally {
