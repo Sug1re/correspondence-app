@@ -82,7 +82,23 @@ const FavoritePage = () => {
 
         {/* 表示部分 */}
         {favoriteSchools.length === 0 ? (
-          <Typography sx={{ mt: 2 }}>お気に入りの学校はありません。</Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "70vh",
+            }}
+          >
+            <Typography
+              sx={{
+                mt: 2,
+                fontWeight: 600,
+              }}
+            >
+              お気に入りの学校はありません
+            </Typography>
+          </Box>
         ) : (
           <>
             <Component.PaginationButton
