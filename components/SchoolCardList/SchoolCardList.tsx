@@ -27,7 +27,10 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
   //  ログインユーザーのお気に入りを取得して state にセット
   useEffect(() => {
     const fetchFavorites = async () => {
-      if (!user) return;
+      if (!user) {
+        setLikedSchools({});
+        return;
+      }
 
       const favoritesRef = collection(db, "users", user.uid, "favorites");
       const snapshot = await getDocs(favoritesRef);
