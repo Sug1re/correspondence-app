@@ -1,4 +1,3 @@
-// components/FavoriteButton.tsx
 "use client";
 
 import React from "react";
@@ -36,7 +35,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
 
   return (
     <>
-      {/* お気に入り登録ボタン */}
+      {/* ブックマークボタン */}
       <Box sx={{ position: "absolute", top: 5, right: 5 }}>
         <Icon.BookmarkIcon
           filled={liked}

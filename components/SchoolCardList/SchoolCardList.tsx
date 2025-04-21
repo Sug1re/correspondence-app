@@ -1,8 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Grid } from "@mui/material";
 import { School } from "@/app/types/school";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { collection, getDocs } from "firebase/firestore";
+import { auth, db } from "@/firebase";
 import * as SchoolCard from "@/components/SchoolCardList/index";
 
 type SchoolCardListProps = {
@@ -10,10 +13,9 @@ type SchoolCardListProps = {
 };
 
 const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
-  // HeartIconの用途別カスタム
-  const [likedSchools, setLikedSchools] = React.useState<
-    Record<string, boolean>
-  >({});
+  const [user] = useAuthState(auth);
+
+  const [likedSchools, setLikedSchools] = useState<Record<string, boolean>>({});
 
   const setLiked = (schoolId: string, liked: boolean) => {
     setLikedSchools((prev) => ({
@@ -21,6 +23,25 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
       [schoolId]: liked,
     }));
   };
+
+  //  ログインユーザーのお気に入りを取得して state にセット
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (!user) return;
+
+      const favoritesRef = collection(db, "users", user.uid, "favorites");
+      const snapshot = await getDocs(favoritesRef);
+
+      const initialLikedState: Record<string, boolean> = {};
+      snapshot.forEach((doc) => {
+        initialLikedState[doc.id] = true;
+      });
+
+      setLikedSchools(initialLikedState);
+    };
+
+    fetchFavorites();
+  }, [user]);
 
   return (
     <>
@@ -42,7 +63,7 @@ const SchoolCardList: React.FC<SchoolCardListProps> = ({ schools }) => {
             >
               <SchoolCard.FavoriteButton
                 schoolId={school.id}
-                liked={likedSchools[school.id]}
+                liked={!!likedSchools[school.id]}
                 setLiked={setLiked}
               />
 
