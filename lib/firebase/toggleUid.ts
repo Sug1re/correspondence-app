@@ -14,7 +14,6 @@ export const toggleFavoriteSchool = async (
       // 登録
       await setDoc(favoriteRef, {
         schoolId,
-        createdAt: new Date(),
       });
     } else {
       // 削除
