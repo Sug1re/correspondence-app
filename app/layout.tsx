@@ -15,9 +15,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "新潟県の通信制高校マッチングアプリ",
+  title: "新潟県の通信制高校検索アプリ",
   description:
-    "新潟県の通信制高校生向けマッチングアプリ。友達作りや情報交換、学校生活の悩み相談ができる安心のコミュニティ。新しいつながりを見つけよう！",
+    "通信制高校の各コースを検索できます。通信制高校に詳しくなってください。",
 };
 
 export default function RootLayout({
