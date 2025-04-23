@@ -69,9 +69,15 @@ function SignInButton() {
 
 // googleButtonでSignOut
 function SignOutButton({ user }: { user: User }) {
+  const handleSignOut = () => {
+    const confirmed = window.confirm("本当にログアウトしますか？");
+    if (confirmed) {
+      auth.signOut();
+    }
+  };
   return (
     <Button
-      onClick={() => auth.signOut()}
+      onClick={handleSignOut}
       variant="contained"
       type="submit"
       sx={{

@@ -33,9 +33,14 @@ const PaginationButton: React.FC<PaginationButtonsProps> = ({
             border: `1px solid #003399`,
             color: "#003399",
             backgroundColor: "#FFFFFF",
+            boxShadow: 2,
+            transition: " 0.3s ease",
+            "&:hover": {
+              backgroundColor: "#E6E6FF",
+            },
           }}
         >
-          前のページ
+          前へ
         </Button>
         <Typography sx={{ display: "flex", alignItems: "center" }}>
           {currentPage} / {totalPages}
@@ -49,9 +54,14 @@ const PaginationButton: React.FC<PaginationButtonsProps> = ({
             border: `1px solid #FF6600`,
             color: "#FF6600",
             backgroundColor: "#FFFFFF",
+            boxShadow: 2,
+            transition: " 0.3s ease",
+            "&:hover": {
+              backgroundColor: "#FFE5CC",
+            },
           }}
         >
-          次のページ
+          次へ
         </Button>
       </Box>
     </>

@@ -18,7 +18,10 @@ const FavoritePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!user) return;
+      if (!user) {
+        setFavoriteSchools([]); // ユーザーがログアウトしている場合、空の配列にする
+        return;
+      }
 
       try {
         // ユーザーのお気に入り schoolId を取得
@@ -101,12 +104,21 @@ const FavoritePage = () => {
           </Box>
         ) : (
           <>
-            <Component.PaginationButton
-              currentPage={currentPage}
-              totalPages={totalPages}
-              handlePrevPage={handlePrevPage}
-              handleNextPage={handleNextPage}
-            />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+              }}
+            >
+              <Component.BackButton />
+
+              <Component.PaginationButton
+                currentPage={currentPage}
+                totalPages={totalPages}
+                handlePrevPage={handlePrevPage}
+                handleNextPage={handleNextPage}
+              />
+            </Box>
 
             <Grid
               container
