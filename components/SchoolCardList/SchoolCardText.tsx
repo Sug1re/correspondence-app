@@ -165,7 +165,6 @@ const SchoolCardText: React.FC<SchoolCardTitleProps> = ({ school }) => {
                 }}
               >
                 学費総額の内訳
-                <Icon.ChevronDownIcon />
               </Typography>
               <Button
                 onClick={handleClose}

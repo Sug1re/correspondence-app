@@ -7,7 +7,8 @@ import PaginationButton from "./PaginationButton"
 import Home from "./Home"
 import SchoolCardList from "./SchoolCardList/SchoolCardList"
 import SearchBar from "./SearchBar"
+import BackButton from "./BackButton"
 
-export { ScrollTopButton, Form, Header, HeaderBar, Login, PaginationButton, Home, SchoolCardList, SearchBar };
+export { ScrollTopButton, Form, Header, HeaderBar, Login, PaginationButton, Home, SchoolCardList, SearchBar,BackButton };
 
 

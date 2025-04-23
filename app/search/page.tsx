@@ -99,13 +99,22 @@ const SearchResultPage = () => {
           ) : (
             // 学校が見つかった場合
             <>
-              {/* ページネーションボタン */}
-              <Component.PaginationButton
-                currentPage={currentPage}
-                totalPages={totalPages}
-                handlePrevPage={handlePrevPage}
-                handleNextPage={handleNextPage}
-              />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                }}
+              >
+                <Component.BackButton />
+
+                {/* ページネーションボタン */}
+                <Component.PaginationButton
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  handlePrevPage={handlePrevPage}
+                  handleNextPage={handleNextPage}
+                />
+              </Box>
 
               <Component.SchoolCardList schools={currentSchools} />
             </>
