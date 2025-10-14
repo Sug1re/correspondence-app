@@ -2,8 +2,10 @@
 @tailwind components;
 @tailwind utilities; */
 body {
-  overscroll-behavior: none; /* オーバースクロールを無効化 */
-  background-color: #f8f8f8
+  overscroll-behavior: none;
+  background-color: #f8f8f8;
+  margin: 0;
 }
+
 
 
