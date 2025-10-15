@@ -47,6 +47,7 @@ export default function Header() {
               aria-label="menu"
               component={Link}
               href="/favorites"
+              disableRipple
             >
               <Icon.BookmarkIcon />
             </IconButton>
@@ -60,8 +61,22 @@ export default function Header() {
               aria-label="menu"
               component={Link}
               href="/"
+              disableRipple
             >
               <Icon.HomeIcon />
+            </IconButton>
+          </Box>
+
+          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+            <IconButton
+              edge="start"
+              sx={{ color: "#FFFFFF" }}
+              aria-label="menu"
+              component={Link}
+              href="/"
+              disableRipple
+            >
+              <Icon.BarsIcon />
             </IconButton>
           </Box>
 
