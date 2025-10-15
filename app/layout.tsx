@@ -5,8 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "新潟県の通信制高校検索アプリ",
-  description:
-    "通信制高校の各コースを検索できます。通信制高校に詳しくなってください。",
+  description: "通信制高校の各コースと学費が検索できます。",
 };
 
 export default function RootLayout({
