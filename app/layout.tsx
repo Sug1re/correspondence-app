@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "../context/AuthContext";
 
 import "./globals.css";
 

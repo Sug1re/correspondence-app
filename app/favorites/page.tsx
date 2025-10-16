@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import * as Component from "@/components/index";
 import * as SchoolCard from "@/components/SchoolCardList/index";
 import * as CustomHook from "@/hooks/index";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../../context/AuthContext";
 import { Box, Card, Container, Grid, Typography } from "@mui/material";
 import { School } from "@/app/types/school";
 import { getAllFirestoreData } from "@/lib/firebase/getAllFirestoreData"; // この関数は既にある前提
