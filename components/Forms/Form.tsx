@@ -139,6 +139,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
               onClick={handleClose}
               sx={{
                 color: "#000000",
+                mr: 1,
                 backgroundColor: "transparent",
                 "&:hover": {
                   backgroundColor: "transparent",

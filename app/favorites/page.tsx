@@ -120,8 +120,6 @@ const FavoritePage = () => {
                 justifyContent: "space-around",
               }}
             >
-              <Component.BackButton />
-
               <Component.PaginationButton
                 currentPage={currentPage}
                 totalPages={totalPages}

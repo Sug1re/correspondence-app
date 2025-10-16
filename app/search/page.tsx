@@ -105,8 +105,6 @@ const SearchResultPage = () => {
                   justifyContent: "space-around",
                 }}
               >
-                <Component.BackButton />
-
                 {/* ページネーションボタン */}
                 <Component.PaginationButton
                   currentPage={currentPage}

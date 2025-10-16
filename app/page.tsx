@@ -12,7 +12,7 @@ export default function Home() {
       <Component.SearchBar />
 
       <Container maxWidth="lg">
-        {/* <Box
+        <Box
           sx={{
             display: "flex-col",
             justifyContent: "center", // 水平中央
@@ -21,7 +21,7 @@ export default function Home() {
           }}
         >
           <Component.Home />
-        </Box> */}
+        </Box>
 
         <Component.ScrollTopButton />
       </Container>
