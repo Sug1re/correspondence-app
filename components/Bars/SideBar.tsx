@@ -3,6 +3,11 @@
 import React from "react";
 import { Drawer, List, Box, ListItemButton, ListItemText } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { auth } from "@/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useToastContext } from "@/context/ToastContext";
+import { signOut } from "firebase/auth";
 
 interface SideBarProps {
   open: boolean;
@@ -10,6 +15,19 @@ interface SideBarProps {
 }
 
 export default function SideBar({ open, onClose }: SideBarProps) {
+  const [user] = useAuthState(auth);
+  const { showToast } = useToastContext();
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      showToast("ログアウトしました");
+      onClose();
+    } catch {
+      showToast("ログアウトに失敗しました");
+    }
+  };
+
   return (
     <Drawer
       anchor="left"
@@ -35,6 +53,15 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             primaryTypographyProps={{ fontWeight: 600 }}
           />
         </ListItemButton>
+        {user && (
+          <ListItemButton onClick={logout}>
+            <LogoutIcon sx={{ marginRight: 2 }} />
+            <ListItemText
+              primary="ログアウト"
+              primaryTypographyProps={{ fontWeight: 600 }}
+            />
+          </ListItemButton>
+        )}
       </List>
 
       <Box flexGrow={1} />

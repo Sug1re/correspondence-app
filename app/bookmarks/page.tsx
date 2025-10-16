@@ -13,14 +13,14 @@ import { db } from "@/firebase";
 
 import ListIcon from "@mui/icons-material/List";
 
-const FavoritePage = () => {
+const BookmarksPage = () => {
   const { user } = useAuthContext();
   const [favoriteSchools, setFavoriteSchools] = useState<School[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       if (!user) {
-        setFavoriteSchools([]); // ユーザーがログアウトしている場合、空の配列にする
+        setFavoriteSchools([]);
         return;
       }
 
@@ -169,4 +169,4 @@ const FavoritePage = () => {
   );
 };
 
-export default FavoritePage;
+export default BookmarksPage;
