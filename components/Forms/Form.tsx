@@ -153,7 +153,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <CardContent
               sx={{
-                px: 2,
+                px: 6,
                 width: "100%",
                 boxSizing: "border-box",
               }}
@@ -247,12 +247,12 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                       >
                         <FormControlLabel
                           value="true"
-                          control={<CustomRadio />}
+                          control={<CustomRadio disableRipple />}
                           label="県外"
                         />
                         <FormControlLabel
                           value="false"
-                          control={<CustomRadio />}
+                          control={<CustomRadio disableRipple />}
                           label="県内"
                         />
                       </RadioGroup>
@@ -293,12 +293,12 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                       >
                         <FormControlLabel
                           value="通信制高等学校"
-                          control={<CustomRadio />}
+                          control={<CustomRadio disableRipple />}
                           label="通信制高校"
                         />
                         <FormControlLabel
                           value="サポート校"
-                          control={<CustomRadio />}
+                          control={<CustomRadio disableRipple />}
                           label="サポート校"
                         />
                       </RadioGroup>
@@ -339,12 +339,12 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                       >
                         <FormControlLabel
                           value="通学"
-                          control={<CustomRadio />}
+                          control={<CustomRadio disableRipple />}
                           label="通学"
                         />
                         <FormControlLabel
                           value="オンライン"
-                          control={<CustomRadio />}
+                          control={<CustomRadio disableRipple />}
                           label="オンライン"
                         />
                       </RadioGroup>
@@ -404,6 +404,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                                     onChange={handleChange}
                                     value={option}
                                     disabled={isDisabled}
+                                    disableRipple
                                   />
                                 }
                                 label={option}
