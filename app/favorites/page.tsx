@@ -58,16 +58,24 @@ const FavoritePage = () => {
     <>
       <Component.Header />
 
-      <Container maxWidth="lg">
+      <Container maxWidth="md">
         <Card
           sx={{
             my: 2,
             borderRadius: 2,
             boxShadow: 3,
             border: `0.5px solid #003399`,
+            height: 52,
           }}
         >
-          <Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              height: "100%",
+              px: 1,
+            }}
+          >
             <Typography
               sx={{
                 minWidth: "100%",
@@ -86,7 +94,6 @@ const FavoritePage = () => {
           </Box>
         </Card>
 
-        {/* 表示部分 */}
         {favoriteSchools.length === 0 ? (
           <Box
             sx={{

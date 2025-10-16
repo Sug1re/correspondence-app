@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import * as Component from "@/components/index";
 import { Box, Button, Card, Container, Modal, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+// import { useDisclosure } from "@mantine/hooks";
 
 const SearchBar = () => {
   const [open, setOpen] = useState(false);
@@ -14,6 +15,9 @@ const SearchBar = () => {
     setOpen(false);
   };
 
+  // あとで実装
+  // const [isOpen, handlers] = useDisclosure(false);
+
   return (
     <>
       <Container maxWidth="md">
@@ -23,21 +27,22 @@ const SearchBar = () => {
             borderRadius: 2,
             boxShadow: 3,
             border: `0.5px solid #003399`,
+            height: 52,
           }}
         >
-          <Button
-            sx={{
-              minWidth: "100%",
-              justifyContent: "flex-start",
-              color: "#003399",
-              backgroundColor: "transparent",
-              "&:hover": {
+          <Box>
+            <Button
+              sx={{
+                minWidth: "100%",
+                justifyContent: "flex-start",
+                color: "#003399",
                 backgroundColor: "transparent",
-              },
-            }}
-            onClick={handleOpen}
-          >
-            <Box>
+                "&:hover": {
+                  backgroundColor: "transparent",
+                },
+              }}
+              onClick={handleOpen}
+            >
               <Typography
                 sx={{
                   m: 1,
@@ -50,21 +55,20 @@ const SearchBar = () => {
                 <SearchIcon style={{ fontSize: 28 }} />
                 検索
               </Typography>
-            </Box>
-          </Button>
-
-          {/* モーダル */}
-          <Modal
-            open={open}
-            onClose={handleClose}
-            BackdropProps={{
-              sx: { backgroundColor: "rgba(0, 0, 0, 0.7)" },
-            }}
-          >
-            <Component.Form handleClose={handleClose} />
-          </Modal>
+            </Button>
+          </Box>
         </Card>
       </Container>
+
+      <Modal
+        open={open}
+        onClose={handleClose}
+        BackdropProps={{
+          sx: { backgroundColor: "rgba(0, 0, 0, 0.7)" },
+        }}
+      >
+        <Component.Form handleClose={handleClose} />
+      </Modal>
     </>
   );
 };

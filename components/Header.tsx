@@ -3,28 +3,24 @@
 import * as React from "react";
 import Link from "next/link";
 import * as Component from "@/components/index";
-import * as Icon from "@/icons/index";
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import SideBar from "./Bars/SideBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
+import { useDisclosure } from "@mantine/hooks";
 
 export default function Header() {
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [isOpen, handlers] = useDisclosure(false);
 
-  const toggleDrawer = (open: boolean) => () => {
-    setDrawerOpen(open);
-  };
   return (
     <>
       <AppBar
         position="relative"
         sx={{
-          background: "linear-gradient(to right, #003399, #FF6600)", // グラデーション
+          background: "linear-gradient(to right, #003399, #FF6600)",
         }}
       >
         <Toolbar
-          // デフォルトの間隔を無効化
           disableGutters
           sx={{
             display: "flex",
@@ -32,7 +28,6 @@ export default function Header() {
             width: "100%",
           }}
         >
-          {/* タイトル */}
           <Box sx={{ flexGrow: 8, textAlign: "center" }}>
             <Typography
               sx={{
@@ -47,8 +42,15 @@ export default function Header() {
             </Typography>
           </Box>
 
-          {/* お気に入り閲覧ボタン */}
-          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
             <IconButton
               edge="start"
               sx={{ color: "#FFFFFF" }}
@@ -59,42 +61,57 @@ export default function Header() {
             >
               <BookmarksIcon style={{ fontSize: 28 }} />
             </IconButton>
-          </Box>
 
-          {/* ホームボタン */}
-          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-            <IconButton
-              edge="start"
-              sx={{ color: "#FFFFFF" }}
-              aria-label="menu"
-              component={Link}
-              href="/"
-              disableRipple
+            <Typography
+              sx={{
+                fontWeight: 600,
+                color: "#FFFFFF",
+                display: { xs: "none", sm: "flex" },
+                alignItems: "center",
+              }}
             >
-              <Icon.HomeIcon />
-            </IconButton>
+              ブックマーク
+            </Typography>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
             <IconButton
               edge="start"
               sx={{ color: "#FFFFFF" }}
               aria-label="menu"
-              onClick={toggleDrawer(true)}
+              onClick={handlers.open}
               disableRipple
             >
               <MenuIcon style={{ fontSize: 28 }} />
             </IconButton>
+
+            <Typography
+              sx={{
+                fontWeight: 600,
+                color: "#FFFFFF",
+                display: { xs: "none", sm: "flex" },
+                alignItems: "center",
+              }}
+            >
+              メニュー
+            </Typography>
           </Box>
 
-          {/* ログインボタン */}
           <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
             <Component.Login />
           </Box>
         </Toolbar>
       </AppBar>
 
-      <SideBar open={drawerOpen} onClose={toggleDrawer(false)} />
+      <SideBar open={isOpen} onClose={handlers.close} />
     </>
   );
 }

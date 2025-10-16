@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Drawer, List, Box } from "@mui/material";
+import { Drawer, List, Box, ListItemButton, ListItemText } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
 
 interface SideBarProps {
   open: boolean;
@@ -17,7 +18,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
       variant="temporary"
       sx={{
         "& .MuiDrawer-paper": {
-          backgroundColor: "#3a3a3aff",
+          backgroundColor: "#ffffff",
           width: 240,
           boxSizing: "border-box",
           display: "flex",
@@ -26,8 +27,15 @@ export default function SideBar({ open, onClose }: SideBarProps) {
         },
       }}
     >
-      {/* 上側のリスト */}
-      <List></List>
+      <List sx={{ width: "100%" }}>
+        <ListItemButton onClick={onClose} component="a" href="/">
+          <HomeIcon sx={{ marginRight: 2 }} />
+          <ListItemText
+            primary="ホーム"
+            primaryTypographyProps={{ fontWeight: 600 }}
+          />
+        </ListItemButton>
+      </List>
 
       <Box flexGrow={1} />
     </Drawer>

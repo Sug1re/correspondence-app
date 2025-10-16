@@ -4,6 +4,7 @@
 
 - フロントエンド
   - Next.js
+  - mantine
   - MUI
   - MUI-icons
 - バックエンド
