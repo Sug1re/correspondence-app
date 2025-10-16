@@ -46,7 +46,18 @@ export default function SideBar({ open, onClose }: SideBarProps) {
       }}
     >
       <List sx={{ width: "100%" }}>
-        <ListItemButton onClick={onClose} component="a" href="/">
+        <ListItemButton
+          sx={{
+            borderRadius: 2,
+            mx: 1,
+            "&:hover": {
+              backgroundColor: "rgba(0, 51, 153, 0.1)",
+            },
+          }}
+          onClick={onClose}
+          component="a"
+          href="/"
+        >
           <HomeIcon sx={{ marginRight: 2 }} />
           <ListItemText
             primary="ホーム"
@@ -54,7 +65,16 @@ export default function SideBar({ open, onClose }: SideBarProps) {
           />
         </ListItemButton>
         {user && (
-          <ListItemButton onClick={logout}>
+          <ListItemButton
+            sx={{
+              borderRadius: 2,
+              mx: 1,
+              "&:hover": {
+                backgroundColor: "rgba(0, 51, 153, 0.1)",
+              },
+            }}
+            onClick={logout}
+          >
             <LogoutIcon sx={{ marginRight: 2 }} />
             <ListItemText
               primary="ログアウト"

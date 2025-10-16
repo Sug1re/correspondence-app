@@ -130,9 +130,9 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
               position: "sticky",
               top: 0,
               width: "100%",
-              backgroundColor: "#fff", // 背景色
-              zIndex: 10, // 前面に表示
-              borderBottom: "1px solid #ddd", // 境界線
+              backgroundColor: "#fff",
+              zIndex: 10,
+              borderBottom: "1px solid #ddd",
             }}
           >
             <Button
@@ -154,6 +154,8 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
             <CardContent
               sx={{
                 px: 2,
+                width: "100%",
+                boxSizing: "border-box",
               }}
             >
               {/* 3年間の学費総額 */}
@@ -166,8 +168,19 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   <CurrencyYenIcon style={{ color: "#000000" }} />
                   3年間の学費総額
                 </Typography>
-                <Typography sx={{ fontWeight: 600, ml: 2 }}>
-                  ￥{totalTuitionFeeValue[0].toLocaleString("ja-JP")} 〜 ￥
+                <Typography
+                  sx={{
+                    fontWeight: 600,
+                    ml: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.5,
+                    height: 32,
+                  }}
+                >
+                  <CurrencyYenIcon style={{ color: "#000000", fontSize: 20 }} />
+                  {totalTuitionFeeValue[0].toLocaleString("ja-JP")} 〜
+                  <CurrencyYenIcon style={{ color: "#000000", fontSize: 20 }} />
                   {totalTuitionFeeValue[1].toLocaleString("ja-JP")}
                 </Typography>
                 <Controller
@@ -176,7 +189,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   render={({ field }) => (
                     <Slider
                       {...field}
-                      value={field.value || [0, 1000000]} // 初期値を範囲に設定
+                      value={field.value || [0, 1000000]}
                       onChange={(_, newValue) => field.onChange(newValue)}
                       min={0}
                       step={100000}
@@ -184,15 +197,16 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                       valueLabelDisplay="auto"
                       aria-labelledby="totalTuitionFeeSlider"
                       sx={{
-                        color: "#003399", // スライダーの色を変更
+                        width: "100%",
+                        color: "#003399",
                         "& .MuiSlider-thumb": {
-                          backgroundColor: "#003399", // 進捗部分の色を変更
+                          backgroundColor: "#003399",
                         },
                         "& .MuiSlider-track": {
-                          backgroundColor: "#003399", // 丸いスライダーの色を変更
+                          backgroundColor: "#003399",
                         },
                         "& .MuiSlider-rail": {
-                          backgroundColor: "#b0c4de", // 未選択部分の色を薄めの青に
+                          backgroundColor: "#b0c4de",
                         },
                       }}
                     />
@@ -222,8 +236,8 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   render={({ field }) => (
                     <FormControl>
                       <RadioGroup
-                        {...field} // field.value と field.onChange を適用
-                        row // 横並びにするプロパティ
+                        {...field}
+                        row
                         sx={{
                           gap: 1,
                           pb: 1,
@@ -268,8 +282,8 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   render={({ field }) => (
                     <FormControl>
                       <RadioGroup
-                        {...field} // field.value と field.onChange を適用
-                        row // 横並びにするプロパティ
+                        {...field}
+                        row
                         sx={{
                           gap: 1,
                           pb: 1,
@@ -314,8 +328,8 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   render={({ field }) => (
                     <FormControl>
                       <RadioGroup
-                        {...field} // field.value と field.onChange を適用
-                        row // 横並びにするプロパティ
+                        {...field}
+                        row
                         sx={{
                           gap: 1,
                           pb: 1,
@@ -409,16 +423,15 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
               </Box>
             </CardContent>
 
-            {/* 検索ボタン */}
             <CardActions
               sx={{
                 pb: 1,
                 justifyContent: "center",
                 position: "sticky",
                 bottom: 0,
-                backgroundColor: "#fff", // 背景色
-                zIndex: 10, // 前面に表示
-                borderTop: "1px solid #ddd", // 境界線
+                backgroundColor: "#fff",
+                zIndex: 10,
+                borderTop: "1px solid #ddd",
               }}
             >
               <Button
@@ -427,7 +440,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                 sx={{
                   backgroundColor: "#003399",
                   fontWeight: "bold",
-                  width: "80%", // ボタンの幅をフルに設定
+                  width: "80%",
                   boxShadow: "0px 4px 10px rgba(255, 102, 0, 0.4)",
                 }}
               >
