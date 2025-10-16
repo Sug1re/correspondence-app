@@ -4,13 +4,14 @@ import React, { useEffect, useState } from "react";
 import * as Component from "@/components/index";
 import * as SchoolCard from "@/components/SchoolCardList/index";
 import * as CustomHook from "@/hooks/index";
-import * as Icon from "@/icons/index";
 import { useAuthContext } from "../context/AuthContext";
 import { Box, Card, Container, Grid, Typography } from "@mui/material";
 import { School } from "@/app/types/school";
 import { getAllFirestoreData } from "@/lib/firebase/getAllFirestoreData"; // この関数は既にある前提
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
+
+import ListIcon from "@mui/icons-material/List";
 
 const FavoritePage = () => {
   const { user } = useAuthContext();
@@ -66,20 +67,22 @@ const FavoritePage = () => {
             border: `0.5px solid #003399`,
           }}
         >
-          <Box
-            sx={{
-              minWidth: "100%",
-              justifyContent: "flex-start",
-              color: "#003399",
-              fontWeight: 600,
-              m: 1,
-              display: "flex",
-            }}
-          >
-            <Box sx={{ pr: 2 }}>
-              <Icon.ListIcon />
-            </Box>
-            お気に入り学校一覧
+          <Box>
+            <Typography
+              sx={{
+                minWidth: "100%",
+                justifyContent: "flex-start",
+                color: "#003399",
+                fontWeight: 600,
+                m: 1,
+                gap: 1,
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <ListIcon style={{ fontSize: 28 }} />
+              お気に入り学校一覧
+            </Typography>
           </Box>
         </Card>
 

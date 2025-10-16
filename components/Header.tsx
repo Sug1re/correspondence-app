@@ -6,6 +6,8 @@ import * as Component from "@/components/index";
 import * as Icon from "@/icons/index";
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import SideBar from "./Bars/SideBar";
+import MenuIcon from "@mui/icons-material/Menu";
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
 
 export default function Header() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -55,7 +57,7 @@ export default function Header() {
               href="/favorites"
               disableRipple
             >
-              <Icon.BookmarkIcon />
+              <BookmarksIcon style={{ fontSize: 28 }} />
             </IconButton>
           </Box>
 
@@ -81,7 +83,7 @@ export default function Header() {
               onClick={toggleDrawer(true)}
               disableRipple
             >
-              <Icon.BarsIcon />
+              <MenuIcon style={{ fontSize: 28 }} />
             </IconButton>
           </Box>
 

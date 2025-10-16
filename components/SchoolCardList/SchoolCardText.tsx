@@ -17,7 +17,9 @@ import {
 import { School } from "@/app/types/school";
 import * as CustomHook from "@/hooks/index";
 
-import * as Icon from "@/icons/index";
+import LinkIcon from "@mui/icons-material/Link";
+import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
+import CloseIcon from "@mui/icons-material/Close";
 
 type SchoolCardTitleProps = {
   school: School;
@@ -53,7 +55,7 @@ const SchoolCardText: React.FC<SchoolCardTitleProps> = ({ school }) => {
               pr: 0.5,
             }}
           >
-            <Icon.LinkIcon />
+            <LinkIcon style={{ fontSize: 16 }} />
           </Box>
           {school.name}
         </Link>
@@ -98,9 +100,12 @@ const SchoolCardText: React.FC<SchoolCardTitleProps> = ({ school }) => {
               ml: 2,
               fontWeight: 600,
               fontSize: "12px",
+              display: "flex",
+              alignItems: "center",
             }}
           >
-            ￥{school.totalTuitionFee.toLocaleString("ja-JP")}
+            <CurrencyYenIcon style={{ fontSize: 14 }} />
+            {school.totalTuitionFee.toLocaleString("ja-JP")}
           </Typography>
 
           <CardActions sx={{ justifyContent: "center" }}>
@@ -168,9 +173,16 @@ const SchoolCardText: React.FC<SchoolCardTitleProps> = ({ school }) => {
               </Typography>
               <Button
                 onClick={handleClose}
-                sx={{ color: "#000000", width: "20%" }}
+                sx={{
+                  color: "#000000",
+                  width: "20%",
+                  backgroundColor: "transparent",
+                  "&:hover": {
+                    backgroundColor: "transparent",
+                  },
+                }}
               >
-                <Icon.CloseIcon />
+                <CloseIcon />
               </Button>
             </Box>
 
@@ -194,7 +206,8 @@ const SchoolCardText: React.FC<SchoolCardTitleProps> = ({ school }) => {
                       fontWeight: "bold",
                     }}
                   >
-                    ￥{school.firstYearFee.toLocaleString("JA-JP")}
+                    <CurrencyYenIcon style={{ fontSize: 14 }} />
+                    {school.firstYearFee.toLocaleString("JA-JP")}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -214,7 +227,9 @@ const SchoolCardText: React.FC<SchoolCardTitleProps> = ({ school }) => {
                       fontWeight: "bold",
                     }}
                   >
-                    ￥{school.secondYearFee.toLocaleString("JA-JP")}
+                    <CurrencyYenIcon style={{ fontSize: 14 }} />
+
+                    {school.secondYearFee.toLocaleString("JA-JP")}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -234,7 +249,9 @@ const SchoolCardText: React.FC<SchoolCardTitleProps> = ({ school }) => {
                       fontWeight: "bold",
                     }}
                   >
-                    ￥{school.thirdYearFee.toLocaleString("JA-JP")}
+                    <CurrencyYenIcon style={{ fontSize: 14 }} />
+
+                    {school.thirdYearFee.toLocaleString("JA-JP")}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -254,7 +271,9 @@ const SchoolCardText: React.FC<SchoolCardTitleProps> = ({ school }) => {
                       fontWeight: "bold",
                     }}
                   >
-                    ￥{school.testFee.toLocaleString("JA-JP")}
+                    <CurrencyYenIcon style={{ fontSize: 14 }} />
+
+                    {school.testFee.toLocaleString("JA-JP")}
                   </TableCell>
                 </TableRow>
               </TableBody>

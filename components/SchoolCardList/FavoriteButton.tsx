@@ -4,8 +4,9 @@ import React from "react";
 import { auth } from "@/firebase";
 import { toggleFavoriteSchool } from "@/lib/firebase/toggleUid";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Snackbar, Alert, Box } from "@mui/material";
-import * as Icon from "@/icons/index";
+import { Snackbar, Alert, Box, IconButton } from "@mui/material";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 type FavoriteButtonProps = {
   schoolId: string;
@@ -36,17 +37,18 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   return (
     <>
       {/* ブックマークボタン */}
-      <Box sx={{ position: "absolute", top: 5, right: 5 }}>
-        <Icon.BookmarkIcon
-          filled={liked}
-          fillColor="#FF6611"
+      <Box sx={{ position: "absolute", top: 0.5, right: 0.5 }}>
+        <IconButton
           onClick={handleToggle}
-          sx={{
-            transition: "all 1s ease",
-            color: "#FF6611",
-            cursor: "pointer",
-          }}
-        />
+          sx={{ color: "#FF6611" }}
+          disableRipple
+        >
+          {liked ? (
+            <BookmarkIcon style={{ fontSize: 30 }} />
+          ) : (
+            <BookmarkBorderIcon style={{ fontSize: 30 }} />
+          )}
+        </IconButton>
       </Box>
 
       {/* アラート */}

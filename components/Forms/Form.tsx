@@ -5,7 +5,6 @@ import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { formSchema, FormValues } from "@/lib/validation/formSchema";
 import { handleFormSubmit } from "@/lib/handlers/handleFormSubmit";
-import * as Icon from "@/icons/index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
@@ -25,6 +24,12 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import SchoolIcon from "@mui/icons-material/School";
+import BusinessIcon from "@mui/icons-material/Business";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import ComputerIcon from "@mui/icons-material/Computer";
+import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
+import CloseIcon from "@mui/icons-material/Close";
 
 const attendanceOptions = [
   "週1",
@@ -130,8 +135,17 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
               borderBottom: "1px solid #ddd", // 境界線
             }}
           >
-            <Button onClick={handleClose} sx={{ color: "#000000" }}>
-              <Icon.CloseIcon />
+            <Button
+              onClick={handleClose}
+              sx={{
+                color: "#000000",
+                backgroundColor: "transparent",
+                "&:hover": {
+                  backgroundColor: "transparent",
+                },
+              }}
+            >
+              <CloseIcon style={{ color: "#000000" }} />
             </Button>
           </CardActions>
 
@@ -148,7 +162,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <Icon.YenIcon />
+                  <CurrencyYenIcon style={{ color: "#000000" }} />
                   3年間の学費総額
                 </Typography>
                 <Typography sx={{ fontWeight: 600, ml: 2 }}>
@@ -198,7 +212,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <Icon.OfficeIcon />
+                  <BusinessIcon style={{ color: "#000000" }} />
                   スクーリング会場
                 </Typography>
                 <Controller
@@ -244,7 +258,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <Icon.SchoolIcon />
+                  <SchoolIcon style={{ color: "#000000" }} />
                   学校の種類
                 </Typography>
                 <Controller
@@ -290,7 +304,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <Icon.TvIcon />
+                  <ComputerIcon style={{ color: "#000000" }} />
                   通学形態
                 </Typography>
                 <Controller
@@ -336,7 +350,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <Icon.CalendarIcon />
+                  <CalendarMonthIcon style={{ color: "#000000" }} />
                   登校頻度
                 </Typography>
 
