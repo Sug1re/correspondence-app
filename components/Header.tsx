@@ -5,8 +5,14 @@ import Link from "next/link";
 import * as Component from "@/components/index";
 import * as Icon from "@/icons/index";
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
+import SideBar from "./Bars/SideBar";
 
 export default function Header() {
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+  const toggleDrawer = (open: boolean) => () => {
+    setDrawerOpen(open);
+  };
   return (
     <>
       <AppBar
@@ -72,8 +78,7 @@ export default function Header() {
               edge="start"
               sx={{ color: "#FFFFFF" }}
               aria-label="menu"
-              component={Link}
-              href="/"
+              onClick={toggleDrawer(true)}
               disableRipple
             >
               <Icon.BarsIcon />
@@ -86,6 +91,8 @@ export default function Header() {
           </Box>
         </Toolbar>
       </AppBar>
+
+      <SideBar open={drawerOpen} onClose={toggleDrawer(false)} />
     </>
   );
 }
