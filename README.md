@@ -4,12 +4,9 @@
 
 - フロントエンド
   - Next.js
-  - Heroicons
+  - MUI
+  - MUI-icons
 - バックエンド
   - TypeScript
 - 認証・外部サービス
   - Firebase Authentication
-
-## メモ
-
-- JSX で COPY する。
