@@ -212,12 +212,6 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                     />
                   )}
                 />
-                <FormHelperText error sx={{ fontSize: "1rem" }}>
-                  {errors.totalTuitionFeeValue?.[0]?.message}
-                </FormHelperText>
-                <FormHelperText error sx={{ fontSize: "1rem" }}>
-                  {errors.totalTuitionFeeValue?.[1]?.message}
-                </FormHelperText>
               </Box>
 
               {/* スクーリング会場 */}
