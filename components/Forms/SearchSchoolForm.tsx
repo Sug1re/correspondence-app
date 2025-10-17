@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { formSchema, FormValues } from "@/lib/validation/formSchema";
+import {
+  SearchSchoolSchema,
+  FormValues,
+} from "@/lib/validation/SearchSchoolSchema";
 import { handleFormSubmit } from "@/lib/handlers/handleFormSubmit";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -24,12 +27,18 @@ import {
   styled,
   Typography,
 } from "@mui/material";
+import { useFormSynchro } from "@/hooks/useFormSynchro";
+
 import SchoolIcon from "@mui/icons-material/School";
 import BusinessIcon from "@mui/icons-material/Business";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ComputerIcon from "@mui/icons-material/Computer";
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import CloseIcon from "@mui/icons-material/Close";
+
+interface Props {
+  onClose: () => void;
+}
 
 const attendanceOptions = [
   "週1",
@@ -41,12 +50,7 @@ const attendanceOptions = [
   "自由",
 ];
 
-// Searchページのモーダルを閉じる関数
-interface FormProps {
-  handleClose: () => void;
-}
-
-const Form: React.FC<FormProps> = ({ handleClose }) => {
+export const SearchSchoolForm: React.FC<Props> = ({ onClose }) => {
   // Radioのカラーリング
   const CustomRadio = styled(Radio)({
     color: "#003399",
@@ -67,10 +71,9 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
     control,
     handleSubmit,
     watch,
-    setValue,
     formState: { errors },
   } = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(SearchSchoolSchema),
     defaultValues: {
       totalTuitionFeeValue: [0, 1000000],
       movingOutsideThePrefecture: "",
@@ -82,39 +85,18 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
 
   // ユーザーが選択した値を監視
   const totalTuitionFeeValue = watch("totalTuitionFeeValue");
-  const commutingStyleValue = watch("commutingStyle");
 
-  // commutingStyleとattendanceFrequencyの連動ロジック
-  useEffect(() => {
-    const attendanceFrequencyValue = watch("attendanceFrequency") || [];
-
-    if (commutingStyleValue === "オンライン") {
-      // オンライン選択時：「オンライン」のみにする
-      if (!attendanceFrequencyValue.includes("オンライン")) {
-        setValue("attendanceFrequency", ["オンライン"]);
-      }
-    } else if (commutingStyleValue === "通学") {
-      // 通学選択時：「オンライン」を除外する
-      if (attendanceFrequencyValue.includes("オンライン")) {
-        const newValue = attendanceFrequencyValue.filter(
-          (v) => v !== "オンライン"
-        );
-        setValue("attendanceFrequency", newValue);
-      }
-    }
-  }, [commutingStyleValue, setValue, watch]);
+  useFormSynchro();
 
   const router = useRouter();
 
-  // lib/handleFormSubmit
   const onSubmit = (data: FormValues) => {
-    handleFormSubmit(data, router, handleClose);
+    handleFormSubmit(data, router, onClose);
   };
 
   return (
     <>
       <Container>
-        {/* 検索窓 */}
         <Card
           sx={{
             mt: 3,
@@ -136,7 +118,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
             }}
           >
             <Button
-              onClick={handleClose}
+              onClick={onClose}
               sx={{
                 color: "#000000",
                 mr: 1,
@@ -201,6 +183,9 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                         color: "#003399",
                         "& .MuiSlider-thumb": {
                           backgroundColor: "#003399",
+                          "&:hover, &.Mui-focusVisible": {
+                            boxShadow: "none",
+                          },
                         },
                         "& .MuiSlider-track": {
                           backgroundColor: "#003399",
@@ -380,31 +365,20 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                     return (
                       <FormControl component="fieldset">
                         <FormGroup row sx={{ gap: 2, pb: 1 }}>
-                          {attendanceOptions.map((option) => {
-                            const isDisabled =
-                              (commutingStyleValue === "オンライン" &&
-                                option !== "オンライン") ||
-                              (commutingStyleValue === "通学" &&
-                                option === "オンライン");
-
-                            return (
-                              <FormControlLabel
-                                key={option}
-                                control={
-                                  <CustomCheckBox
-                                    checked={(field.value || []).includes(
-                                      option
-                                    )}
-                                    onChange={handleChange}
-                                    value={option}
-                                    disabled={isDisabled}
-                                    disableRipple
-                                  />
-                                }
-                                label={option}
-                              />
-                            );
-                          })}
+                          {attendanceOptions.map((option) => (
+                            <FormControlLabel
+                              key={option}
+                              control={
+                                <CustomCheckBox
+                                  checked={(field.value || []).includes(option)}
+                                  onChange={handleChange}
+                                  value={option}
+                                  disableRipple
+                                />
+                              }
+                              label={option}
+                            />
+                          ))}
                         </FormGroup>
                       </FormControl>
                     );
@@ -436,7 +410,11 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   backgroundColor: "#003399",
                   fontWeight: "bold",
                   width: "80%",
-                  boxShadow: "0px 4px 10px rgba(255, 102, 0, 0.4)",
+                  transition: "transform 0.2s",
+                  "&:hover": {
+                    backgroundColor: "#003399",
+                    transform: "scale(0.95)",
+                  },
                 }}
               >
                 検索
@@ -448,5 +426,3 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
     </>
   );
 };
-
-export default Form;

@@ -1,22 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
-import * as Component from "@/components/index";
+import React from "react";
+// import * as Component from "@/components/index";
 import { Box, Button, Card, Container, Modal, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-// import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure } from "@mantine/hooks";
+import { TestForm } from "../Forms/TestForm";
 
 const SearchBar = () => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  // あとで実装
-  // const [isOpen, handlers] = useDisclosure(false);
+  const [isOpen, handlers] = useDisclosure(false);
 
   return (
     <>
@@ -41,7 +33,7 @@ const SearchBar = () => {
                   backgroundColor: "transparent",
                 },
               }}
-              onClick={handleOpen}
+              onClick={handlers.open}
             >
               <Typography
                 sx={{
@@ -61,13 +53,14 @@ const SearchBar = () => {
       </Container>
 
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={isOpen}
+        onClose={handlers.close}
         BackdropProps={{
           sx: { backgroundColor: "rgba(0, 0, 0, 0.7)" },
         }}
       >
-        <Component.Form handleClose={handleClose} />
+        <TestForm onClose={handlers.close} />
+        {/* <Component.SearchSchoolForm onClose={handlers.close} /> */}
       </Modal>
     </>
   );

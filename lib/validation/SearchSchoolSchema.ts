@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const formSchema = z.object({
+export const SearchSchoolSchema = z.object({
   totalTuitionFeeValue: z
     .tuple([z.number().min(0), z.number().max(4000000)])
     .refine(([min, max]) => min <= max, {
@@ -35,4 +35,4 @@ export const formSchema = z.object({
     .min(1,"少なくとも1つ選択してください"),
 });
 
-export type FormValues = z.infer<typeof formSchema>;
+export type FormValues = z.infer<typeof SearchSchoolSchema>;
