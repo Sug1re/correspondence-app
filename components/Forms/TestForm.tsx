@@ -14,6 +14,9 @@ import {
   styleOptions,
 } from "@/entities/form";
 
+import { useFormContext } from "react-hook-form";
+import { useDidUpdate } from "@mantine/hooks";
+
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import SchoolIcon from "@mui/icons-material/School";
 import ComputerIcon from "@mui/icons-material/Computer";
@@ -34,50 +37,72 @@ export const TestForm: React.FC<Props> = ({ onClose, methodsRef }) => {
   };
 
   return (
+    <BaseForm
+      schema={TestSchema}
+      onSubmit={onSubmit}
+      defaultValues={SearchSchoolDefaultValues}
+      methodsRef={methodsRef}
+    >
+      <InnerFormContent />
+    </BaseForm>
+  );
+};
+
+// 内部フォーム処理
+const InnerFormContent = () => {
+  const { watch, setValue, getValues } = useFormContext();
+
+  // 「学校情報2」の値を監視
+  const styleValue = watch("style");
+
+  // MantineのuseDidUpdateで「更新時のみ」連動
+  useDidUpdate(() => {
+    if (styleValue === "オンライン") {
+      const attendanceValues = getValues("attendance") || [];
+      if (!attendanceValues.includes("オンライン")) {
+        setValue("attendance", ["オンライン"], { shouldValidate: true });
+      }
+    }
+  }, [styleValue]);
+
+  return (
     <>
-      <BaseForm
-        schema={TestSchema}
-        onSubmit={onSubmit}
-        defaultValues={SearchSchoolDefaultValues}
-        methodsRef={methodsRef}
-      >
-        <FormSlider
-          text="3年間の学費総額"
-          Icon={CurrencyYenIcon}
-          name="totalFee"
-          min={0}
-          step={100000}
-          max={4000000}
-        />
+      <FormSlider
+        text="3年間の学費総額"
+        Icon={CurrencyYenIcon}
+        name="totalFee"
+        min={0}
+        step={100000}
+        max={4000000}
+      />
 
-        <FormRadioGroup
-          text="学校情報1"
-          Icon={BusinessIcon}
-          name="school"
-          option={schoolOptions}
-        />
+      <FormRadioGroup
+        text="学校情報1"
+        Icon={BusinessIcon}
+        name="school"
+        option={schoolOptions}
+      />
 
-        <FormRadioGroup
-          text="学校情報2"
-          Icon={ComputerIcon}
-          name="style"
-          option={styleOptions}
-        />
+      <FormRadioGroup
+        text="学校情報2"
+        Icon={ComputerIcon}
+        name="style"
+        option={styleOptions}
+      />
 
-        <FormCheckbox
-          text="登校頻度"
-          Icon={CalendarMonthIcon}
-          name="attendance"
-          option={attendanceOptions}
-        />
+      <FormCheckbox
+        text="登校頻度"
+        Icon={CalendarMonthIcon}
+        name="attendance"
+        option={attendanceOptions}
+      />
 
-        <FormRadioGroup
-          text="スクーリング会場"
-          Icon={SchoolIcon}
-          name="schooling"
-          option={schoolingOptions}
-        />
-      </BaseForm>
+      <FormRadioGroup
+        text="スクーリング会場"
+        Icon={SchoolIcon}
+        name="schooling"
+        option={schoolingOptions}
+      />
     </>
   );
 };
