@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import {
@@ -27,7 +27,6 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import { useFormSynchro } from "@/hooks/useFormSynchro";
 
 import SchoolIcon from "@mui/icons-material/School";
 import BusinessIcon from "@mui/icons-material/Business";
@@ -70,6 +69,7 @@ export const SearchSchoolForm: React.FC<Props> = ({ onClose }) => {
   const {
     control,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors },
   } = useForm<FormValues>({
@@ -86,7 +86,27 @@ export const SearchSchoolForm: React.FC<Props> = ({ onClose }) => {
   // ユーザーが選択した値を監視
   const totalTuitionFeeValue = watch("totalTuitionFeeValue");
 
-  useFormSynchro();
+  const commutingStyleValue = watch("commutingStyle");
+
+  // commutingStyleとattendanceFrequencyの連動ロジック
+  useEffect(() => {
+    const attendanceFrequencyValue = watch("attendanceFrequency") || [];
+
+    if (commutingStyleValue === "オンライン") {
+      // オンライン選択時：「オンライン」のみにする
+      if (!attendanceFrequencyValue.includes("オンライン")) {
+        setValue("attendanceFrequency", ["オンライン"]);
+      }
+    } else if (commutingStyleValue === "通学") {
+      // 通学選択時：「オンライン」を除外する
+      if (attendanceFrequencyValue.includes("オンライン")) {
+        const newValue = attendanceFrequencyValue.filter(
+          (v) => v !== "オンライン"
+        );
+        setValue("attendanceFrequency", newValue);
+      }
+    }
+  }, [commutingStyleValue, setValue, watch]);
 
   const router = useRouter();
 
@@ -365,20 +385,30 @@ export const SearchSchoolForm: React.FC<Props> = ({ onClose }) => {
                     return (
                       <FormControl component="fieldset">
                         <FormGroup row sx={{ gap: 2, pb: 1 }}>
-                          {attendanceOptions.map((option) => (
-                            <FormControlLabel
-                              key={option}
-                              control={
-                                <CustomCheckBox
-                                  checked={(field.value || []).includes(option)}
-                                  onChange={handleChange}
-                                  value={option}
-                                  disableRipple
-                                />
-                              }
-                              label={option}
-                            />
-                          ))}
+                          {attendanceOptions.map((option) => {
+                            const isDisabled =
+                              (commutingStyleValue === "オンライン" &&
+                                option !== "オンライン") ||
+                              (commutingStyleValue === "通学" &&
+                                option === "オンライン");
+
+                            return (
+                              <FormControlLabel
+                                key={option}
+                                control={
+                                  <CustomCheckBox
+                                    checked={(field.value || []).includes(
+                                      option
+                                    )}
+                                    onChange={handleChange}
+                                    value={option}
+                                    disabled={isDisabled}
+                                  />
+                                }
+                                label={option}
+                              />
+                            );
+                          })}
                         </FormGroup>
                       </FormControl>
                     );
