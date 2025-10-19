@@ -15,9 +15,16 @@ interface Props {
   text: string;
   option: readonly string[];
   Icon?: React.ElementType;
+  disabledOptions?: string[];
 }
 
-export const FormCheckbox = ({ name, text, option, Icon }: Props) => {
+export const FormCheckbox = ({
+  name,
+  text,
+  option,
+  Icon,
+  disabledOptions = [],
+}: Props) => {
   const { control, getValues, setValue } = useFormContext();
 
   const handleChange = (value: string, checked: boolean) => {
@@ -58,6 +65,7 @@ export const FormCheckbox = ({ name, text, option, Icon }: Props) => {
                     <Checkbox
                       checked={selectedValues.includes(opt)}
                       onChange={(e) => handleChange(opt, e.target.checked)}
+                      disabled={disabledOptions.includes(opt)}
                       disableRipple
                       sx={{
                         color: "#003399",

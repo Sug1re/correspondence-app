@@ -1,9 +1,9 @@
 import React from "react";
 import { z } from "zod";
 import { BaseForm } from "@/components/Base/BaseForm";
-import { FormCheckbox } from "../Base/BaseCheckBoxForm";
-import { FormRadioGroup } from "../Base/BaseRadioGroupForm";
-import { FormSlider } from "../Base/BaseSliderForm";
+import { FormCheckbox } from "../Base/FormCheckBox";
+import { FormRadioGroup } from "../Base/FormRadioGroup";
+import { FormSlider } from "../Base/FormSlider";
 import { TestSchema } from "@/lib/validation/TestSchema";
 import { UseFormReturn } from "react-hook-form";
 import {
@@ -14,14 +14,12 @@ import {
   styleOptions,
 } from "@/entities/form";
 
-import { useFormContext } from "react-hook-form";
-import { useDidUpdate } from "@mantine/hooks";
-
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import SchoolIcon from "@mui/icons-material/School";
 import ComputerIcon from "@mui/icons-material/Computer";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import BusinessIcon from "@mui/icons-material/Business";
+import { useSearchSchoolForm } from "@/hooks/useSearchSchoolForm";
 
 interface Props {
   onClose: () => void;
@@ -43,27 +41,13 @@ export const TestForm: React.FC<Props> = ({ onClose, methodsRef }) => {
       defaultValues={SearchSchoolDefaultValues}
       methodsRef={methodsRef}
     >
-      <InnerFormContent />
+      <FormContent />
     </BaseForm>
   );
 };
 
-// 内部フォーム処理
-const InnerFormContent = () => {
-  const { watch, setValue, getValues } = useFormContext();
-
-  // 「学校情報2」の値を監視
-  const styleValue = watch("style");
-
-  // MantineのuseDidUpdateで「更新時のみ」連動
-  useDidUpdate(() => {
-    if (styleValue === "オンライン") {
-      const attendanceValues = getValues("attendance") || [];
-      if (!attendanceValues.includes("オンライン")) {
-        setValue("attendance", ["オンライン"], { shouldValidate: true });
-      }
-    }
-  }, [styleValue]);
+const FormContent = () => {
+  const { disabledOptions } = useSearchSchoolForm();
 
   return (
     <>
@@ -95,6 +79,7 @@ const InnerFormContent = () => {
         Icon={CalendarMonthIcon}
         name="attendance"
         option={attendanceOptions}
+        disabledOptions={disabledOptions}
       />
 
       <FormRadioGroup
