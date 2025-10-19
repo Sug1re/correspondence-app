@@ -4,22 +4,23 @@ import React, { useEffect, useState } from "react";
 import * as Component from "@/components/index";
 import * as SchoolCard from "@/components/SchoolCardList/index";
 import * as CustomHook from "@/hooks/index";
-import * as Icon from "@/icons/index";
-import { useAuthContext } from "../context/AuthContext";
+import { useAuthContext } from "../../context/AuthContext";
 import { Box, Card, Container, Grid, Typography } from "@mui/material";
 import { School } from "@/app/types/school";
 import { getAllFirestoreData } from "@/lib/firebase/getAllFirestoreData"; // この関数は既にある前提
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 
-const FavoritePage = () => {
+import ListIcon from "@mui/icons-material/List";
+
+const BookmarksPage = () => {
   const { user } = useAuthContext();
   const [favoriteSchools, setFavoriteSchools] = useState<School[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       if (!user) {
-        setFavoriteSchools([]); // ユーザーがログアウトしている場合、空の配列にする
+        setFavoriteSchools([]);
         return;
       }
 
@@ -57,33 +58,42 @@ const FavoritePage = () => {
     <>
       <Component.Header />
 
-      <Container maxWidth="lg">
+      <Container maxWidth="md">
         <Card
           sx={{
             my: 2,
             borderRadius: 2,
             boxShadow: 3,
             border: `0.5px solid #003399`,
+            height: 52,
           }}
         >
           <Box
             sx={{
-              minWidth: "100%",
-              justifyContent: "flex-start",
-              color: "#003399",
-              fontWeight: 600,
-              m: 1,
               display: "flex",
+              alignItems: "center",
+              height: "100%",
+              px: 1,
             }}
           >
-            <Box sx={{ pr: 2 }}>
-              <Icon.ListIcon />
-            </Box>
-            お気に入り学校一覧
+            <Typography
+              sx={{
+                minWidth: "100%",
+                justifyContent: "flex-start",
+                color: "#003399",
+                fontWeight: 600,
+                m: 1,
+                gap: 1,
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <ListIcon style={{ fontSize: 28 }} />
+              お気に入り学校一覧
+            </Typography>
           </Box>
         </Card>
 
-        {/* 表示部分 */}
         {favoriteSchools.length === 0 ? (
           <Box
             sx={{
@@ -110,8 +120,6 @@ const FavoritePage = () => {
                 justifyContent: "space-around",
               }}
             >
-              <Component.BackButton />
-
               <Component.PaginationButton
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -161,4 +169,4 @@ const FavoritePage = () => {
   );
 };
 
-export default FavoritePage;
+export default BookmarksPage;

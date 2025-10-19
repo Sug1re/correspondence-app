@@ -1,7 +1,13 @@
 "use client";
 
 import React from "react";
-import { Drawer, List, Box } from "@mui/material";
+import { Drawer, List, Box, ListItemButton, ListItemText } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { auth } from "@/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useToastContext } from "@/context/ToastContext";
+import { signOut } from "firebase/auth";
 
 interface SideBarProps {
   open: boolean;
@@ -9,6 +15,19 @@ interface SideBarProps {
 }
 
 export default function SideBar({ open, onClose }: SideBarProps) {
+  const [user] = useAuthState(auth);
+  const { showToast } = useToastContext();
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      showToast("ログアウトしました");
+      onClose();
+    } catch {
+      showToast("ログアウトに失敗しました");
+    }
+  };
+
   return (
     <Drawer
       anchor="left"
@@ -17,7 +36,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
       variant="temporary"
       sx={{
         "& .MuiDrawer-paper": {
-          backgroundColor: "#3a3a3aff",
+          backgroundColor: "#ffffff",
           width: 240,
           boxSizing: "border-box",
           display: "flex",
@@ -26,8 +45,44 @@ export default function SideBar({ open, onClose }: SideBarProps) {
         },
       }}
     >
-      {/* 上側のリスト */}
-      <List></List>
+      <List sx={{ width: "100%" }}>
+        <ListItemButton
+          sx={{
+            borderRadius: 2,
+            mx: 1,
+            "&:hover": {
+              backgroundColor: "rgba(0, 51, 153, 0.1)",
+            },
+          }}
+          onClick={onClose}
+          component="a"
+          href="/"
+        >
+          <HomeIcon sx={{ marginRight: 2 }} />
+          <ListItemText
+            primary="ホーム"
+            primaryTypographyProps={{ fontWeight: 600 }}
+          />
+        </ListItemButton>
+        {user && (
+          <ListItemButton
+            sx={{
+              borderRadius: 2,
+              mx: 1,
+              "&:hover": {
+                backgroundColor: "rgba(0, 51, 153, 0.1)",
+              },
+            }}
+            onClick={logout}
+          >
+            <LogoutIcon sx={{ marginRight: 2 }} />
+            <ListItemText
+              primary="ログアウト"
+              primaryTypographyProps={{ fontWeight: 600 }}
+            />
+          </ListItemButton>
+        )}
+      </List>
 
       <Box flexGrow={1} />
     </Drawer>

@@ -1,23 +1,10 @@
 import { z } from "zod";
 
-export const formSchema = z.object({
+export const SearchSchoolSchema = z.object({
   totalTuitionFeeValue: z
-    .tuple([z.number(), z.number().max(4000000)])
-    .superRefine(([min, max], ctx) => {
-      if (min <= 0) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "最小値を0よりも大きくしてください。",
-          path: [0],
-        });
-      }
-      if (max <= 0) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "最大値を0よりも大きくしてください。",
-          path: [1],
-        });
-      }
+    .tuple([z.number().min(0), z.number().max(4000000)])
+    .refine(([min, max]) => min <= max, {
+      message: "最小値が最大値を超えています。",
     }),
 
   movingOutsideThePrefecture: z
@@ -48,4 +35,4 @@ export const formSchema = z.object({
     .min(1,"少なくとも1つ選択してください"),
 });
 
-export type FormValues = z.infer<typeof formSchema>;
+export type FormValues = z.infer<typeof SearchSchoolSchema>;

@@ -4,8 +4,10 @@ import React from "react";
 import { auth } from "@/firebase";
 import { toggleFavoriteSchool } from "@/lib/firebase/toggleUid";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Snackbar, Alert, Box } from "@mui/material";
-import * as Icon from "@/icons/index";
+import { Box, IconButton } from "@mui/material";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import { useToastContext } from "@/context/ToastContext";
 
 type FavoriteButtonProps = {
   schoolId: string;
@@ -19,53 +21,38 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
   setLiked,
 }) => {
   const [user] = useAuthState(auth);
-  const [errorOpen, setErrorOpen] = React.useState(false);
+  const { showToast } = useToastContext();
 
-  // ブックマーク切り替え処理
   const handleToggle = async () => {
     if (!user) {
-      setErrorOpen(true);
+      showToast("お気に入り登録にはログインが必要です", "error");
       return;
     }
 
     const updatedLike = !liked;
     setLiked(schoolId, updatedLike);
     await toggleFavoriteSchool(user.uid, schoolId, updatedLike);
+
+    showToast(
+      updatedLike ? "お気に入りに登録しました" : "お気に入りから削除しました",
+      "success"
+    );
   };
 
   return (
-    <>
-      {/* ブックマークボタン */}
-      <Box sx={{ position: "absolute", top: 5, right: 5 }}>
-        <Icon.BookmarkIcon
-          filled={liked}
-          fillColor="#FF6611"
-          onClick={handleToggle}
-          sx={{
-            transition: "all 1s ease",
-            color: "#FF6611",
-            cursor: "pointer",
-          }}
-        />
-      </Box>
-
-      {/* アラート */}
-      <Snackbar
-        open={errorOpen}
-        autoHideDuration={3000}
-        onClose={() => setErrorOpen(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+    <Box sx={{ position: "absolute", top: 0.5, right: 0.5 }}>
+      <IconButton
+        onClick={handleToggle}
+        sx={{ color: "#FF6611" }}
+        disableRipple
       >
-        <Alert
-          onClose={() => setErrorOpen(false)}
-          severity="warning"
-          variant="filled"
-          sx={{ width: "100%" }}
-        >
-          お気に入り登録にはログインが必要です
-        </Alert>
-      </Snackbar>
-    </>
+        {liked ? (
+          <BookmarkIcon style={{ fontSize: 30 }} />
+        ) : (
+          <BookmarkBorderIcon style={{ fontSize: 30 }} />
+        )}
+      </IconButton>
+    </Box>
   );
 };
 

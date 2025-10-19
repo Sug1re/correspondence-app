@@ -2,27 +2,44 @@
 
 import * as React from "react";
 import Link from "next/link";
-import * as Component from "@/components/index";
-import * as Icon from "@/icons/index";
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import SideBar from "./Bars/SideBar";
+import MenuIcon from "@mui/icons-material/Menu";
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useDisclosure } from "@mantine/hooks";
+import { useToastContext } from "@/context/ToastContext";
+import { auth, provider } from "@/firebase";
+import { signInWithPopup } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Header() {
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [isOpen, handlers] = useDisclosure(false);
+  const [loading, setLoading] = React.useState(false);
+  const [user] = useAuthState(auth);
+  const { showToast } = useToastContext();
 
-  const toggleDrawer = (open: boolean) => () => {
-    setDrawerOpen(open);
+  const login = async () => {
+    setLoading(true);
+    try {
+      await signInWithPopup(auth, provider);
+      showToast("ログインに成功しました");
+    } catch {
+      showToast("ログインに失敗しました");
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <>
       <AppBar
         position="relative"
         sx={{
-          background: "linear-gradient(to right, #003399, #FF6600)", // グラデーション
+          background: "linear-gradient(to right, #003399, #FF6600)",
         }}
       >
         <Toolbar
-          // デフォルトの間隔を無効化
           disableGutters
           sx={{
             display: "flex",
@@ -30,7 +47,6 @@ export default function Header() {
             width: "100%",
           }}
         >
-          {/* タイトル */}
           <Box sx={{ flexGrow: 8, textAlign: "center" }}>
             <Typography
               sx={{
@@ -45,54 +61,100 @@ export default function Header() {
             </Typography>
           </Box>
 
-          {/* お気に入り閲覧ボタン */}
-          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <IconButton
               edge="start"
-              sx={{ color: "#FFFFFF" }}
-              aria-label="menu"
+              sx={{ color: "#FFFFFF", gap: 1 }}
+              aria-label="bookmarks"
               component={Link}
-              href="/favorites"
+              href="/bookmarks"
               disableRipple
             >
-              <Icon.BookmarkIcon />
+              <BookmarksIcon style={{ fontSize: 28 }} />
+              <Typography
+                sx={{
+                  fontWeight: 600,
+                  color: "#FFFFFF",
+                  display: { xs: "none", sm: "flex" },
+                  alignItems: "center",
+                }}
+              >
+                ブックマーク
+              </Typography>
             </IconButton>
           </Box>
 
-          {/* ホームボタン */}
-          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+          {!user && (
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <IconButton
+                edge="start"
+                sx={{ color: "#FFFFFF", gap: 1 }}
+                aria-label="login"
+                onClick={login}
+                disabled={loading}
+                disableRipple
+              >
+                <AccountCircleIcon style={{ fontSize: 28 }} />
+                <Typography
+                  sx={{
+                    fontWeight: 600,
+                    color: "#FFFFFF",
+                    display: { xs: "none", sm: "flex" },
+                    alignItems: "center",
+                  }}
+                >
+                  ログイン
+                </Typography>
+              </IconButton>
+            </Box>
+          )}
+
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <IconButton
               edge="start"
-              sx={{ color: "#FFFFFF" }}
+              sx={{ color: "#FFFFFF", gap: 1 }}
               aria-label="menu"
-              component={Link}
-              href="/"
+              onClick={handlers.open}
               disableRipple
             >
-              <Icon.HomeIcon />
+              <MenuIcon style={{ fontSize: 28 }} />
+              <Typography
+                sx={{
+                  fontWeight: 600,
+                  color: "#FFFFFF",
+                  display: { xs: "none", sm: "flex" },
+                  alignItems: "center",
+                }}
+              >
+                メニュー
+              </Typography>
             </IconButton>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-            <IconButton
-              edge="start"
-              sx={{ color: "#FFFFFF" }}
-              aria-label="menu"
-              onClick={toggleDrawer(true)}
-              disableRipple
-            >
-              <Icon.BarsIcon />
-            </IconButton>
-          </Box>
-
-          {/* ログインボタン */}
-          <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
-            <Component.Login />
           </Box>
         </Toolbar>
       </AppBar>
 
-      <SideBar open={drawerOpen} onClose={toggleDrawer(false)} />
+      <SideBar open={isOpen} onClose={handlers.close} />
     </>
   );
 }

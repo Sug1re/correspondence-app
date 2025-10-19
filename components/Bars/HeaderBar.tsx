@@ -89,7 +89,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
               >
                 <Icon.TvIcon />
                 <Typography sx={{ fontSize: "0.8rem", px: 0.5 }}>
-                  {highSchool}
+                  {highSchool}こんにちは
                 </Typography>
               </Box>
               <Box

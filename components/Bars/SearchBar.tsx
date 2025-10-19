@@ -1,25 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
-import * as Component from "@/components/index";
-import * as Icon from "@/icons/index";
+import React from "react";
 import {
   Box,
   Button,
   Card,
-  CardActions,
   Container,
-  Modal,
+  //  Modal,
+  Typography,
 } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import { useDisclosure } from "@mantine/hooks";
+// import { SearchSchoolForm } from "../Forms/SearchSchoolForm";
+// import { TestForm } from "../Forms/TestForm";
+import { SearchSchoolModal } from "../Modals/SearchSchoolModal";
 
 const SearchBar = () => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [isOpen, handlers] = useDisclosure(false);
 
   return (
     <>
@@ -30,41 +27,64 @@ const SearchBar = () => {
             borderRadius: 2,
             boxShadow: 3,
             border: `0.5px solid #003399`,
+            height: 52,
           }}
         >
-          <CardActions>
+          <Box>
             <Button
               sx={{
                 minWidth: "100%",
                 justifyContent: "flex-start",
                 color: "#003399",
-                fontWeight: 600,
+                backgroundColor: "transparent",
+                "&:hover": {
+                  backgroundColor: "transparent",
+                },
               }}
-              onClick={handleOpen}
+              onClick={handlers.open}
             >
-              <Box
+              <Typography
                 sx={{
-                  pr: 2,
+                  m: 1,
+                  gap: 1,
+                  fontWeight: 600,
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                <Icon.SearchIcon />
-              </Box>
-              検索
+                <SearchIcon style={{ fontSize: 28 }} />
+                検索
+              </Typography>
             </Button>
-
-            {/* モーダル */}
-            <Modal
-              open={open}
-              onClose={handleClose}
-              BackdropProps={{
-                sx: { backgroundColor: "rgba(0, 0, 0, 0.7)" },
-              }}
-            >
-              <Component.Form handleClose={handleClose} />
-            </Modal>
-          </CardActions>
+          </Box>
         </Card>
       </Container>
+
+      {/* <Modal
+        open={isOpen}
+        onClose={handlers.close}
+        BackdropProps={{
+          sx: { backgroundColor: "rgba(0, 0, 0, 0.7)" },
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "100%",
+            maxWidth: 600,
+            maxHeight: "80vh",
+            overflow: "hidden",
+            outline: "none",
+          }}
+        >
+          <SearchSchoolForm onClose={handlers.close} />
+        </Box>
+      </Modal> */}
+
+      <SearchSchoolModal opened={isOpen} onClose={handlers.close} />
     </>
   );
 };

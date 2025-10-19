@@ -3,9 +3,11 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { formSchema, FormValues } from "@/lib/validation/formSchema";
+import {
+  SearchSchoolSchema,
+  FormValues,
+} from "@/lib/validation/SearchSchoolSchema";
 import { handleFormSubmit } from "@/lib/handlers/handleFormSubmit";
-import * as Icon from "@/icons/index";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Box,
@@ -26,6 +28,17 @@ import {
   Typography,
 } from "@mui/material";
 
+import SchoolIcon from "@mui/icons-material/School";
+import BusinessIcon from "@mui/icons-material/Business";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import ComputerIcon from "@mui/icons-material/Computer";
+import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
+import CloseIcon from "@mui/icons-material/Close";
+
+interface Props {
+  onClose: () => void;
+}
+
 const attendanceOptions = [
   "週1",
   "週2",
@@ -36,12 +49,7 @@ const attendanceOptions = [
   "自由",
 ];
 
-// Searchページのモーダルを閉じる関数
-interface FormProps {
-  handleClose: () => void;
-}
-
-const Form: React.FC<FormProps> = ({ handleClose }) => {
+export const SearchSchoolForm: React.FC<Props> = ({ onClose }) => {
   // Radioのカラーリング
   const CustomRadio = styled(Radio)({
     color: "#003399",
@@ -61,11 +69,11 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
   const {
     control,
     handleSubmit,
-    watch,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(SearchSchoolSchema),
     defaultValues: {
       totalTuitionFeeValue: [0, 1000000],
       movingOutsideThePrefecture: "",
@@ -77,6 +85,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
 
   // ユーザーが選択した値を監視
   const totalTuitionFeeValue = watch("totalTuitionFeeValue");
+
   const commutingStyleValue = watch("commutingStyle");
 
   // commutingStyleとattendanceFrequencyの連動ロジック
@@ -101,15 +110,13 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
 
   const router = useRouter();
 
-  // lib/handleFormSubmit
   const onSubmit = (data: FormValues) => {
-    handleFormSubmit(data, router, handleClose);
+    handleFormSubmit(data, router, onClose);
   };
 
   return (
     <>
       <Container>
-        {/* 検索窓 */}
         <Card
           sx={{
             mt: 3,
@@ -125,20 +132,32 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
               position: "sticky",
               top: 0,
               width: "100%",
-              backgroundColor: "#fff", // 背景色
-              zIndex: 10, // 前面に表示
-              borderBottom: "1px solid #ddd", // 境界線
+              backgroundColor: "#fff",
+              zIndex: 10,
+              borderBottom: "1px solid #ddd",
             }}
           >
-            <Button onClick={handleClose} sx={{ color: "#000000" }}>
-              <Icon.CloseIcon />
+            <Button
+              onClick={onClose}
+              sx={{
+                color: "#000000",
+                mr: 1,
+                backgroundColor: "transparent",
+                "&:hover": {
+                  backgroundColor: "transparent",
+                },
+              }}
+            >
+              <CloseIcon style={{ color: "#000000" }} />
             </Button>
           </CardActions>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <CardContent
               sx={{
-                px: 2,
+                px: 6,
+                width: "100%",
+                boxSizing: "border-box",
               }}
             >
               {/* 3年間の学費総額 */}
@@ -148,11 +167,22 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <Icon.YenIcon />
+                  <CurrencyYenIcon style={{ color: "#000000" }} />
                   3年間の学費総額
                 </Typography>
-                <Typography sx={{ fontWeight: 600, ml: 2 }}>
-                  ￥{totalTuitionFeeValue[0].toLocaleString("ja-JP")} 〜 ￥
+                <Typography
+                  sx={{
+                    fontWeight: 600,
+                    ml: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 0.5,
+                    height: 32,
+                  }}
+                >
+                  <CurrencyYenIcon style={{ color: "#000000", fontSize: 20 }} />
+                  {totalTuitionFeeValue[0].toLocaleString("ja-JP")} 〜
+                  <CurrencyYenIcon style={{ color: "#000000", fontSize: 20 }} />
                   {totalTuitionFeeValue[1].toLocaleString("ja-JP")}
                 </Typography>
                 <Controller
@@ -161,7 +191,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   render={({ field }) => (
                     <Slider
                       {...field}
-                      value={field.value || [0, 1000000]} // 初期値を範囲に設定
+                      value={field.value || [0, 1000000]}
                       onChange={(_, newValue) => field.onChange(newValue)}
                       min={0}
                       step={100000}
@@ -169,26 +199,24 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                       valueLabelDisplay="auto"
                       aria-labelledby="totalTuitionFeeSlider"
                       sx={{
-                        color: "#003399", // スライダーの色を変更
+                        width: "100%",
+                        color: "#003399",
                         "& .MuiSlider-thumb": {
-                          backgroundColor: "#003399", // 進捗部分の色を変更
+                          backgroundColor: "#003399",
+                          "&:hover, &.Mui-focusVisible": {
+                            boxShadow: "none",
+                          },
                         },
                         "& .MuiSlider-track": {
-                          backgroundColor: "#003399", // 丸いスライダーの色を変更
+                          backgroundColor: "#003399",
                         },
                         "& .MuiSlider-rail": {
-                          backgroundColor: "#b0c4de", // 未選択部分の色を薄めの青に
+                          backgroundColor: "#b0c4de",
                         },
                       }}
                     />
                   )}
                 />
-                <FormHelperText error sx={{ fontSize: "1rem" }}>
-                  {errors.totalTuitionFeeValue?.[0]?.message}
-                </FormHelperText>
-                <FormHelperText error sx={{ fontSize: "1rem" }}>
-                  {errors.totalTuitionFeeValue?.[1]?.message}
-                </FormHelperText>
               </Box>
 
               {/* スクーリング会場 */}
@@ -198,7 +226,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <Icon.OfficeIcon />
+                  <BusinessIcon style={{ color: "#000000" }} />
                   スクーリング会場
                 </Typography>
                 <Controller
@@ -207,8 +235,8 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   render={({ field }) => (
                     <FormControl>
                       <RadioGroup
-                        {...field} // field.value と field.onChange を適用
-                        row // 横並びにするプロパティ
+                        {...field}
+                        row
                         sx={{
                           gap: 1,
                           pb: 1,
@@ -218,12 +246,12 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                       >
                         <FormControlLabel
                           value="true"
-                          control={<CustomRadio />}
+                          control={<CustomRadio disableRipple />}
                           label="県外"
                         />
                         <FormControlLabel
                           value="false"
-                          control={<CustomRadio />}
+                          control={<CustomRadio disableRipple />}
                           label="県内"
                         />
                       </RadioGroup>
@@ -244,7 +272,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <Icon.SchoolIcon />
+                  <SchoolIcon style={{ color: "#000000" }} />
                   学校の種類
                 </Typography>
                 <Controller
@@ -253,8 +281,8 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   render={({ field }) => (
                     <FormControl>
                       <RadioGroup
-                        {...field} // field.value と field.onChange を適用
-                        row // 横並びにするプロパティ
+                        {...field}
+                        row
                         sx={{
                           gap: 1,
                           pb: 1,
@@ -264,12 +292,12 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                       >
                         <FormControlLabel
                           value="通信制高等学校"
-                          control={<CustomRadio />}
+                          control={<CustomRadio disableRipple />}
                           label="通信制高校"
                         />
                         <FormControlLabel
                           value="サポート校"
-                          control={<CustomRadio />}
+                          control={<CustomRadio disableRipple />}
                           label="サポート校"
                         />
                       </RadioGroup>
@@ -290,7 +318,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <Icon.TvIcon />
+                  <ComputerIcon style={{ color: "#000000" }} />
                   通学形態
                 </Typography>
                 <Controller
@@ -299,8 +327,8 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   render={({ field }) => (
                     <FormControl>
                       <RadioGroup
-                        {...field} // field.value と field.onChange を適用
-                        row // 横並びにするプロパティ
+                        {...field}
+                        row
                         sx={{
                           gap: 1,
                           pb: 1,
@@ -310,12 +338,12 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                       >
                         <FormControlLabel
                           value="通学"
-                          control={<CustomRadio />}
+                          control={<CustomRadio disableRipple />}
                           label="通学"
                         />
                         <FormControlLabel
                           value="オンライン"
-                          control={<CustomRadio />}
+                          control={<CustomRadio disableRipple />}
                           label="オンライン"
                         />
                       </RadioGroup>
@@ -336,7 +364,7 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                   sx={{ fontWeight: 600, display: "flex", gap: 1 }}
                   gutterBottom
                 >
-                  <Icon.CalendarIcon />
+                  <CalendarMonthIcon style={{ color: "#000000" }} />
                   登校頻度
                 </Typography>
 
@@ -394,16 +422,15 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
               </Box>
             </CardContent>
 
-            {/* 検索ボタン */}
             <CardActions
               sx={{
                 pb: 1,
                 justifyContent: "center",
                 position: "sticky",
                 bottom: 0,
-                backgroundColor: "#fff", // 背景色
-                zIndex: 10, // 前面に表示
-                borderTop: "1px solid #ddd", // 境界線
+                backgroundColor: "#fff",
+                zIndex: 10,
+                borderTop: "1px solid #ddd",
               }}
             >
               <Button
@@ -412,8 +439,12 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
                 sx={{
                   backgroundColor: "#003399",
                   fontWeight: "bold",
-                  width: "80%", // ボタンの幅をフルに設定
-                  boxShadow: "0px 4px 10px rgba(255, 102, 0, 0.4)",
+                  width: "80%",
+                  transition: "transform 0.2s",
+                  "&:hover": {
+                    backgroundColor: "#003399",
+                    transform: "scale(0.95)",
+                  },
                 }}
               >
                 検索
@@ -425,5 +456,3 @@ const Form: React.FC<FormProps> = ({ handleClose }) => {
     </>
   );
 };
-
-export default Form;

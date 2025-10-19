@@ -1,7 +1,7 @@
 "use client";
 
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
-import { FormValues } from "../validation/formSchema";
+import { FormValues } from "../validation/SearchSchoolSchema";
 
 export const handleFormSubmit =(
     data:FormValues,
