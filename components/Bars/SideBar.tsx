@@ -4,7 +4,7 @@ import React from "react";
 import { Drawer, List, Box, ListItemButton, ListItemText } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { auth } from "@/firebase";
+import { auth } from "@/lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useToastContext } from "@/context/ToastContext";
 import { signOut } from "firebase/auth";

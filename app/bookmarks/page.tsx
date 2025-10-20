@@ -9,7 +9,7 @@ import { Box, Card, Container, Grid, Typography } from "@mui/material";
 import { School } from "@/app/types/school";
 import { getAllFirestoreData } from "@/lib/firebase/getAllFirestoreData"; // この関数は既にある前提
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/firebase";
+import { db } from "@/lib/firebase";
 
 import ListIcon from "@mui/icons-material/List";
 

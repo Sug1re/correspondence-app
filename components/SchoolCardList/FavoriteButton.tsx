@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { auth } from "@/firebase";
+import { auth } from "@/lib/firebase";
 import { toggleFavoriteSchool } from "@/lib/firebase/toggleUid";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Box, IconButton } from "@mui/material";

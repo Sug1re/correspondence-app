@@ -5,7 +5,7 @@ import { Card, Grid } from "@mui/material";
 import { School } from "@/app/types/school";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { collection, getDocs } from "firebase/firestore";
-import { auth, db } from "@/firebase";
+import { auth, db } from "@/lib/firebase";
 import * as SchoolCard from "@/components/SchoolCardList/index";
 
 type SchoolCardListProps = {

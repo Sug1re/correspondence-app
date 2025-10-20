@@ -8,7 +8,7 @@ import {
   ReactNode,
 } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { auth } from "@/firebase"; // 自分の Firebase 初期化ファイルに合わせて修正
+import { auth } from "@/lib/firebase"; // 自分の Firebase 初期化ファイルに合わせて修正
 
 type AuthContextType = {
   user: User | null;

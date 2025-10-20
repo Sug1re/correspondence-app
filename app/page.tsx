@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import * as Component from "@/components/index";
 import { SchoolCard } from "@/components/Cards/SchoolCard";
 import SearchBar from "@/components/Bars/SearchBar";
 import Header from "@/components/Header";
+import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 
 export default function Home() {
   return (
@@ -15,7 +15,7 @@ export default function Home() {
 
       <SchoolCard />
 
-      <Component.ScrollTopButton />
+      <ScrollToTopButton />
     </>
   );
 }

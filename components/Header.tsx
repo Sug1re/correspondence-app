@@ -9,7 +9,7 @@ import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useDisclosure } from "@mantine/hooks";
 import { useToastContext } from "@/context/ToastContext";
-import { auth, provider } from "@/firebase";
+import { auth, provider } from "@/lib/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 
