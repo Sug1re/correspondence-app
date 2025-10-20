@@ -39,7 +39,7 @@ export const useToast = () => {
         "& .MuiSnackbarContent-root": {
           backgroundColor: "#333",
           color: "#fff",
-          borderRadius: "12px",
+          borderRadius: 2,
           boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
         },
       }}

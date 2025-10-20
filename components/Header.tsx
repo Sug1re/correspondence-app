@@ -75,7 +75,6 @@ export default function Header() {
             <IconButton
               edge="start"
               sx={{ color: "#FFFFFF", gap: 1 }}
-              aria-label="bookmarks"
               component={Link}
               href="/bookmarks"
               disableRipple
@@ -106,7 +105,6 @@ export default function Header() {
               <IconButton
                 edge="start"
                 sx={{ color: "#FFFFFF", gap: 1 }}
-                aria-label="login"
                 onClick={login}
                 disabled={loading}
                 disableRipple
@@ -137,7 +135,6 @@ export default function Header() {
             <IconButton
               edge="start"
               sx={{ color: "#FFFFFF", gap: 1 }}
-              aria-label="menu"
               onClick={handlers.open}
               disableRipple
             >

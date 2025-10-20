@@ -7,11 +7,11 @@ export type School = {
   target: string;
   attendanceWeek: string;
   attendanceMonth: string;
-  firstTuition: number | null;
-  anotherTuition: number | null;
-  secondTuition: number | null;
-  thirdTuition: number | null;
-  examFee: number | null;
+  firstTuition: string;
+  anotherTuition: string;
+  secondTuition: string;
+  thirdTuition: string;
+  examFee: string;
   features: string;
   schooling: string;
   picture: string;

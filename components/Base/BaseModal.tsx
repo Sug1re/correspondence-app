@@ -13,6 +13,8 @@ import CloseIcon from "@mui/icons-material/Close";
 type Props = {
   children: React.ReactNode;
   title: string;
+  color: "blue" | "orange";
+  footer: boolean;
   isOpen: boolean;
   onClose: () => void;
   onSubmit?: () => void;
@@ -21,6 +23,8 @@ type Props = {
 export const BaseModal = ({
   children,
   title,
+  color,
+  footer,
   isOpen,
   onClose,
   onSubmit,
@@ -52,7 +56,7 @@ export const BaseModal = ({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-around",
-              bgcolor: "#003399",
+              bgcolor: color === "blue" ? "#003399" : "#FF6600",
             }}
           >
             <Typography
@@ -87,37 +91,39 @@ export const BaseModal = ({
 
           <FormControl fullWidth>{children}</FormControl>
 
-          <Box
-            sx={{
-              py: 1,
-              display: "flex",
-              justifyContent: "center",
-              bottom: 0,
-              backgroundColor: "#fff",
-              zIndex: 10,
-              borderTop: "1px solid #ddd",
-            }}
-          >
-            <Button
-              onClick={onSubmit}
-              type="submit"
+          {footer && (
+            <Box
               sx={{
-                borderRadius: 4,
-                color: "#fff",
-                backgroundColor: "#003399",
-                fontWeight: "bold",
-                width: "60%",
-                transition: "transform 0.2s",
-                "&:hover": {
-                  backgroundColor: "#003399",
-                  transform: "scale(0.95)",
-                },
+                py: 1,
+                display: "flex",
+                justifyContent: "center",
+                bottom: 0,
+                backgroundColor: "#fff",
+                zIndex: 10,
+                borderTop: "1px solid #ddd",
               }}
-              disableRipple
             >
-              検索
-            </Button>
-          </Box>
+              <Button
+                onClick={onSubmit}
+                type="submit"
+                sx={{
+                  borderRadius: 4,
+                  color: "#fff",
+                  backgroundColor: "#003399",
+                  fontWeight: "bold",
+                  width: "60%",
+                  transition: "transform 0.2s",
+                  "&:hover": {
+                    backgroundColor: "#003399",
+                    transform: "scale(0.95)",
+                  },
+                }}
+                disableRipple
+              >
+                検索
+              </Button>
+            </Box>
+          )}
         </Card>
       </MuiModal>
     </>

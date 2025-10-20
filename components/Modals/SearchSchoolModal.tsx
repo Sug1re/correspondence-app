@@ -28,6 +28,8 @@ export const SearchSchoolModal = ({ opened, onClose }: Props) => {
   return (
     <BaseModal
       title="学校を検索"
+      color="blue"
+      footer={true}
       isOpen={opened}
       onClose={onClose}
       onSubmit={onSubmit}
