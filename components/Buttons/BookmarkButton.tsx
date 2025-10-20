@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import { useDisclosure } from "@mantine/hooks";
 import { useToastContext } from "@/context/ToastContext";
+import { getAuth } from "firebase/auth";
 
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
@@ -9,12 +10,20 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 export const BookmarkButton = () => {
   const [isBookmarked, { toggle }] = useDisclosure(false);
   const { showToast } = useToastContext();
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   return (
     <>
       <Button
         onClick={() => {
+          if (!user) {
+            showToast("ログインが必要です。");
+            return;
+          }
+
           toggle();
+
           if (!isBookmarked) {
             showToast("お気に入りに追加しました！");
           } else {

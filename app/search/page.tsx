@@ -4,16 +4,16 @@ import SearchBar from "@/components/Bars/SearchBar";
 import Header from "@/components/Header";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 
-export const SearchResultPage = () => {
+export const SearchPage = () => {
   return (
     <>
       <Header />
 
       <Container maxWidth="md">
         <SearchBar />
-
-        <ScrollToTopButton />
       </Container>
+
+      <ScrollToTopButton />
     </>
   );
 };
