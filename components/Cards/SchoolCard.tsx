@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { Box, Card, CircularProgress, Typography } from "@mui/material";
 import useSWR from "swr";
+import { Box, Card, CircularProgress, Typography } from "@mui/material";
+import { BAR_HEIGHT, HEADER_HEIGHT } from "@/lib/constants";
 import type { School } from "@/entities/school";
 
 export const SchoolCard = () => {
@@ -15,7 +16,7 @@ export const SchoolCard = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "auto",
+          height: `calc(100vh - ${HEADER_HEIGHT}px - ${BAR_HEIGHT}px)`,
           flexDirection: "column",
         }}
       >
