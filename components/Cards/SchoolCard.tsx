@@ -1,12 +1,15 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Link from "next/link";
 import { Box, Button, Card, Stack, Typography } from "@mui/material";
 import { useSchools } from "@/hooks/useSchools";
 import { Loading } from "../Loading";
-import { Message } from "../message";
+import { Message } from "../Message";
 import { totalTuition } from "@/lib/constants";
 import { SchoolModal } from "../Modals/SchoolModal";
 import { useDisclosure } from "@mantine/hooks";
+import { School } from "@/entities/school";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -14,17 +17,17 @@ import { BookmarkButton } from "../Buttons/BookmarkButton";
 
 export const SchoolCard = () => {
   const [isOpen, handlers] = useDisclosure(false);
+  const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
   const { schools, isLoading, isError, isEmpty } = useSchools();
 
   if (isLoading) return <Loading />;
+  if (isError) return <Message message="データの取得に失敗しました。" />;
+  if (isEmpty) return <Message message="データがありません。" />;
 
-  if (isError) {
-    return <Message message="データの取得に失敗しました。" />;
-  }
-
-  if (isEmpty) {
-    return <Message message="データがありません。" />;
-  }
+  const isOpenModal = (school: School) => {
+    setSelectedSchool(school); // 選択中の学校をセット
+    handlers.open(); // モーダルを開く
+  };
 
   return (
     <>
@@ -121,14 +124,14 @@ export const SchoolCard = () => {
                       alignItems: "center",
                     }}
                   >
-                    <CurrencyYenIcon style={{ fontSize: 14 }} />
+                    <CurrencyYenIcon style={{ fontSize: 18 }} />
                     {totalTuition(school)}
                   </Typography>
                 </Box>
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                   <Button
                     size="small"
-                    onClick={handlers.open}
+                    onClick={() => isOpenModal(school)}
                     sx={{
                       borderRadius: 2,
                       backgroundColor: "#FF6600",
@@ -157,7 +160,11 @@ export const SchoolCard = () => {
           </Stack>
         </Card>
       ))}
-      <SchoolModal opened={isOpen} onClose={handlers.close} />
+      <SchoolModal
+        opened={isOpen}
+        onClose={handlers.close}
+        school={selectedSchool!}
+      />
     </>
   );
 };

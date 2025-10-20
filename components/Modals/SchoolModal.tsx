@@ -1,13 +1,17 @@
 import React from "react";
 import { BaseModal } from "../Base/BaseModal";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
+import { SchoolText } from "../Texts/SchoolText";
+import { School } from "@/entities/school";
 
 type Props = {
   opened: boolean;
+  school?: School;
   onClose: () => void;
 };
 
-export const SchoolModal = ({ opened, onClose }: Props) => {
+export const SchoolModal = ({ opened, onClose, school }: Props) => {
+  if (!school) return null;
   return (
     <BaseModal
       title="負担額の内訳"
@@ -20,10 +24,9 @@ export const SchoolModal = ({ opened, onClose }: Props) => {
         sx={{
           maxHeight: 300,
           overflowY: "auto",
-          alignItems: "center",
         }}
       >
-        <Typography>こんにちは</Typography>
+        <SchoolText school={school} />
       </Stack>
     </BaseModal>
   );
