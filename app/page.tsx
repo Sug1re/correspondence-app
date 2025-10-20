@@ -1,30 +1,21 @@
 "use client";
 
 import React from "react";
-import { Box, Container } from "@mui/material";
 import * as Component from "@/components/index";
+import { SchoolCard } from "@/components/Cards/SchoolCard";
+import SearchBar from "@/components/Bars/SearchBar";
+import Header from "@/components/Header";
 
 export default function Home() {
   return (
     <>
-      <Component.Header />
+      <Header />
 
-      <Component.SearchBar />
+      <SearchBar />
 
-      <Container maxWidth="lg">
-        <Box
-          sx={{
-            display: "flex-col",
-            justifyContent: "center", // 水平中央
-            alignItems: "center", // 垂直中央
-            height: "100vh", // 画面全体の高さ
-          }}
-        >
-          <Component.Home />
-        </Box>
+      <SchoolCard />
 
-        <Component.ScrollTopButton />
-      </Container>
+      <Component.ScrollTopButton />
     </>
   );
 }

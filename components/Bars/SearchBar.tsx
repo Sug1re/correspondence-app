@@ -1,18 +1,9 @@
 "use client";
 
 import React from "react";
-import {
-  Box,
-  Button,
-  Card,
-  Container,
-  //  Modal,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Card, Container, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDisclosure } from "@mantine/hooks";
-// import { SearchSchoolForm } from "../Forms/SearchSchoolForm";
-// import { TestForm } from "../Forms/TestForm";
 import { SearchSchoolModal } from "../Modals/SearchSchoolModal";
 
 const SearchBar = () => {
@@ -59,30 +50,6 @@ const SearchBar = () => {
           </Box>
         </Card>
       </Container>
-
-      {/* <Modal
-        open={isOpen}
-        onClose={handlers.close}
-        BackdropProps={{
-          sx: { backgroundColor: "rgba(0, 0, 0, 0.7)" },
-        }}
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "100%",
-            maxWidth: 600,
-            maxHeight: "80vh",
-            overflow: "hidden",
-            outline: "none",
-          }}
-        >
-          <SearchSchoolForm onClose={handlers.close} />
-        </Box>
-      </Modal> */}
 
       <SearchSchoolModal opened={isOpen} onClose={handlers.close} />
     </>

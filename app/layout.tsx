@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { AuthProvider } from "../context/AuthContext";
-import ToastProvider from "@/Providers/ToastProvider";
+import { AuthProvider } from "@/context/AuthContext";
+import ToastProvider from "@/providers/ToastProvider";
+import MantineProvider from "@/providers/MantineProvider";
+import SWRProvider from "@/providers/SWRProvider";
 
 export const metadata: Metadata = {
   title: "新潟県の通信制高校検索アプリ",
@@ -17,9 +19,13 @@ export default function RootLayout({
     <html lang="ja">
       <body>
         <AuthProvider>
-          <ToastProvider>
-            <main>{children}</main>
-          </ToastProvider>
+          <MantineProvider>
+            <SWRProvider>
+              <ToastProvider>
+                <main>{children}</main>
+              </ToastProvider>
+            </SWRProvider>
+          </MantineProvider>
         </AuthProvider>
       </body>
     </html>
