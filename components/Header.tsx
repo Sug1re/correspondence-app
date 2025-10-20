@@ -12,6 +12,7 @@ import { useToastContext } from "@/context/ToastContext";
 import { auth, provider } from "@/lib/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { HEADER_HEIGHT } from "@/lib/constants";
 
 export default function Header() {
   const [isOpen, handlers] = useDisclosure(false);
@@ -37,6 +38,7 @@ export default function Header() {
         position="relative"
         sx={{
           background: "linear-gradient(to right, #003399, #FF6600)",
+          height: HEADER_HEIGHT,
         }}
       >
         <Toolbar
@@ -45,6 +47,7 @@ export default function Header() {
             display: "flex",
             alignItems: "center",
             width: "100%",
+            height: "100%",
           }}
         >
           <Box sx={{ flexGrow: 8, textAlign: "center" }}>

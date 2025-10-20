@@ -1,19 +1,26 @@
 import React from "react";
 import Link from "next/link";
-import { Box, Card, Typography } from "@mui/material";
-import { Loader } from "@mantine/core";
+import { Box, Card, CircularProgress, Typography } from "@mui/material";
 import useSWR from "swr";
 import type { School } from "@/entities/school";
 
 export const SchoolCard = () => {
-  const { data, error, isLoading } = useSWR("/api/sheet");
+  const { data, error } = useSWR("/api/sheet");
   const schools = data?.data as School[];
 
-  if (isLoading) {
+  if (!data && !error) {
     return (
-      <>
-        <Loader size="lg" color="blue" />
-      </>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "auto",
+          flexDirection: "column",
+        }}
+      >
+        <CircularProgress />
+      </Box>
     );
   }
 
