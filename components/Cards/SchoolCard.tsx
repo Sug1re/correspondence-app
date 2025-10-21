@@ -10,15 +10,30 @@ import { totalTuition } from "@/lib/constants";
 import { SchoolModal } from "../Modals/SchoolModal";
 import { useDisclosure } from "@mantine/hooks";
 import { School } from "@/entities/school";
+import { useSchoolCount } from "@/hooks/useSchoolCount";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { BookmarkButton } from "../Buttons/BookmarkButton";
 
-export const SchoolCard = () => {
+interface Props {
+  school: School[];
+}
+
+export const SchoolCard = ({ school }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
-  const { schools, isLoading, isError, isEmpty } = useSchools();
+  const {
+    schools: allSchools = [],
+    isLoading,
+    isError,
+    isEmpty,
+  } = useSchools();
+
+  const schools = school || [];
+  const schoolCount = useSchoolCount(allSchools);
+
+  const [page, setPage] = useState(1);
 
   if (isLoading) return <Loading />;
   if (isError) return <Message message="データの取得に失敗しました。" />;
@@ -31,6 +46,10 @@ export const SchoolCard = () => {
 
   return (
     <>
+      <Typography sx={{ mb: 1, fontWeight: 600 }}>
+        現在の学校データ数：{schoolCount} 件
+      </Typography>
+
       <Grid container spacing={2}>
         {schools.map((school, index) => (
           <Grid key={index} size={{ xs: 12, md: 6 }}>
