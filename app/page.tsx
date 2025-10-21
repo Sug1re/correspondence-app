@@ -1,9 +1,10 @@
 import React from "react";
+import { Container, Stack } from "@mui/material";
 import { SchoolCard } from "@/components/Cards/SchoolCard";
 import SearchBar from "@/components/Bars/SearchBar";
 import Header from "@/components/Header";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
-import { Container } from "@mui/material";
+import { PaginationButton } from "@/components/Buttons/PaginationButton";
 
 export default function Home() {
   return (
@@ -11,9 +12,13 @@ export default function Home() {
       <Header />
 
       <Container maxWidth="md">
-        <SearchBar />
+        <Stack spacing={4} sx={{ mt: 4 }}>
+          <SearchBar />
 
-        <SchoolCard />
+          <PaginationButton />
+
+          <SchoolCard />
+        </Stack>
       </Container>
 
       <ScrollToTopButton />

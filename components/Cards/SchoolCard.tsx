@@ -169,6 +169,7 @@ export const SchoolCard = () => {
           </Grid>
         ))}
       </Grid>
+
       <SchoolModal
         opened={isOpen}
         onClose={handlers.close}

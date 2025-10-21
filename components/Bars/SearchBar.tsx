@@ -14,7 +14,6 @@ const SearchBar = () => {
     <>
       <Card
         sx={{
-          my: 2,
           borderRadius: 2,
           boxShadow: 3,
           border: `0.5px solid #003399`,

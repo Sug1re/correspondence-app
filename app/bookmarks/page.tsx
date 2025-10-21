@@ -1,10 +1,11 @@
 "use client";
 
 import React from "react";
-import { Container } from "@mui/material";
+import { Container, Stack } from "@mui/material";
 import { BookmarkBar } from "@/components/Bars/BookmarkBar";
 import Header from "@/components/Header";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
+import { PaginationButton } from "@/components/Buttons/PaginationButton";
 
 const BookmarksPage = () => {
   return (
@@ -12,10 +13,14 @@ const BookmarksPage = () => {
       <Header />
 
       <Container maxWidth="md">
-        <BookmarkBar />
+        <Stack spacing={4} sx={{ mt: 4 }}>
+          <BookmarkBar />
 
-        <ScrollToTopButton />
+          <PaginationButton />
+        </Stack>
       </Container>
+
+      <ScrollToTopButton />
     </>
   );
 };
