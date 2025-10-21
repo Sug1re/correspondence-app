@@ -33,8 +33,6 @@ export const SchoolCard = ({ school }: Props) => {
   const schools = school || [];
   const schoolCount = useSchoolCount(allSchools);
 
-  const [page, setPage] = useState(1);
-
   if (isLoading) return <Loading />;
   if (isError) return <Message message="データの取得に失敗しました。" />;
   if (isEmpty) return <Message message="データがありません。" />;
