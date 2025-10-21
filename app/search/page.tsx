@@ -3,7 +3,6 @@ import { Container, Stack } from "@mui/material";
 import SearchBar from "@/components/Bars/SearchBar";
 import Header from "@/components/Header";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
-import { PaginationButton } from "@/components/Buttons/PaginationButton";
 
 export const SearchPage = () => {
   return (
@@ -13,8 +12,6 @@ export const SearchPage = () => {
       <Container maxWidth="md">
         <Stack spacing={4} sx={{ mt: 4 }}>
           <SearchBar />
-
-          <PaginationButton />
         </Stack>
       </Container>
 
