@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useRef } from "react";
 import { TestForm } from "../Forms/TestForm";
 import { BaseModal } from "../Base/BaseModal";
@@ -5,21 +7,38 @@ import { Stack } from "@mui/material";
 import { UseFormReturn } from "react-hook-form";
 import { TestSchema } from "@/lib/validation/TestSchema";
 import { z } from "zod";
+import { TestFormValues } from "@/entities/form";
+import { useRouter } from "next/navigation";
 
 type Props = {
   opened: boolean;
+  onSearch?: (data: TestFormValues) => void;
   onClose: () => void;
 };
 
-export const SearchSchoolModal = ({ opened, onClose }: Props) => {
+export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
   const methodsRef = useRef<UseFormReturn<z.infer<typeof TestSchema>> | null>(
     null
   );
+  const router = useRouter();
 
   const onSubmit = () => {
     if (methodsRef.current) {
       methodsRef.current.handleSubmit((data) => {
         console.log("外部からSubmit:", data);
+
+        const query = new URLSearchParams();
+
+        // query.append("totalFeeMin", data.totalFee[0].toString());
+        // query.append("totalFeeMax", data.totalFee[1].toString());
+        query.append("school", data.school);
+        query.append("style", data.style);
+        query.append("schooling", data.schooling);
+        // query.append("attendance", data.attendance.join(","));
+
+        router.push(`/search?${query.toString()}`);
+
+        onSearch?.(data);
         onClose();
       })();
     }

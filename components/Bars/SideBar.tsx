@@ -8,6 +8,7 @@ import { auth } from "@/lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useToastContext } from "@/context/ToastContext";
 import { signOut } from "firebase/auth";
+import { useRouter } from "next/navigation";
 
 interface SideBarProps {
   open: boolean;
@@ -17,6 +18,11 @@ interface SideBarProps {
 export default function SideBar({ open, onClose }: SideBarProps) {
   const [user] = useAuthState(auth);
   const { showToast } = useToastContext();
+  const router = useRouter();
+
+  const onHome = () => {
+    router.push("/");
+  };
 
   const logout = async () => {
     try {
@@ -54,9 +60,9 @@ export default function SideBar({ open, onClose }: SideBarProps) {
               backgroundColor: "rgba(0, 51, 153, 0.1)",
             },
           }}
-          onClick={onClose}
-          component="a"
-          href="/"
+          onClick={() => {
+            onClose(), onHome();
+          }}
         >
           <HomeIcon sx={{ marginRight: 2 }} />
           <ListItemText

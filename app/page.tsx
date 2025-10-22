@@ -1,9 +1,8 @@
 import React from "react";
 import { Container, Stack } from "@mui/material";
-import SearchBar from "@/components/Bars/SearchBar";
 import Header from "@/components/Header";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
-import { SchoolSection } from "@/components/Section/SchoolSection";
+import { HomeSection } from "@/components/Section/HomeSection";
 
 export default function Home() {
   return (
@@ -12,9 +11,7 @@ export default function Home() {
 
       <Container maxWidth="md">
         <Stack spacing={4} sx={{ mt: 4 }}>
-          <SearchBar />
-
-          <SchoolSection />
+          <HomeSection />
         </Stack>
       </Container>
 

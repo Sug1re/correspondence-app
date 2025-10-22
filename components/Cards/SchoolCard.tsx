@@ -64,7 +64,7 @@ export const SchoolCard = ({ school }: Props) => {
                 <Box
                   component="img"
                   src={school.picture}
-                  alt={school.school}
+                  alt={school.schoolName}
                   sx={{
                     width: "100%",
                     height: 200,
@@ -103,7 +103,7 @@ export const SchoolCard = ({ school }: Props) => {
                         },
                       }}
                     >
-                      {school.school}
+                      {school.schoolName}
                     </Typography>
                   </Link>
 

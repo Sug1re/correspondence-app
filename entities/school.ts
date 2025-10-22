@@ -1,9 +1,9 @@
 export type School = {
   timeStamp: string;
-  school: string;
+  schoolName: string;
   course: string;
-  info1: string;
-  info2: string;
+  school: string;
+  style: string;
   target: string;
   attendanceWeek: string;
   attendanceMonth: string;

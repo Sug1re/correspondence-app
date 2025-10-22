@@ -3,12 +3,14 @@
 import React, { useState } from "react";
 import { PaginationButton } from "@/components/Buttons/PaginationButton";
 import { SchoolCard } from "@/components/Cards/SchoolCard";
-import { useSchools } from "@/hooks/useSchools";
+import { School } from "@/entities/school";
+import { ITEMS_PER_PAGE } from "@/lib/constants";
 
-const ITEMS_PER_PAGE = 4;
+type Props = {
+  schools: School[];
+};
 
-export const SchoolSection = () => {
-  const { schools = [] } = useSchools();
+export const SchoolCardSection = ({ schools }: Props) => {
   const [page, setPage] = useState(1);
 
   const startIndex = (page - 1) * ITEMS_PER_PAGE;

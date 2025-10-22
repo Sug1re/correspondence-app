@@ -6,8 +6,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useDisclosure } from "@mantine/hooks";
 import { SearchSchoolModal } from "../Modals/SearchSchoolModal";
 import { BAR_HEIGHT } from "@/lib/constants";
+import { TestFormValues } from "@/entities/form";
 
-const SearchBar = () => {
+type Props = {
+  onSearch?: (data: TestFormValues) => void;
+};
+
+export const SearchBar = ({ onSearch }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
 
   return (
@@ -49,9 +54,11 @@ const SearchBar = () => {
         </Box>
       </Card>
 
-      <SearchSchoolModal opened={isOpen} onClose={handlers.close} />
+      <SearchSchoolModal
+        opened={isOpen}
+        onClose={handlers.close}
+        onSearch={onSearch}
+      />
     </>
   );
 };
-
-export default SearchBar;

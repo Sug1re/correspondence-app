@@ -36,10 +36,10 @@ export async function GET() {
 
     const data: School[] = rows.map((row) => ({
       timeStamp: row[0] ?? "",
-      school: row[1] ?? "",
+      schoolName: row[1] ?? "",
       course: row[2] ?? "",
-      info1: row[3] ?? "",
-      info2: row[4] ?? "",
+      school: row[3] ?? "",
+      style: row[4] ?? "",
       target: row[5] ?? "",
       attendanceWeek: row[6] ?? "",
       attendanceMonth: row[7] ?? "",

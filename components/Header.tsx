@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import SideBar from "./Bars/SideBar";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -13,12 +12,18 @@ import { auth, provider } from "@/lib/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { HEADER_HEIGHT } from "@/lib/constants";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [isOpen, handlers] = useDisclosure(false);
   const [loading, setLoading] = React.useState(false);
   const [user] = useAuthState(auth);
   const { showToast } = useToastContext();
+  const router = useRouter();
+
+  const onBookmarks = () => {
+    router.push("/bookmarks");
+  };
 
   const login = async () => {
     setLoading(true);
@@ -75,8 +80,7 @@ export default function Header() {
             <IconButton
               edge="start"
               sx={{ color: "#FFFFFF", gap: 1 }}
-              component={Link}
-              href="/bookmarks"
+              onClick={onBookmarks}
               disableRipple
             >
               <BookmarksIcon style={{ fontSize: 28 }} />
