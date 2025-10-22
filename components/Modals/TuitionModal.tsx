@@ -1,7 +1,7 @@
 import React from "react";
 import { BaseModal } from "../Base/BaseModal";
 import { Stack } from "@mui/material";
-import { SchoolText } from "../Texts/SchoolText";
+import { TuitionText } from "../Texts/TuitionText";
 import { School } from "@/entities/school";
 
 type Props = {
@@ -26,7 +26,7 @@ export const TuitionModal = ({ opened, onClose, school }: Props) => {
           overflowY: "auto",
         }}
       >
-        <SchoolText school={school} />
+        <TuitionText school={school} />
       </Stack>
     </BaseModal>
   );

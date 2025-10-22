@@ -1,21 +1,21 @@
 import React from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
-import { TargetButton } from "@/components/Buttons/TargetButton";
-import { HomeText } from "@/components/Texts/HomeText";
+import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
+import { HomeSection } from "@/components/Section/HomeSection";
 
-export default function Home() {
+export default function EntrancePage() {
   return (
     <>
       <Header />
 
       <Container maxWidth="md">
         <Stack spacing={4} sx={{ mt: 4 }}>
-          <HomeText />
-
-          <TargetButton />
+          <HomeSection />
         </Stack>
       </Container>
+
+      <ScrollToTopButton />
     </>
   );
 }

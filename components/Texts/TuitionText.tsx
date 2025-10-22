@@ -8,7 +8,7 @@ type Props = {
   school: School;
 };
 
-export const SchoolText = ({ school }: Props) => {
+export const TuitionText = ({ school }: Props) => {
   return (
     <Box sx={{ m: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "space-around" }}>
