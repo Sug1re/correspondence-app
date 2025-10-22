@@ -20,21 +20,19 @@ interface Props {
   school: School[];
 }
 
-export const SchoolCard = ({ school }: Props) => {
+export const SearchSchoolCard = ({ school }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
-  const {
-    schools: allSchools = [],
-    isLoading,
-    isError,
-    isEmpty,
-  } = useSchools();
+  const { isLoading, isError, isEmpty } = useSchools();
 
   const schools = school || [];
-  const schoolCount = useSchoolCount(allSchools);
+  const schoolCount = useSchoolCount(schools);
 
   if (isLoading) return <Loading />;
   if (isError) return <Message message="データの取得に失敗しました。" />;
+  {
+    /* 動作してなかった*/
+  }
   if (isEmpty) return <Message message="データがありません。" />;
 
   const isOpenModal = (school: School) => {

@@ -10,7 +10,7 @@ type Props = {
   onClose: () => void;
 };
 
-export const SchoolModal = ({ opened, onClose, school }: Props) => {
+export const TuitionModal = ({ opened, onClose, school }: Props) => {
   if (!school) return null;
   return (
     <BaseModal
