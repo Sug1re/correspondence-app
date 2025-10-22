@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { TestSchema } from "@/lib/validation/TestSchema";
+import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
 
 // zodスキーマから型を自動生成
-export type TestFormValues = z.infer<typeof TestSchema>;
+export type SearchSchoolFormValues = z.infer<typeof SearchSchoolSchema>;
 
-export const SearchSchoolDefaultValues: Partial<z.infer<typeof TestSchema>> = {
+export const SearchSchoolDefaultValues: Partial<z.infer<typeof SearchSchoolSchema>> = {
   totalFee: [0, 1000000],
   school: undefined,
   style: undefined,

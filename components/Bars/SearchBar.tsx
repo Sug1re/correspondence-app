@@ -6,10 +6,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useDisclosure } from "@mantine/hooks";
 import { SearchSchoolModal } from "../Modals/SearchSchoolModal";
 import { BAR_HEIGHT } from "@/lib/constants";
-import { TestFormValues } from "@/entities/form";
+import { SearchSchoolFormValues } from "@/entities/form";
 
 type Props = {
-  onSearch?: (data: TestFormValues) => void;
+  onSearch?: (data: SearchSchoolFormValues) => void;
 };
 
 export const SearchBar = ({ onSearch }: Props) => {

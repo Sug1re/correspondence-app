@@ -4,7 +4,7 @@ import React from "react";
 import { SearchBar } from "@/components/Bars/SearchBar";
 import { SchoolCardSection } from "@/components/Section/SchoolCardSection";
 import { useSchools } from "@/hooks/useSchools";
-import { TestFormValues } from "@/entities/form";
+import { SearchSchoolFormValues } from "@/entities/form";
 
 // あとで
 // 初期loading時でも遷移してからloadingするようにする
@@ -12,7 +12,7 @@ import { TestFormValues } from "@/entities/form";
 export const HomeSection = () => {
   const { schools = [] } = useSchools();
 
-  const onSearch = (conditions: TestFormValues) => {
+  const onSearch = (conditions: SearchSchoolFormValues) => {
     console.log("検索条件:", conditions);
   };
 

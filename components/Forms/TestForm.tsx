@@ -4,7 +4,7 @@ import { BaseForm } from "@/components/Base/BaseForm";
 import { FormCheckbox } from "../Base/FormCheckBox";
 import { FormRadioGroup } from "../Base/FormRadioGroup";
 import { FormSlider } from "../Base/FormSlider";
-import { TestSchema } from "@/lib/validation/TestSchema";
+import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
 import { UseFormReturn } from "react-hook-form";
 import {
   attendanceOptions,
@@ -24,19 +24,19 @@ import { useSearchSchoolForm } from "@/hooks/useSearchSchoolForm";
 interface Props {
   onClose: () => void;
   methodsRef: React.MutableRefObject<UseFormReturn<
-    z.infer<typeof TestSchema>
+    z.infer<typeof SearchSchoolSchema>
   > | null>;
 }
 
 export const TestForm: React.FC<Props> = ({ onClose, methodsRef }) => {
-  const onSubmit = (data: z.infer<typeof TestSchema>) => {
+  const onSubmit = (data: z.infer<typeof SearchSchoolSchema>) => {
     console.log("Form Data:", data);
     onClose();
   };
 
   return (
     <BaseForm
-      schema={TestSchema}
+      schema={SearchSchoolSchema}
       onSubmit={onSubmit}
       defaultValues={SearchSchoolDefaultValues}
       methodsRef={methodsRef}

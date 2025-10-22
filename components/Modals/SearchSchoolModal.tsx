@@ -5,21 +5,21 @@ import { TestForm } from "../Forms/TestForm";
 import { BaseModal } from "../Base/BaseModal";
 import { Stack } from "@mui/material";
 import { UseFormReturn } from "react-hook-form";
-import { TestSchema } from "@/lib/validation/TestSchema";
+import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
 import { z } from "zod";
-import { TestFormValues } from "@/entities/form";
+import { SearchSchoolFormValues } from "@/entities/form";
 import { useRouter } from "next/navigation";
 
 type Props = {
   opened: boolean;
-  onSearch?: (data: TestFormValues) => void;
+  onSearch?: (data: SearchSchoolFormValues) => void;
   onClose: () => void;
 };
 
 export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
-  const methodsRef = useRef<UseFormReturn<z.infer<typeof TestSchema>> | null>(
-    null
-  );
+  const methodsRef = useRef<UseFormReturn<
+    z.infer<typeof SearchSchoolSchema>
+  > | null>(null);
   const router = useRouter();
 
   const onSubmit = () => {

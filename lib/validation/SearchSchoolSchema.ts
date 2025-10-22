@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const TestSchema = z.object({
+export const SearchSchoolSchema = z.object({
 
   totalFee: z
     .tuple([z.number().min(0), z.number().max(4000000)])
