@@ -11,12 +11,12 @@ export const HomeText = () => {
         ようこそ！
       </Typography>
       <Box sx={{ borderRadius: 2, boxShadow: 2, p: 1 }}>
-        <Typography sx={{ fontSize: 12 }}>
+        <Typography sx={{ fontSize: { xs: 12, sm: 18 } }}>
           あなたの状況に合ったページをお選びください。
           <br />
-          4月に入学される方は「入学者向け」、
+          4月に入学を希望される方は「入学者希望向け」、
           <br />
-          5月以降に転入を希望される方は「転入者向け」へ
+          5月以降に転入を希望される方は「転入者希望向け」へ
           <br />
           お進みください。
         </Typography>

@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
+import { BookmarkBar } from "@/components/Bars/BookmarkBar";
 
 export default function BookmarksPage() {
   return (
@@ -9,7 +10,9 @@ export default function BookmarksPage() {
       <Header />
 
       <Container maxWidth="md">
-        <Stack spacing={4} sx={{ mt: 4 }}></Stack>
+        <Stack spacing={4} sx={{ mt: 4 }}>
+          <BookmarkBar />
+        </Stack>
       </Container>
 
       <ScrollToTopButton />

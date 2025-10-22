@@ -3,7 +3,6 @@
 import React from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { useRouter } from "next/navigation";
-import { HEADER_HEIGHT } from "@/lib/constants";
 
 export const TargetButton = () => {
   const router = useRouter();
@@ -19,6 +18,7 @@ export const TargetButton = () => {
     <>
       <Box
         sx={{
+          pt: 6,
           display: "flex",
           justifyContent: "space-around",
         }}
@@ -36,6 +36,10 @@ export const TargetButton = () => {
               transform: "scale(0.95)",
               backgroundColor: "#FF6600",
             },
+            "@media (min-width:600px)": {
+              px: 8,
+              py: 3,
+            },
           }}
           disableRipple
         >
@@ -46,9 +50,12 @@ export const TargetButton = () => {
               fontWeight: 600,
               display: "flex",
               alignItems: "center",
+              "@media (min-width:600px)": {
+                fontSize: 24,
+              },
             }}
           >
-            入学者向け
+            入学者希望向け
           </Typography>
         </Button>
         <Button
@@ -64,6 +71,10 @@ export const TargetButton = () => {
               transform: "scale(0.95)",
               backgroundColor: "#003399",
             },
+            "@media (min-width:600px)": {
+              px: 8,
+              py: 3,
+            },
           }}
           disableRipple
         >
@@ -74,9 +85,12 @@ export const TargetButton = () => {
               fontWeight: 600,
               display: "flex",
               alignItems: "center",
+              "@media (min-width:600px)": {
+                fontSize: 24,
+              },
             }}
           >
-            転入者向け
+            転入者希望向け
           </Typography>
         </Button>
       </Box>

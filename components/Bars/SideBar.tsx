@@ -2,13 +2,17 @@
 
 import React from "react";
 import { Drawer, List, Box, ListItemButton, ListItemText } from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import LogoutIcon from "@mui/icons-material/Logout";
+
 import { auth } from "@/lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useToastContext } from "@/context/ToastContext";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
+
+import HomeIcon from "@mui/icons-material/Home";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LooksOneIcon from "@mui/icons-material/LooksOne";
+import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 
 interface SideBarProps {
   open: boolean;
@@ -22,6 +26,13 @@ export default function SideBar({ open, onClose }: SideBarProps) {
 
   const onHome = () => {
     router.push("/");
+  };
+
+  const onEntrance = () => {
+    router.push("/entrance");
+  };
+  const onTransfer = () => {
+    router.push("/transfer");
   };
 
   const logout = async () => {
@@ -67,6 +78,42 @@ export default function SideBar({ open, onClose }: SideBarProps) {
           <HomeIcon sx={{ marginRight: 2 }} />
           <ListItemText
             primary="ホーム"
+            primaryTypographyProps={{ fontWeight: 600 }}
+          />
+        </ListItemButton>
+        <ListItemButton
+          sx={{
+            borderRadius: 2,
+            mx: 1,
+            "&:hover": {
+              backgroundColor: "rgba(0, 51, 153, 0.1)",
+            },
+          }}
+          onClick={() => {
+            onClose(), onEntrance();
+          }}
+        >
+          <LooksOneIcon sx={{ marginRight: 2 }} />
+          <ListItemText
+            primary="入学者希望向け"
+            primaryTypographyProps={{ fontWeight: 600 }}
+          />
+        </ListItemButton>
+        <ListItemButton
+          sx={{
+            borderRadius: 2,
+            mx: 1,
+            "&:hover": {
+              backgroundColor: "rgba(0, 51, 153, 0.1)",
+            },
+          }}
+          onClick={() => {
+            onClose(), onTransfer();
+          }}
+        >
+          <LooksTwoIcon sx={{ marginRight: 2 }} />
+          <ListItemText
+            primary="転入者希望向け"
             primaryTypographyProps={{ fontWeight: 600 }}
           />
         </ListItemButton>
