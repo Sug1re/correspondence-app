@@ -9,7 +9,7 @@ import { SearchSchoolFormValues } from "@/entities/form";
 // あとで
 // 初期loading時でも遷移してからloadingするようにする
 
-export const HomeSection = () => {
+export const DefaultSection = () => {
   const { schools = [] } = useGetSchools();
 
   const onSearch = (conditions: SearchSchoolFormValues) => {

@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
-import { HomeSection } from "@/components/Section/HomeSection";
+import { DefaultSection } from "@/components/Section/DefaultSection";
 
 export default function EntrancePage() {
   return (
@@ -11,7 +11,7 @@ export default function EntrancePage() {
 
       <Container maxWidth="md">
         <Stack spacing={4} sx={{ mt: 4 }}>
-          <HomeSection />
+          <DefaultSection />
         </Stack>
       </Container>
 
