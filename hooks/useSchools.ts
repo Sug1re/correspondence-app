@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import type { School } from "@/entities/school";
 
-export const useSchools = () => {
+export const useGetSchools = () => {
   const { data, error } = useSWR("/api/sheet");
   const schools = data?.data as School[];
 

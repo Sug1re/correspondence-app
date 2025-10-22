@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
-import { useSchools } from "@/hooks/useSchools";
+import { useGetSchools } from "@/hooks/useSchools";
 import { Loading } from "../Loading";
 import { Message } from "../Message";
 import { totalTuition } from "@/lib/constants";
@@ -28,7 +28,7 @@ export const SchoolCard = ({ school }: Props) => {
     isLoading,
     isError,
     isEmpty,
-  } = useSchools();
+  } = useGetSchools();
 
   const schools = school || [];
   const schoolCount = useSchoolCount(allSchools);

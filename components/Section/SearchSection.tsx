@@ -4,11 +4,11 @@ import React, { useEffect, useState } from "react";
 import { SearchBar } from "@/components/Bars/SearchBar";
 import { SearchSchoolFormValues } from "@/entities/form";
 import { useSearchParams } from "next/navigation";
-import { useSchools } from "@/hooks/useSchools";
+import { useGetSchools } from "@/hooks/useSchools";
 import { SearchSchoolCardSection } from "./SearchSchoolCardSection";
 
 export const SearchSection = () => {
-  const { schools = [], isLoading, isError } = useSchools();
+  const { schools = [], isLoading, isError } = useGetSchools();
   const searchParams = useSearchParams();
   const [filteredSchools, setFilteredSchools] = useState(schools);
 
