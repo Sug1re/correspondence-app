@@ -1,22 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { PaginationButton } from "@/components/Buttons/PaginationButton";
 import { SchoolCard } from "@/components/Cards/SchoolCard";
 import { School } from "@/entities/school";
-import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { usePagination } from "@/hooks/usePagination";
 
 type Props = {
   schools: School[];
 };
 
 export const SchoolCardSection = ({ schools }: Props) => {
-  const [page, setPage] = useState(1);
-
-  const startIndex = (page - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const partSchools = schools.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(schools.length / ITEMS_PER_PAGE);
+  const { page, setPage, totalPages, partSchools } = usePagination(schools);
 
   return (
     <>

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
-import { useSchools } from "@/hooks/useSchools";
+import { useGetSchools } from "@/hooks/useSchools";
 import { Loading } from "../Loading";
 import { Message } from "../Message";
 import { totalTuition } from "@/lib/constants";
@@ -23,7 +23,7 @@ interface Props {
 export const SearchSchoolCard = ({ school }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
-  const { isLoading, isError } = useSchools();
+  const { isLoading, isError } = useGetSchools();
 
   const schools = school || [];
   const schoolCount = useSchoolCount(schools);
