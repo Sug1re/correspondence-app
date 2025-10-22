@@ -23,17 +23,15 @@ interface Props {
 export const SearchSchoolCard = ({ school }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
-  const { isLoading, isError, isEmpty } = useSchools();
+  const { isLoading, isError } = useSchools();
 
   const schools = school || [];
   const schoolCount = useSchoolCount(schools);
 
   if (isLoading) return <Loading />;
   if (isError) return <Message message="データの取得に失敗しました。" />;
-  {
-    /* 動作してなかった*/
-  }
-  if (isEmpty) return <Message message="データがありません。" />;
+  if (schoolCount === 0)
+    return <Message message="条件に合う学校が見つかりません。" />;
 
   const isOpenModal = (school: School) => {
     setSelectedSchool(school);
