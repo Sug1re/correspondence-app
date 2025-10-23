@@ -171,7 +171,22 @@ export const SchoolCard = ({ school, target }: Props) => {
                         {totalTuition(school)}
                       </Typography>
                     </Box>
-                    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Typography
+                        sx={{
+                          fontSize: "8px",
+                        }}
+                      >
+                        就学支援金を考慮していない
+                        <br />
+                        負担額となります。
+                      </Typography>
                       <Button
                         size="small"
                         onClick={() => isOpenModal(school)}
