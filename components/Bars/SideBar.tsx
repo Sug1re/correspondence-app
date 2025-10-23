@@ -10,9 +10,11 @@ import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
 import HomeIcon from "@mui/icons-material/Home";
-import LogoutIcon from "@mui/icons-material/Logout";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
+import MailIcon from "@mui/icons-material/Mail";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 interface SideBarProps {
   open: boolean;
@@ -31,8 +33,17 @@ export default function SideBar({ open, onClose }: SideBarProps) {
   const onEntrance = () => {
     router.push("/entrance");
   };
+
   const onTransfer = () => {
     router.push("/transfer");
+  };
+
+  const onBookmarks = () => {
+    router.push("/bookmarks");
+  };
+
+  const onInquiry = () => {
+    router.push("/inquiry");
   };
 
   const logout = async () => {
@@ -62,7 +73,9 @@ export default function SideBar({ open, onClose }: SideBarProps) {
         },
       }}
     >
-      <List sx={{ width: "100%" }}>
+      <List
+        sx={{ width: "100%", display: "flex", flexDirection: "column", gap: 3 }}
+      >
         <ListItemButton
           sx={{
             borderRadius: 2,
@@ -72,7 +85,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             },
           }}
           onClick={() => {
-            onClose(), onHome();
+            onHome(), onClose();
           }}
         >
           <HomeIcon sx={{ marginRight: 2 }} />
@@ -90,12 +103,12 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             },
           }}
           onClick={() => {
-            onClose(), onEntrance();
+            onEntrance(), onClose();
           }}
         >
           <LooksOneIcon sx={{ marginRight: 2 }} />
           <ListItemText
-            primary="入学者希望向け"
+            primary="新入学希望向け"
             primaryTypographyProps={{ fontWeight: 600 }}
           />
         </ListItemButton>
@@ -108,12 +121,48 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             },
           }}
           onClick={() => {
-            onClose(), onTransfer();
+            onTransfer(), onClose();
           }}
         >
           <LooksTwoIcon sx={{ marginRight: 2 }} />
           <ListItemText
-            primary="転入者希望向け"
+            primary="転入学希望向け"
+            primaryTypographyProps={{ fontWeight: 600 }}
+          />
+        </ListItemButton>
+        <ListItemButton
+          sx={{
+            borderRadius: 2,
+            mx: 1,
+            "&:hover": {
+              backgroundColor: "rgba(0, 51, 153, 0.1)",
+            },
+          }}
+          onClick={() => {
+            onBookmarks(), onClose();
+          }}
+        >
+          <BookmarksIcon sx={{ marginRight: 2 }} />
+          <ListItemText
+            primary="ブックマーク"
+            primaryTypographyProps={{ fontWeight: 600 }}
+          />
+        </ListItemButton>
+        <ListItemButton
+          sx={{
+            borderRadius: 2,
+            mx: 1,
+            "&:hover": {
+              backgroundColor: "rgba(0, 51, 153, 0.1)",
+            },
+          }}
+          onClick={() => {
+            onInquiry(), onClose();
+          }}
+        >
+          <MailIcon sx={{ marginRight: 2 }} />
+          <ListItemText
+            primary="お問い合わせ"
             primaryTypographyProps={{ fontWeight: 600 }}
           />
         </ListItemButton>
