@@ -9,7 +9,9 @@ import { SearchSchoolFormValues } from "@/entities/form";
 // あとで
 // 初期loading時でも遷移してからloadingするようにする
 
-export const DefaultSection = () => {
+type Props = { target?: "entrance" | "transfer" };
+
+export const DefaultSection = ({ target }: Props) => {
   const { schools = [] } = useGetSchools();
 
   const onSearch = (conditions: SearchSchoolFormValues) => {
@@ -18,9 +20,9 @@ export const DefaultSection = () => {
 
   return (
     <>
-      <SearchBar onSearch={onSearch} />
+      <SearchBar onSearch={onSearch} target={target} />
 
-      <SchoolCardSection schools={schools} />
+      <SchoolCardSection schools={schools} target={target} />
     </>
   );
 };

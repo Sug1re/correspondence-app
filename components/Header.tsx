@@ -3,8 +3,6 @@
 import * as React from "react";
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import SideBar from "./Bars/SideBar";
-import MenuIcon from "@mui/icons-material/Menu";
-import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useDisclosure } from "@mantine/hooks";
 import { useToastContext } from "@/context/ToastContext";
@@ -13,6 +11,9 @@ import { signInWithPopup } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { HEADER_HEIGHT } from "@/lib/constants";
 import { useRouter } from "next/navigation";
+
+import MenuIcon from "@mui/icons-material/Menu";
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
 
 export default function Header() {
   const [isOpen, handlers] = useDisclosure(false);

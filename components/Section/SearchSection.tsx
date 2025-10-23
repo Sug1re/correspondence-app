@@ -7,7 +7,9 @@ import { useSearchParams } from "next/navigation";
 import { useGetSchools } from "@/hooks/useSchools";
 import { SearchSchoolCardSection } from "./SearchSchoolCardSection";
 
-export const SearchSection = () => {
+type Props = { target?: "entrance" | "transfer" };
+
+export const SearchSection = ({ target }: Props) => {
   const { schools = [], isLoading, isError } = useGetSchools();
   const searchParams = useSearchParams();
   const [filteredSchools, setFilteredSchools] = useState(schools);
@@ -15,31 +17,18 @@ export const SearchSection = () => {
   useEffect(() => {
     if (!isLoading && !isError) {
       // クエリ取得
-      // const totalFeeMin = Number(searchParams.get("totalFeeMin") || 0);
-      // const totalFeeMax = Number(searchParams.get("totalFeeMax") || Infinity);
+      const target = searchParams.get("target") || "";
       const school = searchParams.get("school") || "";
       const style = searchParams.get("style") || "";
       const schooling = searchParams.get("schooling") || "";
-      // const attendance = searchParams.get("attendance")
-      // ? searchParams.get("attendance")!.split(",")
-      // : [];
 
       // クライアント側でフィルタ
       const result = schools.filter((s) => {
-        // const matchFee = s.totalFee >= totalFeeMin && s.totalFee <= totalFeeMax;
+        const matchTarget = target ? s.target === target : true;
         const matchSchool = school ? s.school === school : true;
         const matchStyle = style ? s.style === style : true;
         const matchSchooling = schooling ? s.schooling === schooling : true;
-        // const matchAttendance =
-        // attendance.length > 0
-        // ? attendance.some((a) => s.attendance.includes(a))
-        // : true;
-
-        return (
-          // matchFee &&
-          matchSchool && matchStyle && matchSchooling
-          // matchAttendance
-        );
+        return matchTarget && matchSchool && matchStyle && matchSchooling;
       });
 
       setFilteredSchools(result);
@@ -48,13 +37,14 @@ export const SearchSection = () => {
   }, [schools, isLoading, isError, searchParams]);
 
   const onSearch = (conditions: SearchSchoolFormValues) => {
-    const { school, style, schooling } = conditions;
+    const { target, school, style, schooling } = conditions;
     const result = schools.filter((s) => {
+      const matchTarget = target ? s.target === target : true;
       const matchSchool = school ? s.school === school : true;
       const matchStyle = style ? s.style === style : true;
       const matchSchooling = schooling ? s.schooling === schooling : true;
 
-      return matchSchool && matchStyle && matchSchooling;
+      return matchTarget && matchSchool && matchStyle && matchSchooling;
     });
 
     setFilteredSchools(result);

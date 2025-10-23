@@ -29,9 +29,9 @@ export const SearchSchoolCard = ({ school }: Props) => {
   const schoolCount = useSchoolCount(schools);
 
   if (isLoading) return <Loading />;
-  if (isError) return <Message message="データの取得に失敗しました。" />;
+  if (isError) return <Message message="学校データの取得に失敗しました。" />;
   if (schoolCount === 0)
-    return <Message message="条件に合う学校が見つかりません。" />;
+    return <Message message="条件に合う学校データが見つかりません。" />;
 
   const isOpenModal = (school: School) => {
     setSelectedSchool(school);

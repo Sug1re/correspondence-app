@@ -2,6 +2,13 @@ import { z } from "zod";
 
 export const SearchSchoolSchema = z.object({
 
+  target: z
+    .enum(
+      ["4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月", "1月", "2月", "3月"],
+      {
+        errorMap: () => ({ message: "入学時期を選択してください。" }),
+      }),
+
   totalFee: z
     .tuple([z.number().min(0), z.number().max(4000000)])
     .refine(([min, max]) => min <= max, {

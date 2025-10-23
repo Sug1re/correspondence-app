@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
 import { useGetSchools } from "@/hooks/useSchools";
@@ -18,24 +18,33 @@ import { BookmarkButton } from "../Buttons/BookmarkButton";
 
 interface Props {
   school: School[];
+  target?: "entrance" | "transfer";
 }
 
-export const SchoolCard = ({ school }: Props) => {
+export const SchoolCard = ({ school, target }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
-  const {
-    schools: allSchools = [],
-    isLoading,
-    isError,
-    isEmpty,
-  } = useGetSchools();
+  const { isLoading, isError, isEmpty } = useGetSchools();
 
-  const schools = school || [];
-  const schoolCount = useSchoolCount(allSchools);
+  const SCHOOLS = useMemo(() => {
+    if (!school) return [];
+
+    if (target === "entrance") {
+      return school.filter((s) => s.target === "4月");
+    }
+
+    if (target === "transfer") {
+      return school.filter((s) => s.target !== "4月");
+    }
+
+    return school;
+  }, [school, target]);
+
+  const schoolCount = useSchoolCount(SCHOOLS);
 
   if (isLoading) return <Loading />;
-  if (isError) return <Message message="データの取得に失敗しました。" />;
-  if (isEmpty) return <Message message="データがありません。" />;
+  if (isError) return <Message message="学校データの取得に失敗しました。" />;
+  if (isEmpty) return <Message message="学校データがありません。" />;
 
   const isOpenModal = (school: School) => {
     setSelectedSchool(school);
@@ -49,7 +58,7 @@ export const SchoolCard = ({ school }: Props) => {
       </Typography>
 
       <Grid container spacing={2}>
-        {schools.map((school, index) => (
+        {SCHOOLS.map((school, index) => (
           <Grid key={index} size={{ xs: 12, md: 6 }}>
             <Card
               sx={{

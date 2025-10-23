@@ -13,10 +13,16 @@ import { useRouter } from "next/navigation";
 type Props = {
   opened: boolean;
   onSearch?: (data: SearchSchoolFormValues) => void;
+  target?: "entrance" | "transfer";
   onClose: () => void;
 };
 
-export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
+export const SearchSchoolModal = ({
+  opened,
+  onSearch,
+  target,
+  onClose,
+}: Props) => {
   const methodsRef = useRef<UseFormReturn<
     z.infer<typeof SearchSchoolSchema>
   > | null>(null);
@@ -25,14 +31,19 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
   const onSubmit = () => {
     if (methodsRef.current) {
       methodsRef.current.handleSubmit((data) => {
+        const { school, style, target, schooling } = data;
+
+        console.log("Submit data:");
+        console.log("target:", target);
+        console.log("school:", school);
+        console.log("style:", style);
+        console.log("schooling:", schooling);
         const query = new URLSearchParams();
 
-        // query.append("totalFeeMin", data.totalFee[0].toString());
-        // query.append("totalFeeMax", data.totalFee[1].toString());
+        query.append("target", data.target);
         query.append("school", data.school);
         query.append("style", data.style);
         query.append("schooling", data.schooling);
-        // query.append("attendance", data.attendance.join(","));
 
         router.push(`/search?${query.toString()}`);
 
@@ -58,7 +69,7 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
           alignItems: "center",
         }}
       >
-        <TestForm onClose={onClose} methodsRef={methodsRef} />
+        <TestForm onClose={onClose} methodsRef={methodsRef} target={target} />
       </Stack>
     </BaseModal>
   );
