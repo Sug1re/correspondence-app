@@ -9,9 +9,9 @@ import { SearchSchoolFormValues } from "@/entities/form";
 // あとで
 // 初期loading時でも遷移してからloadingするようにする
 
-type Props = { target?: "entrance" | "transfer" };
+type Props = { season?: "entrance" | "transfer" };
 
-export const DefaultSection = ({ target }: Props) => {
+export const DefaultSection = ({ season }: Props) => {
   const { schools = [] } = useGetSchools();
 
   const onSearch = (conditions: SearchSchoolFormValues) => {
@@ -20,9 +20,9 @@ export const DefaultSection = ({ target }: Props) => {
 
   return (
     <>
-      <SearchBar onSearch={onSearch} target={target} />
+      <SearchBar onSearch={onSearch} season={season} />
 
-      <SchoolCardSection schools={schools} target={target} />
+      <SchoolCardSection schools={schools} season={season} />
     </>
   );
 };

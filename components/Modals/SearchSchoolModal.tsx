@@ -13,14 +13,14 @@ import { useRouter } from "next/navigation";
 type Props = {
   opened: boolean;
   onSearch?: (data: SearchSchoolFormValues) => void;
-  target?: "entrance" | "transfer";
+  season?: "entrance" | "transfer";
   onClose: () => void;
 };
 
 export const SearchSchoolModal = ({
   opened,
   onSearch,
-  target,
+  season,
   onClose,
 }: Props) => {
   const methodsRef = useRef<UseFormReturn<
@@ -31,16 +31,16 @@ export const SearchSchoolModal = ({
   const onSubmit = () => {
     if (methodsRef.current) {
       methodsRef.current.handleSubmit((data) => {
-        const { school, style, target, schooling } = data;
+        const { school, style, season, schooling } = data;
 
         console.log("Submit data:");
-        console.log("target:", target);
+        console.log("season:", season);
         console.log("school:", school);
         console.log("style:", style);
         console.log("schooling:", schooling);
         const query = new URLSearchParams();
 
-        query.append("target", data.target);
+        query.append("season", data.season);
         query.append("school", data.school);
         query.append("style", data.style);
         query.append("schooling", data.schooling);
@@ -72,7 +72,7 @@ export const SearchSchoolModal = ({
         <SearchSchoolForm
           onClose={onClose}
           methodsRef={methodsRef}
-          target={target}
+          season={season}
         />
       </Stack>
     </BaseModal>

@@ -107,24 +107,23 @@ export const SearchSchoolCard = ({ school }: Props) => {
                     <Typography sx={{ fontSize: "8px" }}>
                       {school.course}
                     </Typography>
-                    {school.attendanceWeek &&
-                      school.attendanceWeek.length > 0 && (
-                        <Typography
-                          component="span"
-                          sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
-                        >
-                          {school.attendanceWeek
-                            .split(",")
-                            .map((freq) => freq.trim())
-                            .map((freq) => `#${freq}`)
-                            .join(" ")}
-                        </Typography>
-                      )}
-                    {school.attendanceMonth && (
+                    {school.attendance1 && school.attendance1.length > 0 && (
+                      <Typography
+                        component="span"
+                        sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
+                      >
+                        {school.attendance1
+                          .split(",")
+                          .map((freq) => freq.trim())
+                          .map((freq) => `#${freq}`)
+                          .join(" ")}
+                      </Typography>
+                    )}
+                    {school.attendance2 && (
                       <Typography
                         sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
                       >
-                        #{school.attendanceMonth}
+                        #{school.attendance2}
                       </Typography>
                     )}
                   </Box>

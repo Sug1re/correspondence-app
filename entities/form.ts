@@ -8,12 +8,12 @@ export const SearchSchoolDefaultValues: Partial<z.infer<typeof SearchSchoolSchem
   totalFee: [0, 1000000],
   school: undefined,
   style: undefined,
-  attendance: [],
+  attendance: undefined,
   schooling: undefined,
-  target: undefined,
+  season: undefined,
 };
 
-export const targetOptions = [
+export const seasonOptions = [
   "4月",
   "5月",
   "6月",
@@ -28,11 +28,11 @@ export const targetOptions = [
   "3月",
 ] as const;
 
-export const targetEntranceOptions = [
+export const seasonEntranceOptions = [
   "4月",
 ] as const;
 
-export const targetTransferOptions = [
+export const seasonTransferOptions = [
   "5月",
   "6月",
   "7月",

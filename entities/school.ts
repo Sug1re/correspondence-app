@@ -4,11 +4,11 @@ export type School = {
   course: string;
   school: string;
   style: string;
-  target: string;
-  attendanceWeek: string;
-  attendanceMonth: string;
+  season: string;
+  attendance1: string;
+  attendance2: string;
   firstTuition: string;
-  anotherTuition: string;
+  anotherTuitionName: string;
   secondTuition: string;
   thirdTuition: string;
   examFee: string;
@@ -16,4 +16,7 @@ export type School = {
   schooling: string;
   picture: string;
   url: string;
+  // anotherTuition: string,
+  // transferTuition: string,
+  // target: string,
 };

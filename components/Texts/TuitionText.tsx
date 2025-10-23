@@ -12,7 +12,7 @@ export const TuitionText = ({ school }: Props) => {
   return (
     <Box sx={{ m: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-        <Typography>1年次の学費</Typography>
+        <Typography>初年次の学費</Typography>
         <Typography
           sx={{
             fontWeight: 600,
@@ -50,8 +50,8 @@ export const TuitionText = ({ school }: Props) => {
           {Number(school.thirdTuition).toLocaleString("ja-JP")}
         </Typography>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-        <Typography>その他の費用</Typography>
+      {/* <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+        <Typography>{school.anotherTuitionName}</Typography>
         <Typography
           sx={{
             fontWeight: 600,
@@ -62,20 +62,22 @@ export const TuitionText = ({ school }: Props) => {
           <CurrencyYenIcon style={{ fontSize: 28 }} />
           {Number(school.anotherTuition).toLocaleString("ja-JP")}
         </Typography>
-      </Box>
-      <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-        <Typography>受験料</Typography>
-        <Typography
-          sx={{
-            fontWeight: 600,
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <CurrencyYenIcon style={{ fontSize: 28 }} />
-          {Number(school.examFee).toLocaleString("ja-JP")}
-        </Typography>
-      </Box>
+      </Box> */}
+      {school.examFee && (
+        <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+          <Typography>受験料</Typography>
+          <Typography
+            sx={{
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CurrencyYenIcon style={{ fontSize: 28 }} />
+            {Number(school.examFee).toLocaleString("ja-JP")}
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };

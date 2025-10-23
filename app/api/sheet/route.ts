@@ -40,11 +40,11 @@ export async function GET() {
       course: row[2] ?? "",
       school: row[3] ?? "",
       style: row[4] ?? "",
-      target: row[5] ?? "",
-      attendanceWeek: row[6] ?? "",
-      attendanceMonth: row[7] ?? "",
+      season: row[5] ?? "",
+      attendance1: row[6] ?? "",
+      attendance2: row[7] ?? "",
       firstTuition: row[8] ?? "",
-      anotherTuition: row[9] ?? "",
+      anotherTuitionName: row[9] ?? "",
       secondTuition: row[10] ?? "",
       thirdTuition: row[11] ?? "",
       examFee: row[12] ?? "",
@@ -52,6 +52,9 @@ export async function GET() {
       schooling: row[14] ?? "",
       picture: row[15] ?? "",
       url: row[16] ?? "",
+      // anotherTuition: row[18] ?? "",
+      // transferTuition: row[19] ?? "",
+      // target: row[20] ?? "",
     }));
 
     return NextResponse.json({ data }, { status: 200 });

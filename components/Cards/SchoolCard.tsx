@@ -18,10 +18,10 @@ import { BookmarkButton } from "../Buttons/BookmarkButton";
 
 interface Props {
   school: School[];
-  target?: "entrance" | "transfer";
+  season?: "entrance" | "transfer";
 }
 
-export const SchoolCard = ({ school, target }: Props) => {
+export const SchoolCard = ({ school, season }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
   const { isLoading, isError, isEmpty } = useGetSchools();
@@ -29,16 +29,16 @@ export const SchoolCard = ({ school, target }: Props) => {
   const SCHOOLS = useMemo(() => {
     if (!school) return [];
 
-    if (target === "entrance") {
-      return school.filter((s) => s.target === "4月");
+    if (season === "entrance") {
+      return school.filter((s) => s.season === "4月");
     }
 
-    if (target === "transfer") {
-      return school.filter((s) => s.target !== "4月");
+    if (season === "transfer") {
+      return school.filter((s) => s.season !== "4月");
     }
 
     return school;
-  }, [school, target]);
+  }, [school, season]);
 
   const schoolCount = useSchoolCount(SCHOOLS);
 
@@ -120,24 +120,23 @@ export const SchoolCard = ({ school, target }: Props) => {
                     <Typography sx={{ fontSize: "8px" }}>
                       {school.course}
                     </Typography>
-                    {school.attendanceWeek &&
-                      school.attendanceWeek.length > 0 && (
-                        <Typography
-                          component="span"
-                          sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
-                        >
-                          {school.attendanceWeek
-                            .split(",")
-                            .map((freq) => freq.trim())
-                            .map((freq) => `#${freq}`)
-                            .join(" ")}
-                        </Typography>
-                      )}
-                    {school.attendanceMonth && (
+                    {school.attendance1 && school.attendance1.length > 0 && (
+                      <Typography
+                        component="span"
+                        sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
+                      >
+                        {school.attendance1
+                          .split(",")
+                          .map((freq) => freq.trim())
+                          .map((freq) => `#${freq}`)
+                          .join(" ")}
+                      </Typography>
+                    )}
+                    {school.attendance2 && (
                       <Typography
                         sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
                       >
-                        #{school.attendanceMonth}
+                        #{school.attendance2}
                       </Typography>
                     )}
                   </Box>

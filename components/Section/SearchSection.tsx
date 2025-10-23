@@ -7,9 +7,9 @@ import { useSearchParams } from "next/navigation";
 import { useGetSchools } from "@/hooks/useSchools";
 import { SearchSchoolCardSection } from "./SearchSchoolCardSection";
 
-type Props = { target?: "entrance" | "transfer" };
+type Props = { season?: "entrance" | "transfer" };
 
-export const SearchSection = ({ target }: Props) => {
+export const SearchSection = ({ season }: Props) => {
   const { schools = [], isLoading, isError } = useGetSchools();
   const searchParams = useSearchParams();
   const [filteredSchools, setFilteredSchools] = useState(schools);
@@ -17,18 +17,18 @@ export const SearchSection = ({ target }: Props) => {
   useEffect(() => {
     if (!isLoading && !isError) {
       // クエリ取得
-      const target = searchParams.get("target") || "";
+      const season = searchParams.get("season") || "";
       const school = searchParams.get("school") || "";
       const style = searchParams.get("style") || "";
       const schooling = searchParams.get("schooling") || "";
 
       // クライアント側でフィルタ
       const result = schools.filter((s) => {
-        const matchTarget = target ? s.target === target : true;
+        const matchSeason = season ? s.season === season : true;
         const matchSchool = school ? s.school === school : true;
         const matchStyle = style ? s.style === style : true;
         const matchSchooling = schooling ? s.schooling === schooling : true;
-        return matchTarget && matchSchool && matchStyle && matchSchooling;
+        return matchSeason && matchSchool && matchStyle && matchSchooling;
       });
 
       setFilteredSchools(result);
@@ -37,14 +37,14 @@ export const SearchSection = ({ target }: Props) => {
   }, [schools, isLoading, isError, searchParams]);
 
   const onSearch = (conditions: SearchSchoolFormValues) => {
-    const { target, school, style, schooling } = conditions;
+    const { season, school, style, schooling } = conditions;
     const result = schools.filter((s) => {
-      const matchTarget = target ? s.target === target : true;
+      const matchSeason = season ? s.season === season : true;
       const matchSchool = school ? s.school === school : true;
       const matchStyle = style ? s.style === style : true;
       const matchSchooling = schooling ? s.schooling === schooling : true;
 
-      return matchTarget && matchSchool && matchStyle && matchSchooling;
+      return matchSeason && matchSchool && matchStyle && matchSchooling;
     });
 
     setFilteredSchools(result);

@@ -13,9 +13,9 @@ import {
   schoolOptions,
   SearchSchoolDefaultValues,
   styleOptions,
-  targetEntranceOptions,
-  targetOptions,
-  targetTransferOptions,
+  seasonEntranceOptions,
+  seasonOptions,
+  seasonTransferOptions,
 } from "@/entities/form";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
@@ -30,13 +30,13 @@ interface Props {
   methodsRef: React.MutableRefObject<UseFormReturn<
     z.infer<typeof SearchSchoolSchema>
   > | null>;
-  target?: "entrance" | "transfer";
+  season?: "entrance" | "transfer";
 }
 
 export const SearchSchoolForm: React.FC<Props> = ({
   onClose,
   methodsRef,
-  target,
+  season,
 }) => {
   const onSubmit = (data: z.infer<typeof SearchSchoolSchema>) => {
     console.log("Form Data:", data);
@@ -50,27 +50,27 @@ export const SearchSchoolForm: React.FC<Props> = ({
       defaultValues={SearchSchoolDefaultValues}
       methodsRef={methodsRef}
     >
-      <FormContent target={target} />
+      <FormContent season={season} />
     </BaseForm>
   );
 };
 
-const FormContent = ({ target }: { target?: "entrance" | "transfer" }) => {
+const FormContent = ({ season }: { season?: "entrance" | "transfer" }) => {
   const { disabledOptions } = useSearchSchoolForm();
 
   const options =
-    target === "entrance"
-      ? targetEntranceOptions
-      : target === "transfer"
-      ? targetTransferOptions
-      : targetOptions;
+    season === "entrance"
+      ? seasonEntranceOptions
+      : season === "transfer"
+      ? seasonTransferOptions
+      : seasonOptions;
 
   return (
     <>
       <FormSelect
         text="入学時期"
         Icon={CalendarMonthIcon}
-        name="target"
+        name="season"
         option={options}
       />
 
