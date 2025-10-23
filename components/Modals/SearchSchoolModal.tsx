@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef } from "react";
-import { TestForm } from "../Forms/TestForm";
+import { SearchSchoolForm } from "../Forms/SearchSchoolForm";
 import { BaseModal } from "../Base/BaseModal";
 import { Stack } from "@mui/material";
 import { UseFormReturn } from "react-hook-form";
@@ -69,7 +69,11 @@ export const SearchSchoolModal = ({
           alignItems: "center",
         }}
       >
-        <TestForm onClose={onClose} methodsRef={methodsRef} target={target} />
+        <SearchSchoolForm
+          onClose={onClose}
+          methodsRef={methodsRef}
+          target={target}
+        />
       </Stack>
     </BaseModal>
   );

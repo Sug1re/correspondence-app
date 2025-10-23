@@ -33,7 +33,11 @@ interface Props {
   target?: "entrance" | "transfer";
 }
 
-export const TestForm: React.FC<Props> = ({ onClose, methodsRef, target }) => {
+export const SearchSchoolForm: React.FC<Props> = ({
+  onClose,
+  methodsRef,
+  target,
+}) => {
   const onSubmit = (data: z.infer<typeof SearchSchoolSchema>) => {
     console.log("Form Data:", data);
     onClose();
