@@ -2,7 +2,6 @@ import React from "react";
 import { z } from "zod";
 import { BaseForm } from "@/components/Base/BaseForm";
 import { FormSelect } from "../Base/FormSelect";
-import { FormCheckbox } from "../Base/FormCheckBox";
 import { FormRadioGroup } from "../Base/FormRadioGroup";
 import { FormSlider } from "../Base/FormSlider";
 import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
@@ -94,7 +93,7 @@ const FormContent = ({ target }: { target?: "entrance" | "transfer" }) => {
         option={styleOptions}
       />
 
-      <FormCheckbox
+      <FormRadioGroup
         text="登校頻度"
         Icon={DirectionsWalkIcon}
         name="attendance"

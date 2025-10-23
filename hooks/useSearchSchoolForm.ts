@@ -1,30 +1,28 @@
-import { useDidUpdate, useListState } from "@mantine/hooks";
+import { useDidUpdate } from "@mantine/hooks";
 import { useFormContext } from "react-hook-form";
+import { useState } from "react";
 
 export function useSearchSchoolForm() {
   const { watch, setValue, getValues } = useFormContext();
   const styleValue = watch("style");
-  const [disabledOptions, disabledOptionsHandlers] = useListState<string>([]);
+  const [disabledOptions, setDisabledOptions] = useState<string[]>([]);
 
   useDidUpdate(() => {
-    const attendanceValues = getValues("attendance") || [];
+    const attendanceValue = getValues("attendance") as string | undefined;
 
     if (styleValue === "オンライン") {
-      if (!attendanceValues.includes("オンライン")) {
-        setValue("attendance", ["オンライン"], { shouldValidate: true });
+      if (attendanceValue !== "オンライン") {
+        setValue("attendance", "オンライン", { shouldValidate: true });
       }
-      disabledOptionsHandlers.setState(["週1","週2","週3","週4","週5","自由"]);
+      setDisabledOptions(["週1","週2","週3","週4","週5","自由"]);
     } else if (styleValue === "通学") {
-      disabledOptionsHandlers.setState(["オンライン"]);
+      setDisabledOptions(["オンライン"]);
 
-      if (attendanceValues.includes("オンライン")) {
-        const newValues = (attendanceValues as string[]).filter(
-          (v: string) => v !== "オンライン"
-        );
-        setValue("attendance", newValues, { shouldValidate: true });
+      if (attendanceValue === "オンライン") {
+        setValue("attendance", "", { shouldValidate: true });
       }
     }
   }, [styleValue]);
 
-return { disabledOptions };
+  return { disabledOptions };
 }

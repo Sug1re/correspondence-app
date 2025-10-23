@@ -17,9 +17,16 @@ interface Props {
   text: string;
   option: readonly string[];
   Icon?: React.ElementType;
+  disabledOptions?: string[];
 }
 
-export const FormRadioGroup = ({ name, text, option, Icon }: Props) => {
+export const FormRadioGroup = ({
+  name,
+  text,
+  option,
+  Icon,
+  disabledOptions = [],
+}: Props) => {
   const { control } = useFormContext();
 
   return (
@@ -53,6 +60,7 @@ export const FormRadioGroup = ({ name, text, option, Icon }: Props) => {
                   control={
                     <Radio
                       disableRipple
+                      disabled={disabledOptions.includes(opt)}
                       sx={{
                         color: "#003399",
                         "&.Mui-checked": {
