@@ -20,3 +20,6 @@ export type School = {
   // transferTuition: string,
   // target: string,
 };
+
+// あとで
+// schooling = "どちらも" の場合、"県外"と"県内"の値を読み取る
