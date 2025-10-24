@@ -10,10 +10,9 @@ import { SearchSchoolFormValues } from "@/entities/form";
 
 type Props = {
   onSearch?: (data: SearchSchoolFormValues) => void;
-  season?: "entrance" | "transfer";
 };
 
-export const SearchBar = ({ onSearch, season }: Props) => {
+export const SearchBar = ({ onSearch }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
 
   return (
@@ -59,7 +58,6 @@ export const SearchBar = ({ onSearch, season }: Props) => {
         opened={isOpen}
         onClose={handlers.close}
         onSearch={onSearch}
-        season={season}
       />
     </>
   );

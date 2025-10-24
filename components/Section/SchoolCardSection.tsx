@@ -8,10 +8,9 @@ import { usePagination } from "@/hooks/usePagination";
 
 type Props = {
   schools: School[];
-  season?: "entrance" | "transfer";
 };
 
-export const SchoolCardSection = ({ schools, season }: Props) => {
+export const SchoolCardSection = ({ schools }: Props) => {
   const { page, setPage, totalPages, partSchools } = usePagination(schools);
 
   return (
@@ -21,7 +20,7 @@ export const SchoolCardSection = ({ schools, season }: Props) => {
         totalPages={totalPages}
         onChange={setPage}
       />
-      <SchoolCard school={partSchools} season={season} />
+      <SchoolCard school={partSchools} />
     </>
   );
 };

@@ -1,7 +1,6 @@
 import React from "react";
 import { z } from "zod";
 import { BaseForm } from "@/components/Base/BaseForm";
-import { FormSelect } from "../Base/FormSelect";
 import { FormRadioGroup } from "../Base/FormRadioGroup";
 import { FormSlider } from "../Base/FormSlider";
 import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
@@ -13,31 +12,23 @@ import {
   schoolOptions,
   SearchSchoolDefaultValues,
   styleOptions,
-  seasonEntranceOptions,
-  seasonOptions,
-  seasonTransferOptions,
 } from "@/entities/form";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import SchoolIcon from "@mui/icons-material/School";
 import ComputerIcon from "@mui/icons-material/Computer";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import BusinessIcon from "@mui/icons-material/Business";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
+import { FormCheckBox } from "../Base/FormCheckBox";
 
 interface Props {
   onClose: () => void;
   methodsRef: React.MutableRefObject<UseFormReturn<
     z.infer<typeof SearchSchoolSchema>
   > | null>;
-  season?: "entrance" | "transfer";
 }
 
-export const SearchSchoolForm: React.FC<Props> = ({
-  onClose,
-  methodsRef,
-  season,
-}) => {
+export const SearchSchoolForm: React.FC<Props> = ({ onClose, methodsRef }) => {
   const onSubmit = (data: z.infer<typeof SearchSchoolSchema>) => {
     console.log("Form Data:", data);
     onClose();
@@ -50,30 +41,16 @@ export const SearchSchoolForm: React.FC<Props> = ({
       defaultValues={SearchSchoolDefaultValues}
       methodsRef={methodsRef}
     >
-      <FormContent season={season} />
+      <FormContent />
     </BaseForm>
   );
 };
 
-const FormContent = ({ season }: { season?: "entrance" | "transfer" }) => {
+const FormContent = () => {
   const { disabledOptions } = useSearchSchoolForm();
-
-  const options =
-    season === "entrance"
-      ? seasonEntranceOptions
-      : season === "transfer"
-      ? seasonTransferOptions
-      : seasonOptions;
 
   return (
     <>
-      <FormSelect
-        text="入学時期"
-        Icon={CalendarMonthIcon}
-        name="season"
-        option={options}
-      />
-
       <FormSlider
         text="3年間の学費総額"
         Icon={CurrencyYenIcon}
@@ -105,7 +82,7 @@ const FormContent = ({ season }: { season?: "entrance" | "transfer" }) => {
         disabledOptions={disabledOptions}
       />
 
-      <FormRadioGroup
+      <FormCheckBox
         text="スクーリング会場"
         Icon={SchoolIcon}
         name="schooling"

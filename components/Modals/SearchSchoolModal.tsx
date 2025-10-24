@@ -13,16 +13,10 @@ import { useRouter } from "next/navigation";
 type Props = {
   opened: boolean;
   onSearch?: (data: SearchSchoolFormValues) => void;
-  season?: "entrance" | "transfer";
   onClose: () => void;
 };
 
-export const SearchSchoolModal = ({
-  opened,
-  onSearch,
-  season,
-  onClose,
-}: Props) => {
+export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
   const methodsRef = useRef<UseFormReturn<
     z.infer<typeof SearchSchoolSchema>
   > | null>(null);
@@ -31,19 +25,11 @@ export const SearchSchoolModal = ({
   const onSubmit = () => {
     if (methodsRef.current) {
       methodsRef.current.handleSubmit((data) => {
-        const { school, style, season, schooling } = data;
-
-        console.log("Submit data:");
-        console.log("season:", season);
-        console.log("school:", school);
-        console.log("style:", style);
-        console.log("schooling:", schooling);
         const query = new URLSearchParams();
 
-        query.append("season", data.season);
         query.append("school", data.school);
         query.append("style", data.style);
-        query.append("schooling", data.schooling);
+        query.append("attendance", data.attendance);
 
         router.push(`/search?${query.toString()}`);
 
@@ -69,11 +55,7 @@ export const SearchSchoolModal = ({
           alignItems: "center",
         }}
       >
-        <SearchSchoolForm
-          onClose={onClose}
-          methodsRef={methodsRef}
-          season={season}
-        />
+        <SearchSchoolForm onClose={onClose} methodsRef={methodsRef} />
       </Stack>
     </BaseModal>
   );

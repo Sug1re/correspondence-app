@@ -9,10 +9,8 @@ export const ITEMS_PER_PAGE = 4;
 export const totalTuition = (school: School): string => {
   const sum =
     Number(school.firstTuition || 0) +
-    Number(school.anotherTuition || 0) +
     Number(school.secondTuition || 0) +
-    Number(school.thirdTuition || 0) +
-    Number(school.examFee || 0);
+    Number(school.thirdTuition || 0)
 
   return sum.toLocaleString("ja-JP");
 };

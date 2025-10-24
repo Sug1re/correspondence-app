@@ -9,42 +9,8 @@ export const SearchSchoolDefaultValues: Partial<z.infer<typeof SearchSchoolSchem
   school: undefined,
   style: undefined,
   attendance: undefined,
-  schooling: undefined,
-  season: undefined,
+  schooling: [],
 };
-
-export const seasonOptions = [
-  "4月",
-  "5月",
-  "6月",
-  "7月",
-  "8月",
-  "9月",
-  "10月",
-  "11月",
-  "12月",
-  "1月",
-  "2月",
-  "3月",
-] as const;
-
-export const seasonEntranceOptions = [
-  "4月",
-] as const;
-
-export const seasonTransferOptions = [
-  "5月",
-  "6月",
-  "7月",
-  "8月",
-  "9月",
-  "10月",
-  "11月",
-  "12月",
-  "1月",
-  "2月",
-  "3月",
-] as const;
 
 export const schoolOptions = [
   "通信制高校",
@@ -69,5 +35,4 @@ export const attendanceOptions = [
 export const schoolingOptions = [
   "県外",
   "県内",
-  "どちらも",
 ] as const;

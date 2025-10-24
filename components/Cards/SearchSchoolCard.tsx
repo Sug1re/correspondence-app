@@ -56,20 +56,27 @@ export const SearchSchoolCard = ({ school }: Props) => {
                 mb: 2,
               }}
             >
-              <Link href={school.url} target="_blank" rel="noopener noreferrer">
-                <Box
-                  component="img"
-                  src={school.picture}
-                  alt={school.schoolName}
-                  sx={{
-                    width: "100%",
-                    height: 200,
-                    objectFit: "cover",
-                    objectPosition: "center",
-                    display: "block",
-                  }}
-                />
-              </Link>
+              {/* loadingを仕込む */}
+              {school.picture ? (
+                <Link
+                  href={school.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Box
+                    component="img"
+                    src={school.picture}
+                    alt={school.name}
+                    sx={{
+                      width: "100%",
+                      height: 200,
+                      objectFit: "cover",
+                      objectPosition: "center",
+                      display: "block",
+                    }}
+                  />
+                </Link>
+              ) : null}
 
               <Box
                 sx={{
@@ -84,48 +91,50 @@ export const SearchSchoolCard = ({ school }: Props) => {
 
               <Stack>
                 <Box sx={{ m: 1, fontWeight: 600 }}>
-                  <Link
-                    href={school.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    <Typography
-                      sx={{
-                        display: "inline-block",
-                        "&:hover": {
-                          color: "#1976d2",
-                          textDecoration: "underline",
-                        },
-                      }}
+                  <Box sx={{ px: 1 }}>
+                    <Link
+                      href={school.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: "none", color: "inherit" }}
                     >
-                      {school.schoolName}
-                    </Typography>
-                  </Link>
+                      <Typography
+                        sx={{
+                          display: "inline-block",
+                          "&:hover": {
+                            color: "#1976d2",
+                            textDecoration: "underline",
+                          },
+                        }}
+                      >
+                        {school.name}
+                      </Typography>
+                    </Link>
 
-                  <Box sx={{ display: "flex" }}>
-                    <Typography sx={{ fontSize: "8px" }}>
-                      {school.course}
-                    </Typography>
-                    {school.attendance1 && school.attendance1.length > 0 && (
-                      <Typography
-                        component="span"
-                        sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
-                      >
-                        {school.attendance1
-                          .split(",")
-                          .map((freq) => freq.trim())
-                          .map((freq) => `#${freq}`)
-                          .join(" ")}
+                    <Box sx={{ display: "flex" }}>
+                      <Typography sx={{ fontSize: "8px" }}>
+                        {school.course}
                       </Typography>
-                    )}
-                    {school.attendance2 && (
-                      <Typography
-                        sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
-                      >
-                        #{school.attendance2}
-                      </Typography>
-                    )}
+                      {school.attendance1 && school.attendance1.length > 0 && (
+                        <Typography
+                          component="span"
+                          sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
+                        >
+                          {school.attendance1
+                            .split(",")
+                            .map((freq) => freq.trim())
+                            .map((freq) => `#${freq}`)
+                            .join(" ")}
+                        </Typography>
+                      )}
+                      {school.attendance2 && (
+                        <Typography
+                          sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
+                        >
+                          #{school.attendance2}
+                        </Typography>
+                      )}
+                    </Box>
                   </Box>
 
                   <Box

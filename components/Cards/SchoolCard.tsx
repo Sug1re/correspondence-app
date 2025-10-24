@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
 import { useGetSchools } from "@/hooks/useSchools";
@@ -18,29 +18,20 @@ import { BookmarkButton } from "../Buttons/BookmarkButton";
 
 interface Props {
   school: School[];
-  season?: "entrance" | "transfer";
 }
 
-export const SchoolCard = ({ school, season }: Props) => {
+export const SchoolCard = ({ school }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
-  const { isLoading, isError, isEmpty } = useGetSchools();
+  const {
+    schools: allSchools = [],
+    isLoading,
+    isError,
+    isEmpty,
+  } = useGetSchools();
 
-  const SCHOOLS = useMemo(() => {
-    if (!school) return [];
-
-    if (season === "entrance") {
-      return school.filter((s) => s.season === "4月");
-    }
-
-    if (season === "transfer") {
-      return school.filter((s) => s.season !== "4月");
-    }
-
-    return school;
-  }, [school, season]);
-
-  const schoolCount = useSchoolCount(SCHOOLS);
+  const schools = school || [];
+  const schoolCount = useSchoolCount(allSchools);
 
   if (isLoading) return <Loading />;
   if (isError) return <Message message="学校データの取得に失敗しました。" />;
@@ -58,7 +49,7 @@ export const SchoolCard = ({ school, season }: Props) => {
       </Typography>
 
       <Grid container spacing={2}>
-        {SCHOOLS.map((school, index) => (
+        {schools.map((school, index) => (
           <Grid key={index} size={{ xs: 12, md: 6 }}>
             <Card
               sx={{
@@ -69,20 +60,27 @@ export const SchoolCard = ({ school, season }: Props) => {
                 mb: 2,
               }}
             >
-              <Link href={school.url} target="_blank" rel="noopener noreferrer">
-                <Box
-                  component="img"
-                  src={school.picture}
-                  alt={school.schoolName}
-                  sx={{
-                    width: "100%",
-                    height: 200,
-                    objectFit: "cover",
-                    objectPosition: "center",
-                    display: "block",
-                  }}
-                />
-              </Link>
+              {/* loadingを仕込む */}
+              {school.picture ? (
+                <Link
+                  href={school.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Box
+                    component="img"
+                    src={school.picture}
+                    alt={school.name}
+                    sx={{
+                      width: "100%",
+                      height: 200,
+                      objectFit: "cover",
+                      objectPosition: "center",
+                      display: "block",
+                    }}
+                  />
+                </Link>
+              ) : null}
 
               <Box
                 sx={{
@@ -97,48 +95,50 @@ export const SchoolCard = ({ school, season }: Props) => {
 
               <Stack>
                 <Box sx={{ m: 1, fontWeight: 600 }}>
-                  <Link
-                    href={school.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    <Typography
-                      sx={{
-                        display: "inline-block",
-                        "&:hover": {
-                          color: "#1976d2",
-                          textDecoration: "underline",
-                        },
-                      }}
+                  <Box sx={{ px: 1 }}>
+                    <Link
+                      href={school.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ textDecoration: "none", color: "inherit" }}
                     >
-                      {school.schoolName}
-                    </Typography>
-                  </Link>
+                      <Typography
+                        sx={{
+                          display: "inline-block",
+                          "&:hover": {
+                            color: "#1976d2",
+                            textDecoration: "underline",
+                          },
+                        }}
+                      >
+                        {school.name}
+                      </Typography>
+                    </Link>
 
-                  <Box sx={{ display: "flex" }}>
-                    <Typography sx={{ fontSize: "8px" }}>
-                      {school.course}
-                    </Typography>
-                    {school.attendance1 && school.attendance1.length > 0 && (
-                      <Typography
-                        component="span"
-                        sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
-                      >
-                        {school.attendance1
-                          .split(",")
-                          .map((freq) => freq.trim())
-                          .map((freq) => `#${freq}`)
-                          .join(" ")}
+                    <Box sx={{ display: "flex" }}>
+                      <Typography sx={{ fontSize: "8px" }}>
+                        {school.course}
                       </Typography>
-                    )}
-                    {school.attendance2 && (
-                      <Typography
-                        sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
-                      >
-                        #{school.attendance2}
-                      </Typography>
-                    )}
+                      {school.attendance1 && school.attendance1.length > 0 && (
+                        <Typography
+                          component="span"
+                          sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
+                        >
+                          {school.attendance1
+                            .split(",")
+                            .map((freq) => freq.trim())
+                            .map((freq) => `#${freq}`)
+                            .join(" ")}
+                        </Typography>
+                      )}
+                      {school.attendance2 && (
+                        <Typography
+                          sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
+                        >
+                          #{school.attendance2}
+                        </Typography>
+                      )}
+                    </Box>
                   </Box>
 
                   <Box

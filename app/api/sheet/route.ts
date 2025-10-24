@@ -25,7 +25,7 @@ export async function GET() {
     });
 
     const sheets = google.sheets({ version: "v4", auth });
-    const range = "schoolData!A2:Q";
+    const range = "School!A2:Q";
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
@@ -35,26 +35,35 @@ export async function GET() {
     const rows = response.data.values || [];
 
     const data: School[] = rows.map((row) => ({
-      timeStamp: row[0] ?? "",
-      schoolName: row[1] ?? "",
-      course: row[2] ?? "",
-      school: row[3] ?? "",
-      style: row[4] ?? "",
-      season: row[5] ?? "",
-      attendance1: row[6] ?? "",
-      attendance2: row[7] ?? "",
-      firstTuition: row[8] ?? "",
-      anotherTuitionName: row[9] ?? "",
-      secondTuition: row[10] ?? "",
-      thirdTuition: row[11] ?? "",
-      examFee: row[12] ?? "",
-      features: row[13] ?? "",
-      schooling: row[14] ?? "",
-      picture: row[15] ?? "",
-      url: row[16] ?? "",
-      // anotherTuition: row[18] ?? "",
-      // transferTuition: row[19] ?? "",
-      // target: row[20] ?? "",
+    name: row[2] ?? "",
+  course: row[3] ?? "",
+  content: row[4] ?? "",
+  school: row[5] ?? "",
+  style: row[6] ?? "",
+  schooling: row[7] ?? "",
+  attendance1: row[8] ?? "",
+  attendance2: row[9] ?? "",
+  target: row[10] ?? "",
+  firstTuition: row[11] ?? "",
+  secondTuition: row[12] ?? "",
+  thirdTuition: row[13] ?? "",
+  enrollmentFee: row[14] ?? "",
+  april: row[15] ?? "",
+  may: row[16] ?? "",
+  june: row[17] ?? "",
+  july: row[18] ?? "",
+  august: row[19] ?? "",
+  september: row[20] ?? "",
+  october: row[21] ?? "",
+  november: row[22] ?? "",
+  december: row[23] ?? "",
+  january: row[24] ?? "",
+  february: row[25] ?? "",
+  march: row[26] ?? "",
+  anotherTuitionName: row[27] ?? "",
+  anotherTuition: row[28] ?? "",
+  picture: row[29] ?? "",
+  url: row[30] ?? "",
     }));
 
     return NextResponse.json({ data }, { status: 200 });

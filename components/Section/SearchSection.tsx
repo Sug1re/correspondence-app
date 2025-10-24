@@ -7,9 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { useGetSchools } from "@/hooks/useSchools";
 import { SearchSchoolCardSection } from "./SearchSchoolCardSection";
 
-type Props = { season?: "entrance" | "transfer" };
-
-export const SearchSection = ({ season }: Props) => {
+export const SearchSection = () => {
   const { schools = [], isLoading, isError } = useGetSchools();
   const searchParams = useSearchParams();
   const [filteredSchools, setFilteredSchools] = useState(schools);
@@ -17,18 +15,20 @@ export const SearchSection = ({ season }: Props) => {
   useEffect(() => {
     if (!isLoading && !isError) {
       // クエリ取得
-      const season = searchParams.get("season") || "";
       const school = searchParams.get("school") || "";
       const style = searchParams.get("style") || "";
-      const schooling = searchParams.get("schooling") || "";
+      const attendance = searchParams.get("attendance") || "";
 
       // クライアント側でフィルタ
       const result = schools.filter((s) => {
-        const matchSeason = season ? s.season === season : true;
         const matchSchool = school ? s.school === school : true;
         const matchStyle = style ? s.style === style : true;
-        const matchSchooling = schooling ? s.schooling === schooling : true;
-        return matchSeason && matchSchool && matchStyle && matchSchooling;
+        const matchAttendance =
+          attendance && attendance !== "オンライン"
+            ? s.attendance1 === attendance
+            : true;
+
+        return matchSchool && matchStyle && matchAttendance;
       });
 
       setFilteredSchools(result);
@@ -37,14 +37,16 @@ export const SearchSection = ({ season }: Props) => {
   }, [schools, isLoading, isError, searchParams]);
 
   const onSearch = (conditions: SearchSchoolFormValues) => {
-    const { season, school, style, schooling } = conditions;
+    const { school, style, attendance } = conditions;
     const result = schools.filter((s) => {
-      const matchSeason = season ? s.season === season : true;
       const matchSchool = school ? s.school === school : true;
       const matchStyle = style ? s.style === style : true;
-      const matchSchooling = schooling ? s.schooling === schooling : true;
+      const matchAttendance =
+        attendance && attendance !== "オンライン"
+          ? s.attendance1 === attendance
+          : true;
 
-      return matchSeason && matchSchool && matchStyle && matchSchooling;
+      return matchSchool && matchStyle && matchAttendance;
     });
 
     setFilteredSchools(result);
