@@ -85,7 +85,8 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             },
           }}
           onClick={() => {
-            onHome(), onClose();
+            onHome();
+            onClose();
           }}
         >
           <HomeIcon sx={{ marginRight: 2 }} />
@@ -103,7 +104,8 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             },
           }}
           onClick={() => {
-            onEntrance(), onClose();
+            onEntrance();
+            onClose();
           }}
         >
           <LooksOneIcon sx={{ marginRight: 2 }} />
@@ -121,7 +123,8 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             },
           }}
           onClick={() => {
-            onTransfer(), onClose();
+            onTransfer();
+            onClose();
           }}
         >
           <LooksTwoIcon sx={{ marginRight: 2 }} />
@@ -139,7 +142,8 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             },
           }}
           onClick={() => {
-            onBookmarks(), onClose();
+            onBookmarks();
+            onClose();
           }}
         >
           <BookmarksIcon sx={{ marginRight: 2 }} />
@@ -157,7 +161,8 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             },
           }}
           onClick={() => {
-            onInquiry(), onClose();
+            onInquiry();
+            onClose();
           }}
         >
           <MailIcon sx={{ marginRight: 2 }} />
