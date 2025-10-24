@@ -108,7 +108,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
         >
           <LooksOneIcon sx={{ marginRight: 2 }} />
           <ListItemText
-            primary="新入学希望向け"
+            primary="新入学向け"
             primaryTypographyProps={{ fontWeight: 600 }}
           />
         </ListItemButton>
@@ -126,7 +126,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
         >
           <LooksTwoIcon sx={{ marginRight: 2 }} />
           <ListItemText
-            primary="転入学希望向け"
+            primary="転入学向け"
             primaryTypographyProps={{ fontWeight: 600 }}
           />
         </ListItemButton>
