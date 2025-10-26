@@ -12,8 +12,10 @@ import {
   schoolOptions,
   SearchSchoolDefaultValues,
   styleOptions,
+  targetOptions,
 } from "@/entities/form";
 
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import SchoolIcon from "@mui/icons-material/School";
 import ComputerIcon from "@mui/icons-material/Computer";
@@ -51,6 +53,13 @@ const FormContent = () => {
 
   return (
     <>
+      <FormRadioGroup
+        text="対象"
+        Icon={CalendarMonthIcon}
+        name="target"
+        option={targetOptions}
+      />
+
       <FormSlider
         text="3年間の学費総額"
         Icon={CurrencyYenIcon}

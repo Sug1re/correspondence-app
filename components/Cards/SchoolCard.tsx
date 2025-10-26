@@ -3,9 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
-import { useGetTargetSchools } from "@/hooks/useSchools";
-import { Loading } from "../Loading";
-import { Message } from "../Message";
 import { entranceTotalTuition } from "@/lib/constants";
 import { TuitionModal } from "../Modals/TuitionModal";
 import { useDisclosure } from "@mantine/hooks";
@@ -17,17 +14,11 @@ import { BookmarkButton } from "../Buttons/BookmarkButton";
 
 interface Props {
   school: School[];
-  target?: "entrance" | "transfer";
 }
 
-export const SchoolCard = ({ target }: Props) => {
+export const SchoolCard = ({ school }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
-  const { schools, isLoading, isError, isEmpty } = useGetTargetSchools(target);
-
-  if (isLoading) return <Loading />;
-  if (isError) return <Message message="学校データの取得に失敗しました。" />;
-  if (isEmpty) return <Message message="学校データがありません。" />;
 
   const isOpenModal = (school: School) => {
     setSelectedSchool(school);
@@ -37,7 +28,7 @@ export const SchoolCard = ({ target }: Props) => {
   return (
     <>
       <Grid container spacing={2}>
-        {schools.map((school, index) => (
+        {school.map((school, index) => (
           <Grid key={index} size={{ xs: 12, md: 6 }}>
             <Card
               sx={{

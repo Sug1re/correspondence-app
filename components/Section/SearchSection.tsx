@@ -15,12 +15,14 @@ export const SearchSection = () => {
   useEffect(() => {
     if (!isLoading && !isError) {
       // クエリ取得
+      const target = searchParams.get("target") || "";
       const school = searchParams.get("school") || "";
       const style = searchParams.get("style") || "";
       const attendance = searchParams.get("attendance") || "";
 
       // クライアント側でフィルタ
       const result = schools.filter((s) => {
+        const matchTarget = target ? s.target === target : true;
         const matchSchool = school ? s.school === school : true;
         const matchStyle = style ? s.style === style : true;
         const matchAttendance =
@@ -28,7 +30,7 @@ export const SearchSection = () => {
             ? s.attendance1 === attendance
             : true;
 
-        return matchSchool && matchStyle && matchAttendance;
+        return matchTarget && matchSchool && matchStyle && matchAttendance;
       });
 
       setFilteredSchools(result);
@@ -37,8 +39,9 @@ export const SearchSection = () => {
   }, [schools, isLoading, isError, searchParams]);
 
   const onSearch = (conditions: SearchSchoolFormValues) => {
-    const { school, style, attendance } = conditions;
+    const { target, school, style, attendance } = conditions;
     const result = schools.filter((s) => {
+      const matchTarget = target ? s.target === target : true;
       const matchSchool = school ? s.school === school : true;
       const matchStyle = style ? s.style === style : true;
       const matchAttendance =
@@ -46,7 +49,7 @@ export const SearchSection = () => {
           ? s.attendance1 === attendance
           : true;
 
-      return matchSchool && matchStyle && matchAttendance;
+      return matchTarget && matchSchool && matchStyle && matchAttendance;
     });
 
     setFilteredSchools(result);

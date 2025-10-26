@@ -3,7 +3,7 @@
 import React from "react";
 import { SearchBar } from "@/components/Bars/SearchBar";
 import { SchoolCardSection } from "@/components/Section/SchoolCardSection";
-import { useGetSchools } from "@/hooks/useSchools";
+import { useGetTargetSchools } from "@/hooks/useSchools";
 import { SearchSchoolFormValues } from "@/entities/form";
 
 // あとで
@@ -12,7 +12,12 @@ import { SearchSchoolFormValues } from "@/entities/form";
 type Props = { target?: "entrance" | "transfer" };
 
 export const DefaultSection = ({ target }: Props) => {
-  const { schools = [] } = useGetSchools();
+  const {
+    schools = [],
+    isLoading,
+    isError,
+    isEmpty,
+  } = useGetTargetSchools(target);
 
   const onSearch = (conditions: SearchSchoolFormValues) => {
     console.log("検索条件:", conditions);
@@ -22,7 +27,12 @@ export const DefaultSection = ({ target }: Props) => {
     <>
       <SearchBar onSearch={onSearch} />
 
-      <SchoolCardSection schools={schools} target={target} />
+      <SchoolCardSection
+        school={schools}
+        isLoading={isLoading}
+        isError={isError}
+        isEmpty={isEmpty}
+      />
     </>
   );
 };

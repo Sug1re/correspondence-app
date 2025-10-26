@@ -27,6 +27,7 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
       methodsRef.current.handleSubmit((data) => {
         const query = new URLSearchParams();
 
+        query.append("target", data.target);
         query.append("school", data.school);
         query.append("style", data.style);
         query.append("attendance", data.attendance);

@@ -2,6 +2,10 @@ import { z } from "zod";
 
 export const SearchSchoolSchema = z.object({
 
+  target: z.enum(["新入学", "転入学"], {
+    errorMap: () => ({ message: "対象を選択してください。" }),
+    }),
+
   totalFee: z
     .tuple([z.number().min(0), z.number().max(4000000)])
     .refine(([min, max]) => min <= max, {
