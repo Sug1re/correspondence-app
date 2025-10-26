@@ -3,14 +3,13 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
-import { useGetSchools } from "@/hooks/useSchools";
+import { useGetTargetSchools } from "@/hooks/useSchools";
 import { Loading } from "../Loading";
 import { Message } from "../Message";
-import { totalTuition } from "@/lib/constants";
+import { entranceTotalTuition } from "@/lib/constants";
 import { TuitionModal } from "../Modals/TuitionModal";
 import { useDisclosure } from "@mantine/hooks";
 import { School } from "@/entities/school";
-import { useSchoolCount } from "@/hooks/useSchoolCount";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -18,20 +17,13 @@ import { BookmarkButton } from "../Buttons/BookmarkButton";
 
 interface Props {
   school: School[];
+  target?: "entrance" | "transfer";
 }
 
-export const SchoolCard = ({ school }: Props) => {
+export const SchoolCard = ({ target }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
-  const {
-    schools: allSchools = [],
-    isLoading,
-    isError,
-    isEmpty,
-  } = useGetSchools();
-
-  const schools = school || [];
-  const schoolCount = useSchoolCount(allSchools);
+  const { schools, isLoading, isError, isEmpty } = useGetTargetSchools(target);
 
   if (isLoading) return <Loading />;
   if (isError) return <Message message="学校データの取得に失敗しました。" />;
@@ -44,10 +36,6 @@ export const SchoolCard = ({ school }: Props) => {
 
   return (
     <>
-      <Typography sx={{ mb: 1, fontWeight: 600 }}>
-        現在の学校データ数：{schoolCount} 件
-      </Typography>
-
       <Grid container spacing={2}>
         {schools.map((school, index) => (
           <Grid key={index} size={{ xs: 12, md: 6 }}>
@@ -167,7 +155,7 @@ export const SchoolCard = ({ school }: Props) => {
                         }}
                       >
                         <CurrencyYenIcon style={{ fontSize: 18 }} />
-                        {totalTuition(school)}
+                        {entranceTotalTuition(school)}
                       </Typography>
                     </Box>
                     <Box

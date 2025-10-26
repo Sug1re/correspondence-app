@@ -6,7 +6,7 @@ export const BAR_HEIGHT = 52;
 
 export const ITEMS_PER_PAGE = 4;
 
-export const totalTuition = (school: School): string => {
+export const entranceTotalTuition = (school: School): string => {
   const sum =
     Number(school.firstTuition || 0) +
     Number(school.secondTuition || 0) +

@@ -11,7 +11,7 @@ export default function TransferPage() {
 
       <Container maxWidth="md">
         <Stack spacing={4} sx={{ mt: 4 }}>
-          <DefaultSection />
+          <DefaultSection target="transfer" />
         </Stack>
       </Container>
 

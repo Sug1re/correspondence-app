@@ -11,7 +11,7 @@ export default function EntrancePage() {
 
       <Container maxWidth="md">
         <Stack spacing={4} sx={{ mt: 4 }}>
-          <DefaultSection />
+          <DefaultSection target="entrance" />
         </Stack>
       </Container>
 

@@ -4,7 +4,7 @@ export type School = {
   content: string;
   school: string;
   style: string;
-  schooling: string[];
+  schooling: string;
   attendance1: string;
   attendance2: string;
   target: string;

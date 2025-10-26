@@ -6,7 +6,7 @@ import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
 import { useGetSchools } from "@/hooks/useSchools";
 import { Loading } from "../Loading";
 import { Message } from "../Message";
-import { totalTuition } from "@/lib/constants";
+import { entranceTotalTuition } from "@/lib/constants";
 import { TuitionModal } from "../Modals/TuitionModal";
 import { useDisclosure } from "@mantine/hooks";
 import { School } from "@/entities/school";
@@ -163,7 +163,7 @@ export const SearchSchoolCard = ({ school }: Props) => {
                         }}
                       >
                         <CurrencyYenIcon style={{ fontSize: 18 }} />
-                        {totalTuition(school)}
+                        {entranceTotalTuition(school)}
                       </Typography>
                     </Box>
                     <Box
