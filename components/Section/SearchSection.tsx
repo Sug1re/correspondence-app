@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { SearchBar } from "@/components/Bars/SearchBar";
 import { SearchSchoolFormValues } from "@/entities/form";
 import { useSearchParams } from "next/navigation";
-import { useGetSchools } from "@/hooks/useSchools";
+import { filterSchools, useGetSchools } from "@/hooks/useSchools";
 import { SearchSchoolCardSection } from "./SearchSchoolCardSection";
 
 export const SearchSection = () => {
@@ -14,44 +14,21 @@ export const SearchSection = () => {
 
   useEffect(() => {
     if (!isLoading && !isError) {
-      // クエリ取得
-      const target = searchParams.get("target") || "";
-      const school = searchParams.get("school") || "";
-      const style = searchParams.get("style") || "";
-      const attendance = searchParams.get("attendance") || "";
+      const conditions = {
+        target: searchParams.get("target") || "",
+        school: searchParams.get("school") || "",
+        style: searchParams.get("style") || "",
+        attendance: searchParams.get("attendance") || "",
+      };
 
-      // クライアント側でフィルタ
-      const result = schools.filter((s) => {
-        const matchTarget = target ? s.target === target : true;
-        const matchSchool = school ? s.school === school : true;
-        const matchStyle = style ? s.style === style : true;
-        const matchAttendance =
-          attendance && attendance !== "オンライン"
-            ? s.attendance1 === attendance
-            : true;
-
-        return matchTarget && matchSchool && matchStyle && matchAttendance;
-      });
-
+      const result = filterSchools(schools, conditions);
       setFilteredSchools(result);
       console.log("検索結果:", result);
     }
   }, [schools, isLoading, isError, searchParams]);
 
   const onSearch = (conditions: SearchSchoolFormValues) => {
-    const { target, school, style, attendance } = conditions;
-    const result = schools.filter((s) => {
-      const matchTarget = target ? s.target === target : true;
-      const matchSchool = school ? s.school === school : true;
-      const matchStyle = style ? s.style === style : true;
-      const matchAttendance =
-        attendance && attendance !== "オンライン"
-          ? s.attendance1 === attendance
-          : true;
-
-      return matchTarget && matchSchool && matchStyle && matchAttendance;
-    });
-
+    const result = filterSchools(schools, conditions);
     setFilteredSchools(result);
     console.log("検索条件を更新:", result);
   };

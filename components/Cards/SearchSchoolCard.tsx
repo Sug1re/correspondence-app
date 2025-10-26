@@ -40,10 +40,6 @@ export const SearchSchoolCard = ({ school }: Props) => {
 
   return (
     <>
-      <Typography sx={{ mb: 1, fontWeight: 600 }}>
-        現在の学校データ数：{schoolCount} 件
-      </Typography>
-
       <Grid container spacing={2}>
         {schools.map((school, index) => (
           <Grid key={index} size={{ xs: 12, md: 6 }}>

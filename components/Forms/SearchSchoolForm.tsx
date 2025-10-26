@@ -31,8 +31,7 @@ interface Props {
 }
 
 export const SearchSchoolForm: React.FC<Props> = ({ onClose, methodsRef }) => {
-  const onSubmit = (data: z.infer<typeof SearchSchoolSchema>) => {
-    console.log("Form Data:", data);
+  const onSubmit = () => {
     onClose();
   };
 
