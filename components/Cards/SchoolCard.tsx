@@ -175,6 +175,12 @@ export const SchoolCard = ({ school }: Props) => {
                           borderRadius: 2,
                           backgroundColor: "#FF6600",
                           color: "#FFFFFF",
+                          boxShadow: 1,
+                          transition: "transform 0.2s ease-in-out",
+                          "&:hover": {
+                            transform: "scale(0.95)",
+                            backgroundColor: "#FF6600",
+                          },
                         }}
                         disableRipple
                       >
