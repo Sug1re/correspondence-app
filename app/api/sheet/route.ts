@@ -85,7 +85,9 @@ export async function GET(req: Request) {
   }
 
   if (attendanceQuery) {
-    data = data.filter((item) => item.attendance === attendanceQuery);
+    if (attendanceQuery !== "オンライン") {
+      data = data.filter((item) => item.attendance === attendanceQuery);
+    }
   }
 
     return NextResponse.json({ data }, { status: 200 });
