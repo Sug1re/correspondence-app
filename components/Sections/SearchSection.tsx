@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect } from "react";
-// import { SearchBar } from "@/components/Bars/SearchBar";
+import { SearchBar } from "@/components/Bars/SearchBar";
 import { SearchSchoolFormValues } from "@/entities/form";
 import { useSearchParams } from "next/navigation";
-// import { SearchSchoolCardSection } from "./SearchSchoolCardSection";
+import { useGetFilteredSchools } from "@/hooks/useSchools";
+import { SearchSchoolCardSection } from "./SearchSchoolCardSection";
 
 export const SearchSection = () => {
   const searchParams = useSearchParams();
@@ -50,21 +51,30 @@ export const SearchSection = () => {
     console.log("受け取った検索条件:", conditions);
   }, [searchParams]);
 
-  // const onSearch = (newConditions: SearchSchoolFormValues) => {
-  //   console.log("検索条件を更新:", newConditions);
-  //   setConditions(newConditions);
-  // };
+  const target = searchParams.get("target") ?? undefined;
+  const school = searchParams.get("school") ?? undefined;
+  const style = searchParams.get("style") ?? undefined;
+  const attendance = searchParams.get("attendance") ?? undefined;
+
+  const conditions = { target, school, style, attendance };
+
+  const {
+    schools = [],
+    isLoading,
+    isError,
+    isEmpty,
+  } = useGetFilteredSchools(conditions);
 
   return (
     <>
-      {/* <SearchBar onSearch={onSearch} /> */}
+      <SearchBar />
 
-      {/* <SearchSchoolCardSection
+      <SearchSchoolCardSection
         school={schools}
         isLoading={isLoading}
         isError={isError}
         isEmpty={isEmpty}
-      /> */}
+      />
     </>
   );
 };

@@ -42,3 +42,24 @@ export const useGetTargetSchools = (target?: TargetType) => {
   const { data, error } = useSWR(apiUrl, fetcher);
   return createStatus(data, error);
 };
+
+export const useGetFilteredSchools = (
+  conditions: Partial<Pick<School, "target" | "school" | "style" | "attendance1">>
+) => {
+  const { target, school, style, attendance1 } = conditions;
+
+  const params = new URLSearchParams();
+
+  if (target) params.append("target", target);
+  if (school) params.append("school", school);
+  if (style) params.append("style", style);
+  if (attendance1) params.append("attendance", attendance1);
+
+  const queryString = params.toString();
+  const apiUrl = queryString
+    ? `/api/sheet?${queryString}`
+    : "/api/sheet";
+
+  const { data, error } = useSWR(apiUrl, fetcher);
+  return createStatus(data, error);
+};

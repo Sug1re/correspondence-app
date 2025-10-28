@@ -2,7 +2,7 @@
 
 import React from "react";
 import { SearchBar } from "@/components/Bars/SearchBar";
-import { SchoolCardSection } from "@/components/Section/SchoolCardSection";
+import { SchoolCardSection } from "@/components/Sections/SchoolCardSection";
 import { useGetTargetSchools } from "@/hooks/useSchools";
 
 // あとで

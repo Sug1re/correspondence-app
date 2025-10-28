@@ -6,9 +6,9 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const targetQuery = searchParams.get("target");
-    // const schoolParam = searchParams.get("school");
-    // const styleParam = searchParams.get("style");
-    // const attendanceParam = searchParams.get("attendance");
+    const schoolQuery = searchParams.get("school");
+    const styleQuery = searchParams.get("style");
+    const attendanceQuery = searchParams.get("attendance");
 
     const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
     const clientEmail = process.env.GOOGLE_SHEETS_CLIENT_EMAIL;
@@ -73,8 +73,20 @@ export async function GET(req: Request) {
     }));
 
   if (targetQuery) {
-      data = data.filter((school) => school.target === targetQuery);
-    }
+    data = data.filter((school) => school.target === targetQuery);
+  }
+
+  if (schoolQuery) {
+    data = data.filter((item) => item.school === schoolQuery);
+  }
+
+  if (styleQuery) {
+    data = data.filter((item) => item.style === styleQuery);
+  }
+
+  if (attendanceQuery) {
+    data = data.filter((item) => item.attendance1 === attendanceQuery);
+  }
 
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
