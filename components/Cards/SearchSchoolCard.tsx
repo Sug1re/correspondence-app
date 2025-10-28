@@ -3,14 +3,10 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
-import { useGetSchools } from "@/hooks/useSchools";
-import { Loading } from "../Loading";
-import { Message } from "../Message";
 import { entranceTotalTuition } from "@/lib/constants";
 import { TuitionModal } from "../Modals/TuitionModal";
 import { useDisclosure } from "@mantine/hooks";
 import { School } from "@/entities/school";
-import { useSchoolCount } from "@/hooks/useSchoolCount";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -23,15 +19,6 @@ interface Props {
 export const SearchSchoolCard = ({ school }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
   const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
-  const { isLoading, isError } = useGetSchools();
-
-  const schools = school || [];
-  const schoolCount = useSchoolCount(schools);
-
-  if (isLoading) return <Loading />;
-  if (isError) return <Message message="学校データの取得に失敗しました。" />;
-  if (schoolCount === 0)
-    return <Message message="条件に合う学校データが見つかりません。" />;
 
   const isOpenModal = (school: School) => {
     setSelectedSchool(school);
@@ -41,7 +28,7 @@ export const SearchSchoolCard = ({ school }: Props) => {
   return (
     <>
       <Grid container spacing={2}>
-        {schools.map((school, index) => (
+        {school.map((school, index) => (
           <Grid key={index} size={{ xs: 12, md: 6 }}>
             <Card
               sx={{

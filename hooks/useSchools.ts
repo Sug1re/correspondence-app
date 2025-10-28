@@ -1,23 +1,14 @@
 import useSWR from "swr";
 import type { School } from "@/entities/school";
+import { fetcher } from "@/lib/fetcher";
 
 type TargetType = "entrance" | "transfer";
-
-export type FilterConditions = {
-  target?: string;
-  school?: string;
-  style?: string;
-  attendance?: string;
-};
 
 type Props = {
   data: School[];
 };
 
-// 共通fetcher
-const fetcher = (url: string) => fetch(url).then(res => res.json());
-
-// 状態共通処理
+// 共通処理
 const createStatus = (data: Props | undefined, error: unknown) => {
   const schools: School[] = data?.data ?? [];
 
@@ -50,21 +41,4 @@ export const useGetTargetSchools = (target?: TargetType) => {
 
   const { data, error } = useSWR(apiUrl, fetcher);
   return createStatus(data, error);
-};
-
-export const filterSchools = (
-  schools: School[],
-  conditions: FilterConditions
-) => {
-  const { target, school, style, attendance } = conditions;
-
-  return schools.filter((s) => {
-    const matchTarget = target ? s.target === target : true;
-    const matchSchool = school ? s.school === school : true;
-    const matchStyle = style ? s.style === style : true;
-    const matchAttendance =
-      attendance && attendance !== "オンライン" ? s.attendance1 === attendance : true;
-
-    return matchTarget && matchSchool && matchStyle && matchAttendance;
-  });
 };

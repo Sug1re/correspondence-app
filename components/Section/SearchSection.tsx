@@ -1,43 +1,70 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { SearchBar } from "@/components/Bars/SearchBar";
+import React, { useEffect } from "react";
+// import { SearchBar } from "@/components/Bars/SearchBar";
 import { SearchSchoolFormValues } from "@/entities/form";
 import { useSearchParams } from "next/navigation";
-import { filterSchools, useGetSchools } from "@/hooks/useSchools";
-import { SearchSchoolCardSection } from "./SearchSchoolCardSection";
+// import { SearchSchoolCardSection } from "./SearchSchoolCardSection";
 
 export const SearchSection = () => {
-  const { schools = [], isLoading, isError } = useGetSchools();
   const searchParams = useSearchParams();
-  const [filteredSchools, setFilteredSchools] = useState(schools);
 
   useEffect(() => {
-    if (!isLoading && !isError) {
-      const conditions = {
-        target: searchParams.get("target") || "",
-        school: searchParams.get("school") || "",
-        style: searchParams.get("style") || "",
-        attendance: searchParams.get("attendance") || "",
-      };
+    const targetParam = searchParams.get("target");
+    const safeTarget =
+      targetParam === "新入学" || targetParam === "転入学"
+        ? targetParam
+        : undefined;
 
-      const result = filterSchools(schools, conditions);
-      setFilteredSchools(result);
-      console.log("検索結果:", result);
-    }
-  }, [schools, isLoading, isError, searchParams]);
+    const schoolParam = searchParams.get("school");
+    const safeSchool =
+      schoolParam === "通信制高校" || schoolParam === "サポート校"
+        ? schoolParam
+        : undefined;
 
-  const onSearch = (conditions: SearchSchoolFormValues) => {
-    const result = filterSchools(schools, conditions);
-    setFilteredSchools(result);
-    console.log("検索条件を更新:", result);
-  };
+    const styleParam = searchParams.get("style");
+    const safeStyle =
+      styleParam === "通学" || styleParam === "オンライン"
+        ? styleParam
+        : undefined;
+
+    const attendanceParam = searchParams.get("attendance");
+    const safeAttendance =
+      attendanceParam === "週1" ||
+      attendanceParam === "週2" ||
+      attendanceParam === "週3" ||
+      attendanceParam === "週4" ||
+      attendanceParam === "週5" ||
+      attendanceParam === "自由" ||
+      attendanceParam === "オンライン"
+        ? attendanceParam
+        : undefined;
+
+    const conditions: Partial<SearchSchoolFormValues> = {
+      target: safeTarget,
+      school: safeSchool,
+      style: safeStyle,
+      attendance: safeAttendance,
+    };
+
+    console.log("受け取った検索条件:", conditions);
+  }, [searchParams]);
+
+  // const onSearch = (newConditions: SearchSchoolFormValues) => {
+  //   console.log("検索条件を更新:", newConditions);
+  //   setConditions(newConditions);
+  // };
 
   return (
     <>
-      <SearchBar onSearch={onSearch} />
+      {/* <SearchBar onSearch={onSearch} /> */}
 
-      <SearchSchoolCardSection schools={filteredSchools} />
+      {/* <SearchSchoolCardSection
+        school={schools}
+        isLoading={isLoading}
+        isError={isError}
+        isEmpty={isEmpty}
+      /> */}
     </>
   );
 };

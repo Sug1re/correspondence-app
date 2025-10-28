@@ -6,6 +6,9 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const targetQuery = searchParams.get("target");
+    // const schoolParam = searchParams.get("school");
+    // const styleParam = searchParams.get("style");
+    // const attendanceParam = searchParams.get("attendance");
 
     const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
     const clientEmail = process.env.GOOGLE_SHEETS_CLIENT_EMAIL;
@@ -69,7 +72,7 @@ export async function GET(req: Request) {
       url: row[30] ?? "",
     }));
 
-    if (targetQuery) {
+  if (targetQuery) {
       data = data.filter((school) => school.target === targetQuery);
     }
 
