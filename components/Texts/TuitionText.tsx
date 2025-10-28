@@ -10,10 +10,24 @@ type Props = {
 
 export const TuitionText = ({ school }: Props) => {
   return (
-    <Box sx={{ m: 2 }}>
+    <Box
+      sx={{
+        mx: { xs: 3, sm: 10 },
+        my: 2,
+        display: "flex",
+        flexDirection: "column",
+        gap: 1,
+      }}
+    >
       {school.firstTuition && (
-        <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-          <Typography>初年次の学費</Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            初年次の学費
+          </Typography>
           <Typography
             sx={{
               fontWeight: 600,
@@ -21,14 +35,20 @@ export const TuitionText = ({ school }: Props) => {
               alignItems: "center",
             }}
           >
-            <CurrencyYenIcon style={{ fontSize: 28 }} />
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
             {Number(school.firstTuition).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {school.secondTuition && (
-        <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-          <Typography>2年次の学費</Typography>
+      {school.enrollmentFee && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            入学時に発生する学費
+          </Typography>
           <Typography
             sx={{
               fontWeight: 600,
@@ -36,14 +56,41 @@ export const TuitionText = ({ school }: Props) => {
               alignItems: "center",
             }}
           >
-            <CurrencyYenIcon style={{ fontSize: 28 }} />
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
+            {Number(school.enrollmentFee).toLocaleString("ja-JP")}
+          </Typography>
+        </Box>
+      )}
+      {school.secondTuition && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            2年次の学費
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
             {Number(school.secondTuition).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
       {school.thirdTuition && (
-        <Box sx={{ display: "flex", justifyContent: "space-around" }}>
-          <Typography>3年次の学費</Typography>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            3年次の学費
+          </Typography>
           <Typography
             sx={{
               fontWeight: 600,
@@ -51,9 +98,38 @@ export const TuitionText = ({ school }: Props) => {
               alignItems: "center",
             }}
           >
-            <CurrencyYenIcon style={{ fontSize: 28 }} />
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
             {Number(school.thirdTuition).toLocaleString("ja-JP")}
           </Typography>
+        </Box>
+      )}
+      {school.anotherTuitionName && school.anotherTuition && (
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          {school.anotherTuitionName.split("・").map((name, index) => {
+            const tuitionItems = school.anotherTuition
+              .split("・")
+              .filter(Boolean)
+              .map((item) => Number(item).toLocaleString("ja-JP"));
+
+            return (
+              <Box
+                key={index}
+                sx={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <Typography sx={{ fontWeight: 600 }}>{name}</Typography>
+                <Typography
+                  sx={{
+                    fontWeight: 600,
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <CurrencyYenIcon style={{ fontSize: 18 }} />
+                  {tuitionItems[index] ?? ""}
+                </Typography>
+              </Box>
+            );
+          })}
         </Box>
       )}
     </Box>

@@ -3,14 +3,14 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
-import { entranceTotalTuition } from "@/lib/constants";
+import { totalTuition } from "@/lib/constants";
 import { TuitionModal } from "../Modals/TuitionModal";
 import { useDisclosure } from "@mantine/hooks";
 import { School } from "@/entities/school";
+import { BookmarkButton } from "../Buttons/BookmarkButton";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { BookmarkButton } from "../Buttons/BookmarkButton";
 
 interface Props {
   school: School[];
@@ -95,7 +95,7 @@ export const SearchSchoolCard = ({ school }: Props) => {
                     </Link>
 
                     <Box sx={{ display: "flex" }}>
-                      <Typography sx={{ fontSize: "8px" }}>
+                      <Typography sx={{ fontSize: "8px", fontWeight: 600 }}>
                         {school.course}
                       </Typography>
                       {school.attendance && school.attendance.length > 0 && (
@@ -134,9 +134,12 @@ export const SearchSchoolCard = ({ school }: Props) => {
                       <Typography
                         sx={{
                           fontSize: "8px",
+                          fontWeight: 600,
                         }}
                       >
-                        負担額
+                        {school.target === "新入学"
+                          ? "3年間の負担額"
+                          : "1年目の負担額"}
                       </Typography>
                       <Typography
                         sx={{
@@ -146,7 +149,7 @@ export const SearchSchoolCard = ({ school }: Props) => {
                         }}
                       >
                         <CurrencyYenIcon style={{ fontSize: 18 }} />
-                        {entranceTotalTuition(school)}
+                        {totalTuition(school)}
                       </Typography>
                     </Box>
                     <Box
