@@ -44,16 +44,16 @@ export const useGetTargetSchools = (target?: TargetType) => {
 };
 
 export const useGetFilteredSchools = (
-  conditions: Partial<Pick<School, "target" | "school" | "style" | "attendance1">>
+  conditions: Partial<Pick<School, "target" | "school" | "style" | "attendance">>
 ) => {
-  const { target, school, style, attendance1 } = conditions;
+  const { target, school, style, attendance } = conditions;
 
   const params = new URLSearchParams();
 
   if (target) params.append("target", target);
   if (school) params.append("school", school);
   if (style) params.append("style", style);
-  if (attendance1) params.append("attendance", attendance1);
+  if (attendance) params.append("attendance", attendance);
 
   const queryString = params.toString();
   const apiUrl = queryString

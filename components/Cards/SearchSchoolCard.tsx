@@ -98,23 +98,23 @@ export const SearchSchoolCard = ({ school }: Props) => {
                       <Typography sx={{ fontSize: "8px" }}>
                         {school.course}
                       </Typography>
-                      {school.attendance1 && school.attendance1.length > 0 && (
+                      {school.attendance && school.attendance.length > 0 && (
                         <Typography
                           component="span"
                           sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
                         >
-                          {school.attendance1
+                          {school.attendance
                             .split(",")
                             .map((freq) => freq.trim())
                             .map((freq) => `#${freq}`)
                             .join(" ")}
                         </Typography>
                       )}
-                      {school.attendance2 && (
+                      {school.subAttendance && (
                         <Typography
                           sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
                         >
-                          #{school.attendance2}
+                          #{school.subAttendance}
                         </Typography>
                       )}
                     </Box>

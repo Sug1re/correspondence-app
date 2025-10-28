@@ -47,8 +47,8 @@ export async function GET(req: Request) {
       school: row[5] ?? "",
       style: row[6] ?? "",
       schooling: row[7] ?? "",
-      attendance1: row[8] ?? "",
-      attendance2: row[9] ?? "",
+      attendance: row[8] ?? "",
+      subAttendance: row[9] ?? "",
       target: row[10] ?? "",
       firstTuition: row[11] ?? "",
       secondTuition: row[12] ?? "",
@@ -85,7 +85,7 @@ export async function GET(req: Request) {
   }
 
   if (attendanceQuery) {
-    data = data.filter((item) => item.attendance1 === attendanceQuery);
+    data = data.filter((item) => item.attendance === attendanceQuery);
   }
 
     return NextResponse.json({ data }, { status: 200 });

@@ -5,8 +5,8 @@ export type School = {
   school: string;
   style: string;
   schooling: string;
-  attendance1: string;
-  attendance2: string;
+  attendance: string;
+  subAttendance: string;
   target: string;
   firstTuition: string;
   secondTuition: string;
