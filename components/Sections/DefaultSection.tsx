@@ -9,7 +9,7 @@ import { useGetTargetSchools } from "@/hooks/useSchools";
 // 初期loading時でも遷移してからloadingするようにする
 
 type Props = {
-  target: "entrance" | "transfer";
+  target?: "entrance" | "transfer";
 };
 
 export const DefaultSection = ({ target }: Props) => {

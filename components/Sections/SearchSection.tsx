@@ -2,9 +2,9 @@
 
 import React from "react";
 import { SearchBar } from "@/components/Bars/SearchBar";
+import { SchoolCardSection } from "./SchoolCardSection";
 import { useSearchParams } from "next/navigation";
 import { useGetFilteredSchools } from "@/hooks/useSchools";
-import { SearchSchoolCardSection } from "./SearchSchoolCardSection";
 
 export const SearchSection = () => {
   const searchParams = useSearchParams();
@@ -27,7 +27,7 @@ export const SearchSection = () => {
     <>
       <SearchBar />
 
-      <SearchSchoolCardSection
+      <SchoolCardSection
         school={schools}
         isLoading={isLoading}
         isError={isError}
