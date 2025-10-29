@@ -5,6 +5,7 @@
     "firestore",
     "Firestore",
     "cloudsdktool",
+    "vercel",
   ],
   "ignorePaths": [
     "node_modules",
