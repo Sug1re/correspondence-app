@@ -8,6 +8,10 @@ steps:
       - "--build-arg=NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=$_NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET"
       - "--build-arg=NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=$_NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID"
       - "--build-arg=NEXT_PUBLIC_FIREBASE_APP_ID=$_NEXT_PUBLIC_FIREBASE_APP_ID"
+      - "--build-arg=GOOGLE_SPREADSHEET_ID=$_GOOGLE_SPREADSHEET_ID"
+      - "--build-arg=GOOGLE_PROJECT_ID=$_GOOGLE_PROJECT_ID"
+      - "--build-arg=GOOGLE_CLIENT_EMAIL=$_GOOGLE_CLIENT_EMAIL"
+      - "--build-arg=GOOGLE_PRIVATE_KEY=$_GOOGLE_PRIVATE_KEY"
       - "--no-cache"
       - "-t"
       - >-
@@ -51,6 +55,18 @@ substitutions:
   _AR_REPOSITORY: cloud-run-source-deploy
   _AR_PROJECT_ID: pokemon-sleep-424407
   _PLATFORM: managed
+  # Firebase環境変数（実際の値に置き換えてください）
+  _NEXT_PUBLIC_FIREBASE_API_KEY: "AIzaSyD6tvEnYXtfxsVGjV6PiLZ8XupKMt2PoxY"
+  _NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "correspondence-app-b4960.firebaseapp.com"
+  _NEXT_PUBLIC_FIREBASE_PROJECT_ID: "correspondence-app-b4960"
+  _NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: "correspondence-app-b4960.firebasestorage.app"
+  _NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "339353777417"
+  _NEXT_PUBLIC_FIREBASE_APP_ID: "1:339353777417:web:2386f1ec153a8143a04fd8"
+  # Google Sheets環境変数（実際の値に置き換えてください）
+  _GOOGLE_SPREADSHEET_ID: "1msogSGMAohuBrzmNLCOZchh_hE1q96ZBgQp98q9qLpk"
+  _GOOGLE_PROJECT_ID: "pokemon-sleep-424407"
+  _GOOGLE_CLIENT_EMAIL: "searchschool@pokemon-sleep-424407.iam.gserviceaccount.com"
+  _GOOGLE_PRIVATE_KEY: "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC3UzKZi60lTFB/\n1UikWs5b+GLX182pkj7lI+HsCgpW9dU9DiEJ4Gg74+BPqAq3AC9uD1dhpaIyttla\nOIlBxSigKEvsJY4VRoEfXdbK6PqiFlpYKpZ95KSYOYzS0ZN7d+7pdHzf6emgyfi8\nv77GK1vhrREg8eJA0iUF6+g+fyAylg/6RcsaiRmtAS4f/cp/FHcJVh/B2wZgqR+r\nhZktru0sP1U2bJgtvMXR8LMXthA4Cy2fSuWnAQaDB7FLmg+ExOYgEkDH9gEPFqpg\nLMSWmJRWN77oeZE3zE4i7N81jd9ZghomwHfXVINZU5wykepL3XzacEEy0pwrOT4R\nIWAkxNO5AgMBAAECggEAB6V3N1NNmgAoXWSafoxxDgH6sXEFWXzJlcoc2rkCfGUN\ni1njA+PxxQm4qeni5IYj9E28gcykSsQ4pZw1EWK1UpTLseJRHk8OBK5nzpfQGGGh\nTAsessqOGPFRj9uA8MXsV51ttfMuNPAnqUvAG8jkMLIExGCCZNy/AZO44J5xy9pH\nY+l1I7mbS0H+yPeAx17bvpymm9uRCpRUl7bYfvc6YBo360HCSXyAMNdrsFeolWIF\nBQHp4tv+tXcV4awX7DfEYVI44KHYsnPjfz2Qt8XtlFEon7x7AuMNlJoruFCjzt2X\nXE4lJVJpMxCPDJeMbiUXALuAj4Dh+NNBlxSHXh1i5wKBgQDgpRWLAb9RAO+SrIPH\nPqUE2u2f9LmpicWrpHPUniG1Eksul+6mSFgcsvWSnk+TgtHf4eDHi1G2AqGB97zK\nRZWB+MUfzR1cjWmzt540Hm2DR9ebh6PcT3vUjnfx3mUeqFnDVsGCiif+oQwjplcH\nFKIsrzv5EyFTrbLl3nopMM4AowKBgQDQ6bB0zmeiSYTX0Fptvy58rFWPiL9RTnLF\n1ES9+dOdNyojw9fA/H+dtcxkKRt6aNceKWcJepzzvf7CepeVemcbAJzzAo04oyYD\ntf2AAGtfg6dF5i/HCq3NkmtwIMKQ4bnau3BIX+Yu46m/tbWGG1I+iCd4frVn/Cs6\nbnx3j1tz8wKBgHBF0XiBzQ48+39AvTOtOWgtyqkw9EGpW6OnM0TGK26F0BFfWaS9\nb1wYjOdUO80ripzsFR1lodbnhbShDjfBgzFMFakJKG2DN5rcYDMIKg98rmNK7ThE\neU0ITyYQ0lT6KrKX/2qwhcCa2KhQkBo3072lbsHTL8rUex6rjD5d5/clAoGAJJ7S\nL6d+wxPgFXSQZWx92Zzb4q013CrEM6lh42tHjOd+m4ZY65tXQ236xhPunSaDjuXz\nCdZUbOWBItYafDlYmYMh//cSijsPDtd3+FgaekO5rqcK+PkGPmLMMnuLn5nx2kXB\nCO7GirGdr91KVJe1cwCq6pRLeE7bxQJZDxwyC8ECgYEAuGMwnsqhEJQsU0SGt58f\nBsEz1Rqt/BjM1wlerTDRvo5xDD2KknPxFF1tfVvC4RfsmnNIyEOBJJpbf60H0/tg\n6ZQhPes29w9nLe04zGlNac8v3qeRkMz0Y82DuKQK1yGS51k026tSNAL1zhiwrSy1\n7RhISoHVxmaYHuOM/MW6jms=\n-----END PRIVATE KEY-----\n"
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - gcp-cloud-build-deploy-cloud-run-managed
