@@ -6,6 +6,23 @@ export const BAR_HEIGHT = 52;
 
 export const ITEMS_PER_PAGE = 4;
 
+export const monthlyData = (school: School): boolean => {
+  return [
+    school.april,
+    school.may,
+    school.june,
+    school.july,
+    school.august,
+    school.september,
+    school.october,
+    school.november,
+    school.december,
+    school.january,
+    school.february,
+    school.march,
+  ].some((month) => month && month.trim() !== "");
+};
+
 export const entranceTotalTuition = (school: School): string => {
   const baseSum =
     Number(school.firstTuition || 0) +

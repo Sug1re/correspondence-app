@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import {
   entranceTotalTuition,
+  monthlyData,
   transferTotalTuition,
   variableTransferTotalTuition,
 } from "@/lib/constants";
@@ -193,7 +194,7 @@ export const SchoolCard = ({ school }: Props) => {
                             ? entranceTotalTuition(s)
                             : transferTotal}
                         </Typography>
-                        {s.target === "転入学" && (
+                        {monthlyData(s) && (
                           <IconButton
                             size="small"
                             sx={{ color: "#003399" }}
