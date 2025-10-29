@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Card,
+  CircularProgress,
   Grid,
   IconButton,
   Stack,
@@ -38,6 +39,8 @@ export const SchoolCard = ({ school }: Props) => {
   const [openTransferModalId, setOpenTransferModalId] = useState<string | null>(
     null
   );
+
+  const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({});
 
   const [transferValueMap, setTransferValueMap] = useState<
     Record<string, string>
@@ -75,6 +78,8 @@ export const SchoolCard = ({ school }: Props) => {
               ? variableTransferTotalTuition(s, selectedTransferValue)
               : transferTotalTuition(s);
 
+          const isImageLoaded = loadedImages[s.schoolId] || false;
+
           return (
             <Grid key={s.schoolId} size={{ xs: 12, md: 6 }}>
               <Card
@@ -86,8 +91,28 @@ export const SchoolCard = ({ school }: Props) => {
                   mb: 2,
                 }}
               >
-                {s.picture && (
-                  <Link href={s.url} target="_blank" rel="noopener noreferrer">
+                <Link href={s.url} target="_blank" rel="noopener noreferrer">
+                  <Box
+                    sx={{ position: "relative", width: "100%", height: 200 }}
+                  >
+                    {!isImageLoaded && (
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: 0,
+                          left: 0,
+                          width: "100%",
+                          height: "100%",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          bgcolor: "#f9f9f9",
+                        }}
+                      >
+                        <CircularProgress size={40} thickness={5} />
+                      </Box>
+                    )}
+
                     <Box
                       component="img"
                       src={getDriveImageUrl(s)}
@@ -97,11 +122,18 @@ export const SchoolCard = ({ school }: Props) => {
                         height: 200,
                         objectFit: "cover",
                         objectPosition: "center",
-                        display: "block",
+                        opacity: isImageLoaded ? 1 : 0,
+                        transition: "opacity 0.4s ease-in-out",
                       }}
+                      onLoad={() =>
+                        setLoadedImages((prev) => ({
+                          ...prev,
+                          [s.schoolId]: true,
+                        }))
+                      }
                     />
-                  </Link>
-                )}
+                  </Box>
+                </Link>
 
                 <Box
                   sx={{

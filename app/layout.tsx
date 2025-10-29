@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
-import ToastProvider from "@/providers/ToastProvider";
+import { ToastProvider } from "@/context/ToastContext";
 import MantineProvider from "@/providers/MantineProvider";
 import SWRProvider from "@/providers/SWRProvider";
 
