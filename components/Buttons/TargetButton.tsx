@@ -55,7 +55,7 @@ export const TargetButton = () => {
               },
             }}
           >
-            新入学希望向け
+            新入学向け
           </Typography>
         </Button>
         <Button
@@ -90,7 +90,7 @@ export const TargetButton = () => {
               },
             }}
           >
-            転入学希望向け
+            転入学向け
           </Typography>
         </Button>
       </Box>

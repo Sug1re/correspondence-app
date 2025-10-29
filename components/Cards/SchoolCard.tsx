@@ -1,230 +1,292 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
-import { useGetSchools } from "@/hooks/useSchools";
-import { Loading } from "../Loading";
-import { Message } from "../Message";
-import { totalTuition } from "@/lib/constants";
+import {
+  Box,
+  Button,
+  Card,
+  Grid,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
+import {
+  entranceTotalTuition,
+  getDriveImageUrl,
+  monthlyData,
+  transferTotalTuition,
+  variableTransferTotalTuition,
+} from "@/lib/constants";
 import { TuitionModal } from "../Modals/TuitionModal";
-import { useDisclosure } from "@mantine/hooks";
+import { TransferTuitionModal } from "../Modals/TransferTuitionModal";
 import { School } from "@/entities/school";
-import { useSchoolCount } from "@/hooks/useSchoolCount";
+import { BookmarkButton } from "../Buttons/BookmarkButton";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import { BookmarkButton } from "../Buttons/BookmarkButton";
+import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 
 interface Props {
   school: School[];
-  season?: "entrance" | "transfer";
 }
 
-export const SchoolCard = ({ school, season }: Props) => {
-  const [isOpen, handlers] = useDisclosure(false);
-  const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
-  const { isLoading, isError, isEmpty } = useGetSchools();
+export const SchoolCard = ({ school }: Props) => {
+  const [openTuitionModalId, setOpenTuitionModalId] = useState<string | null>(
+    null
+  );
+  const [openTransferModalId, setOpenTransferModalId] = useState<string | null>(
+    null
+  );
 
-  const SCHOOLS = useMemo(() => {
-    if (!school) return [];
+  const [transferValueMap, setTransferValueMap] = useState<
+    Record<string, string>
+  >({});
+  const [transferLabelMap, setTransferLabelMap] = useState<
+    Record<string, string>
+  >({});
 
-    if (season === "entrance") {
-      return school.filter((s) => s.season === "4月");
-    }
+  const openTuitionModal = (schoolId: string) => {
+    setOpenTuitionModalId(schoolId);
+  };
 
-    if (season === "transfer") {
-      return school.filter((s) => s.season !== "4月");
-    }
+  const closeTuitionModal = () => {
+    setOpenTuitionModalId(null);
+  };
 
-    return school;
-  }, [school, season]);
+  const openTransferModal = (schoolId: string) => {
+    setOpenTransferModalId(schoolId);
+  };
 
-  const schoolCount = useSchoolCount(SCHOOLS);
-
-  if (isLoading) return <Loading />;
-  if (isError) return <Message message="学校データの取得に失敗しました。" />;
-  if (isEmpty) return <Message message="学校データがありません。" />;
-
-  const isOpenModal = (school: School) => {
-    setSelectedSchool(school);
-    handlers.open();
+  const closeTransferModal = () => {
+    setOpenTransferModalId(null);
   };
 
   return (
     <>
-      <Typography sx={{ mb: 1, fontWeight: 600 }}>
-        現在の学校データ数：{schoolCount} 件
-      </Typography>
-
       <Grid container spacing={2}>
-        {SCHOOLS.map((school, index) => (
-          <Grid key={index} size={{ xs: 12, md: 6 }}>
-            <Card
-              sx={{
-                boxShadow: 5,
-                borderRadius: 2,
-                border: `0.5px solid #FF6600`,
-                position: "relative",
-                mb: 2,
-              }}
-            >
-              <Link href={school.url} target="_blank" rel="noopener noreferrer">
-                <Box
-                  component="img"
-                  src={school.picture}
-                  alt={school.schoolName}
-                  sx={{
-                    width: "100%",
-                    height: 200,
-                    objectFit: "cover",
-                    objectPosition: "center",
-                    display: "block",
-                  }}
-                />
-              </Link>
+        {school.map((s) => {
+          const isTuitionOpen = openTuitionModalId === s.schoolId;
+          const isTransferOpen = openTransferModalId === s.schoolId;
+          const selectedTransferValue = transferValueMap[s.schoolId] || null;
+          const selectedTransferLabel = transferLabelMap[s.schoolId] || null;
+          const transferTotal =
+            selectedTransferValue !== null
+              ? variableTransferTotalTuition(s, selectedTransferValue)
+              : transferTotalTuition(s);
 
-              <Box
+          return (
+            <Grid key={s.schoolId} size={{ xs: 12, md: 6 }}>
+              <Card
                 sx={{
-                  position: "absolute",
-                  top: 4,
-                  right: 1,
-                  zIndex: 2,
+                  boxShadow: 5,
+                  borderRadius: 2,
+                  border: `0.5px solid #FF6600`,
+                  position: "relative",
+                  mb: 2,
                 }}
               >
-                <BookmarkButton />
-              </Box>
-
-              <Stack>
-                <Box sx={{ m: 1, fontWeight: 600 }}>
-                  <Link
-                    href={school.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    <Typography
+                {s.picture && (
+                  <Link href={s.url} target="_blank" rel="noopener noreferrer">
+                    <Box
+                      component="img"
+                      src={getDriveImageUrl(s)}
+                      alt={s.name}
                       sx={{
-                        display: "inline-block",
-                        "&:hover": {
-                          color: "#1976d2",
-                          textDecoration: "underline",
-                        },
+                        width: "100%",
+                        height: 200,
+                        objectFit: "cover",
+                        objectPosition: "center",
+                        display: "block",
                       }}
-                    >
-                      {school.schoolName}
-                    </Typography>
+                    />
                   </Link>
+                )}
 
-                  <Box sx={{ display: "flex" }}>
-                    <Typography sx={{ fontSize: "8px" }}>
-                      {school.course}
-                    </Typography>
-                    {school.attendance1 && school.attendance1.length > 0 && (
-                      <Typography
-                        component="span"
-                        sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
-                      >
-                        {school.attendance1
-                          .split(",")
-                          .map((freq) => freq.trim())
-                          .map((freq) => `#${freq}`)
-                          .join(" ")}
-                      </Typography>
-                    )}
-                    {school.attendance2 && (
-                      <Typography
-                        sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
-                      >
-                        #{school.attendance2}
-                      </Typography>
-                    )}
-                  </Box>
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: 4,
+                    right: 1,
+                    zIndex: 2,
+                  }}
+                >
+                  <BookmarkButton schoolId={s.schoolId} />
+                </Box>
 
-                  <Box
-                    sx={{
-                      px: 1,
-                      py: 1.5,
-                      bgcolor: "#FFF4E5",
-                      borderRadius: 2,
-                    }}
-                  >
-                    <Box
-                      sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "8px",
-                        }}
-                      >
-                        負担額
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontWeight: 600,
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <CurrencyYenIcon style={{ fontSize: 18 }} />
-                        {totalTuition(school)}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontSize: "8px",
-                        }}
-                      >
-                        就学支援金を考慮していない
-                        <br />
-                        負担額となります。
-                      </Typography>
-                      <Button
-                        size="small"
-                        onClick={() => isOpenModal(school)}
-                        sx={{
-                          borderRadius: 2,
-                          backgroundColor: "#FF6600",
-                          color: "#FFFFFF",
-                        }}
-                        disableRipple
+                <Stack>
+                  <Box sx={{ m: 1, fontWeight: 600 }}>
+                    <Box sx={{ px: 1 }}>
+                      <Link
+                        href={s.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: "none", color: "inherit" }}
                       >
                         <Typography
                           sx={{
-                            m: 1,
-                            gap: 1,
+                            display: "inline-block",
+                            "&:hover": {
+                              color: "#1976d2",
+                              textDecoration: "underline",
+                            },
+                          }}
+                        >
+                          {s.name}
+                        </Typography>
+                      </Link>
+
+                      <Box sx={{ display: "flex" }}>
+                        <Typography sx={{ fontSize: "8px", fontWeight: 600 }}>
+                          {s.course}
+                        </Typography>
+                        {s.attendance && s.attendance.length > 0 && (
+                          <Typography
+                            component="span"
+                            sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
+                          >
+                            {s.attendance
+                              .split(",")
+                              .map((freq) => freq.trim())
+                              .map((freq) => `#${freq}`)
+                              .join(" ")}
+                          </Typography>
+                        )}
+                        {s.subAttendance && (
+                          <Typography
+                            sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
+                          >
+                            #{s.subAttendance}
+                          </Typography>
+                        )}
+                      </Box>
+                    </Box>
+
+                    <Box
+                      sx={{
+                        px: 1,
+                        py: 1.5,
+                        bgcolor: "#FFF4E5",
+                        borderRadius: 2,
+                      }}
+                    >
+                      <Box
+                        sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+                      >
+                        <Typography
+                          sx={{
+                            fontSize: "8px",
+                            fontWeight: 600,
+                          }}
+                        >
+                          {s.target === "新入学"
+                            ? "3年間の負担額"
+                            : "1年目の負担額"}
+                        </Typography>
+                        <Typography
+                          sx={{
                             fontWeight: 600,
                             display: "flex",
                             alignItems: "center",
                           }}
                         >
-                          料金を表示
-                          <ArrowForwardIosIcon
-                            style={{ fontSize: 16, marginLeft: 4 }}
-                          />
+                          <CurrencyYenIcon style={{ fontSize: 18 }} />
+                          {s.target === "新入学"
+                            ? entranceTotalTuition(s)
+                            : transferTotal}
                         </Typography>
-                      </Button>
+                        {monthlyData(s) && (
+                          <IconButton
+                            size="small"
+                            sx={{ color: "#003399" }}
+                            onClick={() => openTransferModal(s.schoolId)}
+                            disableRipple
+                          >
+                            <InfoOutlineIcon sx={{ fontSize: 14 }} />
+                          </IconButton>
+                        )}
+                      </Box>
+
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography sx={{ fontSize: "8px" }}>
+                          就学支援金を考慮していない
+                          <br />
+                          負担額となります。
+                        </Typography>
+                        <Button
+                          size="small"
+                          onClick={() => openTuitionModal(s.schoolId)}
+                          sx={{
+                            borderRadius: 2,
+                            backgroundColor: "#FF6600",
+                            color: "#FFFFFF",
+                            boxShadow: 1,
+                            transition: "transform 0.2s ease-in-out",
+                            "&:hover": {
+                              transform: "scale(0.95)",
+                              backgroundColor: "#FF6600",
+                            },
+                          }}
+                          disableRipple
+                        >
+                          <Typography
+                            sx={{
+                              m: 1,
+                              gap: 1,
+                              fontWeight: 600,
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
+                            料金を表示
+                            <ArrowForwardIosIcon
+                              style={{ fontSize: 16, marginLeft: 4 }}
+                            />
+                          </Typography>
+                        </Button>
+                      </Box>
                     </Box>
                   </Box>
-                </Box>
-              </Stack>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+                </Stack>
+              </Card>
 
-      <TuitionModal
-        opened={isOpen}
-        onClose={handlers.close}
-        school={selectedSchool!}
-      />
+              {s.target === "転入学" && isTransferOpen && (
+                <TransferTuitionModal
+                  opened={true}
+                  onClose={closeTransferModal}
+                  school={s}
+                  onSelect={(value: string, label: string) => {
+                    setTransferValueMap((prev) => ({
+                      ...prev,
+                      [s.schoolId]: value,
+                    }));
+                    setTransferLabelMap((prev) => ({
+                      ...prev,
+                      [s.schoolId]: label,
+                    }));
+                  }}
+                />
+              )}
+
+              {isTuitionOpen && (
+                <TuitionModal
+                  opened={true}
+                  onClose={closeTuitionModal}
+                  school={s}
+                  transferValue={selectedTransferValue}
+                  transferLabel={selectedTransferLabel}
+                />
+              )}
+            </Grid>
+          );
+        })}
+      </Grid>
     </>
   );
 };

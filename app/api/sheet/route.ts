@@ -2,11 +2,18 @@ import { google } from "googleapis";
 import { NextResponse } from "next/server";
 import { School } from "@/entities/school";
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
-    const clientEmail = process.env.GOOGLE_SHEETS_CLIENT_EMAIL;
-    const privateKey = process.env.GOOGLE_SHEETS_PRIVATE_KEY;
+    const { searchParams } = new URL(req.url);
+    const targetQuery = searchParams.get("target");
+    const schoolQuery = searchParams.get("school");
+    const styleQuery = searchParams.get("style");
+    const attendanceQuery = searchParams.get("attendance");
+    const idsQuery = searchParams.get("ids")
+
+    const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
+    const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
+    const privateKey = process.env.GOOGLE_PRIVATE_KEY;
 
     if (!spreadsheetId || !clientEmail || !privateKey) {
       console.error("Missing environment variables");
@@ -25,7 +32,7 @@ export async function GET() {
     });
 
     const sheets = google.sheets({ version: "v4", auth });
-    const range = "schoolData!A2:Q";
+    const range = "School!A2:AF";
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
@@ -34,28 +41,62 @@ export async function GET() {
 
     const rows = response.data.values || [];
 
-    const data: School[] = rows.map((row) => ({
-      timeStamp: row[0] ?? "",
-      schoolName: row[1] ?? "",
-      course: row[2] ?? "",
-      school: row[3] ?? "",
-      style: row[4] ?? "",
-      season: row[5] ?? "",
-      attendance1: row[6] ?? "",
-      attendance2: row[7] ?? "",
-      firstTuition: row[8] ?? "",
-      anotherTuitionName: row[9] ?? "",
-      secondTuition: row[10] ?? "",
-      thirdTuition: row[11] ?? "",
-      examFee: row[12] ?? "",
-      features: row[13] ?? "",
-      schooling: row[14] ?? "",
-      picture: row[15] ?? "",
-      url: row[16] ?? "",
-      // anotherTuition: row[18] ?? "",
-      // transferTuition: row[19] ?? "",
-      // target: row[20] ?? "",
+    let data: School[] = rows.map((row) => ({
+      name: row[2] ?? "",
+      course: row[3] ?? "",
+      content: row[4] ?? "",
+      school: row[5] ?? "",
+      style: row[6] ?? "",
+      schooling: row[7] ?? "",
+      attendance: row[8] ?? "",
+      subAttendance: row[9] ?? "",
+      target: row[10] ?? "",
+      firstTuition: row[11] ?? "",
+      secondTuition: row[12] ?? "",
+      thirdTuition: row[13] ?? "",
+      enrollmentFee: row[14] ?? "",
+      april: row[15] ?? "",
+      may: row[16] ?? "",
+      june: row[17] ?? "",
+      july: row[18] ?? "",
+      august: row[19] ?? "",
+      september: row[20] ?? "",
+      october: row[21] ?? "",
+      november: row[22] ?? "",
+      december: row[23] ?? "",
+      january: row[24] ?? "",
+      february: row[25] ?? "",
+      march: row[26] ?? "",
+      anotherTuitionName: row[27] ?? "",
+      anotherTuition: row[28] ?? "",
+      picture: row[29] ?? "",
+      url: row[30] ?? "",
+      schoolId: row[31] ?? "",
+
     }));
+
+  if (targetQuery) {
+    data = data.filter((school) => school.target === targetQuery);
+  }
+
+  if (schoolQuery) {
+    data = data.filter((item) => item.school === schoolQuery);
+  }
+
+  if (styleQuery) {
+    data = data.filter((item) => item.style === styleQuery);
+  }
+
+  if (attendanceQuery) {
+    if (attendanceQuery !== "オンライン") {
+      data = data.filter((item) => item.attendance === attendanceQuery);
+    }
+  }
+
+  if (idsQuery) {
+    const ids = idsQuery.split(",").map((id) => decodeURIComponent(id.trim()));
+    data = data.filter((item) => ids.includes(item.schoolId));
+  }
 
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
@@ -63,7 +104,7 @@ export async function GET() {
     return NextResponse.json(
       {
         error: "Failed to fetch data",
-        details: error instanceof Error ? error.message : "Unknown error"
+        details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }
     );

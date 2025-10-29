@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
-import { DefaultSection } from "@/components/Section/DefaultSection";
+import { DefaultSection } from "@/components/Sections/DefaultSection";
 
 export default function TransferPage() {
   return (
@@ -11,7 +11,7 @@ export default function TransferPage() {
 
       <Container maxWidth="md">
         <Stack spacing={4} sx={{ mt: 4 }}>
-          <DefaultSection season="transfer" />
+          <DefaultSection target="transfer" />
         </Stack>
       </Container>
 

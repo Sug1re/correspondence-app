@@ -2,9 +2,9 @@ import { z } from "zod";
 
 export const SearchSchoolSchema = z.object({
 
-  season: z.enum(["4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月", "1月", "2月", "3月"],{
-    errorMap: () => ({ message: "入学時期を選択してください。" }),
-  }),
+  target: z.enum(["新入学", "転入学"], {
+    errorMap: () => ({ message: "対象を選択してください。" }),
+    }),
 
   totalFee: z
     .tuple([z.number().min(0), z.number().max(4000000)])
@@ -24,7 +24,7 @@ export const SearchSchoolSchema = z.object({
     errorMap: () => ({ message: "登校頻度を選択してください。" }),
     }),
 
-  schooling: z.enum(["県外", "県内", "どちらも"], {
-    errorMap: () => ({ message: "スクーリング会場を選択してください。" }),
-    }),
+  schooling: z
+    .array(z.enum(["県外", "県内"]))
+    .min(1, { message: "スクーリング会場を選択してください。" }),
 });

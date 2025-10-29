@@ -11,4 +11,6 @@
   - TypeScript
 - 認証・外部サービス
   - Firebase Authentication
-  - Google Sheets Api
+  - Firebase Firestore Database
+  - Google Sheets API
+  - Google Drive API

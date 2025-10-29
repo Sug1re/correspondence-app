@@ -5,45 +5,17 @@ import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
 export type SearchSchoolFormValues = z.infer<typeof SearchSchoolSchema>;
 
 export const SearchSchoolDefaultValues: Partial<z.infer<typeof SearchSchoolSchema>> = {
+  target: undefined,
   totalFee: [0, 1000000],
   school: undefined,
   style: undefined,
   attendance: undefined,
-  schooling: undefined,
-  season: undefined,
+  schooling: [],
 };
 
-export const seasonOptions = [
-  "4月",
-  "5月",
-  "6月",
-  "7月",
-  "8月",
-  "9月",
-  "10月",
-  "11月",
-  "12月",
-  "1月",
-  "2月",
-  "3月",
-] as const;
-
-export const seasonEntranceOptions = [
-  "4月",
-] as const;
-
-export const seasonTransferOptions = [
-  "5月",
-  "6月",
-  "7月",
-  "8月",
-  "9月",
-  "10月",
-  "11月",
-  "12月",
-  "1月",
-  "2月",
-  "3月",
+export const targetOptions = [
+  "新入学",
+  "転入学",
 ] as const;
 
 export const schoolOptions = [
@@ -69,5 +41,4 @@ export const attendanceOptions = [
 export const schoolingOptions = [
   "県外",
   "県内",
-  "どちらも",
 ] as const;

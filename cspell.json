@@ -4,6 +4,7 @@
   "words": [
     "firestore",
     "Firestore",
+    "cloudsdktool",
   ],
   "ignorePaths": [
     "node_modules",
