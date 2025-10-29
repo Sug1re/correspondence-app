@@ -1,4 +1,4 @@
-import { getFirestore, doc, setDoc, deleteDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, deleteDoc, getDoc, collection, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const db = getFirestore();
@@ -27,4 +27,15 @@ export const isBookmarked = async (schoolId: string) => {
   const docRef = doc(db, "users", user.uid, "bookmarks", schoolId);
   const docSnap = await getDoc(docRef);
   return docSnap.exists();
+};
+
+export const getBookmarks = async (): Promise<string[]> => {
+  const user = auth.currentUser;
+  if (!user) throw new Error("ログインが必要です");
+
+  const bookmarksCol = collection(db, "users", user.uid, "bookmarks");
+  const snapshot = await getDocs(bookmarksCol);
+
+  const schoolIds = snapshot.docs.map(doc => doc.data().schoolId as string);
+  return schoolIds;
 };

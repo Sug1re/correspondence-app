@@ -63,3 +63,18 @@ export const useGetFilteredSchools = (
   const { data, error } = useSWR(apiUrl, fetcher);
   return createStatus(data, error);
 };
+
+export const useGetBookmarkedSchools = (schoolIds: string[] = []) => {
+  const apiUrl =
+    schoolIds.length > 0
+      ? `/api/sheet?ids=${schoolIds.map(encodeURIComponent).join(",")}`
+      : null;
+
+  const { data, error } = useSWR<Props>(apiUrl, fetcher);
+
+  const status = createStatus(data, error);
+  if (schoolIds.length === 0) {
+    return { ...status, schools: [], isEmpty: true, isLoading: false };
+  }
+  return status;
+};

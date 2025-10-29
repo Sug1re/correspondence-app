@@ -9,6 +9,7 @@ export async function GET(req: Request) {
     const schoolQuery = searchParams.get("school");
     const styleQuery = searchParams.get("style");
     const attendanceQuery = searchParams.get("attendance");
+    const idsQuery = searchParams.get("ids")
 
     const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
     const clientEmail = process.env.GOOGLE_SHEETS_CLIENT_EMAIL;
@@ -90,6 +91,11 @@ export async function GET(req: Request) {
     if (attendanceQuery !== "オンライン") {
       data = data.filter((item) => item.attendance === attendanceQuery);
     }
+  }
+
+  if (idsQuery) {
+    const ids = idsQuery.split(",").map((id) => decodeURIComponent(id.trim()));
+    data = data.filter((item) => ids.includes(item.schoolId));
   }
 
     return NextResponse.json({ data }, { status: 200 });

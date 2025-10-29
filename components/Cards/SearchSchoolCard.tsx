@@ -103,7 +103,7 @@ export const SearchSchoolCard = ({ school }: Props) => {
                   zIndex: 2,
                 }}
               >
-                <BookmarkButton />
+                <BookmarkButton schoolId={school.schoolId} />
               </Box>
 
               <Stack>
