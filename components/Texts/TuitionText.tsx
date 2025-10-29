@@ -6,9 +6,15 @@ import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 
 type Props = {
   school: School;
+  transferValue?: string | null;
+  transferLabel?: string | null;
 };
 
-export const TuitionText = ({ school }: Props) => {
+export const TuitionText = ({
+  school,
+  transferValue,
+  transferLabel,
+}: Props) => {
   return (
     <Box
       sx={{
@@ -103,6 +109,32 @@ export const TuitionText = ({ school }: Props) => {
           </Typography>
         </Box>
       )}
+      {transferValue && transferLabel ? (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography sx={{ fontWeight: 600 }}>
+            {transferLabel}入学の場合
+          </Typography>
+          <Typography
+            sx={{ fontWeight: 600, display: "flex", alignItems: "center" }}
+          >
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
+            {Number(transferValue).toLocaleString("ja-JP")}
+          </Typography>
+        </Box>
+      ) : (
+        school.october && (
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography sx={{ fontWeight: 600 }}>10月入学の場合</Typography>
+            <Typography
+              sx={{ fontWeight: 600, display: "flex", alignItems: "center" }}
+            >
+              <CurrencyYenIcon style={{ fontSize: 18 }} />
+              {Number(school.october).toLocaleString("ja-JP")}
+            </Typography>
+          </Box>
+        )
+      )}
+
       {school.anotherTuitionName && school.anotherTuition && (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           {school.anotherTuitionName.split("・").map((name, index) => {

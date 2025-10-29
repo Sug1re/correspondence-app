@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@mui/material";
+import { IconButton } from "@mui/material";
 import { useDisclosure } from "@mantine/hooks";
 import { useToastContext } from "@/context/ToastContext";
 import { getAuth } from "firebase/auth";
@@ -15,7 +15,7 @@ export const BookmarkButton = () => {
 
   return (
     <>
-      <Button
+      <IconButton
         onClick={() => {
           if (!user) {
             showToast("ログインが必要です。");
@@ -44,7 +44,7 @@ export const BookmarkButton = () => {
         ) : (
           <BookmarkBorderIcon style={{ fontSize: 36, color: "#808080" }} />
         )}
-      </Button>
+      </IconButton>
     </>
   );
 };

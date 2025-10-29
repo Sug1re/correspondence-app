@@ -26,8 +26,7 @@ export const transferTotalTuition = (school: School): string => {
   const baseSum =
     Number(school.enrollmentFee || 0)
 
-    // 各月ごとの学費
-  const variableSum = 1;
+  const defaultSum = Number(school.october || 0)
 
   const anotherSum = school.anotherTuition
     ? school.anotherTuition
@@ -36,18 +35,23 @@ export const transferTotalTuition = (school: School): string => {
         .reduce((acc, item) => acc + Number(item), 0)
     : 0;
 
-    return (baseSum + variableSum +anotherSum).toLocaleString("ja-JP");
+    return (baseSum + defaultSum + anotherSum).toLocaleString("ja-JP");
 
 };
 
-export const totalTuition = (school: School) => {
-  if (school.target === "新入学") {
-    return entranceTotalTuition(school);
-  }
+export const variableTransferTotalTuition = (school: School, monthValue?: string): string => {
+  const baseSum =
+    Number(school.enrollmentFee || 0)
 
-  if (school.target === "転入学") {
-    return transferTotalTuition(school);
-  }
+  const variableSum =  monthValue ? Number(monthValue.replace(/,/g, "")) : 0;
 
-  return "-";
+  const anotherSum = school.anotherTuition
+    ? school.anotherTuition
+        .split("・")
+        .filter(Boolean)
+        .reduce((acc, item) => acc + Number(item), 0)
+    : 0;
+
+    return (baseSum + variableSum + anotherSum).toLocaleString("ja-JP");
+
 };

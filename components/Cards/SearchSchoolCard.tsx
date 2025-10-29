@@ -2,8 +2,20 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
-import { totalTuition } from "@/lib/constants";
+import {
+  Box,
+  Button,
+  Card,
+  Grid,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
+import {
+  entranceTotalTuition,
+  transferTotalTuition,
+  variableTransferTotalTuition,
+} from "@/lib/constants";
 import { TuitionModal } from "../Modals/TuitionModal";
 import { useDisclosure } from "@mantine/hooks";
 import { School } from "@/entities/school";
@@ -11,6 +23,8 @@ import { BookmarkButton } from "../Buttons/BookmarkButton";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
+import { TransferTuitionModal } from "../Modals/TransferTuitionModal";
 
 interface Props {
   school: School[];
@@ -18,11 +32,23 @@ interface Props {
 
 export const SearchSchoolCard = ({ school }: Props) => {
   const [isOpen, handlers] = useDisclosure(false);
-  const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
+  const [isOpenTuitionModal, tuitionModalHandlers] = useDisclosure(false);
 
-  const isOpenModal = (school: School) => {
+  const [selectedSchool, setSelectedSchool] = useState<School | null>(null);
+  const [selectedTransFerTuition, setSelectedTransFerTuition] = useState<
+    string | null
+  >(null);
+
+  const openTransferTuitionModal = (school: School) => {
     setSelectedSchool(school);
+
+    setSelectedTransFerTuition(transferTotalTuition(school));
     handlers.open();
+  };
+
+  const openTuitionModal = (school: School) => {
+    setSelectedSchool(school);
+    tuitionModalHandlers.open();
   };
 
   return (
@@ -149,9 +175,25 @@ export const SearchSchoolCard = ({ school }: Props) => {
                         }}
                       >
                         <CurrencyYenIcon style={{ fontSize: 18 }} />
-                        {totalTuition(school)}
+                        {school.target === "新入学"
+                          ? entranceTotalTuition(school)
+                          : selectedTransFerTuition ||
+                            transferTotalTuition(school)}
                       </Typography>
+                      {school.target === "転入学" && (
+                        <>
+                          <IconButton
+                            size="small"
+                            sx={{ color: "#003399" }}
+                            onClick={() => openTransferTuitionModal(school)}
+                            disableRipple
+                          >
+                            <InfoOutlineIcon sx={{ fontSize: 14 }} />
+                          </IconButton>
+                        </>
+                      )}
                     </Box>
+
                     <Box
                       sx={{
                         display: "flex",
@@ -170,7 +212,7 @@ export const SearchSchoolCard = ({ school }: Props) => {
                       </Typography>
                       <Button
                         size="small"
-                        onClick={() => isOpenModal(school)}
+                        onClick={() => openTuitionModal(school)}
                         sx={{
                           borderRadius: 2,
                           backgroundColor: "#FF6600",
@@ -208,8 +250,18 @@ export const SearchSchoolCard = ({ school }: Props) => {
         ))}
       </Grid>
 
-      <TuitionModal
+      <TransferTuitionModal
         opened={isOpen}
+        onClose={handlers.close}
+        school={selectedSchool!}
+        onSelect={(value: string) => {
+          const total = variableTransferTotalTuition(selectedSchool!, value);
+          setSelectedTransFerTuition(total);
+        }}
+      />
+
+      <TuitionModal
+        opened={isOpenTuitionModal}
         onClose={handlers.close}
         school={selectedSchool!}
       />

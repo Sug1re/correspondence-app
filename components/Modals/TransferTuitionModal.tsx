@@ -1,28 +1,26 @@
 import React from "react";
 import { BaseModal } from "../Base/BaseModal";
 import { Stack } from "@mui/material";
-import { TuitionText } from "../Texts/TuitionText";
 import { School } from "@/entities/school";
+import { TransferTuitionText } from "../Texts/TransferTuitionText";
 
 type Props = {
   opened: boolean;
   school?: School;
   onClose: () => void;
-  transferValue?: string | null;
-  transferLabel?: string | null;
+  onSelect: (value: string, label: string) => void;
 };
 
-export const TuitionModal = ({
+export const TransferTuitionModal = ({
   opened,
-  school,
   onClose,
-  transferValue,
-  transferLabel,
+  school,
+  onSelect,
 }: Props) => {
   if (!school) return null;
   return (
     <BaseModal
-      title="負担額の内訳"
+      title="負担額の見積り"
       color="orange"
       footer={false}
       isOpen={opened}
@@ -34,10 +32,10 @@ export const TuitionModal = ({
           overflowY: "auto",
         }}
       >
-        <TuitionText
+        <TransferTuitionText
           school={school}
-          transferValue={transferValue}
-          transferLabel={transferLabel}
+          onClose={onClose}
+          onSelect={onSelect}
         />
       </Stack>
     </BaseModal>
