@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { IconButton } from "@mui/material";
 import { useToastContext } from "@/context/ToastContext";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { addBookmark, isBookmarked, removeBookmark } from "@/lib/bookmark";
 
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
@@ -20,13 +20,17 @@ export const BookmarkButton = ({ schoolId }: Props) => {
   const user = auth.currentUser;
 
   useEffect(() => {
-    const fetchStatus = async () => {
-      if (!user) return;
-      const status = await isBookmarked(schoolId);
-      setIsBookmarkedState(status);
-    };
-    fetchStatus();
-  }, [user, schoolId]);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const status = await isBookmarked(schoolId);
+        setIsBookmarkedState(status);
+      } else {
+        setIsBookmarkedState(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth, schoolId]);
 
   const handleClick = async () => {
     if (!user) {

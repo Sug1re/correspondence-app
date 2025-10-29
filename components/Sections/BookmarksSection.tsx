@@ -8,26 +8,24 @@ import { getBookmarks } from "@/lib/bookmark";
 
 export const BookmarksSection = () => {
   const [schoolIds, setSchoolIds] = useState<string[]>([]);
-  useEffect(() => {
-    const auth = getAuth();
+  const auth = getAuth();
 
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
           const ids = await getBookmarks();
-          console.log("ブックマーク一覧:", ids);
-          setSchoolIds(ids); // state に保存
-        } catch (error) {
-          console.error("ブックマーク取得エラー:", error);
+          setSchoolIds(ids);
+        } catch {
+          setSchoolIds([]);
         }
       } else {
-        setSchoolIds([]); // 未ログイン時は空
-        console.log("未ログイン状態です");
+        setSchoolIds([]);
       }
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [auth]);
 
   const {
     schools = [],
@@ -47,5 +45,3 @@ export const BookmarksSection = () => {
     </>
   );
 };
-
-// ログアウト時にidsがtrueのままになってしまう
