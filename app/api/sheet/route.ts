@@ -31,7 +31,7 @@ export async function GET(req: Request) {
     });
 
     const sheets = google.sheets({ version: "v4", auth });
-    const range = "School!A2:AE";
+    const range = "School!A2:AF";
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
@@ -70,6 +70,8 @@ export async function GET(req: Request) {
       anotherTuition: row[28] ?? "",
       picture: row[29] ?? "",
       url: row[30] ?? "",
+      schoolId: row[31] ?? "",
+
     }));
 
   if (targetQuery) {

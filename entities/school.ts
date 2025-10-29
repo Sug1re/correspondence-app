@@ -28,4 +28,6 @@ export type School = {
   anotherTuition: string;
   picture: string;
   url: string;
+  schoolId: string;
+
 };
