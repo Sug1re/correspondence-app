@@ -6,6 +6,11 @@
     "Firestore",
     "cloudsdktool",
     "vercel",
+    "libc",
+    "elif",
+    "addgroup",
+    "adduser",
+    "nextjs",
   ],
   "ignorePaths": [
     "node_modules",
