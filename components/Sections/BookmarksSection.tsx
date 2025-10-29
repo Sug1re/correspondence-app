@@ -47,3 +47,5 @@ export const BookmarksSection = () => {
     </>
   );
 };
+
+// ログアウト時にidsがtrueのままになってしまう

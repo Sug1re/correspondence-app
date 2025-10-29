@@ -37,10 +37,17 @@ export const useGetTargetSchools = (target?: TargetType) => {
 
   const apiUrl = targetQuery
     ? `/api/sheet?target=${encodeURIComponent(targetQuery)}`
-    : "/api/sheet";
+    : null;
 
-  const { data, error } = useSWR(apiUrl, fetcher);
-  return createStatus(data, error);
+  const { data, error } = useSWR<Props>(apiUrl, fetcher);
+
+  const status = createStatus(data, error);
+
+  if (!targetQuery) {
+    return { ...status, schools: [], isEmpty: true, isLoading: false };
+  }
+
+  return status;
 };
 
 export const useGetFilteredSchools = (
@@ -56,12 +63,17 @@ export const useGetFilteredSchools = (
   if (attendance) params.append("attendance", attendance);
 
   const queryString = params.toString();
-  const apiUrl = queryString
-    ? `/api/sheet?${queryString}`
-    : "/api/sheet";
+  const apiUrl = queryString ? `/api/sheet?${queryString}` : null;
 
-  const { data, error } = useSWR(apiUrl, fetcher);
-  return createStatus(data, error);
+  const { data, error } = useSWR<Props>(apiUrl, fetcher);
+
+  const status = createStatus(data, error);
+
+  if (!queryString) {
+    return { ...status, schools: [], isEmpty: true, isLoading: false };
+  }
+
+  return status;
 };
 
 export const useGetBookmarkedSchools = (schoolIds: string[] = []) => {
