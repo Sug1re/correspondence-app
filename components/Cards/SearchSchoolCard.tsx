@@ -39,6 +39,14 @@ export const SearchSchoolCard = ({ school }: Props) => {
     string | null
   >(null);
 
+  const [selectedTransferValue, setSelectedTransferValue] = useState<
+    string | null
+  >(null);
+
+  const [selectedTransferLabel, setSelectedTransferLabel] = useState<
+    string | null
+  >(null);
+
   const openTransferTuitionModal = (school: School) => {
     setSelectedSchool(school);
 
@@ -254,7 +262,9 @@ export const SearchSchoolCard = ({ school }: Props) => {
         opened={isOpen}
         onClose={handlers.close}
         school={selectedSchool!}
-        onSelect={(value: string) => {
+        onSelect={(value: string, label: string) => {
+          setSelectedTransferValue(value);
+          setSelectedTransferLabel(label);
           const total = variableTransferTotalTuition(selectedSchool!, value);
           setSelectedTransFerTuition(total);
         }}
@@ -262,8 +272,10 @@ export const SearchSchoolCard = ({ school }: Props) => {
 
       <TuitionModal
         opened={isOpenTuitionModal}
-        onClose={handlers.close}
+        onClose={tuitionModalHandlers.close}
         school={selectedSchool!}
+        transferValue={selectedTransferValue}
+        transferLabel={selectedTransferLabel}
       />
     </>
   );
