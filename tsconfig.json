@@ -13,7 +13,6 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "ignoreDeprecations": "6.0",
     "plugins": [
       {
         "name": "next"
@@ -23,6 +22,7 @@
       "@/*": ["./*"]
     }
   },
+  "ignoreDeprecations": "5.0",
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/index.js", "app/App.js", "app/SurveyButton"],
   "exclude": ["node_modules"]
 }
