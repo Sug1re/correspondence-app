@@ -6,6 +6,10 @@ export const BAR_HEIGHT = 52;
 
 export const ITEMS_PER_PAGE = 4;
 
+export const getDriveImageUrl = (school: School): string | undefined => {
+  return school.picture ? `/api/drive?id=${school.picture}` : undefined;
+};
+
 export const monthlyData = (school: School): boolean => {
   return [
     school.april,

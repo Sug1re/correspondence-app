@@ -11,9 +11,9 @@ export async function GET(req: Request) {
     const attendanceQuery = searchParams.get("attendance");
     const idsQuery = searchParams.get("ids")
 
-    const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
-    const clientEmail = process.env.GOOGLE_SHEETS_CLIENT_EMAIL;
-    const privateKey = process.env.GOOGLE_SHEETS_PRIVATE_KEY;
+    const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
+    const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
+    const privateKey = process.env.GOOGLE_PRIVATE_KEY;
 
     if (!spreadsheetId || !clientEmail || !privateKey) {
       console.error("Missing environment variables");

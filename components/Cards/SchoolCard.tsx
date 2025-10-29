@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import {
   entranceTotalTuition,
+  getDriveImageUrl,
   monthlyData,
   transferTotalTuition,
   variableTransferTotalTuition,
@@ -89,7 +90,7 @@ export const SchoolCard = ({ school }: Props) => {
                   <Link href={s.url} target="_blank" rel="noopener noreferrer">
                     <Box
                       component="img"
-                      src={s.picture}
+                      src={getDriveImageUrl(s)}
                       alt={s.name}
                       sx={{
                         width: "100%",
