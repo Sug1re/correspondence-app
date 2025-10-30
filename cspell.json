@@ -16,6 +16,7 @@
     "firebasestorage",
     "1msogSGMAohuBrzmNLCOZchh",
     "searchschool",
+    "cloudbuild",
   ],
   "ignorePaths": [
     "node_modules",
