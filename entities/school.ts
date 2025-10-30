@@ -29,5 +29,7 @@ export type School = {
   picture: string;
   url: string;
   schoolId: string;
+  entranceTuition: string;
+  transferTuition: string;
 
 };

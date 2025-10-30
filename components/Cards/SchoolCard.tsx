@@ -13,10 +13,8 @@ import {
   Typography,
 } from "@mui/material";
 import {
-  entranceTotalTuition,
   getDriveImageUrl,
   monthlyData,
-  transferTotalTuition,
   variableTransferTotalTuition,
 } from "@/lib/constants";
 import { TuitionModal } from "../Modals/TuitionModal";
@@ -76,7 +74,7 @@ export const SchoolCard = ({ school }: Props) => {
           const transferTotal =
             selectedTransferValue !== null
               ? variableTransferTotalTuition(s, selectedTransferValue)
-              : transferTotalTuition(s);
+              : Number(s.transferTuition).toLocaleString("ja-JP");
 
           const isImageLoaded = loadedImages[s.schoolId] || false;
 
@@ -220,7 +218,7 @@ export const SchoolCard = ({ school }: Props) => {
                         >
                           <CurrencyYenIcon style={{ fontSize: 18 }} />
                           {s.target === "新入学"
-                            ? entranceTotalTuition(s)
+                            ? Number(s.entranceTuition).toLocaleString("ja-JP")
                             : transferTotal}
                         </Typography>
                         {monthlyData(s) && (
