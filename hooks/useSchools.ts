@@ -51,9 +51,11 @@ export const useGetTargetSchools = (target?: TargetType) => {
 };
 
 export const useGetFilteredSchools = (
-  conditions: Partial<Pick<School, "target" | "school" | "style" | "attendance">>
+  conditions: Partial<Pick<School, "target" | "school" | "style" | "attendance">> & {
+    schooling?: string[];
+  }
 ) => {
-  const { target, school, style, attendance } = conditions;
+  const { target, school, style, attendance, schooling } = conditions;
 
   const params = new URLSearchParams();
 
@@ -61,6 +63,11 @@ export const useGetFilteredSchools = (
   if (school) params.append("school", school);
   if (style) params.append("style", style);
   if (attendance) params.append("attendance", attendance);
+  if (schooling && Array.isArray(schooling)) {
+    schooling.forEach((item) => {
+      params.append("schooling", item);
+    });
+  }
 
   const queryString = params.toString();
   const apiUrl = queryString ? `/api/sheet?${queryString}` : null;

@@ -33,6 +33,12 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
         query.append("school", data.school);
         query.append("style", data.style);
         query.append("attendance", data.attendance);
+        [data.schooling]
+          .flat()
+          .filter(Boolean)
+          .forEach((item) => {
+            query.append("schooling", item);
+          });
 
         router.push(`/search?${query.toString()}`);
 

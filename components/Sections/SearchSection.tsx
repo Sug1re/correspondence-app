@@ -13,8 +13,12 @@ export const SearchSection = () => {
   const school = searchParams.get("school") ?? undefined;
   const style = searchParams.get("style") ?? undefined;
   const attendance = searchParams.get("attendance") ?? undefined;
+  const schooling =
+    searchParams.getAll("schooling").length > 0
+      ? searchParams.getAll("schooling")
+      : undefined;
 
-  const conditions = { target, school, style, attendance };
+  const conditions = { target, school, style, attendance, schooling };
 
   const {
     schools = [],

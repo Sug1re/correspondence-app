@@ -172,16 +172,12 @@ export const SchoolCard = ({ school }: Props) => {
                         <Typography sx={{ fontSize: "8px", fontWeight: 600 }}>
                           {s.course}
                         </Typography>
-                        {s.attendance && s.attendance.length > 0 && (
+                        {s.attendance && (
                           <Typography
                             component="span"
                             sx={{ ml: 0.5, color: "#003399", fontSize: "8px" }}
                           >
-                            {s.attendance
-                              .split(",")
-                              .map((freq) => freq.trim())
-                              .map((freq) => `#${freq}`)
-                              .join(" ")}
+                            #{s.attendance}
                           </Typography>
                         )}
                         {s.subAttendance && (
