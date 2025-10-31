@@ -1,6 +1,7 @@
 import useSWR from "swr";
 import type { School } from "@/entities/school";
 import { fetcher } from "@/lib/fetcher";
+import { queryValue } from "@/entities/form";
 
 type TargetType = "entrance" | "transfer";
 
@@ -51,16 +52,19 @@ export const useGetTargetSchools = (target?: TargetType) => {
 };
 
 export const useGetFilteredSchools = (
-  conditions: Partial<Pick<School, "target" | "school" | "style" | "attendance">>
+conditions: queryValue
 ) => {
-  const { target, school, style, attendance } = conditions;
+  const { target, minFee, maxFee, school, style, attendance, schooling } = conditions;
 
   const params = new URLSearchParams();
 
-  if (target) params.append("target", target);
-  if (school) params.append("school", school);
-  if (style) params.append("style", style);
-  if (attendance) params.append("attendance", attendance);
+  params.append("target", target);
+  params.append("minFee", String(minFee));
+  params.append("maxFee", String(maxFee));
+  params.append("school", school);
+  params.append("style", style);
+  params.append("attendance", attendance);
+  schooling.forEach((item) => params.append("schooling", item));
 
   const queryString = params.toString();
   const apiUrl = queryString ? `/api/sheet?${queryString}` : null;

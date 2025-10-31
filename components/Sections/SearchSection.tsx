@@ -9,12 +9,23 @@ import { useGetFilteredSchools } from "@/hooks/useSchools";
 export const SearchSection = () => {
   const searchParams = useSearchParams();
 
-  const target = searchParams.get("target") ?? undefined;
-  const school = searchParams.get("school") ?? undefined;
-  const style = searchParams.get("style") ?? undefined;
-  const attendance = searchParams.get("attendance") ?? undefined;
+  const target = searchParams.get("target") || "";
+  const minFee = Number(searchParams.get("minFee") || 0);
+  const maxFee = Number(searchParams.get("maxFee") || 0);
+  const school = searchParams.get("school") || "";
+  const style = searchParams.get("style") || "";
+  const attendance = searchParams.get("attendance") || "";
+  const schooling = searchParams.getAll("schooling");
 
-  const conditions = { target, school, style, attendance };
+  const conditions = {
+    target,
+    minFee,
+    maxFee,
+    school,
+    style,
+    attendance,
+    schooling,
+  };
 
   const {
     schools = [],

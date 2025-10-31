@@ -13,7 +13,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
-import MailIcon from "@mui/icons-material/Mail";
+// import MailIcon from "@mui/icons-material/Mail";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 interface SideBarProps {
@@ -42,9 +42,9 @@ export default function SideBar({ open, onClose }: SideBarProps) {
     router.push("/bookmarks");
   };
 
-  const onInquiry = () => {
-    router.push("/inquiry");
-  };
+  // const onInquiry = () => {
+  //   router.push("/inquiry");
+  // };
 
   const logout = async () => {
     try {
@@ -152,7 +152,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             primaryTypographyProps={{ fontWeight: 600 }}
           />
         </ListItemButton>
-        <ListItemButton
+        {/* <ListItemButton
           sx={{
             borderRadius: 2,
             mx: 1,
@@ -170,7 +170,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             primary="お問い合わせ"
             primaryTypographyProps={{ fontWeight: 600 }}
           />
-        </ListItemButton>
+        </ListItemButton> */}
         {user && (
           <ListItemButton
             sx={{

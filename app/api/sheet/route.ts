@@ -6,9 +6,12 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const targetQuery = searchParams.get("target");
+    const minFeeQuery = searchParams.get("minFee");
+    const maxFeeQuery = searchParams.get("maxFee");
     const schoolQuery = searchParams.get("school");
     const styleQuery = searchParams.get("style");
     const attendanceQuery = searchParams.get("attendance");
+    const schoolingQuery = searchParams.getAll("schooling");
     const idsQuery = searchParams.get("ids")
 
     const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
@@ -32,7 +35,7 @@ export async function GET(req: Request) {
     });
 
     const sheets = google.sheets({ version: "v4", auth });
-    const range = "School!A2:AF";
+    const range = "School!A2:AH";
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
@@ -72,11 +75,28 @@ export async function GET(req: Request) {
       picture: row[29] ?? "",
       url: row[30] ?? "",
       schoolId: row[31] ?? "",
+      entranceTuition: row[32] ?? "",
+      transferTuition: row[33] ?? "",
 
     }));
 
   if (targetQuery) {
     data = data.filter((school) => school.target === targetQuery);
+  }
+
+  if (minFeeQuery && maxFeeQuery) {
+    const minFee = Number(minFeeQuery);
+    const maxFee = Number(maxFeeQuery);
+
+    data = data.filter((school) => {
+      if (targetQuery === "新入学") {
+        const fee = Number(school.entranceTuition) || 0;
+        return fee >= minFee && fee <= maxFee;
+      } else {
+        const fee = Number(school.transferTuition) || 0;
+        return fee >= minFee && fee <= maxFee;
+      }
+    });
   }
 
   if (schoolQuery) {
@@ -91,6 +111,13 @@ export async function GET(req: Request) {
     if (attendanceQuery !== "オンライン") {
       data = data.filter((item) => item.attendance === attendanceQuery);
     }
+  }
+
+  if (schoolingQuery.length > 0) {
+    data = data.filter((item) => {
+      const itemSchoolings = item.schooling.split(',').map(s => s.trim());
+      return schoolingQuery.some(query => itemSchoolings.includes(query));
+    });
   }
 
   if (idsQuery) {
