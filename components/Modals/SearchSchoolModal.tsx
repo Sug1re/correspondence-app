@@ -25,8 +25,6 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
   const onSubmit = () => {
     if (methodsRef.current) {
       methodsRef.current.handleSubmit((data) => {
-        console.log("検索条件:", data);
-
         const query = new URLSearchParams();
         query.append("target", data.target);
         query.append("minFee", data.totalFee[0].toString());
