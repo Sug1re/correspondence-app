@@ -30,8 +30,8 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
         const query = new URLSearchParams();
 
         query.append("target", data.target);
-        // query.append("minFee", data.totalFee[0].toString());
-        // query.append("maxFee", data.totalFee[1].toString());
+        query.append("minFee", data.totalFee[0].toString());
+        query.append("maxFee", data.totalFee[1].toString());
         query.append("school", data.school);
         query.append("style", data.style);
         query.append("attendance", data.attendance);

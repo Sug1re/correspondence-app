@@ -10,6 +10,10 @@ export const SearchSection = () => {
   const searchParams = useSearchParams();
 
   const target = searchParams.get("target") ?? undefined;
+  const minFeeParam = searchParams.get("minFee");
+  const maxFeeParam = searchParams.get("maxFee");
+  const minFee = minFeeParam ? Number(minFeeParam) : undefined;
+  const maxFee = maxFeeParam ? Number(maxFeeParam) : undefined;
   const school = searchParams.get("school") ?? undefined;
   const style = searchParams.get("style") ?? undefined;
   const attendance = searchParams.get("attendance") ?? undefined;
@@ -20,6 +24,8 @@ export const SearchSection = () => {
 
   const conditions = {
     target,
+    minFee,
+    maxFee,
     school,
     style,
     attendance,
