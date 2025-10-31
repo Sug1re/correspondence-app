@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, CircularProgress } from "@mui/material";
-import { BAR_HEIGHT, HEADER_HEIGHT } from "@/lib/constants";
 
 export const Loading = () => {
   return (
@@ -9,7 +8,7 @@ export const Loading = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: `calc(100vh - ${HEADER_HEIGHT}px - ${BAR_HEIGHT}px)`,
+        height: "50vh",
         flexDirection: "column",
       }}
     >

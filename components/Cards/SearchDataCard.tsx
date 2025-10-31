@@ -34,7 +34,14 @@ export const SearchDataCard = ({ conditions }: Props) => {
         >
           検索条件
         </Typography>
-        <Box sx={{ display: "flex", gap: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap", // 横幅が足りない時に折り返す
+            flexDirection: "row", // スマホでは縦並び
+            gap: 2,
+          }}
+        >
           <Typography sx={{ fontWeight: 600, display: "flex", gap: 1 }}>
             <CalendarMonthIcon />
             {conditions.target}
