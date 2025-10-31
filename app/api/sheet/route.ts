@@ -6,6 +6,8 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const targetQuery = searchParams.get("target");
+    const minFeeQuery = searchParams.get("minFee");
+    const maxFeeQuery = searchParams.get("maxFee");
     const schoolQuery = searchParams.get("school");
     const styleQuery = searchParams.get("style");
     const attendanceQuery = searchParams.get("attendance");
@@ -80,6 +82,21 @@ export async function GET(req: Request) {
 
   if (targetQuery) {
     data = data.filter((school) => school.target === targetQuery);
+  }
+
+  if (minFeeQuery && maxFeeQuery) {
+    const minFee = Number(minFeeQuery);
+    const maxFee = Number(maxFeeQuery);
+
+    data = data.filter((school) => {
+      if (targetQuery === "新入学") {
+        const fee = Number(school.entranceTuition);
+        return fee >= minFee && fee <= maxFee;
+      } else {
+        const fee = Number(school.transferTuition);
+        return fee >= minFee && fee <= maxFee;
+      }
+    });
   }
 
   if (schoolQuery) {

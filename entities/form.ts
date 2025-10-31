@@ -13,6 +13,18 @@ export const SearchSchoolDefaultValues: Partial<z.infer<typeof SearchSchoolSchem
   schooling: [],
 };
 
+export type queryType ={
+  target: string,
+  minFee: number,
+  maxFee: number,
+  school: string,
+  style: string,
+  attendance: string,
+  subAttendance: string,
+  schooling: string[],
+
+};
+
 export const targetOptions = [
   "新入学",
   "転入学",

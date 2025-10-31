@@ -53,13 +53,17 @@ export const useGetTargetSchools = (target?: TargetType) => {
 export const useGetFilteredSchools = (
   conditions: Partial<Pick<School, "target" | "school" | "style" | "attendance">> & {
     schooling?: string[];
+    minFee?: number;
+    maxFee?: number;
   }
 ) => {
-  const { target, school, style, attendance, schooling } = conditions;
+  const { target, minFee, maxFee, school, style, attendance, schooling } = conditions;
 
   const params = new URLSearchParams();
 
   if (target) params.append("target", target);
+  if (minFee) params.append("minFee", String(minFee));
+  if (maxFee) params.append("maxFee", String(maxFee));
   if (school) params.append("school", school);
   if (style) params.append("style", style);
   if (attendance) params.append("attendance", attendance);
