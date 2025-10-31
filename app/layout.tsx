@@ -7,7 +7,8 @@ import SWRProvider from "@/providers/SWRProvider";
 
 export const metadata: Metadata = {
   title: "新潟県の通信制高校検索アプリ",
-  description: "通信制高校の各コースと学費が検索できます。",
+  description:
+    "新潟県内の通信制高校・サポート校を、学費や通学スタイル、登校日数などの条件から検索できるアプリケーション",
 };
 
 export default function RootLayout({
