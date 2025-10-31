@@ -5,6 +5,7 @@ import { SearchBar } from "@/components/Bars/SearchBar";
 import { SchoolCardSection } from "./SchoolCardSection";
 import { useSearchParams } from "next/navigation";
 import { useGetFilteredSchools } from "@/hooks/useSchools";
+import { SearchDataCard } from "../Cards/SearchDataCard";
 
 export const SearchSection = () => {
   const searchParams = useSearchParams();
@@ -37,6 +38,8 @@ export const SearchSection = () => {
   return (
     <>
       <SearchBar />
+
+      <SearchDataCard conditions={conditions} />
 
       <SchoolCardSection
         school={schools}
