@@ -13,7 +13,7 @@ export const SearchSchoolDefaultValues: Partial<z.infer<typeof SearchSchoolSchem
   schooling: [],
 };
 
-export type queryType ={
+export type queryValue ={
   target: string,
   minFee: number,
   maxFee: number,

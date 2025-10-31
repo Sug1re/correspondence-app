@@ -2,7 +2,7 @@ import React from "react";
 import { Typography } from "@mui/material";
 
 type Props = {
-  message?: string;
+  message: string;
 };
 
 export const Message = ({ message }: Props) => {

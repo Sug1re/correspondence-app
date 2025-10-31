@@ -3,6 +3,7 @@ import { z } from "zod";
 import { BaseForm } from "@/components/Base/BaseForm";
 import { FormRadioGroup } from "../Base/FormRadioGroup";
 import { FormSlider } from "../Base/FormSlider";
+import { FormCheckBox } from "../Base/FormCheckBox";
 import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
 import { UseFormReturn } from "react-hook-form";
 import { useSearchSchoolForm } from "@/hooks/useSearchSchoolForm";
@@ -21,7 +22,6 @@ import SchoolIcon from "@mui/icons-material/School";
 import ComputerIcon from "@mui/icons-material/Computer";
 import BusinessIcon from "@mui/icons-material/Business";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
-import { FormCheckBox } from "../Base/FormCheckBox";
 
 interface Props {
   onClose: () => void;

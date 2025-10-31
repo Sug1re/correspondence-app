@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import type { School } from "@/entities/school";
 import { fetcher } from "@/lib/fetcher";
-import { queryType } from "@/entities/form";
+import { queryValue } from "@/entities/form";
 
 type TargetType = "entrance" | "transfer";
 
@@ -52,7 +52,7 @@ export const useGetTargetSchools = (target?: TargetType) => {
 };
 
 export const useGetFilteredSchools = (
-conditions: queryType
+conditions: queryValue
 ) => {
   const { target, minFee, maxFee, school, style, attendance, schooling } = conditions;
 
