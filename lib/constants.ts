@@ -29,7 +29,7 @@ export const monthlyData = (school: School): boolean => {
 
 export const variableTransferTotalTuition = (school: School, monthValue?: string): string => {
   const baseSum =
-    Number(school.enrollmentFee)
+    Number(school.enrollmentFee || 0)
 
   const variableSum =  monthValue ? Number(monthValue.replace(/,/g, "")) : 0;
 

@@ -90,10 +90,10 @@ export async function GET(req: Request) {
 
     data = data.filter((school) => {
       if (targetQuery === "新入学") {
-        const fee = Number(school.entranceTuition);
+        const fee = Number(school.entranceTuition) || 0;
         return fee >= minFee && fee <= maxFee;
       } else {
-        const fee = Number(school.transferTuition);
+        const fee = Number(school.transferTuition) || 0;
         return fee >= minFee && fee <= maxFee;
       }
     });

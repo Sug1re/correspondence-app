@@ -20,9 +20,7 @@ export type queryType ={
   school: string,
   style: string,
   attendance: string,
-  subAttendance: string,
   schooling: string[],
-
 };
 
 export const targetOptions = [

@@ -28,19 +28,13 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
         console.log("検索条件:", data);
 
         const query = new URLSearchParams();
-
         query.append("target", data.target);
         query.append("minFee", data.totalFee[0].toString());
         query.append("maxFee", data.totalFee[1].toString());
         query.append("school", data.school);
         query.append("style", data.style);
         query.append("attendance", data.attendance);
-        [data.schooling]
-          .flat()
-          .filter(Boolean)
-          .forEach((item) => {
-            query.append("schooling", item);
-          });
+        data.schooling.forEach((item) => query.append("schooling", item));
 
         router.push(`/search?${query.toString()}`);
 
