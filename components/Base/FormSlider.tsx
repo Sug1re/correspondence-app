@@ -75,13 +75,15 @@ export const FormSlider = ({
               max={max}
               step={step}
               marks={marks}
-              onChange={(_, value) => field.onChange(value)}
+              onChange={(_, value) =>
+                field.onChange(value as unknown as number[])
+              }
               valueLabelDisplay="auto"
               sx={{
                 width: "100%",
                 color: "#003399",
                 "& .MuiSlider-thumb": {
-                  backgroundColor: "#003399",
+                  backgroundColor: "#003311",
                   "&:hover, &.Mui-focusVisible": {
                     boxShadow: "none",
                   },

@@ -53,7 +53,7 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
     >
       <Stack
         sx={{
-          maxHeight: 300,
+          maxHeight: 400,
           overflowY: "auto",
           alignItems: "center",
         }}

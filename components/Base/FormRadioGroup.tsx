@@ -60,11 +60,15 @@ export const FormRadioGroup = ({
                   control={
                     <Radio
                       disableRipple
+                      TouchRippleProps={{ style: { display: "none" } }}
                       disabled={disabledOptions.includes(opt)}
                       sx={{
                         color: "#003399",
                         "&.Mui-checked": {
                           color: "#003399",
+                        },
+                        "& .MuiTouchRipple-root": {
+                          display: "none",
                         },
                       }}
                     />
