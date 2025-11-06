@@ -141,7 +141,7 @@ export const TuitionText = ({
             const tuitionItems = school.anotherTuition
               .split("・")
               .filter(Boolean)
-              .map((item) => Number(item).toLocaleString("ja-JP"));
+              .map((item) => Number(item));
 
             return (
               <Box
@@ -156,8 +156,14 @@ export const TuitionText = ({
                     alignItems: "center",
                   }}
                 >
-                  <CurrencyYenIcon style={{ fontSize: 18 }} />
-                  {tuitionItems[index] ?? ""}
+                  {tuitionItems[index] === 0 ? (
+                    "個人で異なる費用"
+                  ) : (
+                    <>
+                      <CurrencyYenIcon style={{ fontSize: 18 }} />
+                      {tuitionItems[index].toLocaleString("ja-JP")}
+                    </>
+                  )}
                 </Typography>
               </Box>
             );
