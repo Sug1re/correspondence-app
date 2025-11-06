@@ -13,7 +13,7 @@ export const PaginationButton = ({ page, totalPages, onChange }: Props) => {
   if (totalPages <= 1) return null;
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+    <Box>
       <Pagination
         count={totalPages}
         page={page}

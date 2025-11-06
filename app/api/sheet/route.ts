@@ -125,6 +125,20 @@ export async function GET(req: Request) {
     data = data.filter((item) => ids.includes(item.schoolId));
   }
 
+  if (targetQuery === "新入学") {
+    data.sort(
+      (a, b) =>
+        (Number(a.entranceTuition) || 0) -
+        (Number(b.entranceTuition) || 0)
+    );
+  } else {
+    data.sort(
+      (a, b) =>
+        (Number(a.transferTuition) || 0) -
+        (Number(b.transferTuition) || 0)
+    );
+  }
+
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
     console.error("Error fetching sheet data:", error);
