@@ -18,7 +18,7 @@ export const TuitionText = ({
   return (
     <Box
       sx={{
-        mx: { xs: 3, sm: 10 },
+        mx: { xs: 2, sm: 10 },
         my: 2,
         display: "flex",
         flexDirection: "column",

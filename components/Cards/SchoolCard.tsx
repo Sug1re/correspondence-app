@@ -25,12 +25,16 @@ import { BookmarkButton } from "../Buttons/BookmarkButton";
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
+import { CourseModal } from "../Modals/CourseModal";
 
 interface Props {
   school: School[];
 }
 
 export const SchoolCard = ({ school }: Props) => {
+  const [openCourseModalId, setOpenCourseModalId] = useState<string | null>(
+    null
+  );
   const [openTuitionModalId, setOpenTuitionModalId] = useState<string | null>(
     null
   );
@@ -46,6 +50,14 @@ export const SchoolCard = ({ school }: Props) => {
   const [transferLabelMap, setTransferLabelMap] = useState<
     Record<string, string>
   >({});
+
+  const openCourseModal = (schoolId: string) => {
+    setOpenCourseModalId(schoolId);
+  };
+
+  const closeCourseModal = () => {
+    setOpenCourseModalId(null);
+  };
 
   const openTuitionModal = (schoolId: string) => {
     setOpenTuitionModalId(schoolId);
@@ -67,6 +79,7 @@ export const SchoolCard = ({ school }: Props) => {
     <>
       <Grid container spacing={2}>
         {school.map((s) => {
+          const isCourseOpen = openCourseModalId === s.schoolId;
           const isTuitionOpen = openTuitionModalId === s.schoolId;
           const isTransferOpen = openTransferModalId === s.schoolId;
           const selectedTransferValue = transferValueMap[s.schoolId] || null;
@@ -233,6 +246,14 @@ export const SchoolCard = ({ school }: Props) => {
                         )}
                       </Box>
 
+                      <Box sx={{ mb: 1 }}>
+                        <Typography sx={{ fontSize: "8px" }}>
+                          就学支援金を考慮していない
+                          <br />
+                          負担額となります。
+                        </Typography>
+                      </Box>
+
                       <Box
                         sx={{
                           display: "flex",
@@ -240,11 +261,38 @@ export const SchoolCard = ({ school }: Props) => {
                           alignItems: "center",
                         }}
                       >
-                        <Typography sx={{ fontSize: "8px" }}>
-                          就学支援金を考慮していない
-                          <br />
-                          負担額となります。
-                        </Typography>
+                        <Button
+                          size="small"
+                          onClick={() => openCourseModal(s.schoolId)}
+                          sx={{
+                            borderRadius: 2,
+                            backgroundColor: "#FF6600",
+                            color: "#FFFFFF",
+                            boxShadow: 1,
+                            transition: "transform 0.2s ease-in-out",
+                            "&:hover": {
+                              transform: "scale(0.95)",
+                              backgroundColor: "#FF6600",
+                            },
+                          }}
+                          disableRipple
+                        >
+                          <Typography
+                            sx={{
+                              m: 1,
+                              gap: 1,
+                              fontWeight: 600,
+                              display: "flex",
+                              alignItems: "center",
+                            }}
+                          >
+                            コースの内容
+                            <ArrowForwardIosIcon
+                              style={{ fontSize: 16, marginLeft: 4 }}
+                            />
+                          </Typography>
+                        </Button>
+
                         <Button
                           size="small"
                           onClick={() => openTuitionModal(s.schoolId)}
@@ -297,6 +345,14 @@ export const SchoolCard = ({ school }: Props) => {
                       [s.schoolId]: label,
                     }));
                   }}
+                />
+              )}
+
+              {isCourseOpen && (
+                <CourseModal
+                  opened={true}
+                  onClose={closeCourseModal}
+                  school={s}
                 />
               )}
 
