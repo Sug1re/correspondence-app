@@ -146,18 +146,31 @@ export const TuitionText = ({
             return (
               <Box
                 key={index}
-                sx={{ display: "flex", justifyContent: "space-between" }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
               >
-                <Typography sx={{ fontWeight: 600 }}>{name}</Typography>
+                <Typography
+                  sx={{
+                    fontWeight: 600,
+                    whiteSpace: "normal",
+                    wordBreak: "break-word",
+                    flex: 1,
+                  }}
+                >
+                  {name}
+                </Typography>
                 <Typography
                   sx={{
                     fontWeight: 600,
                     display: "flex",
                     alignItems: "center",
+                    flexShrink: 0,
                   }}
                 >
                   {tuitionItems[index] === 0 ? (
-                    "個人で異なる費用"
+                    "個人費用"
                   ) : (
                     <>
                       <CurrencyYenIcon style={{ fontSize: 18 }} />
