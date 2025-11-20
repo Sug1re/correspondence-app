@@ -27,6 +27,7 @@ export const SearchBar = ({ onSearch }: Props) => {
       >
         <Box>
           <Button
+            onClick={handlers.open}
             sx={{
               minWidth: "100%",
               justifyContent: "flex-start",
@@ -36,7 +37,7 @@ export const SearchBar = ({ onSearch }: Props) => {
                 backgroundColor: "transparent",
               },
             }}
-            onClick={handlers.open}
+            disableRipple
           >
             <Typography
               sx={{

@@ -286,7 +286,7 @@ export const SchoolCard = ({ school }: Props) => {
                               alignItems: "center",
                             }}
                           >
-                            コースの内容
+                            コースの情報
                             <ArrowForwardIosIcon
                               style={{ fontSize: 16, marginLeft: 4 }}
                             />

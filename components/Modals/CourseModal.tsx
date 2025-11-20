@@ -14,7 +14,7 @@ export const CourseModal = ({ opened, school, onClose }: Props) => {
   if (!school) return null;
   return (
     <BaseModal
-      title="コースの内容"
+      title="コースの情報"
       color="orange"
       footer={false}
       isOpen={opened}
@@ -24,6 +24,7 @@ export const CourseModal = ({ opened, school, onClose }: Props) => {
         sx={{
           maxHeight: 300,
           overflowY: "auto",
+          alignItems: "center",
         }}
       >
         <CourseText school={school} />

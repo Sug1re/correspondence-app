@@ -23,7 +23,7 @@ export const SortButton = ({ onToggle }: Props) => {
         <Typography
           sx={{
             fontWeight: 600,
-            color: "#FFFFFF",
+            color: "#003399",
             display: { xs: "none", sm: "flex" },
             alignItems: "center",
           }}

@@ -38,14 +38,14 @@ export const SchoolCardSection = ({
 
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 2, gap: 4 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
         <PaginationButton
           page={page}
           totalPages={totalPages}
           onChange={setPage}
         />
-        <SortButton onToggle={setIsReversed} />
       </Box>
+      <SortButton onToggle={setIsReversed} />
 
       <SchoolCard school={partSchools} />
     </>
