@@ -23,23 +23,27 @@ export const PaginationButton = ({ page, totalPages, onChange }: Props) => {
         size="medium"
         sx={{
           "& .MuiPaginationItem-root": {
-            color: "gray",
-            borderColor: "gray",
+            color: "#9ca3af",
+            border: "1.5px solid",
+            borderColor: "#9ca3af",
             mx: 1,
             "&:hover": { backgroundColor: "inherit" },
           },
+
           "& .MuiPaginationItem-root.Mui-selected": {
             color: "#FFFFFF",
             backgroundColor: "#003399",
             borderColor: "#003399",
             "&:hover": { backgroundColor: "#003399" },
           },
+
           "& .MuiPaginationItem-previousNext": {
             color: "#FFFFFF",
             backgroundColor: "#FF6600",
             borderColor: "#FF6600",
             "&:hover": { backgroundColor: "#FF6600" },
           },
+
           "& .MuiTouchRipple-root": { display: "none" },
         }}
       />

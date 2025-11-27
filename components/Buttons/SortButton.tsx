@@ -1,36 +1,61 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
+import React from "react";
+import { ToggleButton, Typography } from "@mui/material";
 import SortIcon from "@mui/icons-material/Sort";
-import { useToggle } from "@mantine/hooks";
 
 type Props = {
-  onToggle: (isReversed: boolean) => void;
+  selected: boolean;
+  onToggle: () => void;
 };
 
-export const SortButton = ({ onToggle }: Props) => {
-  const [isReversed, toggle] = useToggle([true, false]);
-
-  useEffect(() => {
-    onToggle(isReversed);
-  }, [isReversed, onToggle]);
-
+export const SortButton = ({ selected, onToggle }: Props) => {
   return (
-    <Box>
-      <IconButton sx={{ gap: 1 }} onClick={() => toggle()} disableRipple>
-        <SortIcon sx={{ transform: isReversed ? "none" : "scaleY(-1)" }} />
-        <Typography
-          sx={{
-            fontWeight: 600,
-            color: "#003399",
-            display: { xs: "none", sm: "flex" },
-            alignItems: "center",
-          }}
-        >
-          ソート
-        </Typography>
-      </IconButton>
-    </Box>
+    <ToggleButton
+      value="sort"
+      selected={selected}
+      onChange={onToggle}
+      disableRipple
+      sx={{
+        border: "1.5px solid",
+        borderRadius: 2,
+        bgcolor: "#ffffff",
+        gap: 1,
+        textTransform: "none",
+        transition: "all 0.2s ease-in-out",
+
+        "&:hover": {
+          transform: "scale(0.95)",
+          bgcolor: "#ffffff",
+        },
+
+        "&.Mui-selected": {
+          bgcolor: "#003399",
+          color: "#fff",
+        },
+
+        "&.Mui-selected:hover": {
+          transform: "scale(0.95)",
+          bgcolor: "#003399",
+          color: "#fff",
+        },
+
+        "& .MuiSvgIcon-root": {
+          fontSize: "1.4rem",
+          transition: "transform 0.35s ease",
+          transform: selected ? "rotate(0deg)" : "rotate(180deg)",
+        },
+      }}
+    >
+      <SortIcon />
+      <Typography
+        sx={{
+          fontWeight: 600,
+          fontSize: { xs: "0.9rem", sm: "1rem" },
+        }}
+      >
+        負担額を{selected ? "昇順" : "降順"}で表示
+      </Typography>
+    </ToggleButton>
   );
 };

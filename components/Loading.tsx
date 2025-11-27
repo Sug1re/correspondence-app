@@ -12,7 +12,7 @@ export const Loading = () => {
         flexDirection: "column",
       }}
     >
-      <CircularProgress size="3rem" />
+      <CircularProgress size="3rem" sx={{ color: "#003399" }} />
     </Box>
   );
 };

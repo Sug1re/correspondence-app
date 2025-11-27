@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { PaginationButton } from "@/components/Buttons/PaginationButton";
 import { SchoolCard } from "@/components/Cards/SchoolCard";
 import { School } from "@/entities/school";
@@ -9,6 +9,7 @@ import { Loading } from "../Loading";
 import { Message } from "../Message";
 import { SortButton } from "../Buttons/SortButton";
 import { Box } from "@mui/material";
+import { useDisclosure } from "@mantine/hooks";
 
 type Props = {
   school: School[];
@@ -23,11 +24,11 @@ export const SchoolCardSection = ({
   isError,
   isEmpty,
 }: Props) => {
-  const [isReversed, setIsReversed] = useState(false);
+  const [isToggle, { toggle }] = useDisclosure(false);
 
   const sortedSchools = useMemo(() => {
-    return isReversed ? [...school].reverse() : school;
-  }, [school, isReversed]);
+    return isToggle ? [...school].reverse() : school;
+  }, [school, isToggle]);
 
   const { page, setPage, totalPages, partSchools } =
     usePagination(sortedSchools);
@@ -45,7 +46,7 @@ export const SchoolCardSection = ({
           onChange={setPage}
         />
       </Box>
-      <SortButton onToggle={setIsReversed} />
+      <SortButton selected={isToggle} onToggle={toggle} />
 
       <SchoolCard school={partSchools} />
     </>

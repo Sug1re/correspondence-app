@@ -82,15 +82,18 @@ export const FormSlider = ({
               sx={{
                 width: "100%",
                 color: "#003399",
+
                 "& .MuiSlider-thumb": {
                   backgroundColor: "#003399",
                   "&:hover, &.Mui-focusVisible": {
                     boxShadow: "none",
                   },
                 },
+
                 "& .MuiSlider-track": {
                   backgroundColor: "#003399",
                 },
+
                 "& .MuiSlider-rail": {
                   backgroundColor: "#b0c4de",
                 },
