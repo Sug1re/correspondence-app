@@ -3,7 +3,7 @@ import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 
-export default function InquiryPage() {
+export default function FaqPage() {
   return (
     <>
       <Header />
