@@ -99,7 +99,6 @@ export const SchoolCard = ({ school }: Props) => {
                   borderRadius: 2,
                   border: `0.5px solid #FF6600`,
                   position: "relative",
-                  mb: 2,
                 }}
               >
                 <Link href={s.url} target="_blank" rel="noopener noreferrer">

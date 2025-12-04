@@ -39,16 +39,17 @@ export const SchoolCardSection = ({
 
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
+      <SortButton selected={isToggle} onToggle={toggle} />
+
+      <SchoolCard school={partSchools} />
+
+      <Box sx={{ display: "flex", justifyContent: "center", pt: 6, pb: 12 }}>
         <PaginationButton
           page={page}
           totalPages={totalPages}
           onChange={setPage}
         />
       </Box>
-      <SortButton selected={isToggle} onToggle={toggle} />
-
-      <SchoolCard school={partSchools} />
     </>
   );
 };
