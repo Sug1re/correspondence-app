@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import { TargetButton } from "@/components/Buttons/TargetButton";
-import { HomeText } from "@/components/Texts/HomeText";
 
 export default function Home() {
   return (
@@ -11,8 +10,6 @@ export default function Home() {
 
       <Container maxWidth="md">
         <Stack spacing={4} sx={{ mt: 4 }}>
-          <HomeText />
-
           <TargetButton />
         </Stack>
       </Container>

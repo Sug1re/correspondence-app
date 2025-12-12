@@ -99,7 +99,6 @@ export const SchoolCard = ({ school }: Props) => {
                   borderRadius: 2,
                   border: `0.5px solid #FF6600`,
                   position: "relative",
-                  mb: 2,
                 }}
               >
                 <Link href={s.url} target="_blank" rel="noopener noreferrer">
@@ -180,9 +179,7 @@ export const SchoolCard = ({ school }: Props) => {
                       </Link>
 
                       <Box sx={{ display: "flex" }}>
-                        <Typography sx={{ fontSize: "8px", fontWeight: 600 }}>
-                          {s.course}
-                        </Typography>
+                        <Typography>{s.course}</Typography>
                         {s.attendance && (
                           <Typography
                             component="span"

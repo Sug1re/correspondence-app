@@ -37,8 +37,8 @@ export const SearchDataCard = ({ conditions }: Props) => {
         <Box
           sx={{
             display: "flex",
-            flexWrap: "wrap", // 横幅が足りない時に折り返す
-            flexDirection: "row", // スマホでは縦並び
+            flexWrap: "wrap",
+            flexDirection: "row",
             gap: 2,
           }}
         >
