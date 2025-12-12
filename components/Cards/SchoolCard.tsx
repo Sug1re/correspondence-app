@@ -179,9 +179,7 @@ export const SchoolCard = ({ school }: Props) => {
                       </Link>
 
                       <Box sx={{ display: "flex" }}>
-                        <Typography sx={{ fontSize: "8px", fontWeight: 600 }}>
-                          {s.course}
-                        </Typography>
+                        <Typography>{s.course}</Typography>
                         {s.attendance && (
                           <Typography
                             component="span"

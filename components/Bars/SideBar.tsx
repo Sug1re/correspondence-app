@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Drawer,
   List,
@@ -36,7 +36,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
   const { showToast } = useToastContext();
   const router = useRouter();
 
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
