@@ -18,9 +18,11 @@ export const TargetButton = () => {
     <>
       <Box
         sx={{
-          pt: 6,
+          height: "85vh",
           display: "flex",
-          justifyContent: "space-around",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: 4,
         }}
       >
         <Button

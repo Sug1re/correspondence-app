@@ -1,13 +1,11 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import {
   Drawer,
   List,
   Box,
   ListItemButton,
   ListItemText,
-  Collapse,
+  // Collapse,
 } from "@mui/material";
 
 import { auth } from "@/lib/firebase";
@@ -20,10 +18,10 @@ import HomeIcon from "@mui/icons-material/Home";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
-import BusinessIcon from "@mui/icons-material/Business";
-import LiveHelpIcon from "@mui/icons-material/LiveHelp";
-import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
-import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
+// import BusinessIcon from "@mui/icons-material/Business";
+// import LiveHelpIcon from "@mui/icons-material/LiveHelp";
+// import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
+// import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 interface SideBarProps {
@@ -36,11 +34,11 @@ export default function SideBar({ open, onClose }: SideBarProps) {
   const { showToast } = useToastContext();
   const router = useRouter();
 
-  const [isOpen, setIsOpen] = useState(true);
+  // const [isOpen, setIsOpen] = useState(true);
 
-  const handleClick = () => {
-    setIsOpen(!isOpen);
-  };
+  // const handleClick = () => {
+  //   setIsOpen(!isOpen);
+  // };
 
   const onHome = () => {
     router.push("/");
@@ -58,9 +56,9 @@ export default function SideBar({ open, onClose }: SideBarProps) {
     router.push("/bookmarks");
   };
 
-  const onFaq = () => {
-    router.push("/faq");
-  };
+  // const onFaq = () => {
+  //   router.push("/faq");
+  // };
 
   const logout = async () => {
     try {
@@ -172,7 +170,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
           />
         </ListItemButton>
 
-        <ListItemButton
+        {/* <ListItemButton
           sx={{
             borderRadius: 2,
             mx: 1,
@@ -188,8 +186,8 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             primaryTypographyProps={{ fontWeight: 600 }}
           />
           {isOpen ? <ExpandLessOutlinedIcon /> : <ExpandMoreOutlinedIcon />}
-        </ListItemButton>
-        <Collapse in={isOpen} timeout="auto" unmountOnExit>
+        </ListItemButton> */}
+        {/* <Collapse in={isOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItemButton
               sx={{
@@ -262,9 +260,9 @@ export default function SideBar({ open, onClose }: SideBarProps) {
               />
             </ListItemButton>
           </List>
-        </Collapse>
+        </Collapse> */}
 
-        <ListItemButton
+        {/* <ListItemButton
           sx={{
             borderRadius: 2,
             mx: 1,
@@ -282,7 +280,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             primary="よくある質問"
             primaryTypographyProps={{ fontWeight: 600 }}
           />
-        </ListItemButton>
+        </ListItemButton> */}
 
         {user && (
           <ListItemButton
