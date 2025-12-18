@@ -1,10 +1,11 @@
 import React from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { XsWrapper } from "@/components/Wrapper/xsWrapper";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 import { BookmarkBar } from "@/components/Bars/BookmarkBar";
 import { BookmarksSection } from "@/components/Sections/BookmarksSection";
-import FooterWrapper from "@/components/Wrapper/xsWrapper";
 
 export default function BookmarksPage() {
   return (
@@ -21,7 +22,9 @@ export default function BookmarksPage() {
 
       <ScrollToTopButton />
 
-      <FooterWrapper />
+      <XsWrapper when={true}>
+        <Footer />
+      </XsWrapper>
     </>
   );
 }

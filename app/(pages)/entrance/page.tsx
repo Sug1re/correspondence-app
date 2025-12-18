@@ -1,9 +1,10 @@
 import React from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { XsWrapper } from "@/components/Wrapper/xsWrapper";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 import { DefaultSection } from "@/components/Sections/DefaultSection";
-import FooterWrapper from "@/components/Wrapper/xsWrapper";
 
 export default function EntrancePage() {
   return (
@@ -18,7 +19,9 @@ export default function EntrancePage() {
 
       <ScrollToTopButton />
 
-      <FooterWrapper />
+      <XsWrapper when={true}>
+        <Footer />
+      </XsWrapper>
     </>
   );
 }

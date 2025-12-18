@@ -1,10 +1,11 @@
 import React, { Suspense } from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { XsWrapper } from "@/components/Wrapper/xsWrapper";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 import { SearchSection } from "@/components/Sections/SearchSection";
 import { Loading } from "@/components/Loading";
-import FooterWrapper from "@/components/Wrapper/xsWrapper";
 
 export default function SearchPage() {
   return (
@@ -21,7 +22,9 @@ export default function SearchPage() {
 
       <ScrollToTopButton />
 
-      <FooterWrapper />
+      <XsWrapper when={true}>
+        <Footer />
+      </XsWrapper>
     </>
   );
 }
