@@ -17,7 +17,7 @@ export const SortButton = ({ selected, onToggle }: Props) => {
       onChange={onToggle}
       disableRipple
       sx={{
-        border: "1.5px solid",
+        border: "1.5px solid #060666ff",
         borderRadius: 2,
         bgcolor: "#ffffff",
         gap: 1,
@@ -30,13 +30,13 @@ export const SortButton = ({ selected, onToggle }: Props) => {
         },
 
         "&.Mui-selected": {
-          bgcolor: "#003399",
+          bgcolor: "#060666ff",
           color: "#fff",
         },
 
         "&.Mui-selected:hover": {
           transform: "scale(0.95)",
-          bgcolor: "#003399",
+          bgcolor: "#060666ff",
           color: "#fff",
         },
 
@@ -47,11 +47,16 @@ export const SortButton = ({ selected, onToggle }: Props) => {
         },
       }}
     >
-      <SortIcon />
+      <SortIcon
+        sx={{
+          color: selected ? "#FFFFFF" : "#060666ff",
+        }}
+      />
       <Typography
         sx={{
           fontWeight: 600,
           fontSize: { xs: "0.9rem", sm: "1rem" },
+          color: selected ? "#FFFFFF" : "#060666ff",
         }}
       >
         負担額を{selected ? "昇順" : "降順"}で表示
