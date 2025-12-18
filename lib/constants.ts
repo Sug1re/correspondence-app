@@ -6,6 +6,15 @@ export const BAR_HEIGHT = 52;
 
 export const ITEMS_PER_PAGE = 4;
 
+export const BREADCRUMB_LABELS: Record<string, string> = {
+  bookmarks: "ブックマーク一覧",
+  entrance: "新入学",
+  faq: "よくある質問",
+  search: "学校検索",
+  transfer: "転入学",
+};
+
+
 export const getDriveImageUrl = (school: School): string | undefined => {
   return school.picture ? `/api/drive?id=${school.picture}` : undefined;
 };

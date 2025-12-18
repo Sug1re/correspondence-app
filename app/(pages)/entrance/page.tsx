@@ -3,6 +3,8 @@ import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { XsWrapper } from "@/components/Wrapper/xsWrapper";
+import { Breadcrumb } from "@/components/Breadcrumbs";
+
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 import { DefaultSection } from "@/components/Sections/DefaultSection";
 
@@ -11,8 +13,10 @@ export default function EntrancePage() {
     <>
       <Header />
 
+      <Breadcrumb />
+
       <Container maxWidth="md">
-        <Stack spacing={4} sx={{ mt: 12 }}>
+        <Stack spacing={4} sx={{ mt: 4 }}>
           <DefaultSection target="entrance" />
         </Stack>
       </Container>

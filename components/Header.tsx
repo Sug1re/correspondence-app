@@ -71,6 +71,8 @@ export default function Header() {
             </Typography>
           </Box>
 
+          {/* 雑務:アイコンとテキストの配置*/}
+
           <XsWrapper when={false}>
             <Box
               sx={{
