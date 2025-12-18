@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 import { BookmarkBar } from "@/components/Bars/BookmarkBar";
 import { BookmarksSection } from "@/components/Sections/BookmarksSection";
+import FooterWrapper from "@/components/Wrapper/xsWrapper";
 
 export default function BookmarksPage() {
   return (
@@ -11,7 +12,7 @@ export default function BookmarksPage() {
       <Header />
 
       <Container maxWidth="md">
-        <Stack spacing={4} sx={{ mt: 4 }}>
+        <Stack spacing={4} sx={{ mt: 12 }}>
           <BookmarkBar />
 
           <BookmarksSection />
@@ -19,6 +20,8 @@ export default function BookmarksPage() {
       </Container>
 
       <ScrollToTopButton />
+
+      <FooterWrapper />
     </>
   );
 }

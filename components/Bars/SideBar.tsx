@@ -1,28 +1,33 @@
-import React from "react";
+"use client";
+
 import {
   Drawer,
   List,
   Box,
   ListItemButton,
   ListItemText,
-  // Collapse,
+  Collapse,
 } from "@mui/material";
 
 import { auth } from "@/lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useDisclosure } from "@mantine/hooks";
 import { useToastContext } from "@/context/ToastContext";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
+import AppsIcon from "@mui/icons-material/Apps";
+import MapIcon from "@mui/icons-material/Map";
 import HomeIcon from "@mui/icons-material/Home";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
-// import BusinessIcon from "@mui/icons-material/Business";
-// import LiveHelpIcon from "@mui/icons-material/LiveHelp";
-// import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
-// import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
+import BusinessIcon from "@mui/icons-material/Business";
+import LiveHelpIcon from "@mui/icons-material/LiveHelp";
+import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
+import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Conditional } from "../Wrapper/conditionalWrapper";
 
 interface SideBarProps {
   open: boolean;
@@ -34,11 +39,8 @@ export default function SideBar({ open, onClose }: SideBarProps) {
   const { showToast } = useToastContext();
   const router = useRouter();
 
-  // const [isOpen, setIsOpen] = useState(true);
-
-  // const handleClick = () => {
-  //   setIsOpen(!isOpen);
-  // };
+  const [isSchoolOpen, schoolHandlers] = useDisclosure(false);
+  const [isCourseOpen, courseHandlers] = useDisclosure(false);
 
   const onHome = () => {
     router.push("/");
@@ -56,9 +58,9 @@ export default function SideBar({ open, onClose }: SideBarProps) {
     router.push("/bookmarks");
   };
 
-  // const onFaq = () => {
-  //   router.push("/faq");
-  // };
+  const onFaq = () => {
+    router.push("/faq");
+  };
 
   const logout = async () => {
     try {
@@ -79,7 +81,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
       sx={{
         "& .MuiDrawer-paper": {
           backgroundColor: "#ffffff",
-          width: 300,
+          width: { xs: "80vw", sm: "35vw" },
           boxSizing: "border-box",
           display: "flex",
           flexDirection: "column",
@@ -103,50 +105,10 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             onClose();
           }}
         >
-          <HomeIcon sx={{ marginRight: 2 }} />
+          <HomeIcon sx={{ marginRight: 2, color: "#060666ff" }} />
           <ListItemText
             primary="ホーム"
-            primaryTypographyProps={{ fontWeight: 600 }}
-          />
-        </ListItemButton>
-
-        <ListItemButton
-          sx={{
-            borderRadius: 2,
-            mx: 1,
-            "&:hover": {
-              backgroundColor: "rgba(0, 51, 153, 0.1)",
-            },
-          }}
-          onClick={() => {
-            onEntrance();
-            onClose();
-          }}
-        >
-          <LooksOneIcon sx={{ marginRight: 2 }} />
-          <ListItemText
-            primary="新入学向け"
-            primaryTypographyProps={{ fontWeight: 600 }}
-          />
-        </ListItemButton>
-
-        <ListItemButton
-          sx={{
-            borderRadius: 2,
-            mx: 1,
-            "&:hover": {
-              backgroundColor: "rgba(0, 51, 153, 0.1)",
-            },
-          }}
-          onClick={() => {
-            onTransfer();
-            onClose();
-          }}
-        >
-          <LooksTwoIcon sx={{ marginRight: 2 }} />
-          <ListItemText
-            primary="転入学向け"
-            primaryTypographyProps={{ fontWeight: 600 }}
+            primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
           />
         </ListItemButton>
 
@@ -163,14 +125,14 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             onClose();
           }}
         >
-          <BookmarksIcon sx={{ marginRight: 2 }} />
+          <BookmarksIcon sx={{ marginRight: 2, color: "#060666ff" }} />
           <ListItemText
-            primary="ブックマーク"
-            primaryTypographyProps={{ fontWeight: 600 }}
+            primary="ブックマーク一覧"
+            primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
           />
         </ListItemButton>
 
-        {/* <ListItemButton
+        <ListItemButton
           sx={{
             borderRadius: 2,
             mx: 1,
@@ -178,20 +140,69 @@ export default function SideBar({ open, onClose }: SideBarProps) {
               backgroundColor: "rgba(0, 51, 153, 0.1)",
             },
           }}
-          onClick={handleClick}
+          onClick={() => {
+            onEntrance();
+            onClose();
+          }}
         >
-          <BusinessIcon sx={{ marginRight: 2 }} />
+          <LooksOneIcon sx={{ marginRight: 2, color: "#060666ff" }} />
+          <ListItemText
+            primary="新入学"
+            primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
+          />
+        </ListItemButton>
+
+        <ListItemButton
+          sx={{
+            borderRadius: 2,
+            mx: 1,
+            "&:hover": {
+              backgroundColor: "rgba(0, 51, 153, 0.1)",
+            },
+          }}
+          onClick={() => {
+            onTransfer();
+            onClose();
+          }}
+        >
+          <LooksTwoIcon sx={{ marginRight: 2, color: "#060666ff" }} />
+          <ListItemText
+            primary="転入学"
+            primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
+          />
+        </ListItemButton>
+
+        <ListItemButton
+          sx={{
+            borderRadius: 2,
+            mx: 1,
+            "&:hover": {
+              backgroundColor: "rgba(0, 51, 153, 0.1)",
+            },
+          }}
+          onClick={schoolHandlers.toggle}
+        >
+          <BusinessIcon sx={{ marginRight: 2, color: "#060666ff" }} />
           <ListItemText
             primary="学校一覧"
-            primaryTypographyProps={{ fontWeight: 600 }}
+            primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
           />
-          {isOpen ? <ExpandLessOutlinedIcon /> : <ExpandMoreOutlinedIcon />}
-        </ListItemButton> */}
-        {/* <Collapse in={isOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
+          {isSchoolOpen ? (
+            <ExpandLessOutlinedIcon sx={{ color: "#060666ff" }} />
+          ) : (
+            <ExpandMoreOutlinedIcon sx={{ color: "#060666ff" }} />
+          )}
+        </ListItemButton>
+        <Collapse in={isSchoolOpen} timeout="auto" unmountOnExit>
+          <List
+            component="div"
+            disablePadding
+            sx={{ bgcolor: "#dff0dfff", borderRadius: 2, mx: 0.5 }}
+          >
             <ListItemButton
               sx={{
                 borderRadius: 2,
+
                 mx: 1,
                 "&:hover": {
                   backgroundColor: "rgba(0, 51, 153, 0.1)",
@@ -199,8 +210,8 @@ export default function SideBar({ open, onClose }: SideBarProps) {
               }}
             >
               <ListItemText
-                primary="N/S/R高等学校"
-                primaryTypographyProps={{ fontWeight: 600 }}
+                primary="N高等学校"
+                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
               />
             </ListItemButton>
             <ListItemButton
@@ -213,8 +224,8 @@ export default function SideBar({ open, onClose }: SideBarProps) {
               }}
             >
               <ListItemText
-                primary="N/S/R高等学校"
-                primaryTypographyProps={{ fontWeight: 600 }}
+                primary="S高等学校"
+                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
               />
             </ListItemButton>
             <ListItemButton
@@ -227,42 +238,131 @@ export default function SideBar({ open, onClose }: SideBarProps) {
               }}
             >
               <ListItemText
-                primary="N/S/R高等学校"
-                primaryTypographyProps={{ fontWeight: 600 }}
-              />
-            </ListItemButton>
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mx: 1,
-                "&:hover": {
-                  backgroundColor: "rgba(0, 51, 153, 0.1)",
-                },
-              }}
-            >
-              <ListItemText
-                primary="N/S/R高等学校"
-                primaryTypographyProps={{ fontWeight: 600 }}
-              />
-            </ListItemButton>
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mx: 1,
-                "&:hover": {
-                  backgroundColor: "rgba(0, 51, 153, 0.1)",
-                },
-              }}
-            >
-              <ListItemText
-                primary="N/S/R高等学校"
-                primaryTypographyProps={{ fontWeight: 600 }}
+                primary="R高等学校"
+                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
               />
             </ListItemButton>
           </List>
-        </Collapse> */}
+        </Collapse>
 
-        {/* <ListItemButton
+        <ListItemButton
+          sx={{
+            borderRadius: 2,
+            mx: 1,
+            "&:hover": {
+              backgroundColor: "rgba(0, 51, 153, 0.1)",
+            },
+          }}
+          onClick={courseHandlers.toggle}
+        >
+          <AppsIcon sx={{ marginRight: 2, color: "#060666ff" }} />
+          <ListItemText
+            primary="コース一覧"
+            primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
+          />
+          {isCourseOpen ? (
+            <ExpandLessOutlinedIcon sx={{ color: "#060666ff" }} />
+          ) : (
+            <ExpandMoreOutlinedIcon sx={{ color: "#060666ff" }} />
+          )}
+        </ListItemButton>
+        <Collapse in={isCourseOpen} timeout="auto" unmountOnExit>
+          <List
+            component="div"
+            disablePadding
+            sx={{ bgcolor: "#dff0dfff", borderRadius: 2, mx: 0.5 }}
+          >
+            <ListItemButton
+              sx={{
+                borderRadius: 2,
+                mx: 1,
+                "&:hover": {
+                  backgroundColor: "rgba(0, 51, 153, 0.1)",
+                },
+              }}
+            >
+              <ListItemText
+                primary="ネットコース"
+                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{
+                borderRadius: 2,
+                mx: 1,
+                "&:hover": {
+                  backgroundColor: "rgba(0, 51, 153, 0.1)",
+                },
+              }}
+            >
+              <ListItemText
+                primary="週5コース"
+                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{
+                borderRadius: 2,
+                mx: 1,
+                "&:hover": {
+                  backgroundColor: "rgba(0, 51, 153, 0.1)",
+                },
+              }}
+            >
+              <ListItemText
+                primary="週3コース"
+                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{
+                borderRadius: 2,
+                mx: 1,
+                "&:hover": {
+                  backgroundColor: "rgba(0, 51, 153, 0.1)",
+                },
+              }}
+            >
+              <ListItemText
+                primary="週1＋コース"
+                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={{
+                borderRadius: 2,
+                mx: 1,
+                "&:hover": {
+                  backgroundColor: "rgba(0, 51, 153, 0.1)",
+                },
+              }}
+            >
+              <ListItemText
+                primary="＋ONE授業"
+                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
+              />
+            </ListItemButton>
+          </List>
+        </Collapse>
+
+        <ListItemButton
+          sx={{
+            borderRadius: 2,
+            mx: 1,
+            "&:hover": {
+              backgroundColor: "rgba(0, 51, 153, 0.1)",
+            },
+          }}
+          onClick={() => {}}
+        >
+          <MapIcon sx={{ marginRight: 2, color: "#060666ff" }} />
+          <ListItemText
+            primary="キャンパスを探す"
+            primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
+          />
+        </ListItemButton>
+
+        <ListItemButton
           sx={{
             borderRadius: 2,
             mx: 1,
@@ -275,14 +375,14 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             onClose();
           }}
         >
-          <LiveHelpIcon sx={{ marginRight: 2 }} />
+          <LiveHelpIcon sx={{ marginRight: 2, color: "#060666ff" }} />
           <ListItemText
             primary="よくある質問"
-            primaryTypographyProps={{ fontWeight: 600 }}
+            primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
           />
-        </ListItemButton> */}
+        </ListItemButton>
 
-        {user && (
+        <Conditional when={!!user}>
           <ListItemButton
             sx={{
               borderRadius: 2,
@@ -293,13 +393,13 @@ export default function SideBar({ open, onClose }: SideBarProps) {
             }}
             onClick={logout}
           >
-            <LogoutIcon sx={{ marginRight: 2 }} />
+            <LogoutIcon sx={{ marginRight: 2, color: "#060666ff" }} />
             <ListItemText
               primary="ログアウト"
-              primaryTypographyProps={{ fontWeight: 600 }}
+              primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
             />
           </ListItemButton>
-        )}
+        </Conditional>
       </List>
 
       <Box flexGrow={1} />
