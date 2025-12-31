@@ -8,8 +8,10 @@ export const ITEMS_PER_PAGE = 4;
 
 export const BREADCRUMB_LABELS: Record<string, string> = {
   bookmarks: "ブックマーク一覧",
+  campus:"キャンパスを探す",
   entrance: "新入学",
-  faq: "よくある質問",
+  estimate: "見積もり",
+  faq: "FAQ",
   search: "学校検索",
   transfer: "転入学",
 };

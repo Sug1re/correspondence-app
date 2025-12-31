@@ -26,7 +26,9 @@ import BusinessIcon from "@mui/icons-material/Business";
 import LiveHelpIcon from "@mui/icons-material/LiveHelp";
 import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
 import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
+
 import { Conditional } from "../Wrapper/conditionalWrapper";
 
 interface SideBarProps {
@@ -56,6 +58,14 @@ export default function SideBar({ open, onClose }: SideBarProps) {
 
   const onBookmarks = () => {
     router.push("/bookmarks");
+  };
+
+  const onCampus = () => {
+    router.push("/campus");
+  };
+
+  const onEstimate = () => {
+    router.push("/estimate");
   };
 
   const onFaq = () => {
@@ -197,7 +207,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
           <List
             component="div"
             disablePadding
-            sx={{ bgcolor: "#dff0dfff", borderRadius: 2, mx: 0.5 }}
+            sx={{ bgcolor: "rgba(0, 51, 153, 0.1)", borderRadius: 2, mx: 0.5 }}
           >
             <ListItemButton
               sx={{
@@ -270,7 +280,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
           <List
             component="div"
             disablePadding
-            sx={{ bgcolor: "#dff0dfff", borderRadius: 2, mx: 0.5 }}
+            sx={{ bgcolor: "rgba(0, 51, 153, 0.1)", borderRadius: 2, mx: 0.5 }}
           >
             <ListItemButton
               sx={{
@@ -353,11 +363,31 @@ export default function SideBar({ open, onClose }: SideBarProps) {
               backgroundColor: "rgba(0, 51, 153, 0.1)",
             },
           }}
-          onClick={() => {}}
+          onClick={onCampus}
         >
           <MapIcon sx={{ marginRight: 2, color: "#060666ff" }} />
           <ListItemText
             primary="キャンパスを探す"
+            primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
+          />
+        </ListItemButton>
+
+        <ListItemButton
+          sx={{
+            borderRadius: 2,
+            mx: 1,
+            "&:hover": {
+              backgroundColor: "rgba(0, 51, 153, 0.1)",
+            },
+          }}
+          onClick={() => {
+            onEstimate();
+            onClose();
+          }}
+        >
+          <CheckCircleOutlineIcon sx={{ marginRight: 2, color: "#060666ff" }} />
+          <ListItemText
+            primary="見積もり"
             primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
           />
         </ListItemButton>
@@ -377,7 +407,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
         >
           <LiveHelpIcon sx={{ marginRight: 2, color: "#060666ff" }} />
           <ListItemText
-            primary="よくある質問"
+            primary="FAQ"
             primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
           />
         </ListItemButton>

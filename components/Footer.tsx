@@ -5,12 +5,21 @@ import { useRouter } from "next/navigation";
 
 import MapIcon from "@mui/icons-material/Map";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 
 export default function Footer() {
   const router = useRouter();
 
+  const onCampus = () => {
+    router.push("/campus");
+  };
+
   const onBookmarks = () => {
     router.push("/bookmarks");
+  };
+
+  const onEstimate = () => {
+    router.push("/estimate");
   };
 
   const partition = {
@@ -47,7 +56,7 @@ export default function Footer() {
           <Box
             sx={{
               my: 1,
-              flexGrow: 1,
+              flex: "1 1 0",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -58,14 +67,13 @@ export default function Footer() {
             }}
           >
             <IconButton
-              edge="start"
               sx={{
                 color: "#FFFFFF",
                 display: "flex",
                 flexDirection: "column",
                 gap: 0.5,
               }}
-              onClick={() => {}}
+              onClick={onCampus}
               disableRipple
             >
               <MapIcon style={{ fontSize: 28 }} />
@@ -75,17 +83,18 @@ export default function Footer() {
                   color: "#FFFFFF",
                   display: "flex",
                   alignItems: "center",
-                  fontSize: "12px",
+                  fontSize: 12,
                 }}
               >
                 キャンパスを探す
               </Typography>
             </IconButton>
           </Box>
+
           <Box
             sx={{
               my: 1,
-              flexGrow: 1,
+              flex: "1 1 0",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -96,7 +105,6 @@ export default function Footer() {
             }}
           >
             <IconButton
-              edge="start"
               sx={{
                 color: "#FFFFFF",
                 display: "flex",
@@ -113,45 +121,44 @@ export default function Footer() {
                   color: "#FFFFFF",
                   display: "flex",
                   alignItems: "center",
-                  fontSize: "12px",
+                  fontSize: 12,
                 }}
               >
                 ブックマーク一覧
               </Typography>
             </IconButton>
           </Box>
+
           <Box
             sx={{
               my: 1,
-              flexGrow: 1,
-
+              flex: "1 1 0",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
             <IconButton
-              edge="start"
               sx={{
                 color: "#FFFFFF",
                 display: "flex",
                 flexDirection: "column",
                 gap: 0.5,
               }}
-              onClick={() => {}}
+              onClick={onEstimate}
               disableRipple
             >
-              <MapIcon style={{ fontSize: 28 }} />
+              <CheckCircleOutlineIcon style={{ fontSize: 28 }} />
               <Typography
                 sx={{
                   fontWeight: 600,
                   color: "#FFFFFF",
                   display: "flex",
                   alignItems: "center",
-                  fontSize: "12px",
+                  fontSize: 12,
                 }}
               >
-                キャンパスを探す
+                見積もり
               </Typography>
             </IconButton>
           </Box>
