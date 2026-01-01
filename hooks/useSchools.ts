@@ -54,17 +54,15 @@ export const useGetTargetSchools = (target?: TargetType) => {
 export const useGetFilteredSchools = (
 conditions: queryValue
 ) => {
-  const { target, minFee, maxFee, school, style, attendance, schooling } = conditions;
+  const { target, minFee, maxFee, style, attendance} = conditions;
 
   const params = new URLSearchParams();
 
   params.append("target", target);
   params.append("minFee", String(minFee));
   params.append("maxFee", String(maxFee));
-  params.append("school", school);
   params.append("style", style);
   params.append("attendance", attendance);
-  schooling.forEach((item) => params.append("schooling", item));
 
   const queryString = params.toString();
   const apiUrl = queryString ? `/api/sheet?${queryString}` : null;

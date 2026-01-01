@@ -56,11 +56,12 @@ export const BaseModal = ({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-around",
-              bgcolor: color === "blue" ? "#003399" : "#FF6600",
+              bgcolor: color === "blue" ? "#060666ff" : "#FF6600",
             }}
           >
             <Typography
               sx={{
+                fontSize: 14,
                 fontWeight: "bold",
                 color: "#FFFFFF",
                 width: "50%",
@@ -107,20 +108,20 @@ export const BaseModal = ({
                 onClick={onSubmit}
                 type="submit"
                 sx={{
-                  borderRadius: 4,
+                  borderRadius: 2,
                   color: "#fff",
-                  backgroundColor: "#003399",
+                  backgroundColor: "#060666ff",
                   fontWeight: "bold",
                   width: "60%",
                   transition: "transform 0.2s",
                   "&:hover": {
-                    backgroundColor: "#003399",
+                    backgroundColor: "#060666ff",
                     transform: "scale(0.95)",
                   },
                 }}
                 disableRipple
               >
-                検索
+                OK
               </Button>
             </Box>
           )}

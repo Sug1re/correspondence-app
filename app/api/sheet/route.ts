@@ -8,10 +8,8 @@ export async function GET(req: Request) {
     const targetQuery = searchParams.get("target");
     const minFeeQuery = searchParams.get("minFee");
     const maxFeeQuery = searchParams.get("maxFee");
-    const schoolQuery = searchParams.get("school");
     const styleQuery = searchParams.get("style");
     const attendanceQuery = searchParams.get("attendance");
-    const schoolingQuery = searchParams.getAll("schooling");
     const idsQuery = searchParams.get("ids")
 
     const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
@@ -99,10 +97,6 @@ export async function GET(req: Request) {
     });
   }
 
-  if (schoolQuery) {
-    data = data.filter((item) => item.school === schoolQuery);
-  }
-
   if (styleQuery) {
     data = data.filter((item) => item.style === styleQuery);
   }
@@ -111,13 +105,6 @@ export async function GET(req: Request) {
     if (attendanceQuery !== "オンライン") {
       data = data.filter((item) => item.attendance === attendanceQuery);
     }
-  }
-
-  if (schoolingQuery.length > 0) {
-    data = data.filter((item) => {
-      const itemSchoolings = item.schooling.split(',').map(s => s.trim());
-      return schoolingQuery.some(query => itemSchoolings.includes(query));
-    });
   }
 
   if (idsQuery) {

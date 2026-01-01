@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { SearchBar } from "@/components/Bars/SearchBar";
+import { SearchButton } from "@/components/Buttons/SearchButton";
 import { SchoolCardSection } from "@/components/Sections/SchoolCardSection";
 import { useGetTargetSchools } from "@/hooks/useSchools";
 
@@ -22,7 +22,7 @@ export const DefaultSection = ({ target }: Props) => {
 
   return (
     <>
-      <SearchBar />
+      <SearchButton />
 
       <SchoolCardSection
         school={schools}

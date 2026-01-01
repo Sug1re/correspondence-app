@@ -6,31 +6,22 @@ export type SearchSchoolFormValues = z.infer<typeof SearchSchoolSchema>;
 
 export const SearchSchoolDefaultValues: Partial<z.infer<typeof SearchSchoolSchema>> = {
   target: undefined,
-  totalFee: [0, 1000000],
-  school: undefined,
+  totalFee: [0, 2000000],
   style: undefined,
   attendance: undefined,
-  schooling: [],
 };
 
 export type queryValue ={
   target: string,
   minFee: number,
   maxFee: number,
-  school: string,
   style: string,
   attendance: string,
-  schooling: string[],
 };
 
 export const targetOptions = [
   "新入学",
   "転入学",
-] as const;
-
-export const schoolOptions = [
-  "通信制高校",
-  "サポート校",
 ] as const;
 
 export const styleOptions = [
@@ -40,15 +31,7 @@ export const styleOptions = [
 
 export const attendanceOptions = [
   "週1",
-  "週2",
   "週3",
-  "週4",
   "週5",
-  "オンライン",
-  "自由",
-] as const;
-
-export const schoolingOptions = [
-  "県外",
-  "県内",
+  "オンライン"
 ] as const;

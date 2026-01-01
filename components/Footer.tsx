@@ -26,10 +26,11 @@ export default function Footer() {
     content: '""',
     position: "absolute",
     right: 0,
+    left: "50%",
     top: "50%",
-    transform: "translateY(-50%)",
+    transform: "translate(-50%, -50%)",
     height: "60%",
-    width: "1px",
+    width: "2px",
     backgroundColor: "#FFFFFF",
   };
 
@@ -61,9 +62,6 @@ export default function Footer() {
               justifyContent: "center",
               alignItems: "center",
               position: "relative",
-              "&::after": {
-                ...partition,
-              },
             }}
           >
             <IconButton
@@ -93,15 +91,21 @@ export default function Footer() {
 
           <Box
             sx={{
+              position: "relative",
+              width: "2px",
+              alignSelf: "stretch",
+              "&::after": partition,
+            }}
+          />
+
+          <Box
+            sx={{
               my: 1,
               flex: "1 1 0",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               position: "relative",
-              "&::after": {
-                ...partition,
-              },
             }}
           >
             <IconButton
@@ -128,6 +132,15 @@ export default function Footer() {
               </Typography>
             </IconButton>
           </Box>
+
+          <Box
+            sx={{
+              position: "relative",
+              width: "2px",
+              alignSelf: "stretch",
+              "&::after": partition,
+            }}
+          />
 
           <Box
             sx={{

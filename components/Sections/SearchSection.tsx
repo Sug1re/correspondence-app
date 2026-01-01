@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { SearchBar } from "@/components/Bars/SearchBar";
+import { SearchButton } from "@/components/Buttons/SearchButton";
 import { SchoolCardSection } from "./SchoolCardSection";
 import { useSearchParams } from "next/navigation";
 import { useGetFilteredSchools } from "@/hooks/useSchools";
@@ -12,19 +12,15 @@ export const SearchSection = () => {
   const target = searchParams.get("target") || "";
   const minFee = Number(searchParams.get("minFee") || 0);
   const maxFee = Number(searchParams.get("maxFee") || 0);
-  const school = searchParams.get("school") || "";
   const style = searchParams.get("style") || "";
   const attendance = searchParams.get("attendance") || "";
-  const schooling = searchParams.getAll("schooling");
 
   const conditions = {
     target,
     minFee,
     maxFee,
-    school,
     style,
     attendance,
-    schooling,
   };
 
   const {
@@ -36,7 +32,7 @@ export const SearchSection = () => {
 
   return (
     <>
-      <SearchBar />
+      <SearchButton />
 
       <SchoolCardSection
         school={schools}

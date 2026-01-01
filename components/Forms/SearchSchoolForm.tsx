@@ -1,27 +1,23 @@
 import React from "react";
 import { z } from "zod";
 import { BaseForm } from "@/components/Base/BaseForm";
-import { FormRadioGroup } from "../Base/FormRadioGroup";
 import { FormSlider } from "../Base/FormSlider";
 import { FormCheckBox } from "../Base/FormCheckBox";
 import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
 import { UseFormReturn } from "react-hook-form";
-import { useSearchSchoolForm } from "@/hooks/useSearchSchoolForm";
+import { Box } from "@mui/material";
 import {
   attendanceOptions,
-  schoolingOptions,
-  schoolOptions,
   SearchSchoolDefaultValues,
   styleOptions,
   targetOptions,
 } from "@/entities/form";
+import { ToggleBt } from "../Buttons/ToggleButton";
 
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
-import SchoolIcon from "@mui/icons-material/School";
 import ComputerIcon from "@mui/icons-material/Computer";
-import BusinessIcon from "@mui/icons-material/Business";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
+import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 
 interface Props {
   onClose: () => void;
@@ -48,53 +44,74 @@ export const SearchSchoolForm: React.FC<Props> = ({ onClose, methodsRef }) => {
 };
 
 const FormContent = () => {
-  const { disabledOptions } = useSearchSchoolForm();
+  const partition = {
+    content: '""',
+    position: "absolute",
+    right: 0,
+    left: "50%",
+    top: "50%",
+    transform: "translate(-50%, -50%)",
+    height: "1.5px",
+    width: "90%",
+    backgroundColor: "#adb1b7ff",
+  };
 
   return (
     <>
-      <FormRadioGroup
+      <ToggleBt />
+
+      <FormCheckBox
         text="対象"
         Icon={CalendarMonthIcon}
         name="target"
         option={targetOptions}
       />
 
-      <FormSlider
-        text="3年間の学費総額"
-        Icon={CurrencyYenIcon}
-        name="totalFee"
-        min={0}
-        step={100000}
-        max={4000000}
+      <Box
+        sx={{
+          position: "relative",
+          alignSelf: "stretch",
+          "&::after": partition,
+        }}
       />
 
-      <FormRadioGroup
-        text="学校情報1"
-        Icon={BusinessIcon}
-        name="school"
-        option={schoolOptions}
-      />
-
-      <FormRadioGroup
-        text="学校情報2"
+      <FormCheckBox
+        text="スタイル"
         Icon={ComputerIcon}
         name="style"
         option={styleOptions}
       />
 
-      <FormRadioGroup
-        text="登校頻度"
-        Icon={DirectionsWalkIcon}
-        name="attendance"
-        option={attendanceOptions}
-        disabledOptions={disabledOptions}
+      <Box
+        sx={{
+          position: "relative",
+          alignSelf: "stretch",
+          "&::after": partition,
+        }}
       />
 
       <FormCheckBox
-        text="スクーリング会場"
-        Icon={SchoolIcon}
-        name="schooling"
-        option={schoolingOptions}
+        text="通学頻度"
+        Icon={DirectionsWalkIcon}
+        name="attendance"
+        option={attendanceOptions}
+      />
+
+      <Box
+        sx={{
+          position: "relative",
+          alignSelf: "stretch",
+          "&::after": partition,
+        }}
+      />
+
+      <FormSlider
+        text="予算"
+        Icon={CurrencyYenIcon}
+        name="totalFee"
+        min={0}
+        step={100000}
+        max={4000000}
       />
     </>
   );

@@ -26,13 +26,11 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
     if (methodsRef.current) {
       methodsRef.current.handleSubmit((data) => {
         const query = new URLSearchParams();
-        query.append("target", data.target);
+        data.target.forEach((item) => query.append("target", item));
+        data.style.forEach((item) => query.append("style", item));
+        data.attendance.forEach((item) => query.append("attendance", item));
         query.append("minFee", data.totalFee[0].toString());
         query.append("maxFee", data.totalFee[1].toString());
-        query.append("school", data.school);
-        query.append("style", data.style);
-        query.append("attendance", data.attendance);
-        data.schooling.forEach((item) => query.append("schooling", item));
 
         router.push(`/search?${query.toString()}`);
 
@@ -44,7 +42,7 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
 
   return (
     <BaseModal
-      title="学校を検索"
+      title="コース絞り込み"
       color="blue"
       footer={true}
       isOpen={opened}
