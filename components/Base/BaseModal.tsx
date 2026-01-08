@@ -20,7 +20,6 @@ type Props = {
   onClose: () => void;
   onSubmit?: () => void;
   onClear?: () => void;
-  isDefault?: boolean;
 };
 
 export const BaseModal = ({
@@ -33,7 +32,6 @@ export const BaseModal = ({
   onClose,
   onSubmit,
   onClear,
-  isDefault,
 }: Props) => {
   return (
     <>
@@ -153,7 +151,7 @@ export const BaseModal = ({
                     sx={{
                       borderRadius: 2,
                       color: "#ffffff",
-                      backgroundColor: isDefault ? "#b0c4de" : "#adb1b7ff",
+                      backgroundColor: "#b0c4de",
                       fontWeight: "bold",
                       transition: "transform 0.2s",
                       "&:hover": {
