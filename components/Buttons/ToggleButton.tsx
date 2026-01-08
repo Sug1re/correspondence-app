@@ -19,7 +19,7 @@ export const ToggleBt = () => {
     width: 100,
     height: 30,
     color: "#060666ff",
-    border: "0.5px solid #060666ff",
+    border: "1px solid #060666ff",
     "&.Mui-selected": {
       bgcolor: "#060666ff",
       color: "#fff",
