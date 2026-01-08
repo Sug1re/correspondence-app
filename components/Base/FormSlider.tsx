@@ -120,6 +120,7 @@ export const FormSlider = ({
                 valueLabelDisplay="auto"
                 sx={{
                   width: "90%",
+                  margin: "0 auto",
                   color: "#060666ff",
 
                   "& .MuiSlider-thumb": {
