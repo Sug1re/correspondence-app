@@ -1,13 +1,16 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { SearchSchoolForm } from "../Forms/SearchSchoolForm";
 import { BaseModal } from "../Base/BaseModal";
 import { Stack } from "@mui/material";
 import { UseFormReturn } from "react-hook-form";
 import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
 import { z } from "zod";
-import { SearchSchoolFormValues } from "@/entities/form";
+import {
+  SearchSchoolDefaultValues,
+  SearchSchoolFormValues,
+} from "@/entities/form";
 import { useRouter } from "next/navigation";
 
 type Props = {
@@ -17,6 +20,8 @@ type Props = {
 };
 
 export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
+  const [isDefault, setIsDefault] = useState(true);
+
   const methodsRef = useRef<UseFormReturn<
     z.infer<typeof SearchSchoolSchema>
   > | null>(null);
@@ -40,14 +45,29 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
     }
   };
 
+  const onClear = () => {
+    const methods = methodsRef.current;
+    if (!methods) return;
+
+    methods.reset(SearchSchoolDefaultValues);
+  };
+
+  const handleDefault = (isDefault: boolean) => {
+    console.log("[Parent] isDefault:", isDefault);
+    setIsDefault(isDefault);
+  };
+
   return (
     <BaseModal
       title="コース絞り込み"
       color="blue"
+      type="search"
       footer={true}
       isOpen={opened}
       onClose={onClose}
       onSubmit={onSubmit}
+      onClear={onClear}
+      isDefault={isDefault}
     >
       <Stack
         sx={{
@@ -56,7 +76,11 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
           alignItems: "center",
         }}
       >
-        <SearchSchoolForm onClose={onClose} methodsRef={methodsRef} />
+        <SearchSchoolForm
+          onClose={onClose}
+          methodsRef={methodsRef}
+          onDefault={handleDefault}
+        />
       </Stack>
     </BaseModal>
   );

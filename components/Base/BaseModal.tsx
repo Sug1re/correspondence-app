@@ -13,21 +13,27 @@ import CloseIcon from "@mui/icons-material/Close";
 type Props = {
   children: React.ReactNode;
   title: string;
-  color: "blue" | "orange";
+  type: "default" | "search";
+  color: "blue";
   footer: boolean;
   isOpen: boolean;
   onClose: () => void;
   onSubmit?: () => void;
+  onClear?: () => void;
+  isDefault?: boolean;
 };
 
 export const BaseModal = ({
   children,
   title,
+  type,
   color,
   footer,
   isOpen,
   onClose,
   onSubmit,
+  onClear,
+  isDefault,
 }: Props) => {
   return (
     <>
@@ -96,6 +102,7 @@ export const BaseModal = ({
             <Box
               sx={{
                 py: 1,
+                gap: 1,
                 display: "flex",
                 justifyContent: "center",
                 bottom: 0,
@@ -104,25 +111,61 @@ export const BaseModal = ({
                 borderTop: "1px solid #ddd",
               }}
             >
-              <Button
-                onClick={onSubmit}
-                type="submit"
+              <Box
                 sx={{
-                  borderRadius: 2,
-                  color: "#fff",
-                  backgroundColor: "#060666ff",
-                  fontWeight: "bold",
-                  width: "60%",
-                  transition: "transform 0.2s",
-                  "&:hover": {
-                    backgroundColor: "#060666ff",
-                    transform: "scale(0.95)",
-                  },
+                  display: "flex",
+                  flexGrow: 4,
+                  justifyContent: "flex-end",
                 }}
-                disableRipple
               >
-                OK
-              </Button>
+                <Button
+                  onClick={onSubmit}
+                  type="submit"
+                  sx={{
+                    width: "60%",
+                    borderRadius: 2,
+                    color: "#fff",
+                    backgroundColor: "#060666ff",
+                    fontWeight: "bold",
+                    transition: "transform 0.2s",
+                    "&:hover": {
+                      backgroundColor: "#060666ff",
+                      transform: "scale(0.95)",
+                    },
+                  }}
+                  disableRipple
+                >
+                  OK
+                </Button>
+              </Box>
+
+              {type === "search" && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexGrow: 1,
+                    justifyContent: "center",
+                  }}
+                >
+                  <Button
+                    onClick={onClear}
+                    type="button"
+                    sx={{
+                      borderRadius: 2,
+                      color: "#ffffff",
+                      backgroundColor: isDefault ? "#b0c4de" : "#adb1b7ff",
+                      fontWeight: "bold",
+                      transition: "transform 0.2s",
+                      "&:hover": {
+                        scale: "0.95",
+                      },
+                    }}
+                    disableRipple
+                  >
+                    クリア
+                  </Button>
+                </Box>
+              )}
             </Box>
           )}
         </Card>

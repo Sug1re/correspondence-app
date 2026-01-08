@@ -114,17 +114,17 @@ export const FormSlider = ({
                 valueLabelDisplay="auto"
                 sx={{
                   width: "90%",
-                  color: "#003399",
+                  color: "#060666ff",
 
                   "& .MuiSlider-thumb": {
-                    backgroundColor: "#003399",
+                    backgroundColor: "#060666ff",
                     "&:hover, &.Mui-focusVisible": {
                       boxShadow: "none",
                     },
                   },
 
                   "& .MuiSlider-track": {
-                    backgroundColor: "#003399",
+                    backgroundColor: "#060666ff",
                   },
 
                   "& .MuiSlider-rail": {

@@ -24,26 +24,18 @@ interface Props {
   methodsRef: React.MutableRefObject<UseFormReturn<
     z.infer<typeof SearchSchoolSchema>
   > | null>;
+  onDefault: (isDefault: boolean) => void;
 }
 
-export const SearchSchoolForm: React.FC<Props> = ({ onClose, methodsRef }) => {
+export const SearchSchoolForm: React.FC<Props> = ({
+  onClose,
+  methodsRef,
+  onDefault,
+}) => {
   const onSubmit = () => {
     onClose();
   };
 
-  return (
-    <BaseForm
-      schema={SearchSchoolSchema}
-      onSubmit={onSubmit}
-      defaultValues={SearchSchoolDefaultValues}
-      methodsRef={methodsRef}
-    >
-      <FormContent />
-    </BaseForm>
-  );
-};
-
-const FormContent = () => {
   const partition = {
     content: '""',
     position: "absolute",
@@ -58,61 +50,72 @@ const FormContent = () => {
 
   return (
     <>
-      <ToggleBt />
-
-      <FormCheckBox
-        text="対象"
-        Icon={CalendarMonthIcon}
-        name="target"
-        option={targetOptions}
-      />
-
-      <Box
-        sx={{
-          position: "relative",
-          alignSelf: "stretch",
-          "&::after": partition,
+      <BaseForm
+        schema={SearchSchoolSchema}
+        onSubmit={onSubmit}
+        defaultValues={SearchSchoolDefaultValues}
+        methodsRef={methodsRef}
+        onDefault={(isDefault) => {
+          console.log("[SearchSchoolForm] onDefault:", isDefault);
+          onDefault(isDefault);
         }}
-      />
+      >
+        <ToggleBt />
 
-      <FormCheckBox
-        text="スタイル"
-        Icon={ComputerIcon}
-        name="style"
-        option={styleOptions}
-      />
+        <FormCheckBox
+          text="対象"
+          Icon={CalendarMonthIcon}
+          name="target"
+          option={targetOptions}
+        />
 
-      <Box
-        sx={{
-          position: "relative",
-          alignSelf: "stretch",
-          "&::after": partition,
-        }}
-      />
+        <Box
+          sx={{
+            position: "relative",
+            alignSelf: "stretch",
+            "&::after": partition,
+          }}
+        />
 
-      <FormCheckBox
-        text="通学頻度"
-        Icon={DirectionsWalkIcon}
-        name="attendance"
-        option={attendanceOptions}
-      />
+        <FormCheckBox
+          text="スタイル"
+          Icon={ComputerIcon}
+          name="style"
+          option={styleOptions}
+        />
 
-      <Box
-        sx={{
-          position: "relative",
-          alignSelf: "stretch",
-          "&::after": partition,
-        }}
-      />
+        <Box
+          sx={{
+            position: "relative",
+            alignSelf: "stretch",
+            "&::after": partition,
+          }}
+        />
 
-      <FormSlider
-        text="予算"
-        Icon={CurrencyYenIcon}
-        name="totalFee"
-        min={0}
-        step={100000}
-        max={4000000}
-      />
+        <FormCheckBox
+          text="通学頻度"
+          Icon={DirectionsWalkIcon}
+          name="attendance"
+          option={attendanceOptions}
+        />
+
+        <Box
+          sx={{
+            position: "relative",
+            alignSelf: "stretch",
+            "&::after": partition,
+          }}
+        />
+
+        <FormSlider
+          text="予算"
+          Icon={CurrencyYenIcon}
+          name="totalFee"
+          min={0}
+          step={100000}
+          max={4000000}
+        />
+      </BaseForm>
     </>
   );
 };
