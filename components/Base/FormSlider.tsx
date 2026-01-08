@@ -100,7 +100,13 @@ export const FormSlider = ({
           name={name}
           control={control}
           render={({ field, fieldState }) => (
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
               <Slider
                 {...field}
                 value={field.value ?? [min, max]}
@@ -132,6 +138,7 @@ export const FormSlider = ({
                   },
                 }}
               />
+
               {fieldState.error && (
                 <FormHelperText error>
                   {fieldState.error.message}

@@ -1,11 +1,11 @@
-"use client";
-
-import { useState } from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-export const ToggleBt = () => {
-  const [alignment, setAlignment] = useState("OR");
+interface Props {
+  alignment: string;
+  setAlignment: React.Dispatch<React.SetStateAction<string>>;
+}
 
+export const ToggleBt: React.FC<Props> = ({ alignment, setAlignment }) => {
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string | null

@@ -117,7 +117,7 @@ export const FormCheckBox = ({ name, text, option, Icon }: Props) => {
             </FormGroup>
 
             {fieldState.error && (
-              <FormHelperText>{fieldState.error.message}</FormHelperText>
+              <FormHelperText error>{fieldState.error.message}</FormHelperText>
             )}
           </FormControl>
         )}

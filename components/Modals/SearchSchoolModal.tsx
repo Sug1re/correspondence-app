@@ -1,17 +1,18 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import { z } from "zod";
 import { SearchSchoolForm } from "../Forms/SearchSchoolForm";
 import { BaseModal } from "../Base/BaseModal";
-import { Stack } from "@mui/material";
-import { UseFormReturn } from "react-hook-form";
 import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
-import { z } from "zod";
 import {
-  SearchSchoolDefaultValues,
+  DEFAULT_SEARCH_SCHOOL_VALUES,
   SearchSchoolFormValues,
 } from "@/entities/form";
 import { useRouter } from "next/navigation";
+import { UseFormReturn } from "react-hook-form";
+
+import { Stack } from "@mui/material";
 
 type Props = {
   opened: boolean;
@@ -20,41 +21,48 @@ type Props = {
 };
 
 export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
-  const [isDefault, setIsDefault] = useState(true);
+  const [alignment, setAlignment] = useState("OR");
 
   const methodsRef = useRef<UseFormReturn<
     z.infer<typeof SearchSchoolSchema>
   > | null>(null);
+
   const router = useRouter();
 
   const onSubmit = () => {
     if (methodsRef.current) {
       methodsRef.current.handleSubmit((data) => {
+        console.log("Form Data:", data);
+
         const query = new URLSearchParams();
-        data.target.forEach((item) => query.append("target", item));
-        data.style.forEach((item) => query.append("style", item));
-        data.attendance.forEach((item) => query.append("attendance", item));
+        query.append("alignment", alignment);
+
+        if (data.target && data.target.length > 0) {
+          data.target.forEach((item) => query.append("target", item));
+        }
+
+        if (data.style && data.style.length > 0) {
+          data.style.forEach((item) => query.append("style", item));
+        }
+
+        if (data.attendance && data.attendance.length > 0) {
+          data.attendance.forEach((item) => query.append("attendance", item));
+        }
         query.append("minFee", data.totalFee[0].toString());
         query.append("maxFee", data.totalFee[1].toString());
 
         router.push(`/search?${query.toString()}`);
-
         onSearch?.(data);
+
         onClose();
       })();
     }
   };
 
   const onClear = () => {
-    const methods = methodsRef.current;
-    if (!methods) return;
-
-    methods.reset(SearchSchoolDefaultValues);
-  };
-
-  const handleDefault = (isDefault: boolean) => {
-    console.log("[Parent] isDefault:", isDefault);
-    setIsDefault(isDefault);
+    if (methodsRef.current) {
+      methodsRef.current.reset(DEFAULT_SEARCH_SCHOOL_VALUES);
+    }
   };
 
   return (
@@ -67,7 +75,6 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
       onClose={onClose}
       onSubmit={onSubmit}
       onClear={onClear}
-      isDefault={isDefault}
     >
       <Stack
         sx={{
@@ -79,7 +86,9 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
         <SearchSchoolForm
           onClose={onClose}
           methodsRef={methodsRef}
-          onDefault={handleDefault}
+          alignment={alignment}
+          setAlignment={setAlignment}
+          defaultValues={DEFAULT_SEARCH_SCHOOL_VALUES}
         />
       </Stack>
     </BaseModal>

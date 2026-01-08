@@ -1,66 +1,51 @@
 import React from "react";
 import { z } from "zod";
-import { BaseForm } from "@/components/Base/BaseForm";
-import { FormSlider } from "../Base/FormSlider";
-import { FormCheckBox } from "../Base/FormCheckBox";
-import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
-import { UseFormReturn } from "react-hook-form";
-import { Box } from "@mui/material";
-import {
-  attendanceOptions,
-  SearchSchoolDefaultValues,
-  styleOptions,
-  targetOptions,
-} from "@/entities/form";
 import { ToggleBt } from "../Buttons/ToggleButton";
+import { Partition } from "../Partition";
+import { FormCheckBox } from "../Base/FormCheckBox";
+import { FormSlider } from "../Base/FormSlider";
+import { BaseForm } from "../Base/BaseForm";
+import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
+
+import {
+  targetOptions,
+  styleOptions,
+  attendanceOptions,
+} from "@/entities/form";
 
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ComputerIcon from "@mui/icons-material/Computer";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
+import { UseFormReturn } from "react-hook-form";
+import { SearchSchoolFormValues } from "@/entities/form";
 
 interface Props {
   onClose: () => void;
   methodsRef: React.MutableRefObject<UseFormReturn<
     z.infer<typeof SearchSchoolSchema>
   > | null>;
-  onDefault: (isDefault: boolean) => void;
+  alignment: string;
+  setAlignment: React.Dispatch<React.SetStateAction<string>>;
+  defaultValues: SearchSchoolFormValues;
 }
 
 export const SearchSchoolForm: React.FC<Props> = ({
   onClose,
   methodsRef,
-  onDefault,
+  alignment,
+  setAlignment,
+  defaultValues,
 }) => {
-  const onSubmit = () => {
-    onClose();
-  };
-
-  const partition = {
-    content: '""',
-    position: "absolute",
-    right: 0,
-    left: "50%",
-    top: "50%",
-    transform: "translate(-50%, -50%)",
-    height: "1.5px",
-    width: "90%",
-    backgroundColor: "#adb1b7ff",
-  };
-
   return (
     <>
       <BaseForm
         schema={SearchSchoolSchema}
-        onSubmit={onSubmit}
-        defaultValues={SearchSchoolDefaultValues}
+        onSubmit={() => onClose()}
+        defaultValues={defaultValues}
         methodsRef={methodsRef}
-        onDefault={(isDefault) => {
-          console.log("[SearchSchoolForm] onDefault:", isDefault);
-          onDefault(isDefault);
-        }}
       >
-        <ToggleBt />
+        <ToggleBt alignment={alignment} setAlignment={setAlignment} />
 
         <FormCheckBox
           text="対象"
@@ -69,13 +54,7 @@ export const SearchSchoolForm: React.FC<Props> = ({
           option={targetOptions}
         />
 
-        <Box
-          sx={{
-            position: "relative",
-            alignSelf: "stretch",
-            "&::after": partition,
-          }}
-        />
+        <Partition />
 
         <FormCheckBox
           text="スタイル"
@@ -84,13 +63,7 @@ export const SearchSchoolForm: React.FC<Props> = ({
           option={styleOptions}
         />
 
-        <Box
-          sx={{
-            position: "relative",
-            alignSelf: "stretch",
-            "&::after": partition,
-          }}
-        />
+        <Partition />
 
         <FormCheckBox
           text="通学頻度"
@@ -99,13 +72,7 @@ export const SearchSchoolForm: React.FC<Props> = ({
           option={attendanceOptions}
         />
 
-        <Box
-          sx={{
-            position: "relative",
-            alignSelf: "stretch",
-            "&::after": partition,
-          }}
-        />
+        <Partition />
 
         <FormSlider
           text="予算"
