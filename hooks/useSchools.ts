@@ -54,17 +54,33 @@ export const useGetTargetSchools = (target?: TargetType) => {
 export const useGetFilteredSchools = (
 conditions: queryValue
 ) => {
-  const { target, minFee, maxFee, school, style, attendance, schooling } = conditions;
+  const { alignment, style, attendance,target, minFee, maxFee  } = conditions;
 
   const params = new URLSearchParams();
 
-  params.append("target", target);
-  params.append("minFee", String(minFee));
-  params.append("maxFee", String(maxFee));
-  params.append("school", school);
-  params.append("style", style);
-  params.append("attendance", attendance);
-  schooling.forEach((item) => params.append("schooling", item));
+  if (alignment) {
+    params.append("alignment", alignment);
+  }
+
+  if (target) {
+    params.append("target", target);
+  }
+
+  if (style) {
+    params.append("style", style);
+  }
+
+  if (attendance) {
+    params.append("attendance", attendance);
+  }
+
+  if (minFee !== undefined) {
+    params.append("minFee", String(minFee));
+  }
+
+  if (maxFee !== undefined) {
+    params.append("maxFee", String(maxFee));
+  }
 
   const queryString = params.toString();
   const apiUrl = queryString ? `/api/sheet?${queryString}` : null;

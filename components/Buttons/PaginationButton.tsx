@@ -1,6 +1,3 @@
-"use client";
-
-import React from "react";
 import { Box, Pagination } from "@mui/material";
 
 interface Props {
@@ -23,25 +20,25 @@ export const PaginationButton = ({ page, totalPages, onChange }: Props) => {
         size="medium"
         sx={{
           "& .MuiPaginationItem-root": {
-            color: "#9ca3af",
+            color: "#b0c4de",
             border: "1.5px solid",
-            borderColor: "#9ca3af",
+            borderColor: "#b0c4de",
             mx: 1,
             "&:hover": { backgroundColor: "inherit" },
           },
 
           "& .MuiPaginationItem-root.Mui-selected": {
             color: "#FFFFFF",
-            backgroundColor: "#003399",
-            borderColor: "#003399",
-            "&:hover": { backgroundColor: "#003399" },
+            backgroundColor: "#060666ff",
+            borderColor: "#060666ff",
+            "&:hover": { backgroundColor: "#060666ff" },
           },
 
           "& .MuiPaginationItem-previousNext": {
             color: "#FFFFFF",
-            backgroundColor: "#FF6600",
-            borderColor: "#FF6600",
-            "&:hover": { backgroundColor: "#FF6600" },
+            backgroundColor: "#b0c4de",
+            borderColor: "#b0c4de",
+            "&:hover": { backgroundColor: "#b0c4de" },
           },
 
           "& .MuiTouchRipple-root": { display: "none" },

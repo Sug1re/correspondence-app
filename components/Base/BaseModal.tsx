@@ -13,21 +13,25 @@ import CloseIcon from "@mui/icons-material/Close";
 type Props = {
   children: React.ReactNode;
   title: string;
+  type: "default" | "search";
   color: "blue" | "orange";
   footer: boolean;
   isOpen: boolean;
   onClose: () => void;
   onSubmit?: () => void;
+  onClear?: () => void;
 };
 
 export const BaseModal = ({
   children,
   title,
+  type,
   color,
   footer,
   isOpen,
   onClose,
   onSubmit,
+  onClear,
 }: Props) => {
   return (
     <>
@@ -56,11 +60,12 @@ export const BaseModal = ({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-around",
-              bgcolor: color === "blue" ? "#003399" : "#FF6600",
+              bgcolor: color === "blue" ? "#060666ff" : "#FF6600",
             }}
           >
             <Typography
               sx={{
+                fontSize: 14,
                 fontWeight: "bold",
                 color: "#FFFFFF",
                 width: "50%",
@@ -95,6 +100,7 @@ export const BaseModal = ({
             <Box
               sx={{
                 py: 1,
+                gap: 1,
                 display: "flex",
                 justifyContent: "center",
                 bottom: 0,
@@ -103,25 +109,61 @@ export const BaseModal = ({
                 borderTop: "1px solid #ddd",
               }}
             >
-              <Button
-                onClick={onSubmit}
-                type="submit"
+              <Box
                 sx={{
-                  borderRadius: 4,
-                  color: "#fff",
-                  backgroundColor: "#003399",
-                  fontWeight: "bold",
-                  width: "60%",
-                  transition: "transform 0.2s",
-                  "&:hover": {
-                    backgroundColor: "#003399",
-                    transform: "scale(0.95)",
-                  },
+                  display: "flex",
+                  flexGrow: 4,
+                  justifyContent: "flex-end",
                 }}
-                disableRipple
               >
-                検索
-              </Button>
+                <Button
+                  onClick={onSubmit}
+                  type="submit"
+                  sx={{
+                    width: "60%",
+                    borderRadius: 2,
+                    color: "#fff",
+                    backgroundColor: "#060666ff",
+                    fontWeight: "bold",
+                    transition: "transform 0.2s",
+                    "&:hover": {
+                      backgroundColor: "#060666ff",
+                      transform: "scale(0.95)",
+                    },
+                  }}
+                  disableRipple
+                >
+                  OK
+                </Button>
+              </Box>
+
+              {type === "search" && (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexGrow: 1,
+                    justifyContent: "center",
+                  }}
+                >
+                  <Button
+                    onClick={onClear}
+                    type="button"
+                    sx={{
+                      borderRadius: 2,
+                      color: "#ffffff",
+                      backgroundColor: "#b0c4de",
+                      fontWeight: "bold",
+                      transition: "transform 0.2s",
+                      "&:hover": {
+                        scale: "0.95",
+                      },
+                    }}
+                    disableRipple
+                  >
+                    クリア
+                  </Button>
+                </Box>
+              )}
             </Box>
           )}
         </Card>

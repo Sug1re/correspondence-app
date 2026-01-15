@@ -4,33 +4,27 @@ import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
 // zodスキーマから型を自動生成
 export type SearchSchoolFormValues = z.infer<typeof SearchSchoolSchema>;
 
-export const SearchSchoolDefaultValues: Partial<z.infer<typeof SearchSchoolSchema>> = {
-  target: undefined,
-  totalFee: [0, 1000000],
-  school: undefined,
-  style: undefined,
-  attendance: undefined,
-  schooling: [],
+// デフォルト値の定義
+export const DEFAULT_SEARCH_SCHOOL_VALUES: SearchSchoolFormValues = {
+  target: [],
+  style: [],
+  attendance: [],
+  totalFee: [0, 4000000],
 };
 
 export type queryValue ={
-  target: string,
-  minFee: number,
-  maxFee: number,
-  school: string,
-  style: string,
-  attendance: string,
-  schooling: string[],
+  alignment?: string;
+  target?: string;
+  style?: string;
+  attendance?: string;
+  minFee?: number;
+  maxFee?: number;
+
 };
 
 export const targetOptions = [
   "新入学",
   "転入学",
-] as const;
-
-export const schoolOptions = [
-  "通信制高校",
-  "サポート校",
 ] as const;
 
 export const styleOptions = [
@@ -40,15 +34,7 @@ export const styleOptions = [
 
 export const attendanceOptions = [
   "週1",
-  "週2",
   "週3",
-  "週4",
   "週5",
-  "オンライン",
-  "自由",
-] as const;
-
-export const schoolingOptions = [
-  "県外",
-  "県内",
+  "オンライン"
 ] as const;

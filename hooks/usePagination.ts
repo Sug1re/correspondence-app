@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ITEMS_PER_PAGE } from "@/lib/constants";
 
 export const usePagination = <T,>(items: T[]) => {
@@ -11,6 +11,10 @@ export const usePagination = <T,>(items: T[]) => {
     const endIndex = startIndex + ITEMS_PER_PAGE;
     return items.slice(startIndex, endIndex);
   }, [items, page]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [items]);
 
   return {
     page,

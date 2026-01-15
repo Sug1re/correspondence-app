@@ -10,6 +10,7 @@ import {
   FormHelperText,
   CardContent,
   Typography,
+  Box,
 } from "@mui/material";
 
 interface Props {
@@ -17,48 +18,80 @@ interface Props {
   text: string;
   option: readonly string[];
   Icon?: React.ElementType;
-  disabledOptions?: string[];
 }
 
-export const FormCheckBox = ({
-  name,
-  text,
-  option,
-  Icon,
-  disabledOptions = [],
-}: Props) => {
+export const FormCheckBox = ({ name, text, option, Icon }: Props) => {
   const { control } = useFormContext();
+
+  const partition = {
+    content: '""',
+    position: "absolute",
+    right: 0,
+    left: "50%",
+    top: "50%",
+    transform: "translate(-50%, -50%)",
+    height: "100%",
+    width: "2px",
+    backgroundColor: "#b0c4de",
+  };
 
   return (
     <CardContent
       sx={{
-        px: 6,
+        px: 2,
+        display: "flex",
+        gap: 1.5,
         width: "100%",
         boxSizing: "border-box",
       }}
     >
-      <Typography sx={{ fontWeight: 600, display: "flex", gap: 1 }}>
+      <Typography
+        sx={{
+          fontWeight: 600,
+          fontSize: 14,
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+          flex: 1,
+        }}
+      >
         {Icon && <Icon style={{ color: "#000000" }} />}
         {text}
       </Typography>
 
+      <Box
+        sx={{
+          position: "relative",
+          alignSelf: "stretch",
+          "&::after": partition,
+        }}
+      />
+
       <Controller
         name={name}
         control={control}
-        defaultValue={[]} // ← Checkbox用に配列で初期化
+        defaultValue={[]}
         render={({ field, fieldState }) => (
-          <FormControl component="fieldset" error={!!fieldState.error}>
+          <FormControl
+            component="fieldset"
+            error={!!fieldState.error}
+            sx={{
+              flex: 2,
+            }}
+          >
             <FormGroup row>
               {option.map((opt) => {
                 const checked = field.value?.includes(opt) || false;
                 return (
                   <FormControlLabel
                     key={opt}
+                    sx={{
+                      width: 160,
+                    }}
                     control={
                       <Checkbox
                         disableRipple
                         checked={checked}
-                        disabled={disabledOptions.includes(opt)}
                         onChange={(e) => {
                           if (e.target.checked) {
                             field.onChange([...field.value, opt]);
@@ -69,9 +102,9 @@ export const FormCheckBox = ({
                           }
                         }}
                         sx={{
-                          color: "#003399",
+                          color: "#060666ff",
                           "&.Mui-checked": {
-                            color: "#003399",
+                            color: "#060666ff",
                           },
                         }}
                       />
@@ -84,7 +117,7 @@ export const FormCheckBox = ({
             </FormGroup>
 
             {fieldState.error && (
-              <FormHelperText>{fieldState.error.message}</FormHelperText>
+              <FormHelperText error>{fieldState.error.message}</FormHelperText>
             )}
           </FormControl>
         )}
@@ -92,96 +125,3 @@ export const FormCheckBox = ({
     </CardContent>
   );
 };
-
-// "use client";
-
-// import React from "react";
-// import { useFormContext, Controller } from "react-hook-form";
-// import {
-//   FormControlLabel,
-//   Checkbox,
-//   FormHelperText,
-//   Typography,
-//   CardContent,
-// } from "@mui/material";
-
-// interface Props {
-//   name: string;
-//   text: string;
-//   option: readonly string[];
-//   Icon?: React.ElementType;
-//   disabledOptions?: string[];
-// }
-
-// export const FormCheckbox = ({
-//   name,
-//   text,
-//   option,
-//   Icon,
-//   disabledOptions = [],
-// }: Props) => {
-//   const { control, getValues, setValue } = useFormContext();
-
-//   const handleChange = (value: string, checked: boolean) => {
-//     const currentValues: string[] = getValues(name) || [];
-//     if (checked) {
-//       setValue(name, [...currentValues, value]);
-//     } else {
-//       setValue(
-//         name,
-//         currentValues.filter((v) => v !== value)
-//       );
-//     }
-//   };
-//   return (
-//     <CardContent
-//       sx={{
-//         px: 6,
-//         width: "100%",
-//         boxSizing: "border-box",
-//       }}
-//     >
-//       <Typography sx={{ fontWeight: 600, display: "flex", gap: 1 }}>
-//         {Icon && <Icon style={{ color: "#000000" }} />}
-//         {text}
-//       </Typography>
-//       <Controller
-//         name={name}
-//         control={control}
-//         render={({ field, fieldState }) => {
-//           const selectedValues: string[] = field.value || [];
-
-//           return (
-//             <>
-//               {option.map((opt) => (
-//                 <FormControlLabel
-//                   key={opt}
-//                   control={
-//                     <Checkbox
-//                       checked={selectedValues.includes(opt)}
-//                       onChange={(e) => handleChange(opt, e.target.checked)}
-//                       disabled={disabledOptions.includes(opt)}
-//                       disableRipple
-//                       sx={{
-//                         color: "#003399",
-//                         "&.Mui-checked": {
-//                           color: "#003399",
-//                         },
-//                       }}
-//                     />
-//                   }
-//                   label={opt}
-//                 />
-//               ))}
-//               {fieldState.error && (
-//                 <FormHelperText error>
-//                   {fieldState.error.message}
-//                 </FormHelperText>
-//               )}
-//             </>
-//           );
-//         }}
-//       />
-//     </CardContent>
-//   );
-// };

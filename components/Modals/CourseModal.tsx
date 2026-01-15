@@ -15,7 +15,8 @@ export const CourseModal = ({ opened, school, onClose }: Props) => {
   return (
     <BaseModal
       title="コースの情報"
-      color="orange"
+      type="default"
+      color="blue"
       footer={false}
       isOpen={opened}
       onClose={onClose}

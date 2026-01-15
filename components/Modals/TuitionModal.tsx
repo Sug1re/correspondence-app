@@ -23,6 +23,7 @@ export const TuitionModal = ({
   return (
     <BaseModal
       title="負担額の内訳"
+      type="default"
       color="orange"
       footer={false}
       isOpen={opened}

@@ -5,13 +5,17 @@ import { School } from "@/entities/school";
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const targetQuery = searchParams.get("target");
+    const alignmentQuery = searchParams.get("alignment");
+    const targetQueryParam = searchParams.get("target");
+    const styleQueryParam = searchParams.get("style");
+    const attendanceQueryParam = searchParams.get("attendance");
     const minFeeQuery = searchParams.get("minFee");
     const maxFeeQuery = searchParams.get("maxFee");
-    const schoolQuery = searchParams.get("school");
-    const styleQuery = searchParams.get("style");
-    const attendanceQuery = searchParams.get("attendance");
-    const schoolingQuery = searchParams.getAll("schooling");
+
+    const targetQueries = targetQueryParam ? targetQueryParam.split(',') : [];
+    const styleQueries = styleQueryParam ? styleQueryParam.split(',') : [];
+    const attendanceQueries = attendanceQueryParam ? attendanceQueryParam.split(',') : [];
+
     const idsQuery = searchParams.get("ids")
 
     const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
@@ -80,63 +84,75 @@ export async function GET(req: Request) {
 
     }));
 
-  if (targetQuery) {
-    data = data.filter((school) => school.target === targetQuery);
+const isOrSearch = alignmentQuery === "OR";
+
+if (
+  !isOrSearch &&
+  (
+    targetQueries.length > 1 ||
+    styleQueries.length > 1 ||
+    attendanceQueries.length > 1
+  )) {
+  data = [];
+} else {
+  const filters: ((school: School) => boolean)[] = [];
+
+  if (targetQueries.length > 0) {
+    filters.push((school) => targetQueries.includes(school.target));
+  }
+
+  if (styleQueries.length > 0) {
+    filters.push((school) => styleQueries.includes(school.style));
+  }
+
+  if (attendanceQueries.length > 0) {
+    filters.push((school) => attendanceQueries.includes(school.attendance));
   }
 
   if (minFeeQuery && maxFeeQuery) {
     const minFee = Number(minFeeQuery);
     const maxFee = Number(maxFeeQuery);
+    filters.push((school) => {
+      const entranceFee = Number(school.entranceTuition) || 0;
+      const transferFee = Number(school.transferTuition) || 0;
 
-    data = data.filter((school) => {
-      if (targetQuery === "新入学") {
-        const fee = Number(school.entranceTuition) || 0;
-        return fee >= minFee && fee <= maxFee;
-      } else {
-        const fee = Number(school.transferTuition) || 0;
-        return fee >= minFee && fee <= maxFee;
+      if (targetQueries.length === 0) {
+        const inEntranceRange = entranceFee >= minFee && entranceFee <= maxFee;
+        const inTransferRange = transferFee >= minFee && transferFee <= maxFee;
+        return (entranceFee > 0 && inEntranceRange) || (transferFee > 0 && inTransferRange);
       }
+
+      const fee = (targetQueries.includes("新入学")) ? entranceFee : transferFee;
+      return fee >= minFee && fee <= maxFee;
     });
   }
 
-  if (schoolQuery) {
-    data = data.filter((item) => item.school === schoolQuery);
+  if (filters.length > 0) {
+    data = data.filter((school) =>
+      isOrSearch
+        ? filters.some((fn) => fn(school))
+        : filters.every((fn) => fn(school))
+    );
   }
+}
 
-  if (styleQuery) {
-    data = data.filter((item) => item.style === styleQuery);
-  }
+  data.sort((a, b) => {
+    const aFee =
+      Number(a.entranceTuition) ||
+      Number(a.transferTuition) ||
+      0;
 
-  if (attendanceQuery) {
-    if (attendanceQuery !== "オンライン") {
-      data = data.filter((item) => item.attendance === attendanceQuery);
-    }
-  }
+    const bFee =
+      Number(b.entranceTuition) ||
+      Number(b.transferTuition) ||
+      0;
 
-  if (schoolingQuery.length > 0) {
-    data = data.filter((item) => {
-      const itemSchoolings = item.schooling.split(',').map(s => s.trim());
-      return schoolingQuery.some(query => itemSchoolings.includes(query));
-    });
-  }
+    return aFee - bFee;
+  });
 
   if (idsQuery) {
     const ids = idsQuery.split(",").map((id) => decodeURIComponent(id.trim()));
     data = data.filter((item) => ids.includes(item.schoolId));
-  }
-
-  if (targetQuery === "新入学") {
-    data.sort(
-      (a, b) =>
-        (Number(a.entranceTuition) || 0) -
-        (Number(b.entranceTuition) || 0)
-    );
-  } else {
-    data.sort(
-      (a, b) =>
-        (Number(a.transferTuition) || 0) -
-        (Number(b.transferTuition) || 0)
-    );
   }
 
     return NextResponse.json({ data }, { status: 200 });

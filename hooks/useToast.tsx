@@ -5,7 +5,7 @@ import { Snackbar, Alert, Slide } from "@mui/material";
 import type { SlideProps } from "@mui/material";
 import { useDisclosure } from "@mantine/hooks";
 
-//showToastをshowSuccessToastとshowErrorToastに分ける
+//showToastをshowSuccessToastとshowErrorToastに分ける あとで
 
 type ToastSeverity = "success" | "error";
 
@@ -37,8 +37,6 @@ export const useToast = () => {
       TransitionComponent={SlideTransition}
       sx={{
         "& .MuiSnackbarContent-root": {
-          backgroundColor: "#333",
-          color: "#fff",
           borderRadius: 2,
           boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
         },
@@ -50,7 +48,12 @@ export const useToast = () => {
         sx={{
           width: "100%",
           fontWeight: "bold",
-          border: "1px solid #999",
+          border: "1px solid #060666ff",
+          backgroundColor: "#ffffff",
+          color: "#000000",
+          "& .MuiAlert-icon": {
+            color: "#060666ff",
+          },
         }}
       >
         {message}

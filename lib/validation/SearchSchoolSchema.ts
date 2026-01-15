@@ -2,29 +2,18 @@ import { z } from "zod";
 
 export const SearchSchoolSchema = z.object({
 
-  target: z.enum(["新入学", "転入学"], {
-    errorMap: () => ({ message: "対象を選択してください。" }),
-    }),
+  target: z
+  .array(z.enum(["新入学", "転入学"])),
 
-  totalFee: z
-    .tuple([z.number().min(0), z.number().max(4000000)])
-    .refine(([min, max]) => min <= max, {
-      message: "最小値が最大値を超えています。",
-    }),
+  style: z
+  .array(z.enum(["通学", "オンライン"])),
 
-  school: z.enum(["通信制高校", "サポート校"], {
-    errorMap: () => ({ message: "学校情報1を選択してください。" }),
-    }),
+  attendance: z
+    .array(z.enum(["週1", "週3", "週5", "オンライン"])),
 
-  style: z.enum(["通学", "オンライン"], {
-    errorMap: () => ({ message: "学校情報2を選択してください。" }),
-    }),
+ totalFee: z
+    .tuple([z.number().min(0), z.number().min(0)])
+    .refine(([min, max]) => !(min === 0 && max === 0), {
+      message: "予算を決めてください。"}),
 
-  attendance: z.enum(["週1", "週2", "週3", "週4", "週5", "自由", "オンライン"],{
-    errorMap: () => ({ message: "登校頻度を選択してください。" }),
-    }),
-
-  schooling: z
-    .array(z.enum(["県外", "県内"]))
-    .min(1, { message: "スクーリング会場を選択してください。" }),
-});
+  });
