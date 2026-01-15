@@ -7,15 +7,15 @@ import { School } from "@/entities/school";
 import { usePagination } from "@/hooks/usePagination";
 import { Loading } from "../Loading";
 import { Message } from "../Message";
-import { SortButton } from "../Buttons/SortButton";
 import { Box } from "@mui/material";
-import { useDisclosure } from "@mantine/hooks";
+import { PAGINATION_BUTTON_HEIGHT } from "@/lib/constants";
 
 type Props = {
   school: School[];
   isLoading: boolean;
   isError: boolean;
   isEmpty: boolean;
+  isToggle: boolean;
 };
 
 export const SchoolCardSection = ({
@@ -23,9 +23,8 @@ export const SchoolCardSection = ({
   isLoading,
   isError,
   isEmpty,
+  isToggle,
 }: Props) => {
-  const [isToggle, { toggle }] = useDisclosure(false);
-
   const sortedSchools = useMemo(() => {
     return isToggle ? [...school].reverse() : school;
   }, [school, isToggle]);
@@ -39,11 +38,16 @@ export const SchoolCardSection = ({
 
   return (
     <>
-      <SortButton selected={isToggle} onToggle={toggle} />
-
       <SchoolCard school={partSchools} />
 
-      <Box sx={{ display: "flex", justifyContent: "center", pt: 6, pb: 12 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: PAGINATION_BUTTON_HEIGHT,
+        }}
+      >
         <PaginationButton
           page={page}
           totalPages={totalPages}

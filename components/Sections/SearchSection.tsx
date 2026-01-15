@@ -1,12 +1,15 @@
 "use client";
 
-import { SearchButton } from "@/components/Buttons/SearchButton";
 import { SchoolCardSection } from "./SchoolCardSection";
 import { useSearchParams } from "next/navigation";
 import { useGetFilteredSchools } from "@/hooks/useSchools";
 import { queryValue } from "@/entities/form";
+import { FilterSection } from "./FilterSection";
+import { useDisclosure } from "@mantine/hooks";
 
 export const SearchSection = () => {
+  const [isToggle, { toggle }] = useDisclosure(false);
+
   const searchParams = useSearchParams();
 
   const conditions: queryValue = {};
@@ -50,13 +53,14 @@ export const SearchSection = () => {
 
   return (
     <>
-      <SearchButton />
+      <FilterSection isToggle={isToggle} toggle={toggle} />
 
       <SchoolCardSection
         school={schools}
         isLoading={isLoading}
         isError={isError}
         isEmpty={isEmpty}
+        isToggle={isToggle}
       />
     </>
   );

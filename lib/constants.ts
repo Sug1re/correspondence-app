@@ -2,6 +2,12 @@ import { School } from "@/entities/school";
 
 export const HEADER_HEIGHT = 60;
 
+export const BREADCRUMB_HEIGHT = 30;
+
+export const FILTER_SECTION_HEIGHT = 70;
+
+export const PAGINATION_BUTTON_HEIGHT = 70;
+
 export const BAR_HEIGHT = 52;
 
 export const ITEMS_PER_PAGE = 4;

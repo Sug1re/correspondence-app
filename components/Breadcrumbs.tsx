@@ -1,6 +1,6 @@
 "use client";
 
-import { BREADCRUMB_LABELS } from "@/lib/constants";
+import { BREADCRUMB_HEIGHT, BREADCRUMB_LABELS } from "@/lib/constants";
 import { Box, Breadcrumbs, Link, Typography } from "@mui/material";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -19,7 +19,15 @@ export const Breadcrumb = () => {
   });
 
   return (
-    <Box sx={{ pt: 9, pb: 1, px: 2, backgroundColor: "rgba(0, 51, 153, 0.1)" }}>
+    <Box
+      sx={{
+        pt: 9,
+        pb: 1,
+        px: 2,
+        height: BREADCRUMB_HEIGHT,
+        backgroundColor: "rgba(0, 51, 153, 0.1)",
+      }}
+    >
       <Breadcrumbs aria-label="breadcrumb">
         <Link
           underline="hover"

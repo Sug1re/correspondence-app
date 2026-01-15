@@ -26,6 +26,10 @@ export const SearchButton = ({ onSearch }: Props) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          "&:hover": {
+            transform: "scale(0.95)",
+            bgcolor: "#ffffff",
+          },
         }}
         onClick={handlers.open}
         disableRipple
