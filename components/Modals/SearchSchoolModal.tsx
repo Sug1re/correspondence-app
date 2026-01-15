@@ -21,7 +21,7 @@ type Props = {
 };
 
 export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
-  const [alignment, setAlignment] = useState("OR");
+  const [alignment, setAlignment] = useState("AND");
 
   const methodsRef = useRef<UseFormReturn<
     z.infer<typeof SearchSchoolSchema>
@@ -32,28 +32,27 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
   const onSubmit = () => {
     if (methodsRef.current) {
       methodsRef.current.handleSubmit((data) => {
-        console.log("Form Data:", data);
-
         const query = new URLSearchParams();
         query.append("alignment", alignment);
 
         if (data.target && data.target.length > 0) {
-          data.target.forEach((item) => query.append("target", item));
+          query.append("target", data.target.join(","));
         }
 
-        if (data.style && data.style.length > 0) {
-          data.style.forEach((item) => query.append("style", item));
-        }
+        // if (data.style && data.style.length > 0) {
+        //   query.append("style", data.style.join(","));
+        // }
 
-        if (data.attendance && data.attendance.length > 0) {
-          data.attendance.forEach((item) => query.append("attendance", item));
-        }
+        // if (data.attendance && data.attendance.length > 0) {
+        //   query.append("attendance", data.attendance.join(","));
+        // }
+
         query.append("minFee", data.totalFee[0].toString());
         query.append("maxFee", data.totalFee[1].toString());
 
+        console.log("Query being sent:", query.toString());
         router.push(`/search?${query.toString()}`);
         onSearch?.(data);
-
         onClose();
       })();
     }

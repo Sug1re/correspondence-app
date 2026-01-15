@@ -13,11 +13,13 @@ export const DEFAULT_SEARCH_SCHOOL_VALUES: SearchSchoolFormValues = {
 };
 
 export type queryValue ={
-  target: string,
-  minFee: number,
-  maxFee: number,
-  style: string,
-  attendance: string,
+  alignment?: string;
+  target?: string;
+  style?: string;
+  attendance?: string;
+  minFee?: number;
+  maxFee?: number;
+
 };
 
 export const targetOptions = [

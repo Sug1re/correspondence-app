@@ -4,12 +4,19 @@ import { School } from "@/entities/school";
 
 export async function GET(req: Request) {
   try {
+    console.log("Full Request URL:", req.url);
     const { searchParams } = new URL(req.url);
-    const targetQuery = searchParams.get("target");
+    const alignmentQuery = searchParams.get("alignment");
+    const targetQueryParam = searchParams.get("target");
+    const styleQueryParam = searchParams.get("style");
+    const attendanceQueryParam = searchParams.get("attendance");
     const minFeeQuery = searchParams.get("minFee");
     const maxFeeQuery = searchParams.get("maxFee");
-    const styleQuery = searchParams.get("style");
-    const attendanceQuery = searchParams.get("attendance");
+
+    const targetQueries = targetQueryParam ? targetQueryParam.split(',') : [];
+    const styleQueries = styleQueryParam ? styleQueryParam.split(',') : [];
+    const attendanceQueries = attendanceQueryParam ? attendanceQueryParam.split(',') : [];
+
     const idsQuery = searchParams.get("ids")
 
     const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
@@ -78,53 +85,90 @@ export async function GET(req: Request) {
 
     }));
 
-  if (targetQuery) {
-    data = data.filter((school) => school.target === targetQuery);
+  const filters:((school: School) => boolean)[] = [];
+
+  if (targetQueries.length > 0) {
+    filters.push((school) => targetQueries.includes(school.target));
+  }
+
+   if (styleQueries.length > 0) {
+    filters.push((school) => styleQueries.includes(school.style));
+  }
+
+  if (attendanceQueries.length > 0) {
+    filters.push((school) => attendanceQueries.includes(school.attendance));
   }
 
   if (minFeeQuery && maxFeeQuery) {
     const minFee = Number(minFeeQuery);
     const maxFee = Number(maxFeeQuery);
-
-    data = data.filter((school) => {
-      if (targetQuery === "新入学") {
-        const fee = Number(school.entranceTuition) || 0;
-        return fee >= minFee && fee <= maxFee;
-      } else {
-        const fee = Number(school.transferTuition) || 0;
-        return fee >= minFee && fee <= maxFee;
-      }
+    filters.push((school) => {
+      const fee = (targetQueries.includes("新入学")) ? Number(school.entranceTuition) || 0 : Number(school.transferTuition) || 0;
+      return fee >= minFee && fee <= maxFee;
     });
   }
 
-  if (styleQuery) {
-    data = data.filter((item) => item.style === styleQuery);
+const isOrSearch = alignmentQuery === "OR";
+
+/**
+ * target style attendance は DB 上で単一値
+ * AND検索 + target style attendance 複数指定は成立しない
+ */
+if (
+  !isOrSearch &&
+  (
+    targetQueries.length > 1 ||
+    styleQueries.length > 1 ||
+    attendanceQueries.length > 1
+  )) {
+  data = [];
+} else {
+  const filters: ((school: School) => boolean)[] = [];
+
+  if (targetQueries.length > 0) {
+    filters.push((school) => targetQueries.includes(school.target));
   }
 
-  if (attendanceQuery) {
-    if (attendanceQuery !== "オンライン") {
-      data = data.filter((item) => item.attendance === attendanceQuery);
-    }
+  if (styleQueries.length > 0) {
+    filters.push((school) => styleQueries.includes(school.style));
   }
+
+  if (attendanceQueries.length > 0) {
+    filters.push((school) => attendanceQueries.includes(school.attendance));
+  }
+
+  if (filters.length > 0) {
+    data = data.filter((school) =>
+      isOrSearch
+        ? filters.some((fn) => fn(school))   // OR
+        : filters.every((fn) => fn(school)) // AND
+    );
+  }
+}
+
+  data.sort((a, b) => {
+    const aFee =
+      Number(a.entranceTuition) ||
+      Number(a.transferTuition) ||
+      0;
+
+    const bFee =
+      Number(b.entranceTuition) ||
+      Number(b.transferTuition) ||
+      0;
+
+    return aFee - bFee;
+  });
 
   if (idsQuery) {
     const ids = idsQuery.split(",").map((id) => decodeURIComponent(id.trim()));
     data = data.filter((item) => ids.includes(item.schoolId));
   }
 
-  if (targetQuery === "新入学") {
-    data.sort(
-      (a, b) =>
-        (Number(a.entranceTuition) || 0) -
-        (Number(b.entranceTuition) || 0)
-    );
-  } else {
-    data.sort(
-      (a, b) =>
-        (Number(a.transferTuition) || 0) -
-        (Number(b.transferTuition) || 0)
-    );
-  }
+    console.log("Alignment:", alignmentQuery, "Filtered Data:",data.map((school) => ({
+    course: school.course,
+    target: school.target,
+  })));
 
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
