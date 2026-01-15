@@ -15,7 +15,7 @@ type Props = {
   isLoading: boolean;
   isError: boolean;
   isEmpty: boolean;
-  isToggle: boolean;
+  isToggle?: boolean;
 };
 
 export const SchoolCardSection = ({
