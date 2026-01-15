@@ -4,7 +4,6 @@ import { School } from "@/entities/school";
 
 export async function GET(req: Request) {
   try {
-    console.log("Full Request URL:", req.url);
     const { searchParams } = new URL(req.url);
     const alignmentQuery = searchParams.get("alignment");
     const targetQueryParam = searchParams.get("target");
@@ -85,35 +84,8 @@ export async function GET(req: Request) {
 
     }));
 
-  const filters:((school: School) => boolean)[] = [];
-
-  if (targetQueries.length > 0) {
-    filters.push((school) => targetQueries.includes(school.target));
-  }
-
-   if (styleQueries.length > 0) {
-    filters.push((school) => styleQueries.includes(school.style));
-  }
-
-  if (attendanceQueries.length > 0) {
-    filters.push((school) => attendanceQueries.includes(school.attendance));
-  }
-
-  if (minFeeQuery && maxFeeQuery) {
-    const minFee = Number(minFeeQuery);
-    const maxFee = Number(maxFeeQuery);
-    filters.push((school) => {
-      const fee = (targetQueries.includes("新入学")) ? Number(school.entranceTuition) || 0 : Number(school.transferTuition) || 0;
-      return fee >= minFee && fee <= maxFee;
-    });
-  }
-
 const isOrSearch = alignmentQuery === "OR";
 
-/**
- * target style attendance は DB 上で単一値
- * AND検索 + target style attendance 複数指定は成立しない
- */
 if (
   !isOrSearch &&
   (
@@ -137,11 +109,29 @@ if (
     filters.push((school) => attendanceQueries.includes(school.attendance));
   }
 
+  if (minFeeQuery && maxFeeQuery) {
+    const minFee = Number(minFeeQuery);
+    const maxFee = Number(maxFeeQuery);
+    filters.push((school) => {
+      const entranceFee = Number(school.entranceTuition) || 0;
+      const transferFee = Number(school.transferTuition) || 0;
+
+      if (targetQueries.length === 0) {
+        const inEntranceRange = entranceFee >= minFee && entranceFee <= maxFee;
+        const inTransferRange = transferFee >= minFee && transferFee <= maxFee;
+        return (entranceFee > 0 && inEntranceRange) || (transferFee > 0 && inTransferRange);
+      }
+
+      const fee = (targetQueries.includes("新入学")) ? entranceFee : transferFee;
+      return fee >= minFee && fee <= maxFee;
+    });
+  }
+
   if (filters.length > 0) {
     data = data.filter((school) =>
       isOrSearch
-        ? filters.some((fn) => fn(school))   // OR
-        : filters.every((fn) => fn(school)) // AND
+        ? filters.some((fn) => fn(school))
+        : filters.every((fn) => fn(school))
     );
   }
 }
@@ -164,11 +154,6 @@ if (
     const ids = idsQuery.split(",").map((id) => decodeURIComponent(id.trim()));
     data = data.filter((item) => ids.includes(item.schoolId));
   }
-
-    console.log("Alignment:", alignmentQuery, "Filtered Data:",data.map((school) => ({
-    course: school.course,
-    target: school.target,
-  })));
 
     return NextResponse.json({ data }, { status: 200 });
   } catch (error) {

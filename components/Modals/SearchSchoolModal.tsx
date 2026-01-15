@@ -39,18 +39,17 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
           query.append("target", data.target.join(","));
         }
 
-        // if (data.style && data.style.length > 0) {
-        //   query.append("style", data.style.join(","));
-        // }
+        if (data.style && data.style.length > 0) {
+          query.append("style", data.style.join(","));
+        }
 
-        // if (data.attendance && data.attendance.length > 0) {
-        //   query.append("attendance", data.attendance.join(","));
-        // }
+        if (data.attendance && data.attendance.length > 0) {
+          query.append("attendance", data.attendance.join(","));
+        }
 
         query.append("minFee", data.totalFee[0].toString());
         query.append("maxFee", data.totalFee[1].toString());
 
-        console.log("Query being sent:", query.toString());
         router.push(`/search?${query.toString()}`);
         onSearch?.(data);
         onClose();
