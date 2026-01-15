@@ -14,7 +14,7 @@ type Props = {
   children: React.ReactNode;
   title: string;
   type: "default" | "search";
-  color: "blue";
+  color: "blue" | "orange";
   footer: boolean;
   isOpen: boolean;
   onClose: () => void;
