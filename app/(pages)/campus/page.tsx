@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { XsWrapper } from "@/components/Wrapper/xsWrapper";
 import { Breadcrumb } from "@/components/Breadcrumbs";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
+import { MapSection } from "@/components/Sections/MapSection";
 
 export default function CampusPage() {
   return (
@@ -14,7 +15,9 @@ export default function CampusPage() {
       <Breadcrumb />
 
       <Container maxWidth="md">
-        <Stack spacing={4} sx={{ mt: 4 }}></Stack>
+        <Stack spacing={4}>
+          <MapSection />
+        </Stack>
       </Container>
 
       <ScrollToTopButton />

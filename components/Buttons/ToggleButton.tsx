@@ -41,23 +41,11 @@ export const ToggleBt: React.FC<Props> = ({ alignment, setAlignment }) => {
         onChange={handleChange}
         sx={{ display: "flex", justifyContent: "center", mt: 2 }}
       >
-        <ToggleButton
-          value="OR"
-          sx={{
-            ...ToggleButtonStyle,
-          }}
-          disableRipple
-        >
+        <ToggleButton value="OR" sx={ToggleButtonStyle} disableRipple>
           OR
         </ToggleButton>
 
-        <ToggleButton
-          value="AND"
-          sx={{
-            ...ToggleButtonStyle,
-          }}
-          disableRipple
-        >
+        <ToggleButton value="AND" sx={ToggleButtonStyle} disableRipple>
           AND
         </ToggleButton>
       </ToggleButtonGroup>
