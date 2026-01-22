@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { ToggleButton, Typography } from "@mui/material";
-import SortIcon from "@mui/icons-material/Sort";
+import { ToggleButton } from "@mui/material";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 type Props = {
   selected: boolean;
@@ -17,10 +18,14 @@ export const SortButton = ({ selected, onToggle }: Props) => {
       onChange={onToggle}
       disableRipple
       sx={{
-        border: "1.5px solid",
+        color: "#060666ff",
+        border: `1px solid #060666ff`,
+        width: 40,
+        height: 40,
         borderRadius: 2,
-        bgcolor: "#ffffff",
-        gap: 1,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
         textTransform: "none",
         transition: "all 0.2s ease-in-out",
 
@@ -30,32 +35,18 @@ export const SortButton = ({ selected, onToggle }: Props) => {
         },
 
         "&.Mui-selected": {
-          bgcolor: "#003399",
+          bgcolor: "#060666ff",
           color: "#fff",
         },
 
         "&.Mui-selected:hover": {
           transform: "scale(0.95)",
-          bgcolor: "#003399",
+          bgcolor: "#060666ff",
           color: "#fff",
-        },
-
-        "& .MuiSvgIcon-root": {
-          fontSize: "1.4rem",
-          transition: "transform 0.35s ease",
-          transform: selected ? "rotate(0deg)" : "rotate(180deg)",
         },
       }}
     >
-      <SortIcon />
-      <Typography
-        sx={{
-          fontWeight: 600,
-          fontSize: { xs: "0.9rem", sm: "1rem" },
-        }}
-      >
-        負担額を{selected ? "昇順" : "降順"}で表示
-      </Typography>
+      {selected ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
     </ToggleButton>
   );
 };

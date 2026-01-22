@@ -1,14 +1,12 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { XsWrapper } from "@/components/Wrapper/xsWrapper";
 import { Breadcrumb } from "@/components/Breadcrumbs";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
-import { SearchSection } from "@/components/Sections/SearchSection";
-import { Loading } from "@/components/Loading";
 
-export default function SearchPage() {
+export default function CampusPage() {
   return (
     <>
       <Header />
@@ -16,11 +14,7 @@ export default function SearchPage() {
       <Breadcrumb />
 
       <Container maxWidth="md">
-        <Stack spacing={2}>
-          <Suspense fallback={<Loading />}>
-            <SearchSection />
-          </Suspense>
-        </Stack>
+        <Stack spacing={4} sx={{ mt: 4 }}></Stack>
       </Container>
 
       <ScrollToTopButton />

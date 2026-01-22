@@ -11,6 +11,8 @@ import { signInWithPopup } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { HEADER_HEIGHT } from "@/lib/constants";
 import { useRouter } from "next/navigation";
+import { XsWrapper } from "@/components/Wrapper/xsWrapper";
+import { Conditional } from "./Wrapper/conditionalWrapper";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
@@ -41,9 +43,9 @@ export default function Header() {
   return (
     <>
       <AppBar
-        position="relative"
+        position="fixed"
         sx={{
-          background: "linear-gradient(to right, #003399, #FF6600)",
+          background: "#FFFFFF",
           height: HEADER_HEIGHT,
         }}
       >
@@ -56,49 +58,22 @@ export default function Header() {
             height: "100%",
           }}
         >
+          {/* 雑務:フォントの変更*/}
           <Box sx={{ flexGrow: 8, textAlign: "center" }}>
             <Typography
               sx={{
                 fontWeight: 600,
-                fontSize: "14px",
-                color: "#FFFFFF",
+                fontSize: { xs: 14, sm: 20 },
+                color: "#060666ff",
               }}
             >
-              通信制高校検索アプリ
-              <br />
-              （新潟県版）
+              N高等学校・S高等学校・R高等学校
             </Typography>
           </Box>
 
-          <Box
-            sx={{
-              flexGrow: 1,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <IconButton
-              edge="start"
-              sx={{ color: "#FFFFFF", gap: 1 }}
-              onClick={onBookmarks}
-              disableRipple
-            >
-              <BookmarksIcon style={{ fontSize: 28 }} />
-              <Typography
-                sx={{
-                  fontWeight: 600,
-                  color: "#FFFFFF",
-                  display: { xs: "none", sm: "flex" },
-                  alignItems: "center",
-                }}
-              >
-                ブックマーク
-              </Typography>
-            </IconButton>
-          </Box>
+          {/* 雑務:アイコンとテキストの配置*/}
 
-          {!user && (
+          <XsWrapper when={false}>
             <Box
               sx={{
                 flexGrow: 1,
@@ -109,7 +84,37 @@ export default function Header() {
             >
               <IconButton
                 edge="start"
-                sx={{ color: "#FFFFFF", gap: 1 }}
+                sx={{ color: "#060666ff", gap: 1 }}
+                onClick={onBookmarks}
+                disableRipple
+              >
+                <BookmarksIcon style={{ fontSize: 28 }} />
+                <Typography
+                  sx={{
+                    fontWeight: 600,
+                    color: "#060666ff",
+                    display: { xs: "none", sm: "flex" },
+                    alignItems: "center",
+                  }}
+                >
+                  ブックマーク一覧
+                </Typography>
+              </IconButton>
+            </Box>
+          </XsWrapper>
+
+          <Conditional when={!user}>
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <IconButton
+                edge="start"
+                sx={{ color: "#060666ff", gap: 1 }}
                 onClick={login}
                 disabled={loading}
                 disableRipple
@@ -118,7 +123,7 @@ export default function Header() {
                 <Typography
                   sx={{
                     fontWeight: 600,
-                    color: "#FFFFFF",
+                    color: "#060666ff",
                     display: { xs: "none", sm: "flex" },
                     alignItems: "center",
                   }}
@@ -127,7 +132,7 @@ export default function Header() {
                 </Typography>
               </IconButton>
             </Box>
-          )}
+          </Conditional>
 
           <Box
             sx={{
@@ -139,7 +144,7 @@ export default function Header() {
           >
             <IconButton
               edge="start"
-              sx={{ color: "#FFFFFF", gap: 1 }}
+              sx={{ color: "#060666ff", gap: 1 }}
               onClick={handlers.open}
               disableRipple
             >
@@ -147,7 +152,7 @@ export default function Header() {
               <Typography
                 sx={{
                   fontWeight: 600,
-                  color: "#FFFFFF",
+                  color: "#060666ff",
                   display: { xs: "none", sm: "flex" },
                   alignItems: "center",
                 }}
@@ -163,5 +168,3 @@ export default function Header() {
     </>
   );
 }
-// あとで
-// Hydration failed because the server rendered HTML didn't match the client. As a result this tree will be regenerated on the client. This can happen if a SSR-ed Client Component used:
