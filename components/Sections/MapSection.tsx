@@ -2,7 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { useDisclosure } from "@mantine/hooks";
+import {
+  Button,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from "@mui/material";
+import { CampusModal } from "../Modals/CampusModal";
 
 const CAMPUS_ADDRESS_MAP: Record<string, string> = {
   新潟: "新潟県新潟市中央区東大通2-1-20",
@@ -13,6 +20,7 @@ export const MapSection = () => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
+  const [isOpen, handlers] = useDisclosure(false);
   const [campus, setCampus] = useState("新潟");
   const [position, setPosition] = useState<{
     lat: number;
@@ -62,7 +70,7 @@ export const MapSection = () => {
       color: "#fff",
     },
     "&:hover": {
-      bgcolor: "#ffffff",
+      bgcolor: "transparent",
     },
   };
 
@@ -96,6 +104,44 @@ export const MapSection = () => {
         >
           <Marker position={position} />
         </GoogleMap>
+
+        <Button
+          size="medium"
+          onClick={handlers.open}
+          sx={{
+            borderRadius: 2,
+            backgroundColor: "#060666ff",
+            color: "#FFFFFF",
+            boxShadow: 2,
+            transition: "transform 0.2s ease-in-out",
+            "&:hover": {
+              transform: "scale(0.95)",
+              backgroundColor: "#060666ff",
+            },
+            "@media (min-width:600px)": {
+              px: 8,
+              py: 3,
+            },
+          }}
+          disableRipple
+        >
+          <Typography
+            sx={{
+              m: 1,
+              gap: 1,
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+              "@media (min-width:600px)": {
+                fontSize: 24,
+              },
+            }}
+          >
+            地域を選択
+          </Typography>
+        </Button>
+
+        <CampusModal opened={isOpen} onClose={handlers.close} />
       </>
     )
   );
