@@ -1,23 +1,42 @@
 "use client";
 
 import { BaseModal } from "../Base/BaseModal";
-import { Stack } from "@mui/material";
+import { Stack, SelectChangeEvent } from "@mui/material";
 import { CampusForm } from "../Forms/CampusForm";
-import { useCampus } from "@/hooks/useCampus";
+import { CampusState } from "@/entities/campus";
+import { useCampusModal } from "@/hooks/useCampusModal";
 
 type Props = {
   opened: boolean;
   onClose: () => void;
+  location: string;
+  handleChange: (event: SelectChangeEvent) => void;
+  selectedCampus: CampusState;
+  setSelectedCampus: React.Dispatch<React.SetStateAction<CampusState>>;
+  onClear: () => void;
 };
 
-export const CampusModal = ({ opened, onClose }: Props) => {
-  const { location, handleChange, selectedCampus, setSelectedCampus, onClear } =
-    useCampus();
-
-  const onSubmit = () => {
-    console.log("Submitted selectedCampus:", selectedCampus);
-    onClose();
-  };
+export const CampusModal = ({
+  opened,
+  onClose,
+  location,
+  handleChange,
+  selectedCampus,
+  setSelectedCampus,
+  onClear,
+}: Props) => {
+  const {
+    localSelectedCampus,
+    setLocalSelectedCampus,
+    onSubmit,
+    onClear: onClearLocal,
+  } = useCampusModal({
+    opened,
+    selectedCampus,
+    setSelectedCampus,
+    onClose,
+    onClearGlobal: onClear,
+  });
 
   return (
     <BaseModal
@@ -27,7 +46,7 @@ export const CampusModal = ({ opened, onClose }: Props) => {
       isOpen={opened}
       onClose={onClose}
       onSubmit={onSubmit}
-      onClear={onClear}
+      onClear={onClearLocal}
     >
       <Stack
         sx={{
@@ -39,8 +58,8 @@ export const CampusModal = ({ opened, onClose }: Props) => {
         <CampusForm
           location={location}
           handleChange={handleChange}
-          setSelectedCampus={setSelectedCampus}
-          selectedCampus={selectedCampus}
+          setSelectedCampus={setLocalSelectedCampus}
+          selectedCampus={localSelectedCampus}
         />
       </Stack>
     </BaseModal>

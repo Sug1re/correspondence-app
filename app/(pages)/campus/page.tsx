@@ -15,7 +15,14 @@ export default function CampusPage() {
       <Breadcrumb />
 
       <Container maxWidth="md">
-        <Stack spacing={4}>
+        <Stack
+          spacing={4}
+          sx={{
+            display: "flex",
+            height: 450,
+            justifyContent: "center",
+          }}
+        >
           <MapSection />
         </Stack>
       </Container>

@@ -1,23 +1,9 @@
 import { useState } from "react";
 import { SelectChangeEvent } from "@mui/material";
-import { CampusState } from "@/entities/campus";
-
-const INITIAL_CAMPUS_STATE: CampusState = {
-  hokkaido: [],
-  tohoku: [],
-  kanto: [],
-  tokai: [],
-  hokuriku: [],
-  koshinetsu: [],
-  kinki: [],
-  chugoku: [],
-  shikoku: [],
-  kyushu: [],
-  okinawa: [],
-};
+import { CampusState, INITIAL_CAMPUS_STATE } from "@/entities/campus";
 
 export const useCampus = () => {
-  const [location, setLocation] = useState("全て");
+  const [location, setLocation] = useState("All");
   const [selectedCampus, setSelectedCampus] =
     useState<CampusState>(INITIAL_CAMPUS_STATE);
 
@@ -26,7 +12,7 @@ export const useCampus = () => {
   };
 
   const clearLocation = () => {
-    setLocation("全て");
+    setLocation("All");
   };
 
   const clearCampus = () => {

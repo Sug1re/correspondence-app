@@ -101,20 +101,20 @@ export const CampusForm = ({
               label="Location"
               onChange={handleChange}
             >
-              <MenuItem value={"全て"}>全て</MenuItem>
-              <MenuItem value={"北海道・東北"}>北海道・東北</MenuItem>
-              <MenuItem value={"関東"}>関東</MenuItem>
-              <MenuItem value={"東海・北陸・甲信越"}>
+              <MenuItem value={"All"}>全て</MenuItem>
+              <MenuItem value={"Hokkaido Tohoku"}>北海道・東北</MenuItem>
+              <MenuItem value={"Kanto"}>関東</MenuItem>
+              <MenuItem value={"Tokai Hokuriku Koshinetsu"}>
                 東海・北陸・甲信越
               </MenuItem>
-              <MenuItem value={"近畿"}>近畿</MenuItem>
-              <MenuItem value={"中国・四国"}>中国・四国</MenuItem>
-              <MenuItem value={"九州・沖縄"}>九州・沖縄</MenuItem>
+              <MenuItem value={"Kinki"}>近畿</MenuItem>
+              <MenuItem value={"Chugoku Shikoku"}>中国・四国</MenuItem>
+              <MenuItem value={"Kyushu Okinawa"}>九州・沖縄</MenuItem>
             </Select>
           </FormControl>
         </CardContent>
 
-        {(location === "全て" || location === "北海道・東北") && (
+        {(location === "All" || location === "Hokkaido Tohoku") && (
           <CardContent
             sx={{
               display: "flex",
@@ -164,7 +164,7 @@ export const CampusForm = ({
             </StyledToggleButtonGroup>
           </CardContent>
         )}
-        {(location === "全て" || location === "東海・北陸・甲信越") && (
+        {(location === "All" || location === "Tokai Hokuriku Koshinetsu") && (
           <CardContent
             sx={{
               display: "flex",
