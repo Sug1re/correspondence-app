@@ -72,7 +72,7 @@ export const CampusForm = ({
 
   return (
     <form>
-      <Box sx={{ minWidth: 300, maxWidth: 500 }}>
+      <Box sx={{ minWidth: 300, maxWidth: 600 }}>
         <CardContent>
           <FormControl
             fullWidth
@@ -137,7 +137,10 @@ export const CampusForm = ({
                 }))
               }
             >
-              <CampusButton label="札幌大通り（北海道）" value="Sapporo Odori" />
+              <CampusButton
+                label="札幌大通り（北海道）"
+                value="Sapporo Odori"
+              />
               <CampusButton label="北海道函館（北海道）" value="Hakodate" />
             </StyledToggleButtonGroup>
 
@@ -152,10 +155,19 @@ export const CampusForm = ({
                 }))
               }
             >
-              <CampusButton label="仙台広瀬通（宮城県）" value="Sendai Hirose-dori" />
-              <CampusButton label="仙台新寺通（宮城県）" value="Sendai Shin-Terakoji" />
+              <CampusButton
+                label="仙台広瀬通（宮城県）"
+                value="Sendai Hirose-dori"
+              />
+              <CampusButton
+                label="仙台新寺通（宮城県）"
+                value="Sendai Shin-Terakoji"
+              />
               <CampusButton label="福島（福島県）" value="Fukushima" />
-              <CampusButton label="福島郡山（福島県）" value="Fukushima Koriyama" />
+              <CampusButton
+                label="福島郡山（福島県）"
+                value="Fukushima Koriyama"
+              />
               <CampusButton label="いわき（福島県）" value="Iwaki" />
               <CampusButton label="青森（青森県）" value="Aomori" />
               <CampusButton label="岩手盛岡（岩手県）" value="Iwate Morioka" />
@@ -192,7 +204,10 @@ export const CampusForm = ({
               <CampusButton label="東岡崎（愛知県）" value="Higashi Okazaki" />
               <CampusButton label="豊田（愛知県）" value="Toyota" />
               <CampusButton label="静岡（静岡県）" value="Shizuoka" />
-              <CampusButton label="静岡沼津（静岡県）" value="Shizuoka Numazu" />
+              <CampusButton
+                label="静岡沼津（静岡県）"
+                value="Shizuoka Numazu"
+              />
               <CampusButton label="浜松（静岡県）" value="Hamamatsu" />
               <CampusButton label="岐阜（岐阜県）" value="Gifu" />
               <CampusButton label="三重（三重県）" value="Mie" />
@@ -226,9 +241,15 @@ export const CampusForm = ({
               }
             >
               <CampusButton label="新潟（新潟県）" value="Niigata" />
-              <CampusButton label="新潟長岡（新潟県）" value="Niigata Nagaoka" />
+              <CampusButton
+                label="新潟長岡（新潟県）"
+                value="Niigata Nagaoka"
+              />
               <CampusButton label="長野（長野県）" value="Nagano" />
-              <CampusButton label="長野松本（長野県）" value="Nagano Matsumoto" />
+              <CampusButton
+                label="長野松本（長野県）"
+                value="Nagano Matsumoto"
+              />
               <CampusButton label="山梨（山梨県）" value="Yamanashi" />
             </StyledToggleButtonGroup>
           </CardContent>

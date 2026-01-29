@@ -3,7 +3,7 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Button, Typography } from "@mui/material";
 import { CampusModal } from "../Modals/CampusModal";
-import { useCampus } from "@/hooks/useCampus";
+import { useCampus } from "@/hooks/Campus/useCampus";
 import { Loading } from "../Loading";
 import { CAMPUSES, Campus } from "@/entities/campus";
 import { useJsApiLoader } from "@react-google-maps/api";

@@ -4,7 +4,7 @@ import { BaseModal } from "../Base/BaseModal";
 import { Stack, SelectChangeEvent } from "@mui/material";
 import { CampusForm } from "../Forms/CampusForm";
 import { CampusState } from "@/entities/campus";
-import { useCampusModal } from "@/hooks/useCampusModal";
+import { useCampusModal } from "@/hooks/Campus/useCampusModal";
 
 type Props = {
   opened: boolean;
