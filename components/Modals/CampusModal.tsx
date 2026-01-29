@@ -22,7 +22,6 @@ export const CampusModal = ({ opened, onClose }: Props) => {
   return (
     <BaseModal
       title="地域を選択"
-      color="blue"
       type="search"
       footer={true}
       isOpen={opened}

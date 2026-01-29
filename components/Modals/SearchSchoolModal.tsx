@@ -66,7 +66,6 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
   return (
     <BaseModal
       title="コース絞り込み"
-      color="blue"
       type="search"
       footer={true}
       isOpen={opened}

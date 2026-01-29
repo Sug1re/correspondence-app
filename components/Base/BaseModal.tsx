@@ -14,7 +14,6 @@ type Props = {
   children: React.ReactNode;
   title: string;
   type: "default" | "search";
-  color: "blue";
   footer: boolean;
   isOpen: boolean;
   onClose: () => void;
@@ -26,7 +25,6 @@ export const BaseModal = ({
   children,
   title,
   type,
-  color,
   footer,
   isOpen,
   onClose,
@@ -60,7 +58,7 @@ export const BaseModal = ({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-around",
-              bgcolor: color === "blue" ? "#060666ff" : "#FF6600",
+              bgcolor: "#060666ff",
             }}
           >
             <Typography
