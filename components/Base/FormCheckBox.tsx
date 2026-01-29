@@ -38,7 +38,6 @@ export const FormCheckBox = ({ name, text, option, Icon }: Props) => {
   return (
     <CardContent
       sx={{
-        px: 2,
         display: "flex",
         gap: 1.5,
         width: "100%",

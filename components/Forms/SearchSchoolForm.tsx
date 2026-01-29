@@ -54,7 +54,7 @@ export const SearchSchoolForm: React.FC<Props> = ({
           option={targetOptions}
         />
 
-        <Partition />
+        <Partition width="90%" />
 
         <FormCheckBox
           text="スタイル"
@@ -63,7 +63,7 @@ export const SearchSchoolForm: React.FC<Props> = ({
           option={styleOptions}
         />
 
-        <Partition />
+        <Partition width="90%" />
 
         <FormCheckBox
           text="通学頻度"
@@ -72,7 +72,7 @@ export const SearchSchoolForm: React.FC<Props> = ({
           option={attendanceOptions}
         />
 
-        <Partition />
+        <Partition width="90%" />
 
         <FormSlider
           text="予算"
