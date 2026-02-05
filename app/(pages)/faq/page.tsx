@@ -1,10 +1,10 @@
-import React from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { XsWrapper } from "@/components/Wrapper/xsWrapper";
 import { Breadcrumb } from "@/components/Breadcrumbs";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
+import { FaqSection } from "@/components/Sections/FaqSection";
 
 export default function FaqPage() {
   return (
@@ -14,7 +14,9 @@ export default function FaqPage() {
       <Breadcrumb />
 
       <Container maxWidth="md">
-        <Stack spacing={4} sx={{ mt: 4 }}></Stack>
+        <Stack spacing={4}>
+          <FaqSection />
+        </Stack>
       </Container>
 
       <ScrollToTopButton />
