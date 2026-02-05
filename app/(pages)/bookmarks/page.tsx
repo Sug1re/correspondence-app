@@ -15,8 +15,8 @@ export default function BookmarksPage() {
       <Breadcrumb />
 
       <Container maxWidth="md">
-        <Stack spacing={2}>
-          <BaseHeading title="お気に入り学校一覧" />
+        <Stack spacing={4}>
+          <BaseHeading title="お気に入り一覧" />
 
           <BookmarksSection />
         </Stack>
