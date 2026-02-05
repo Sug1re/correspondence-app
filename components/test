@@ -1,0 +1,33 @@
+  // const [schoolIds, setSchoolIds] = useState<string[]>([]);
+  // const auth = getAuth();
+
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, async (user) => {
+  //     if (user) {
+  //       try {
+  //         const ids = await getBookmarks();
+  //         setSchoolIds(ids);
+  //       } catch {
+  //         setSchoolIds([]);
+  //       }
+  //     } else {
+  //       setSchoolIds([]);
+  //     }
+  //   });
+
+  //   return () => unsubscribe();
+  // }, [auth]);
+
+  // const {
+  //   schools = [],
+  //   isLoading,
+  //   isError,
+  //   isEmpty,
+  // } = useGetBookmarkedSchools(schoolIds);
+
+        {/* <SchoolCardSection
+          school={schools}
+          isLoading={isLoading}
+          isError={isError}
+          isEmpty={isEmpty}
+        /> */}
