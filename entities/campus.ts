@@ -33,6 +33,7 @@ export type Campus = {
   lng: number;
 };
 
+//あとでデータベース化・住所で登録
 export const CAMPUSES: Campus[] = [
   { value: "Sapporo Odori", label: "札幌大通り（北海道）", lat: 43.0621, lng: 141.3537 },
   { value: "Hakodate", label: "北海道函館（北海道）", lat: 41.7744, lng: 140.7265 },
