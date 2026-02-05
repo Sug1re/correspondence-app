@@ -36,7 +36,7 @@ export const BookmarksSection = () => {
   return (
     <>
       <Table
-        school={schools}
+        rows={schools}
         isLoading={isLoading}
         isError={isError}
         isEmpty={isEmpty}

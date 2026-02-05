@@ -31,5 +31,4 @@ export type School = {
   schoolId: string;
   entranceTuition: string;
   transferTuition: string;
-
 };

@@ -3,115 +3,82 @@
 import { Paper } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { School } from "@/entities/school";
+import { Loading } from "./Loading";
+import { Message } from "./Message";
 
 interface Props {
-  school: School[];
+  rows: School[];
+  isLoading: boolean;
+  isError: boolean;
+  isEmpty: boolean;
 }
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "course", headerName: "コース", width: 70 },
-  { field: "firstName", headerName: "通学頻度", width: 130 },
+const columns: GridColDef<School>[] = [
+  { field: "schoolId", headerName: "ID", width: 70 },
+  { field: "course", headerName: "コース", width: 130 },
   { field: "style", headerName: "通学スタイル", width: 130 },
-  { field: "lastName", headerName: "Last name", width: 130 },
+  { field: "target", headerName: "対象者", width: 130 },
   {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 90,
+    field: "attendance",
+    headerName: "通学頻度",
+    width: 130,
+  },
+  {
+    field: "subAttendance",
+    headerName: "通学頻度（補足）",
+    width: 130,
+  },
+  {
+    field: "entranceTuition",
+    headerName: "3年間の負担額",
+    width: 130,
+  },
+  {
+    field: "transferTuition",
+    headerName: "年間の負担額",
+    width: 130,
+  },
+  {
+    field: "firstTuition",
+    headerName: "1年目の学費",
+    width: 130,
+  },
+  {
+    field: "secondTuition",
+    headerName: "2年目の学費",
+    width: 130,
+  },
+  {
+    field: "thirdTuition",
+    headerName: "3年目の学費",
+    width: 130,
+  },
+  {
+    field: "anotherTuitionName",
+    headerName: "その他の費用名",
+    width: 130,
+  },
+  {
+    field: "anotherTuition",
+    headerName: "その他の費用",
+    width: 130,
   },
 ];
 
-const rows = [
-  {
-    id: 1,
-    course: "English",
-    lastName: "Snow",
-    firstName: "Jon",
-    style: "オンライン",
-    age: 35,
-  },
-  {
-    id: 2,
-    course: "Mathematics",
-    lastName: "Lannister",
-    firstName: "Cersei",
-    style: "オンライン",
-    age: 42,
-  },
-  {
-    id: 3,
-    course: "Science",
-    lastName: "Lannister",
-    firstName: "Jaime",
-    style: "オンライン",
-
-    age: 45,
-  },
-  {
-    id: 4,
-    course: "History",
-    lastName: "Stark",
-    firstName: "Arya",
-    style: "オンライン",
-    age: 16,
-  },
-  {
-    id: 5,
-    course: "Art",
-    lastName: "Targaryen",
-    firstName: "Daenerys",
-    style: "オンライン",
-
-    age: 18,
-  },
-  {
-    id: 6,
-    course: "Music",
-    lastName: "Melisandre",
-    firstName: null,
-    style: "オンライン",
-    age: 150,
-  },
-  {
-    id: 7,
-    course: "Geography",
-    lastName: "Clifford",
-    firstName: "Ferrara",
-    style: "オンライン",
-
-    age: 44,
-  },
-  {
-    id: 8,
-    course: "Biology",
-    lastName: "Frances",
-    firstName: "Rossini",
-    style: "オンライン",
-
-    age: 36,
-  },
-  {
-    id: 9,
-    course: "Chemistry",
-    lastName: "Roxie",
-    firstName: "Harvey",
-    style: "オンライン",
-
-    age: 65,
-  },
-];
-
-const paginationModel = { page: 0, pageSize: 5 };
-
-export const Table = ({ school }: Props) => {
+export const Table = ({ rows, isLoading, isError, isEmpty }: Props) => {
+  if (isLoading) return <Loading />;
+  if (isError) return <Message message="学校データの取得に失敗しました。" />;
+  if (isEmpty) return <Message message="学校データがありません。" />;
   return (
     <>
       <Paper sx={{ height: 370, width: "100%" }}>
         <DataGrid
-          rows={school}
+          rows={rows}
           columns={columns}
-          initialState={{ pagination: { paginationModel } }}
+          getRowId={(row) => row.schoolId}
+          initialState={{
+            pagination: { paginationModel: { page: 0, pageSize: 5 } },
+          }}
           pageSizeOptions={[5, 10]}
           sx={{ border: 0 }}
         />
