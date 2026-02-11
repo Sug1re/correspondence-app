@@ -13,6 +13,7 @@ type Props = {
 export const CampusMap = ({ campuses }: Props) => {
   const { onLoad, onUnmount, defaultCenter, zoom } = useCampusMap(campuses);
   const [markerPositions, setMarkerPositions] = useState<LatLng[]>([]);
+  const [mapCenter, setMapCenter] = useState<LatLng>(defaultCenter);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,12 +23,21 @@ export const CampusMap = ({ campuses }: Props) => {
         const positions = await Promise.all(
           campuses.map((campus) => geocodeAddress(campus.address))
         );
-        // geocodeAddress が null を返す可能性をフィルタリング
-        setMarkerPositions(positions.filter((p): p is LatLng => p !== null));
+
+        const valid = positions.filter((p): p is LatLng => p !== null);
+
+        if (valid.length === 0) {
+          throw new Error("No valid geocode results");
+        }
+
+        setMarkerPositions(valid);
+        setMapCenter(valid[0]); // 正常時は最初のキャンパスへ
       } catch (error) {
         console.error("Geocoding error:", error);
-        // エラーが発生した場合、既存のlat/lngを使用するフォールバック
-        setMarkerPositions(campuses.map(c => ({ lat: c.lat, lng: c.lng })));
+
+        // ❗ エラー時は defaultCenter に統一
+        setMarkerPositions([defaultCenter]);
+        setMapCenter(defaultCenter);
       } finally {
         setLoading(false);
       }
@@ -37,13 +47,14 @@ export const CampusMap = ({ campuses }: Props) => {
       fetchPositions();
     } else {
       setMarkerPositions([]);
+      setMapCenter(defaultCenter);
     }
-  }, [campuses]);
+  }, [campuses, defaultCenter]);
 
   return (
     <GoogleMap
       mapContainerStyle={{ width: "100%", height: "300px" }}
-      center={campuses[0] ?? defaultCenter}
+      center={mapCenter}
       zoom={zoom}
       onLoad={onLoad}
       onUnmount={onUnmount}
@@ -55,10 +66,7 @@ export const CampusMap = ({ campuses }: Props) => {
     >
       {!loading &&
         markerPositions.map((position, index) => (
-          <Marker
-            key={index}
-            position={position}
-          />
+          <Marker key={index} position={position} />
         ))}
     </GoogleMap>
   );
