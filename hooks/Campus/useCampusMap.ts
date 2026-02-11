@@ -1,53 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { Campus } from "@/entities/campus";
+import { LatLng } from "@/lib/googleMap";
 
-export const useCampusMap = (campuses: Campus[]) => {
+const defaultCenter = { lat: 35.6895, lng: 139.6917 };
+
+export const useCampusMap = (markerPositions: LatLng[]) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [currentPosition, setCurrentPosition] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
-
-  const defaultCenter = currentPosition ?? { lat: 35.6895, lng: 139.6917 };
-
-  // 現在地取得
-  useEffect(() => {
-    if (!navigator.geolocation) return;
-
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setCurrentPosition({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-        });
-      },
-      () => {}
-    );
-  }, []);
-
-  // キャンパスに応じて表示範囲調整
-  useEffect(() => {
-    if (!map || campuses.length === 0) return;
-
-    if (campuses.length === 1) {
-      map.panTo({ lat: campuses[0].lat, lng: campuses[0].lng });
-      map.setZoom(12);
-      return;
-    }
-
-    const bounds = new google.maps.LatLngBounds();
-    campuses.forEach((c) =>
-      bounds.extend(new google.maps.LatLng(c.lat, c.lng))
-    );
-    map.fitBounds(bounds);
-  }, [map, campuses]);
-
-  // 現在地優先表示
-  useEffect(() => {
-    if (!map || !currentPosition) return;
-    map.panTo(currentPosition);
-    map.setZoom(12);
-  }, [map, currentPosition]);
 
   const onLoad = useCallback((mapInstance: google.maps.Map) => {
     setMap(mapInstance);
@@ -57,10 +14,21 @@ export const useCampusMap = (campuses: Campus[]) => {
     setMap(null);
   }, []);
 
-  return {
-    onLoad,
-    onUnmount,
-    defaultCenter,
-    zoom: campuses.length > 0 ? 12 : 6,
-  };
+  useEffect(() => {
+    if (!map) return;
+
+    if (markerPositions.length === 1) {
+      map.panTo(markerPositions[0]);
+      map.setZoom(12);
+    } else if (markerPositions.length > 1) {
+      const bounds = new google.maps.LatLngBounds();
+      markerPositions.forEach((p) => bounds.extend(p));
+      map.fitBounds(bounds);
+    } else {
+      map.panTo(defaultCenter);
+      map.setZoom(6);
+    }
+  }, [map, markerPositions]);
+
+  return { onLoad, onUnmount, defaultCenter };
 };
