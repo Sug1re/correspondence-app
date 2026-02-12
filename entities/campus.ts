@@ -8,6 +8,7 @@ export type CampusState = {
   hokuriku: string[];
   koshinetsu: string[];
   kinki: string[];
+  osaka: string[];
   chugoku: string[];
   shikoku: string[];
   kyushu: string[];
@@ -24,6 +25,7 @@ export const INITIAL_CAMPUS_STATE: CampusState = {
   hokuriku: [],
   koshinetsu: [],
   kinki: [],
+  osaka: [],
   chugoku: [],
   shikoku: [],
   kyushu: [],

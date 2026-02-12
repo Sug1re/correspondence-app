@@ -25,7 +25,6 @@ export const CampusModal = ({
   setSelectedCampus,
   onClear,
 }: Props) => {
-  console.log("CampusModal received selectedCampus:", selectedCampus);
   const {
     localSelectedCampus,
     setLocalSelectedCampus,

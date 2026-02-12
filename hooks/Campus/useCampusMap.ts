@@ -1,10 +1,28 @@
 import { useCallback, useEffect, useState } from "react";
 import { LatLng } from "@/lib/googleMap";
 
-const defaultCenter = { lat: 35.6895, lng: 139.6917 };
-
 export const useCampusMap = (markerPositions: LatLng[]) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [currentCenter, setCurrentCenter] = useState<LatLng>({
+    lat: 35.6895,
+    lng: 139.6917,
+  });
+
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setCurrentCenter({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        });
+      },
+      () => {
+        console.log("位置情報が取得できませんでした");
+      }
+    );
+  }, []);
 
   const onLoad = useCallback((mapInstance: google.maps.Map) => {
     setMap(mapInstance);
@@ -25,10 +43,10 @@ export const useCampusMap = (markerPositions: LatLng[]) => {
       markerPositions.forEach((p) => bounds.extend(p));
       map.fitBounds(bounds);
     } else {
-      map.panTo(defaultCenter);
-      map.setZoom(6);
+      map.panTo(currentCenter);
+      map.setZoom(10);
     }
-  }, [map, markerPositions]);
+  }, [map, markerPositions, currentCenter]);
 
-  return { onLoad, onUnmount, defaultCenter };
+  return { onLoad, onUnmount, currentCenter };
 };
