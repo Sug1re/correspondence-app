@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  Box,
   CardContent,
   FormControl,
   InputLabel,
@@ -27,54 +26,53 @@ export const CampusForm = ({
 }: Props) => {
   return (
     <form>
-      <Box sx={{ minWidth: 300, maxWidth: 600 }}>
-        <CardContent>
-          <FormControl
-            fullWidth
-            sx={{
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "#060666ff",
+      <CardContent sx={{ display: "flex", justifyContent: "center" }}>
+        <FormControl
+          fullWidth
+          sx={{
+            width: 300,
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "#060666ff",
+            },
+            "& .MuiOutlinedInput-root": {
+              "&:hover fieldset": {
+                border: `1px solid #060666ff`,
               },
-              "& .MuiOutlinedInput-root": {
-                "&:hover fieldset": {
-                  border: `1px solid #060666ff`,
-                },
-                "&.Mui-focused fieldset": {
-                  border: `1px solid #060666ff`,
-                },
+              "&.Mui-focused fieldset": {
+                border: `1px solid #060666ff`,
               },
-              "& .MuiSelect-icon": {
-                color: "#060666ff",
-              },
-            }}
+            },
+            "& .MuiSelect-icon": {
+              color: "#060666ff",
+            },
+          }}
+        >
+          <InputLabel id="regions">地域</InputLabel>
+          <Select
+            labelId="regions"
+            id="regions-select"
+            value={location}
+            label="Location"
+            onChange={handleChange}
           >
-            <InputLabel id="regions">地域</InputLabel>
-            <Select
-              labelId="regions"
-              id="regions-select"
-              value={location}
-              label="Location"
-              onChange={handleChange}
-            >
-              <MenuItem value={"All"}>全て</MenuItem>
-              <MenuItem value={"Hokkaido Tohoku"}>北海道・東北</MenuItem>
-              <MenuItem value={"Kanto"}>関東</MenuItem>
-              <MenuItem value={"Tokai Hokuriku Koshinetsu"}>
-                東海・北陸・甲信越
-              </MenuItem>
-              <MenuItem value={"Kinki"}>近畿</MenuItem>
-              <MenuItem value={"Chugoku Shikoku"}>中国・四国</MenuItem>
-              <MenuItem value={"Kyushu Okinawa"}>九州・沖縄</MenuItem>
-            </Select>
-          </FormControl>
-        </CardContent>
+            <MenuItem value={"All"}>全て</MenuItem>
+            <MenuItem value={"Hokkaido Tohoku"}>北海道・東北</MenuItem>
+            <MenuItem value={"Tokyo Kita_kanto Minami_kanto"}>関東</MenuItem>
+            <MenuItem value={"Tokai Hokuriku Koshinetsu"}>
+              東海・北陸・甲信越
+            </MenuItem>
+            <MenuItem value={"Kinki Osaka"}>近畿</MenuItem>
+            <MenuItem value={"Chugoku Shikoku"}>中国・四国</MenuItem>
+            <MenuItem value={"Kyushu Okinawa"}>九州・沖縄</MenuItem>
+          </Select>
+        </FormControl>
+      </CardContent>
 
-        <CampusRegionSection
-          location={location}
-          selectedCampus={selectedCampus}
-          setSelectedCampus={setSelectedCampus}
-        />
-      </Box>
+      <CampusRegionSection
+        location={location}
+        selectedCampus={selectedCampus}
+        setSelectedCampus={setSelectedCampus}
+      />
     </form>
   );
 };

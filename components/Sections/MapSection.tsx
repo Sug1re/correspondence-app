@@ -43,6 +43,7 @@ export const MapSection = () => {
           backgroundColor: "#060666ff",
           color: "#FFF",
           boxShadow: 2,
+          transition: "transform 0.3s ease",
           "&:hover": { transform: "scale(0.95)" },
         }}
         disableRipple

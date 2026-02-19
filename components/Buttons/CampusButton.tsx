@@ -4,12 +4,6 @@ type Props = ToggleButtonProps & {
   label: string;
 };
 
-const getFontSize = (label: string) => {
-  if (label.length > 11) return 9;
-  if (label.length > 0) return 11;
-  return 11;
-};
-
 export const CampusButton = ({ label, sx, ...props }: Props) => {
   return (
     <ToggleButton
@@ -17,8 +11,8 @@ export const CampusButton = ({ label, sx, ...props }: Props) => {
       disableRipple
       sx={{
         width: "100%",
-        height: 30,
-        fontSize: getFontSize(label),
+        height: 35,
+        fontSize: { xs: 12, sm: 14 },
         lineHeight: 1,
         padding: "0 6px",
         whiteSpace: "nowrap",

@@ -11,12 +11,12 @@ type Props = {
 
 export const CampusMap = ({ campuses }: Props) => {
   const { markerPositions, loading } = useCampusGeocode(campuses);
-  const { onLoad, onUnmount, defaultCenter } = useCampusMap(markerPositions);
+  const { onLoad, onUnmount, currentCenter } = useCampusMap(markerPositions);
 
   return (
     <GoogleMap
       mapContainerStyle={{ width: "100%", height: "300px" }}
-      center={defaultCenter}
+      center={currentCenter}
       zoom={6}
       onLoad={onLoad}
       onUnmount={onUnmount}
