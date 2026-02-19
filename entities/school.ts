@@ -8,10 +8,10 @@ export type School = {
   attendance: string;
   subAttendance: string;
   target: string;
-  firstTuition: string;
-  secondTuition: string;
-  thirdTuition: string;
-  enrollmentFee: string;
+  firstTuition: number | null;
+  secondTuition: number | null;
+  thirdTuition: number | null;
+  enrollmentFee: number | null;
   april: string;
   may: string;
   june: string;
@@ -29,6 +29,6 @@ export type School = {
   picture: string;
   url: string;
   schoolId: string;
-  entranceTuition: string;
-  transferTuition: string;
+  entranceTuition: number | null;
+  transferTuition: number | null;
 };

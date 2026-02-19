@@ -58,10 +58,10 @@ export async function GET(req: Request) {
       attendance: row[8] ?? "",
       subAttendance: row[9] ?? "",
       target: row[10] ?? "",
-      firstTuition: row[11] ?? "",
-      secondTuition: row[12] ?? "",
-      thirdTuition: row[13] ?? "",
-      enrollmentFee: row[14] ?? "",
+      firstTuition: row[11] ? Number(row[11]) : null,
+      secondTuition: row[12] ? Number(row[12]) : null,
+      thirdTuition: row[13] ? Number(row[13]) : null,
+      enrollmentFee: row[14] ? Number(row[14]) : null,
       april: row[15] ?? "",
       may: row[16] ?? "",
       june: row[17] ?? "",
@@ -79,8 +79,8 @@ export async function GET(req: Request) {
       picture: row[29] ?? "",
       url: row[30] ?? "",
       schoolId: row[31] ?? "",
-      entranceTuition: row[32] ?? "",
-      transferTuition: row[33] ?? "",
+      entranceTuition: row[32] ? Number(row[32]) : null,
+      transferTuition: row[33] ? Number(row[33]) : null,
 
     }));
 
@@ -113,8 +113,8 @@ if (
     const minFee = Number(minFeeQuery);
     const maxFee = Number(maxFeeQuery);
     filters.push((school) => {
-      const entranceFee = Number(school.entranceTuition) || 0;
-      const transferFee = Number(school.transferTuition) || 0;
+      const entranceFee = school.entranceTuition ?? 0;
+      const transferFee = school.transferTuition ?? 0;
 
       if (targetQueries.length === 0) {
         const inEntranceRange = entranceFee >= minFee && entranceFee <= maxFee;
