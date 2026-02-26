@@ -10,23 +10,15 @@ import { auth, provider } from "@/lib/firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { HEADER_HEIGHT } from "@/lib/constants";
-import { useRouter } from "next/navigation";
-import { XsWrapper } from "@/components/Wrapper/xsWrapper";
 import { Conditional } from "./Wrapper/conditionalWrapper";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import BookmarksIcon from "@mui/icons-material/Bookmarks";
 
 export default function Header() {
   const [isOpen, handlers] = useDisclosure(false);
   const [loading, setLoading] = React.useState(false);
   const [user] = useAuthState(auth);
   const { showToast } = useToastContext();
-  const router = useRouter();
-
-  const onBookmarks = () => {
-    router.push("/bookmarks");
-  };
 
   const login = async () => {
     setLoading(true);
@@ -72,36 +64,6 @@ export default function Header() {
           </Box>
 
           {/* 雑務:アイコンとテキストの配置*/}
-
-          <XsWrapper when={false}>
-            <Box
-              sx={{
-                flexGrow: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <IconButton
-                edge="start"
-                sx={{ color: "#060666ff", gap: 1 }}
-                onClick={onBookmarks}
-                disableRipple
-              >
-                <BookmarksIcon style={{ fontSize: 28 }} />
-                <Typography
-                  sx={{
-                    fontWeight: 600,
-                    color: "#060666ff",
-                    display: { xs: "none", sm: "flex" },
-                    alignItems: "center",
-                  }}
-                >
-                  ブックマーク一覧
-                </Typography>
-              </IconButton>
-            </Box>
-          </XsWrapper>
 
           <Conditional when={!user}>
             <Box
