@@ -6,9 +6,8 @@ import MantineProvider from "@/providers/MantineProvider";
 import SWRProvider from "@/providers/SWRProvider";
 
 export const metadata: Metadata = {
-  title: "新潟県の通信制高校検索アプリ",
-  description:
-    "新潟県内の通信制高校・サポート校を、学費や通学スタイル、登校日数などの条件から検索できるアプリケーション",
+  title: "N高等学校・S高等学校・R高等学校紹介サイト",
+  description: "生徒が作成したサイトです。",
 };
 
 export default function RootLayout({

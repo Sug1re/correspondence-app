@@ -1,8 +1,6 @@
 import React from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { XsWrapper } from "@/components/Wrapper/xsWrapper";
 import { Breadcrumb } from "@/components/Breadcrumbs";
 import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 import { BookmarkBar } from "@/components/Bars/BookmarkBar";
@@ -24,10 +22,6 @@ export default function BookmarksPage() {
       </Container>
 
       <ScrollToTopButton />
-
-      <XsWrapper when={true}>
-        <Footer />
-      </XsWrapper>
     </>
   );
 }

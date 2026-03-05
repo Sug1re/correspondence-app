@@ -1,7 +1,5 @@
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { XsWrapper } from "@/components/Wrapper/xsWrapper";
 import { TargetButton } from "@/components/Buttons/TargetButton";
 
 export default function Home() {
@@ -14,10 +12,6 @@ export default function Home() {
           <TargetButton />
         </Stack>
       </Container>
-
-      <XsWrapper when={true}>
-        <Footer />
-      </XsWrapper>
     </>
   );
 }
