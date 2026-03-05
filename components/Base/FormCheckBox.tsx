@@ -18,16 +18,9 @@ interface Props {
   text: string;
   option: readonly string[];
   Icon?: React.ElementType;
-  disabledOptions?: string[];
 }
 
-export const FormCheckBox = ({
-  name,
-  text,
-  option,
-  Icon,
-  disabledOptions = [],
-}: Props) => {
+export const FormCheckBox = ({ name, text, option, Icon }: Props) => {
   const { control } = useFormContext();
 
   const partition = {
@@ -45,7 +38,6 @@ export const FormCheckBox = ({
   return (
     <CardContent
       sx={{
-        px: 2,
         display: "flex",
         gap: 1.5,
         width: "100%",
@@ -99,7 +91,6 @@ export const FormCheckBox = ({
                       <Checkbox
                         disableRipple
                         checked={checked}
-                        disabled={disabledOptions.includes(opt)}
                         onChange={(e) => {
                           if (e.target.checked) {
                             field.onChange([...field.value, opt]);
@@ -125,7 +116,7 @@ export const FormCheckBox = ({
             </FormGroup>
 
             {fieldState.error && (
-              <FormHelperText>{fieldState.error.message}</FormHelperText>
+              <FormHelperText error>{fieldState.error.message}</FormHelperText>
             )}
           </FormControl>
         )}

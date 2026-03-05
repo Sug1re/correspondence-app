@@ -21,7 +21,7 @@ export const TransferTuitionModal = ({
   return (
     <BaseModal
       title="負担額の見積り"
-      color="orange"
+      type="default"
       footer={false}
       isOpen={opened}
       onClose={onClose}

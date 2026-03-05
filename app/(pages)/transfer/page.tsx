@@ -15,7 +15,7 @@ export default function TransferPage() {
       <Breadcrumb />
 
       <Container maxWidth="md">
-        <Stack spacing={4} sx={{ mt: 4 }}>
+        <Stack spacing={2}>
           <DefaultSection target="transfer" />
         </Stack>
       </Container>

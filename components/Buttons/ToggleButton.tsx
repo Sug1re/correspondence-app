@@ -1,11 +1,11 @@
-"use client";
-
-import { useState } from "react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 
-export const ToggleBt = () => {
-  const [alignment, setAlignment] = useState("OR");
+interface Props {
+  alignment: string;
+  setAlignment: React.Dispatch<React.SetStateAction<string>>;
+}
 
+export const ToggleBt: React.FC<Props> = ({ alignment, setAlignment }) => {
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string | null
@@ -41,23 +41,11 @@ export const ToggleBt = () => {
         onChange={handleChange}
         sx={{ display: "flex", justifyContent: "center", mt: 2 }}
       >
-        <ToggleButton
-          value="OR"
-          sx={{
-            ...ToggleButtonStyle,
-          }}
-          disableRipple
-        >
+        <ToggleButton value="OR" sx={ToggleButtonStyle} disableRipple>
           OR
         </ToggleButton>
 
-        <ToggleButton
-          value="AND"
-          sx={{
-            ...ToggleButtonStyle,
-          }}
-          disableRipple
-        >
+        <ToggleButton value="AND" sx={ToggleButtonStyle} disableRipple>
           AND
         </ToggleButton>
       </ToggleButtonGroup>

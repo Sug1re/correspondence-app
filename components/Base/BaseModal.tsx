@@ -14,26 +14,22 @@ type Props = {
   children: React.ReactNode;
   title: string;
   type: "default" | "search";
-  color: "blue";
   footer: boolean;
   isOpen: boolean;
   onClose: () => void;
   onSubmit?: () => void;
   onClear?: () => void;
-  isDefault?: boolean;
 };
 
 export const BaseModal = ({
   children,
   title,
   type,
-  color,
   footer,
   isOpen,
   onClose,
   onSubmit,
   onClear,
-  isDefault,
 }: Props) => {
   return (
     <>
@@ -62,7 +58,7 @@ export const BaseModal = ({
               display: "flex",
               alignItems: "center",
               justifyContent: "space-around",
-              bgcolor: color === "blue" ? "#060666ff" : "#FF6600",
+              bgcolor: "#060666ff",
             }}
           >
             <Typography
@@ -153,7 +149,7 @@ export const BaseModal = ({
                     sx={{
                       borderRadius: 2,
                       color: "#ffffff",
-                      backgroundColor: isDefault ? "#b0c4de" : "#adb1b7ff",
+                      backgroundColor: "#b0c4de",
                       fontWeight: "bold",
                       transition: "transform 0.2s",
                       "&:hover": {

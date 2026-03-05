@@ -48,7 +48,6 @@ export const FormSlider = ({
   return (
     <CardContent
       sx={{
-        px: 2,
         display: "flex",
         gap: 1.5,
         width: "100%",
@@ -100,7 +99,13 @@ export const FormSlider = ({
           name={name}
           control={control}
           render={({ field, fieldState }) => (
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+              }}
+            >
               <Slider
                 {...field}
                 value={field.value ?? [min, max]}
@@ -114,6 +119,7 @@ export const FormSlider = ({
                 valueLabelDisplay="auto"
                 sx={{
                   width: "90%",
+                  margin: "0 auto",
                   color: "#060666ff",
 
                   "& .MuiSlider-thumb": {
@@ -132,6 +138,7 @@ export const FormSlider = ({
                   },
                 }}
               />
+
               {fieldState.error && (
                 <FormHelperText error>
                   {fieldState.error.message}

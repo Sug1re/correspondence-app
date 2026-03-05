@@ -16,7 +16,7 @@ export default function BookmarksPage() {
       <Breadcrumb />
 
       <Container maxWidth="md">
-        <Stack spacing={4} sx={{ mt: 4 }}>
+        <Stack spacing={2}>
           <BookmarkBar />
 
           <BookmarksSection />
