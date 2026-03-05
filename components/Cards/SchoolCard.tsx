@@ -19,12 +19,14 @@ import { BookmarkButton } from "../Buttons/BookmarkButton";
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 // import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
+import { useResponsive } from "@/hooks/useResponsive";
 
 interface Props {
   school: School[];
 }
 
 export const SchoolCard = ({ school }: Props) => {
+  const { itemsGrid } = useResponsive();
   const [openTuitionModalId, setOpenTuitionModalId] = useState<string | null>(
     null
   );
@@ -70,47 +72,49 @@ export const SchoolCard = ({ school }: Props) => {
                 : Number(s.transferTuition).toLocaleString("ja-JP");
 
             return (
-              <Grid key={s.schoolId} size={12}>
-                <Card
-                  sx={{
-                    boxShadow: 5,
-                    borderRadius: 2,
-                    border: `0.5px solid #060666ff`,
-                    position: "relative",
-                  }}
-                >
-                  <Box
+              <Grid key={s.schoolId} size={itemsGrid}>
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <Card
                     sx={{
-                      position: "absolute",
-                      top: 4,
-                      right: 1,
-                      zIndex: 2,
+                      boxShadow: 1,
+                      borderRadius: 1,
+                      border: `0.5px solid rgba(0, 51, 153, 0.1)`,
+                      position: "relative",
+                      height: "80px",
+                      width: "340px",
+                      pb: 4,
                     }}
                   >
-                    <BookmarkButton schoolId={s.schoolId} />
-                  </Box>
+                    <Box
+                      sx={{
+                        position: "absolute",
+                        bottom: -7,
+                        right: 8,
+                        zIndex: 2,
+                      }}
+                    >
+                      <BookmarkButton schoolId={s.schoolId} />
+                    </Box>
 
-                  <Stack>
-                    <Box sx={{ m: 1, fontWeight: 600 }}>
-                      <Box sx={{ px: 1 }}>
+                    <Stack>
+                      <Box sx={{ p: 1, fontWeight: 600 }}>
                         <Box sx={{ display: "flex" }}>
-                          <Typography sx={{ fontSize: 12, fontWeight: 600 }}>
+                          <Typography sx={{ fontSize: 16, fontWeight: 600 }}>
                             {s.course}
                           </Typography>
                         </Box>
-                      </Box>
 
-                      <Box>
                         <Box
                           sx={{
                             display: "flex",
                             alignItems: "center",
+                            justifyContent: "flex-end",
                             gap: 0.5,
                           }}
                         >
                           <Typography
                             sx={{
-                              fontSize: 8,
+                              fontSize: 10,
                               fontWeight: 600,
                             }}
                           >
@@ -123,6 +127,7 @@ export const SchoolCard = ({ school }: Props) => {
                               fontWeight: 600,
                               display: "flex",
                               alignItems: "center",
+                              color: "#060666ff",
                             }}
                           >
                             <CurrencyYenIcon style={{ fontSize: 18 }} />
@@ -142,6 +147,24 @@ export const SchoolCard = ({ school }: Props) => {
                               <InfoOutlineIcon sx={{ fontSize: 14 }} />
                             </IconButton>
                           )}
+                        </Box>
+
+                        <Box
+                          sx={{ display: "flex", justifyContent: "flex-end" }}
+                        >
+                          <Typography
+                            sx={{
+                              fontSize: 12,
+                              color: "#FFFFFF",
+                              fontWeight: 600,
+                              backgroundColor: "#060666ff",
+                              px: 1,
+                              py: 0.5,
+                              borderRadius: 1,
+                            }}
+                          >
+                            就学支援金適用
+                          </Typography>
                         </Box>
 
                         {/* <Box
@@ -185,37 +208,37 @@ export const SchoolCard = ({ school }: Props) => {
                         </Button>
                       </Box> */}
                       </Box>
-                    </Box>
-                  </Stack>
-                </Card>
+                    </Stack>
+                  </Card>
 
-                {s.target === "転入学" && isTransferOpen && (
-                  <TransferTuitionModal
-                    opened={true}
-                    onClose={closeTransferModal}
-                    school={s}
-                    onSelect={(value: string, label: string) => {
-                      setTransferValueMap((prev) => ({
-                        ...prev,
-                        [s.schoolId]: value,
-                      }));
-                      setTransferLabelMap((prev) => ({
-                        ...prev,
-                        [s.schoolId]: label,
-                      }));
-                    }}
-                  />
-                )}
+                  {s.target === "転入学" && isTransferOpen && (
+                    <TransferTuitionModal
+                      opened={true}
+                      onClose={closeTransferModal}
+                      school={s}
+                      onSelect={(value: string, label: string) => {
+                        setTransferValueMap((prev) => ({
+                          ...prev,
+                          [s.schoolId]: value,
+                        }));
+                        setTransferLabelMap((prev) => ({
+                          ...prev,
+                          [s.schoolId]: label,
+                        }));
+                      }}
+                    />
+                  )}
 
-                {isTuitionOpen && (
-                  <TuitionModal
-                    opened={true}
-                    onClose={closeTuitionModal}
-                    school={s}
-                    transferValue={selectedTransferValue}
-                    transferLabel={selectedTransferLabel}
-                  />
-                )}
+                  {isTuitionOpen && (
+                    <TuitionModal
+                      opened={true}
+                      onClose={closeTuitionModal}
+                      school={s}
+                      transferValue={selectedTransferValue}
+                      transferLabel={selectedTransferLabel}
+                    />
+                  )}
+                </Box>
               </Grid>
             );
           })}

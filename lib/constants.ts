@@ -10,8 +10,6 @@ export const PAGINATION_BUTTON_HEIGHT = 70;
 
 export const BAR_HEIGHT = 52;
 
-export const ITEMS_PER_PAGE = 4;
-
 export const BREADCRUMB_LABELS: Record<string, string> = {
   bookmarks: "ブックマーク一覧",
   campus:"キャンパスを探す",
