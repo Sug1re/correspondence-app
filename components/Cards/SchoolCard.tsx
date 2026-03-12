@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import {
   Box,
-  // Button,
+  Button,
   Card,
   Grid,
   IconButton,
@@ -17,7 +17,7 @@ import { School } from "@/entities/school";
 import { BookmarkButton } from "../Buttons/BookmarkButton";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
-// import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 import { useResponsive } from "@/hooks/useResponsive";
 
@@ -41,9 +41,9 @@ export const SchoolCard = ({ school }: Props) => {
     Record<string, string>
   >({});
 
-  // const openTuitionModal = (schoolId: string) => {
-  //   setOpenTuitionModalId(schoolId);
-  // };
+  const openTuitionModal = (schoolId: string) => {
+    setOpenTuitionModalId(schoolId);
+  };
 
   const closeTuitionModal = () => {
     setOpenTuitionModalId(null);
@@ -150,10 +150,50 @@ export const SchoolCard = ({ school }: Props) => {
                         </Box>
 
                         <Box
-                          sx={{ display: "flex", justifyContent: "flex-end" }}
+                          sx={{
+                            display: "flex",
+                            gap: 1,
+                          }}
                         >
+                          <Button
+                            size="small"
+                            onClick={() => openTuitionModal(s.schoolId)}
+                            sx={{
+                              height: 30,
+                              width: 100,
+                              px: 1,
+                              py: 0.5,
+                              borderRadius: 1,
+                              backgroundColor: "#9575CD",
+                              color: "#FFFFFF",
+                              boxShadow: 0.5,
+                              transition: "transform 0.2s ease-in-out",
+                              "&:hover": {
+                                transform: "scale(0.95)",
+                                backgroundColor: "#9575CD",
+                              },
+                            }}
+                            disableRipple
+                          >
+                            <ExpandMoreIcon style={{ fontSize: 20 }} />
+
+                            <Typography
+                              sx={{
+                                fontSize: 12,
+                                gap: 1,
+                                fontWeight: 600,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              金額を表示
+                            </Typography>
+                          </Button>
                           <Typography
                             sx={{
+                              height: 22,
+                              width: 90,
                               fontSize: 12,
                               color: "#FFFFFF",
                               fontWeight: 600,
@@ -161,52 +201,14 @@ export const SchoolCard = ({ school }: Props) => {
                               px: 1,
                               py: 0.5,
                               borderRadius: 1,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
                             }}
                           >
                             就学支援金適用
                           </Typography>
                         </Box>
-
-                        {/* <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Button
-                          size="small"
-                          onClick={() => openTuitionModal(s.schoolId)}
-                          sx={{
-                            borderRadius: 2,
-                            backgroundColor: "#FF6600",
-                            color: "#FFFFFF",
-                            boxShadow: 1,
-                            transition: "transform 0.2s ease-in-out",
-                            "&:hover": {
-                              transform: "scale(0.95)",
-                              backgroundColor: "#FF6600",
-                            },
-                          }}
-                          disableRipple
-                        >
-                          <Typography
-                            sx={{
-                              m: 1,
-                              fontSize: 12,
-                              gap: 1,
-                              fontWeight: 600,
-                              display: "flex",
-                              alignItems: "center",
-                            }}
-                          >
-                            料金を表示
-                            <ArrowForwardIosIcon
-                              style={{ fontSize: 16, marginLeft: 4 }}
-                            />
-                          </Typography>
-                        </Button>
-                      </Box> */}
                       </Box>
                     </Stack>
                   </Card>
