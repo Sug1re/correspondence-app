@@ -16,7 +16,7 @@ export default function BookmarksPage() {
 
       <Container maxWidth="md">
         <Stack spacing={4}>
-          <BaseHeading title="お気に入り一覧" />
+          <BaseHeading title="ブックマーク一覧" />
 
           <BookmarksSection />
         </Stack>

@@ -6,6 +6,7 @@ import { School } from "@/entities/school";
 import { Loading } from "./Loading";
 import { Message } from "./Message";
 import { schoolColumns } from "@/entities/schoolColumns";
+import { JPLocaleText } from "@/lib/dataGrid";
 
 interface Props {
   rows: School[];
@@ -25,11 +26,47 @@ export const Table = ({ rows, isLoading, isError, isEmpty }: Props) => {
           rows={rows}
           columns={schoolColumns}
           getRowId={(row) => row.schoolId}
+          rowHeight={35}
+          columnHeaderHeight={50}
           initialState={{
             pagination: { paginationModel: { page: 0, pageSize: 10 } },
           }}
           pageSizeOptions={[5, 10]}
-          sx={{ border: 0 }}
+          localeText={JPLocaleText}
+          sx={{
+            "& button:hover": {
+              backgroundColor: "transparent",
+            },
+
+            "& .MuiTouchRipple-root": {
+              display: "none",
+            },
+
+            "& .MuiDataGrid-cell:focus": {
+              outline: "none",
+              backgroundColor: "rgba(0, 51, 153, 0.1)",
+            },
+
+            "& .MuiDataGrid-cell:focus-within": {
+              outline: "none",
+            },
+
+            "& .MuiDataGrid-columnHeader:focus": {
+              outline: "none",
+            },
+
+            "& .MuiDataGrid-columnHeader:focus-within": {
+              outline: "none",
+            },
+
+            "& .MuiTablePagination-actions button.Mui-disabled": {
+              color: "#ccc",
+            },
+
+            "& .MuiTablePagination-actions button": {
+              color: "#060666ff",
+            },
+          }}
         />
       </Paper>
     </>
