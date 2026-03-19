@@ -1,17 +1,17 @@
 import { z } from "zod";
 
-export const SearchSchoolSchema = z.object({
+export const SearchSchema = z.object({
 
-  target: z
+  admissionType: z
   .array(z.enum(["新入学", "転入学"])),
 
   style: z
   .array(z.enum(["通学", "オンライン"])),
 
-  attendance: z
-    .array(z.enum(["週1", "週3", "週5", "オンライン"])),
+  frequency: z
+    .array(z.enum(["週1", "週3", "週5"])),
 
- totalFee: z
+  totalFee: z
     .tuple([z.number().min(0), z.number().min(0)])
     .refine(([min, max]) => !(min === 0 && max === 0), {
       message: "予算を決めてください。"}),

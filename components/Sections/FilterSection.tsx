@@ -1,4 +1,3 @@
-import React from "react";
 import { Box } from "@mui/material";
 import { SearchButton } from "../Buttons/SearchButton";
 import { SortButton } from "../Buttons/SortButton";
