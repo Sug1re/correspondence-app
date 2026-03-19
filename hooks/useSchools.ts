@@ -1,60 +1,60 @@
 import useSWR from "swr";
-import type { School } from "@/entities/school";
 import { fetcher } from "@/lib/fetcher";
 import { queryValue } from "@/entities/form";
+import type{ Course } from "@/entities/course";
 
-type TargetType = "entrance" | "transfer";
+type AdmissionType = "admission" | "transfer";
 
 type Props = {
-  data: School[];
+  data: Course[];
 };
 
 // 共通処理
 const createStatus = (data: Props | undefined, error: unknown) => {
-  const schools: School[] = data?.data ?? [];
+  const courses: Course[] = data?.data ?? [];
 
   return {
-    schools,
+    courses,
     isLoading: !data && !error,
     isError: !!error,
-    isEmpty: schools.length === 0,
+    isEmpty: courses.length === 0,
   };
 };
 
 // 全件取得
-export const useGetSchools = () => {
+export const useGetCourses = () => {
   const { data, error } = useSWR("/api/sheet", fetcher);
   return createStatus(data, error);
 };
 
 // 特定条件取得
-export const useGetTargetSchools = (target?: TargetType) => {
-  const targetQuery =
-    target === "entrance"
+export const useGetAdmissionType = (AdmissionType?: AdmissionType) => {
+  const admissionTypeQuery =
+    AdmissionType === "admission"
       ? "新入学"
-      : target === "transfer"
+      : AdmissionType === "transfer"
       ? "転入学"
       : undefined;
 
-  const apiUrl = targetQuery
-    ? `/api/sheet?target=${encodeURIComponent(targetQuery)}`
+  const apiUrl = admissionTypeQuery
+    ? `/api/sheet?admissionType=${encodeURIComponent(admissionTypeQuery)}`
     : null;
 
   const { data, error } = useSWR<Props>(apiUrl, fetcher);
 
   const status = createStatus(data, error);
 
-  if (!targetQuery) {
+  if (!admissionTypeQuery) {
     return { ...status, schools: [], isEmpty: true, isLoading: false };
   }
 
   return status;
 };
 
-export const useGetFilteredSchools = (
+export const useGetFilteredCourses = (
 conditions: queryValue
 ) => {
-  const { alignment, style, attendance,target, minFee, maxFee  } = conditions;
+  const { alignment, style, frequency, admissionType, minFee, maxFee  } = conditions;
 
   const params = new URLSearchParams();
 
@@ -62,16 +62,16 @@ conditions: queryValue
     params.append("alignment", alignment);
   }
 
-  if (target) {
-    params.append("target", target);
+  if (admissionType) {
+    params.append("admissionType", admissionType);
   }
 
   if (style) {
     params.append("style", style);
   }
 
-  if (attendance) {
-    params.append("attendance", attendance);
+  if (frequency) {
+    params.append("frequency", frequency);
   }
 
   if (minFee !== undefined) {
@@ -96,17 +96,17 @@ conditions: queryValue
   return status;
 };
 
-export const useGetBookmarkedSchools = (schoolIds: string[] = []) => {
+export const useGetBookmarkedCourses = (Id: string[] = []) => {
   const apiUrl =
-    schoolIds.length > 0
-      ? `/api/sheet?ids=${schoolIds.map(encodeURIComponent).join(",")}`
+    Id.length > 0
+      ? `/api/sheet?ids=${Id.map(encodeURIComponent).join(",")}`
       : null;
 
   const { data, error } = useSWR<Props>(apiUrl, fetcher);
 
   const status = createStatus(data, error);
-  if (schoolIds.length === 0) {
-    return { ...status, schools: [], isEmpty: true, isLoading: false };
+  if (Id.length === 0) {
+    return { ...status, courses: [], isEmpty: true, isLoading: false };
   }
   return status;
 };

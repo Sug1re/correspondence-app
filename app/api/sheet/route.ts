@@ -1,20 +1,20 @@
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
-import { School } from "@/entities/school";
+import { Course } from "@/entities/course";
 
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const alignmentQuery = searchParams.get("alignment");
-    const targetQueryParam = searchParams.get("target");
+    const admissionTypeQueryParam = searchParams.get("admissionType");
     const styleQueryParam = searchParams.get("style");
-    const attendanceQueryParam = searchParams.get("attendance");
+    const frequencyQueryParam = searchParams.get("frequency");
     const minFeeQuery = searchParams.get("minFee");
     const maxFeeQuery = searchParams.get("maxFee");
 
-    const targetQueries = targetQueryParam ? targetQueryParam.split(',') : [];
+    const admissionTypeQueries = admissionTypeQueryParam ? admissionTypeQueryParam.split(',') : [];
     const styleQueries = styleQueryParam ? styleQueryParam.split(',') : [];
-    const attendanceQueries = attendanceQueryParam ? attendanceQueryParam.split(',') : [];
+    const frequencyQueries = frequencyQueryParam ? frequencyQueryParam.split(',') : [];
 
     const idsQuery = searchParams.get("ids")
 
@@ -39,7 +39,7 @@ export async function GET(req: Request) {
     });
 
     const sheets = google.sheets({ version: "v4", auth });
-    const range = "School!A2:AH";
+    const range = "CourseData!A2:AB200";
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
@@ -48,103 +48,102 @@ export async function GET(req: Request) {
 
     const rows = response.data.values || [];
 
-    let data: School[] = rows.map((row) => ({
-      name: row[2] ?? "",
-      course: row[3] ?? "",
-      content: row[4] ?? "",
-      school: row[5] ?? "",
-      style: row[6] ?? "",
-      schooling: row[7] ?? "",
-      attendance: row[8] ?? "",
-      subAttendance: row[9] ?? "",
-      target: row[10] ?? "",
-      firstTuition: row[11] ?? "",
-      secondTuition: row[12] ?? "",
-      thirdTuition: row[13] ?? "",
-      enrollmentFee: row[14] ?? "",
-      april: row[15] ?? "",
-      may: row[16] ?? "",
-      june: row[17] ?? "",
-      july: row[18] ?? "",
-      august: row[19] ?? "",
-      september: row[20] ?? "",
-      october: row[21] ?? "",
-      november: row[22] ?? "",
-      december: row[23] ?? "",
-      january: row[24] ?? "",
-      february: row[25] ?? "",
-      march: row[26] ?? "",
-      anotherTuitionName: row[27] ?? "",
-      anotherTuition: row[28] ?? "",
-      picture: row[29] ?? "",
-      url: row[30] ?? "",
-      schoolId: row[31] ?? "",
-      entranceTuition: row[32] ?? "",
-      transferTuition: row[33] ?? "",
-
+    let data: Course[] = rows.map((row) => ({
+      Id: row[3] ?? "",
+      Course: row[4] ?? "",
+      Style: row[5] ?? "",
+      AdmissionType: row[6] ?? "",
+      CorrespondenceTuition1st: row[7] ?? "",
+      CorrespondenceTuition2nd: row[8] ?? "",
+      CorrespondenceTuition3rd: row[9] ?? "",
+      Frequency: row[10] ?? "",
+      week5Tuition1st: row[11] ?? "",
+      week5Tuition2nd: row[12] ?? "",
+      week5Tuition3rd: row[13] ?? "",
+      week3Tuition1st: row[14] ?? "",
+      week3Tuition2nd: row[15] ?? "",
+      week3Tuition3rd: row[16] ?? "",
+      week1Tuition1st: row[17] ?? "",
+      week1Tuition2nd: row[18] ?? "",
+      week1Tuition3rd: row[19] ?? "",
+      AprilAdmission: row[20] ?? "",
+      JulyAdmission: row[21] ?? "",
+      OctoberAdmission: row[22] ?? "",
+      JanuaryAdmission: row[23] ?? "",
+      SeparatelyTuitionName: row[24] ?? "",
+      DifferenceTuitionName: row[25] ?? "",
+      SeparatelyTuition: row[26] ?? "",
+      AdmissionAllTuition: row[27] ?? "",
+      TransferAllTuition: row[28] ?? "",
     }));
+
+    data = data.filter((course) =>
+      Object.values(course).some(
+        (v) => v !== "" && v !== null && v !== undefined
+      )
+    );
 
 const isOrSearch = alignmentQuery === "OR";
 
 if (
   !isOrSearch &&
   (
-    targetQueries.length > 1 ||
+    admissionTypeQueries.length > 1 ||
     styleQueries.length > 1 ||
-    attendanceQueries.length > 1
+    frequencyQueries.length > 1
   )) {
   data = [];
 } else {
-  const filters: ((school: School) => boolean)[] = [];
+  const filters: ((course: Course) => boolean)[] = [];
 
-  if (targetQueries.length > 0) {
-    filters.push((school) => targetQueries.includes(school.target));
+  if (admissionTypeQueries.length > 0) {
+    filters.push((course) => admissionTypeQueries.includes(course.AdmissionType));
   }
 
   if (styleQueries.length > 0) {
-    filters.push((school) => styleQueries.includes(school.style));
+    filters.push((course) => styleQueries.includes(course.Style));
   }
 
-  if (attendanceQueries.length > 0) {
-    filters.push((school) => attendanceQueries.includes(school.attendance));
+  if (frequencyQueries.length > 0) {
+    filters.push((course) => frequencyQueries.includes(course.Frequency));
   }
 
   if (minFeeQuery && maxFeeQuery) {
     const minFee = Number(minFeeQuery);
     const maxFee = Number(maxFeeQuery);
-    filters.push((school) => {
-      const entranceFee = Number(school.entranceTuition) || 0;
-      const transferFee = Number(school.transferTuition) || 0;
+    filters.push((course) => {
+      const entranceFee = Number(course.AdmissionAllTuition) || 0;
+      const transferFee = Number(course.TransferAllTuition) || 0;
 
-      if (targetQueries.length === 0) {
+      if (admissionTypeQueries.length === 0) {
         const inEntranceRange = entranceFee >= minFee && entranceFee <= maxFee;
         const inTransferRange = transferFee >= minFee && transferFee <= maxFee;
         return (entranceFee > 0 && inEntranceRange) || (transferFee > 0 && inTransferRange);
       }
 
-      const fee = (targetQueries.includes("新入学")) ? entranceFee : transferFee;
+      const fee = (admissionTypeQueries.includes("新入学")) ? entranceFee : transferFee;
       return fee >= minFee && fee <= maxFee;
     });
   }
 
   if (filters.length > 0) {
-    data = data.filter((school) =>
+    data = data.filter((course) =>
       isOrSearch
-        ? filters.some((fn) => fn(school))
-        : filters.every((fn) => fn(school))
+        ? filters.some((fn) => fn(course))
+        : filters.every((fn) => fn(course))
     );
   }
 }
 
   data.sort((a, b) => {
     const aFee =
-      Number(a.entranceTuition) ||
-      Number(a.transferTuition) ||
+      Number(a.AdmissionAllTuition) ||
+      Number(a.TransferAllTuition) ||
       0;
 
     const bFee =
-      Number(b.entranceTuition) ||
-      Number(b.transferTuition) ||
+      Number(b.AdmissionAllTuition) ||
+      Number(b.TransferAllTuition) ||
       0;
 
     return aFee - bFee;
@@ -152,7 +151,7 @@ if (
 
   if (idsQuery) {
     const ids = idsQuery.split(",").map((id) => decodeURIComponent(id.trim()));
-    data = data.filter((item) => ids.includes(item.schoolId));
+    data = data.filter((item) => ids.includes(item.Id));
   }
 
     return NextResponse.json({ data }, { status: 200 });
