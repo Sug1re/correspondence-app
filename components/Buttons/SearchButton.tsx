@@ -4,10 +4,10 @@ import { IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDisclosure } from "@mantine/hooks";
 import { SearchSchoolModal } from "../Modals/SearchSchoolModal";
-import { SearchSchoolFormValues } from "@/entities/form";
+import { SearchFormValues } from "@/entities/form";
 
 type Props = {
-  onSearch?: (data: SearchSchoolFormValues) => void;
+  onSearch?: (data: SearchFormValues) => void;
 };
 
 export const SearchButton = ({ onSearch }: Props) => {

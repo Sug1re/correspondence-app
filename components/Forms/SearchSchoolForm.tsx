@@ -5,12 +5,12 @@ import { Partition } from "../Partition";
 import { FormCheckBox } from "../Base/FormCheckBox";
 import { FormSlider } from "../Base/FormSlider";
 import { BaseForm } from "../Base/BaseForm";
-import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
+import { SearchSchema } from "@/lib/validation/SearchSchema";
 
 import {
-  targetOptions,
+  admissionTypeOptions,
   styleOptions,
-  attendanceOptions,
+  frequencyOptions,
 } from "@/entities/form";
 
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -18,16 +18,16 @@ import ComputerIcon from "@mui/icons-material/Computer";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import { UseFormReturn } from "react-hook-form";
-import { SearchSchoolFormValues } from "@/entities/form";
+import { SearchFormValues } from "@/entities/form";
 
 interface Props {
   onClose: () => void;
   methodsRef: React.MutableRefObject<UseFormReturn<
-    z.infer<typeof SearchSchoolSchema>
+    z.infer<typeof SearchSchema>
   > | null>;
   alignment: string;
   setAlignment: React.Dispatch<React.SetStateAction<string>>;
-  defaultValues: SearchSchoolFormValues;
+  defaultValues: SearchFormValues;
 }
 
 export const SearchSchoolForm: React.FC<Props> = ({
@@ -40,7 +40,7 @@ export const SearchSchoolForm: React.FC<Props> = ({
   return (
     <>
       <BaseForm
-        schema={SearchSchoolSchema}
+        schema={SearchSchema}
         onSubmit={() => onClose()}
         defaultValues={defaultValues}
         methodsRef={methodsRef}
@@ -50,8 +50,8 @@ export const SearchSchoolForm: React.FC<Props> = ({
         <FormCheckBox
           text="対象"
           Icon={CalendarMonthIcon}
-          name="target"
-          option={targetOptions}
+          name="admissionType"
+          option={admissionTypeOptions}
         />
 
         <Partition width="90%" />
@@ -68,8 +68,8 @@ export const SearchSchoolForm: React.FC<Props> = ({
         <FormCheckBox
           text="通学頻度"
           Icon={DirectionsWalkIcon}
-          name="attendance"
-          option={attendanceOptions}
+          name="frequency"
+          option={frequencyOptions}
         />
 
         <Partition width="90%" />

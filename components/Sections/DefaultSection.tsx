@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { SchoolCardSection } from "@/components/Sections/SchoolCardSection";
-import { useGetTargetSchools } from "@/hooks/useSchools";
+import { CourseCardSection } from "@/components/Sections/CourseCardSection";
+import { useGetAdmissionType } from "@/hooks/useSchools";
 import { FilterSection } from "./FilterSection";
 import { useDisclosure } from "@mantine/hooks";
 
@@ -10,25 +10,25 @@ import { useDisclosure } from "@mantine/hooks";
 // 初期loading時でも遷移してからloadingするようにする
 
 type Props = {
-  target?: "entrance" | "transfer";
+  admissionType?: "admission" | "transfer";
 };
 
-export const DefaultSection = ({ target }: Props) => {
+export const DefaultSection = ({ admissionType }: Props) => {
   const [isToggle, { toggle }] = useDisclosure(false);
 
   const {
-    schools = [],
+    courses = [],
     isLoading,
     isError,
     isEmpty,
-  } = useGetTargetSchools(target);
+  } = useGetAdmissionType(admissionType);
 
   return (
     <>
       <FilterSection isToggle={isToggle} toggle={toggle} />
 
-      <SchoolCardSection
-        school={schools}
+      <CourseCardSection
+        course={courses}
         isLoading={isLoading}
         isError={isError}
         isEmpty={isEmpty}

@@ -1,78 +1,43 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Card,
-  Grid,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { monthlyData, variableTransferTotalTuition } from "@/lib/constants";
+import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
 import { TuitionModal } from "../Modals/TuitionModal";
-import { TransferTuitionModal } from "../Modals/TransferTuitionModal";
-import { School } from "@/entities/school";
+
 import { BookmarkButton } from "../Buttons/BookmarkButton";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 import { useResponsive } from "@/hooks/useResponsive";
+import { Course } from "@/entities/course";
 
 interface Props {
-  school: School[];
+  course: Course[];
 }
 
-export const SchoolCard = ({ school }: Props) => {
+export const CourseCard = ({ course }: Props) => {
   const { itemsGrid } = useResponsive();
   const [openTuitionModalId, setOpenTuitionModalId] = useState<string | null>(
-    null
-  );
-  const [openTransferModalId, setOpenTransferModalId] = useState<string | null>(
-    null
+    null,
   );
 
-  const [transferValueMap, setTransferValueMap] = useState<
-    Record<string, string>
-  >({});
-  const [transferLabelMap, setTransferLabelMap] = useState<
-    Record<string, string>
-  >({});
-
-  const openTuitionModal = (schoolId: string) => {
-    setOpenTuitionModalId(schoolId);
+  const openTuitionModal = (Id: string) => {
+    setOpenTuitionModalId(Id);
   };
 
   const closeTuitionModal = () => {
     setOpenTuitionModalId(null);
   };
 
-  const openTransferModal = (schoolId: string) => {
-    setOpenTransferModalId(schoolId);
-  };
-
-  const closeTransferModal = () => {
-    setOpenTransferModalId(null);
-  };
-
   return (
     <>
       <Box>
         <Grid container spacing={2}>
-          {school.map((s) => {
-            const isTuitionOpen = openTuitionModalId === s.schoolId;
-            const isTransferOpen = openTransferModalId === s.schoolId;
-            const selectedTransferValue = transferValueMap[s.schoolId] || null;
-            const selectedTransferLabel = transferLabelMap[s.schoolId] || null;
-            const transferTotal =
-              selectedTransferValue !== null
-                ? variableTransferTotalTuition(s, selectedTransferValue)
-                : Number(s.transferTuition).toLocaleString("ja-JP");
+          {course.map((c) => {
+            const isTuitionOpen = openTuitionModalId === c.Id;
 
             return (
-              <Grid key={s.schoolId} size={itemsGrid}>
+              <Grid key={c.Id} size={itemsGrid}>
                 <Box sx={{ display: "flex", justifyContent: "center" }}>
                   <Card
                     sx={{
@@ -93,14 +58,14 @@ export const SchoolCard = ({ school }: Props) => {
                         zIndex: 2,
                       }}
                     >
-                      <BookmarkButton schoolId={s.schoolId} />
+                      <BookmarkButton schoolId={c.Id} />
                     </Box>
 
                     <Stack>
                       <Box sx={{ p: 1, fontWeight: 600 }}>
                         <Box sx={{ display: "flex" }}>
                           <Typography sx={{ fontSize: 16, fontWeight: 600 }}>
-                            {s.course}
+                            {c.Course}
                           </Typography>
                         </Box>
 
@@ -118,7 +83,7 @@ export const SchoolCard = ({ school }: Props) => {
                               fontWeight: 600,
                             }}
                           >
-                            {s.target === "新入学"
+                            {c.AdmissionType === "新入学"
                               ? "3年間の負担額"
                               : "1年目の負担額"}
                           </Typography>
@@ -131,22 +96,14 @@ export const SchoolCard = ({ school }: Props) => {
                             }}
                           >
                             <CurrencyYenIcon style={{ fontSize: 18 }} />
-                            {s.target === "新入学"
-                              ? Number(s.entranceTuition).toLocaleString(
-                                  "ja-JP"
+                            {c.AdmissionType === "新入学"
+                              ? Number(c.AdmissionAllTuition).toLocaleString(
+                                  "ja-JP",
                                 )
-                              : transferTotal}
+                              : Number(c.TransferAllTuition).toLocaleString(
+                                  "ja-JP",
+                                )}
                           </Typography>
-                          {monthlyData(s) && (
-                            <IconButton
-                              size="small"
-                              sx={{ color: "#003399" }}
-                              onClick={() => openTransferModal(s.schoolId)}
-                              disableRipple
-                            >
-                              <InfoOutlineIcon sx={{ fontSize: 14 }} />
-                            </IconButton>
-                          )}
                         </Box>
 
                         <Box
@@ -157,7 +114,7 @@ export const SchoolCard = ({ school }: Props) => {
                         >
                           <Button
                             size="small"
-                            onClick={() => openTuitionModal(s.schoolId)}
+                            onClick={() => openTuitionModal(c.Id)}
                             sx={{
                               height: 30,
                               width: 100,
@@ -213,31 +170,11 @@ export const SchoolCard = ({ school }: Props) => {
                     </Stack>
                   </Card>
 
-                  {s.target === "転入学" && isTransferOpen && (
-                    <TransferTuitionModal
-                      opened={true}
-                      onClose={closeTransferModal}
-                      school={s}
-                      onSelect={(value: string, label: string) => {
-                        setTransferValueMap((prev) => ({
-                          ...prev,
-                          [s.schoolId]: value,
-                        }));
-                        setTransferLabelMap((prev) => ({
-                          ...prev,
-                          [s.schoolId]: label,
-                        }));
-                      }}
-                    />
-                  )}
-
                   {isTuitionOpen && (
                     <TuitionModal
                       opened={true}
                       onClose={closeTuitionModal}
-                      school={s}
-                      transferValue={selectedTransferValue}
-                      transferLabel={selectedTransferLabel}
+                      course={c}
                     />
                   )}
                 </Box>

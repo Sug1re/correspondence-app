@@ -3,28 +3,33 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Button, Typography } from "@mui/material";
 import { CampusModal } from "../Modals/CampusModal";
-import { useCampus } from "@/hooks/Campus/useCampus";
+import { useCampusData } from "@/hooks/Campus/useCampusData";
 import { Loading } from "../Loading";
-import { CAMPUSES, Campus } from "@/entities/campus";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { CampusMap } from "@/components/CampusMap";
+import { useRegions } from "@/hooks/Campus/useRegions";
 
 export const MapSection = () => {
   const [isOpen, handlers] = useDisclosure(false);
   const { location, handleChange, selectedCampus, setSelectedCampus, onClear } =
-    useCampus();
+    useCampusData();
+
+  const { regions, loadingRegions } = useRegions();
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
 
-  /** 選択中キャンパス → 座標付きデータへ変換 */
-  const selectedCampusMarkers: Campus[] = Object.values(selectedCampus)
-    .flat()
-    .map((name) => CAMPUSES.find((c) => c.value === name))
-    .filter(Boolean) as Campus[];
+  const allCampusValues = Object.values(selectedCampus).flat();
+  const allCampuses = regions.flatMap((region) => region.locations);
 
-  if (!isLoaded) return <Loading />;
+  const campusMap = new Map(allCampuses.map((c) => [c.value, c]));
+
+  const selectedCampusMarkers = allCampusValues
+    .map((value) => campusMap.get(value))
+    .filter((c): c is (typeof allCampuses)[number] => Boolean(c));
+
+  if (!isLoaded || loadingRegions) return <Loading />;
 
   return (
     <>
@@ -38,6 +43,7 @@ export const MapSection = () => {
           backgroundColor: "#060666ff",
           color: "#FFF",
           boxShadow: 2,
+          transition: "transform 0.3s ease",
           "&:hover": { transform: "scale(0.95)" },
         }}
         disableRipple

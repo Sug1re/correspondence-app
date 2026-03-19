@@ -2,6 +2,7 @@
 
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import { Campus } from "@/entities/campus";
+import { useCampusGeocode } from "@/hooks/Campus/useCampusGeocode";
 import { useCampusMap } from "@/hooks/Campus/useCampusMap";
 
 type Props = {
@@ -9,13 +10,14 @@ type Props = {
 };
 
 export const CampusMap = ({ campuses }: Props) => {
-  const { onLoad, onUnmount, defaultCenter, zoom } = useCampusMap(campuses);
+  const { markerPositions, loading } = useCampusGeocode(campuses);
+  const { onLoad, onUnmount, currentCenter } = useCampusMap(markerPositions);
 
   return (
     <GoogleMap
       mapContainerStyle={{ width: "100%", height: "300px" }}
-      center={campuses[0] ?? defaultCenter}
-      zoom={zoom}
+      center={currentCenter}
+      zoom={6}
       onLoad={onLoad}
       onUnmount={onUnmount}
       options={{
@@ -24,12 +26,10 @@ export const CampusMap = ({ campuses }: Props) => {
         streetViewControl: false,
       }}
     >
-      {campuses.map((campus) => (
-        <Marker
-          key={campus.value}
-          position={{ lat: campus.lat, lng: campus.lng }}
-        />
-      ))}
+      {!loading &&
+        markerPositions.map((position, index) => (
+          <Marker key={index} position={position} />
+        ))}
     </GoogleMap>
   );
 };

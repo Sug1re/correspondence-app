@@ -7,7 +7,8 @@ export const usePagination = <T,>(items: T[]) => {
   const [page, setPage] = useState(1);
 
   const totalPages = Math.ceil(items.length / itemsPerPage);
-  const partSchools = useMemo(() => {
+
+  const partCourses = useMemo(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return items.slice(startIndex, endIndex);
@@ -21,6 +22,6 @@ export const usePagination = <T,>(items: T[]) => {
     page,
     setPage,
     totalPages,
-    partSchools,
+    partCourses,
   };
 };
