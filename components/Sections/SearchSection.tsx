@@ -1,6 +1,6 @@
 "use client";
 
-import { SchoolCardSection } from "./SchoolCardSection";
+import { CourseCardSection } from "@/components/Sections/CourseCardSection";
 import { useSearchParams } from "next/navigation";
 import { useGetFilteredCourses } from "@/hooks/useSchools";
 import { queryValue } from "@/entities/form";
@@ -55,7 +55,7 @@ export const SearchSection = () => {
     <>
       <FilterSection isToggle={isToggle} toggle={toggle} />
 
-      <SchoolCardSection
+      <CourseCardSection
         course={courses}
         isLoading={isLoading}
         isError={isError}

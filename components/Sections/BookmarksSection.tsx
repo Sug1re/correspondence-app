@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { SchoolCardSection } from "@/components/Sections/SchoolCardSection";
+import { CourseCardSection } from "@/components/Sections/CourseCardSection";
 import { useGetBookmarkedCourses } from "@/hooks/useSchools";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getBookmarks } from "@/lib/bookmark";
@@ -36,7 +36,7 @@ export const BookmarksSection = () => {
 
   return (
     <>
-      <SchoolCardSection
+      <CourseCardSection
         course={courses}
         isLoading={isLoading}
         isError={isError}

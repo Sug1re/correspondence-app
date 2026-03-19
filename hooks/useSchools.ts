@@ -45,7 +45,7 @@ export const useGetAdmissionType = (AdmissionType?: AdmissionType) => {
   const status = createStatus(data, error);
 
   if (!admissionTypeQuery) {
-    return { ...status, schools: [], isEmpty: true, isLoading: false };
+    return { ...status, courses: [], isEmpty: true, isLoading: false };
   }
 
   return status;
@@ -90,7 +90,7 @@ conditions: queryValue
   const status = createStatus(data, error);
 
   if (!queryString) {
-    return { ...status, schools: [], isEmpty: true, isLoading: false };
+    return { ...status, courses: [], isEmpty: true, isLoading: false };
   }
 
   return status;

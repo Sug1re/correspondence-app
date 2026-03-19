@@ -15,7 +15,7 @@ interface Props {
   course: Course[];
 }
 
-export const SchoolCard = ({ course }: Props) => {
+export const CourseCard = ({ course }: Props) => {
   const { itemsGrid } = useResponsive();
   const [openTuitionModalId, setOpenTuitionModalId] = useState<string | null>(
     null,

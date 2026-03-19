@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { SchoolCardSection } from "@/components/Sections/SchoolCardSection";
+import { CourseCardSection } from "@/components/Sections/CourseCardSection";
 import { useGetAdmissionType } from "@/hooks/useSchools";
 import { FilterSection } from "./FilterSection";
 import { useDisclosure } from "@mantine/hooks";
@@ -27,7 +27,7 @@ export const DefaultSection = ({ admissionType }: Props) => {
     <>
       <FilterSection isToggle={isToggle} toggle={toggle} />
 
-      <SchoolCardSection
+      <CourseCardSection
         course={courses}
         isLoading={isLoading}
         isError={isError}

@@ -1,5 +1,4 @@
 export type Course = {
-  Id: string;
   Course: string;
   Style: string;
   AdmissionType: string;
@@ -25,5 +24,6 @@ export type Course = {
   SeparatelyTuition: string;
   AdmissionAllTuition: string;
   TransferAllTuition: string;
+  Id: string;
 
 };

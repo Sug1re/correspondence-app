@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 import { PaginationButton } from "@/components/Buttons/PaginationButton";
-import { SchoolCard } from "@/components/Cards/SchoolCard";
+import { CourseCard } from "@/components/Cards/CourseCard";
 import { usePagination } from "@/hooks/usePagination";
 import { Loading } from "../Loading";
 import { Message } from "../Message";
@@ -18,7 +18,7 @@ type Props = {
   isToggle?: boolean;
 };
 
-export const SchoolCardSection = ({
+export const CourseCardSection = ({
   course,
   isLoading,
   isError,
@@ -37,7 +37,7 @@ export const SchoolCardSection = ({
 
   return (
     <>
-      <SchoolCard course={partCourses} />
+      <CourseCard course={partCourses} />
 
       <Box
         sx={{
