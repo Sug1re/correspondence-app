@@ -3,7 +3,7 @@
 import { IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useDisclosure } from "@mantine/hooks";
-import { SearchSchoolModal } from "../Modals/SearchSchoolModal";
+import { SearchCourseModal } from "../Modals/SearchCourseModal";
 import { SearchFormValues } from "@/entities/form";
 
 type Props = {
@@ -37,7 +37,7 @@ export const SearchButton = ({ onSearch }: Props) => {
         <SearchIcon style={{ fontSize: 28 }} />
       </IconButton>
 
-      <SearchSchoolModal
+      <SearchCourseModal
         opened={isOpen}
         onClose={handlers.close}
         onSearch={onSearch}

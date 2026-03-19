@@ -30,7 +30,7 @@ interface Props {
   defaultValues: SearchFormValues;
 }
 
-export const SearchSchoolForm: React.FC<Props> = ({
+export const SearchCourseForm: React.FC<Props> = ({
   onClose,
   methodsRef,
   alignment,

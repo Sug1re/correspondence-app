@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { z } from "zod";
-import { SearchSchoolForm } from "../Forms/SearchSchoolForm";
+import { SearchCourseForm } from "../Forms/SearchCourseForm";
 import { BaseModal } from "../Base/BaseModal";
 import { SearchSchema } from "@/lib/validation/SearchSchema";
 import { DEFAULT_SEARCH_VALUES, SearchFormValues } from "@/entities/form";
@@ -17,7 +17,7 @@ type Props = {
   onClose: () => void;
 };
 
-export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
+export const SearchCourseModal = ({ opened, onSearch, onClose }: Props) => {
   const [alignment, setAlignment] = useState("AND");
 
   const methodsRef = useRef<UseFormReturn<z.infer<typeof SearchSchema>> | null>(
@@ -77,7 +77,7 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
           alignItems: "center",
         }}
       >
-        <SearchSchoolForm
+        <SearchCourseForm
           onClose={onClose}
           methodsRef={methodsRef}
           alignment={alignment}
