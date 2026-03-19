@@ -78,9 +78,11 @@ export async function GET(req: Request) {
     }));
 
     data = data.filter((course) =>
-      Object.values(course).some(
-        (v) => v !== "" && v !== null && v !== undefined
-      )
+      Object.values(course).some((v) => {
+        if (v === null || v === undefined) return false;
+        const str = String(v).trim();
+        return str !== "" && str !== ";";
+      })
     );
 
 const isOrSearch = alignmentQuery === "OR";
