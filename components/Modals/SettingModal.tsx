@@ -6,6 +6,7 @@ import { useRef } from "react";
 import { UseFormReturn } from "react-hook-form";
 import z from "zod";
 import { SettingSchema } from "@/lib/validation/Schema";
+import { useSetting } from "@/context/SettingContext";
 
 type Props = {
   opened: boolean;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export const SettingModal = ({ opened, onApplicable, onClose }: Props) => {
+  const { settings } = useSetting();
   const methodsRef = useRef<UseFormReturn<
     z.infer<typeof SettingSchema>
   > | null>(null);
@@ -53,7 +55,7 @@ export const SettingModal = ({ opened, onApplicable, onClose }: Props) => {
         <SettingForm
           onClose={onClose}
           methodsRef={methodsRef}
-          defaultValues={DEFAULT_SETTING_VALUES}
+          defaultValues={settings}
         />
       </Stack>
     </BaseModal>
