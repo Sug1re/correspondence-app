@@ -14,7 +14,9 @@ type Props = {
 };
 
 export const DefaultSection = ({ admissionType }: Props) => {
-  const [isToggle, { toggle }] = useDisclosure(false);
+  const [isSort, { toggle: toggleSort }] = useDisclosure(false);
+
+  const [isSetting, { toggle: toggleSetting }] = useDisclosure(false);
 
   const {
     courses = [],
@@ -25,14 +27,20 @@ export const DefaultSection = ({ admissionType }: Props) => {
 
   return (
     <>
-      <FilterSection isToggle={isToggle} toggle={toggle} />
+      <FilterSection
+        isSort={isSort}
+        isSetting={isSetting}
+        toggleSort={toggleSort}
+        toggleSetting={toggleSetting}
+      />
 
       <CourseCardSection
         course={courses}
         isLoading={isLoading}
         isError={isError}
         isEmpty={isEmpty}
-        isToggle={isToggle}
+        isSort={isSort}
+        isSetting={isSetting}
       />
     </>
   );

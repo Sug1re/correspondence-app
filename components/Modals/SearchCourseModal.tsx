@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { z } from "zod";
 import { SearchCourseForm } from "../Forms/SearchCourseForm";
 import { BaseModal } from "../Base/BaseModal";
-import { SearchSchema } from "@/lib/validation/SearchSchema";
+import { SearchSchema } from "@/lib/validation/Schema";
 import { DEFAULT_SEARCH_VALUES, SearchFormValues } from "@/entities/form";
 import { useRouter } from "next/navigation";
 import { UseFormReturn } from "react-hook-form";

@@ -8,7 +8,9 @@ import { FilterSection } from "./FilterSection";
 import { useDisclosure } from "@mantine/hooks";
 
 export const SearchSection = () => {
-  const [isToggle, { toggle }] = useDisclosure(false);
+  const [isSort, { toggle: toggleSort }] = useDisclosure(false);
+
+  const [isSetting, { toggle: toggleSetting }] = useDisclosure(false);
 
   const searchParams = useSearchParams();
 
@@ -53,14 +55,20 @@ export const SearchSection = () => {
 
   return (
     <>
-      <FilterSection isToggle={isToggle} toggle={toggle} />
+      <FilterSection
+        isSort={isSort}
+        isSetting={isSetting}
+        toggleSort={toggleSort}
+        toggleSetting={toggleSetting}
+      />
 
       <CourseCardSection
         course={courses}
         isLoading={isLoading}
         isError={isError}
         isEmpty={isEmpty}
-        isToggle={isToggle}
+        isSort={isSort}
+        isSetting={isSetting}
       />
     </>
   );

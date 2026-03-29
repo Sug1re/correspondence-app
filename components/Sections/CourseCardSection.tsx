@@ -15,7 +15,8 @@ type Props = {
   isLoading: boolean;
   isError: boolean;
   isEmpty: boolean;
-  isToggle?: boolean;
+  isSort?: boolean;
+  isSetting?: boolean;
 };
 
 export const CourseCardSection = ({
@@ -23,12 +24,12 @@ export const CourseCardSection = ({
   isLoading,
   isError,
   isEmpty,
-  isToggle,
+  isSort,
+  // isSetting,
 }: Props) => {
   const sortedCourses = useMemo(() => {
-    return isToggle ? [...course].reverse() : course;
-  }, [course, isToggle]);
-
+    return isSort ? [...course].reverse() : course;
+  }, [course, isSort]);
   const { page, setPage, totalPages, partCourses } =
     usePagination(sortedCourses);
   if (isLoading) return <Loading />;

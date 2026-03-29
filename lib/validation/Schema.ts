@@ -16,4 +16,10 @@ export const SearchSchema = z.object({
     .refine(([min, max]) => !(min === 0 && max === 0), {
       message: "予算を決めてください。"}),
 
-  });
+});
+
+export const SettingSchema = z.object({
+
+  admissionSeason: z
+  .enum(["4月", "7月", "10月", "1月"]),
+});
