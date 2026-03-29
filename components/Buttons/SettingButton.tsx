@@ -4,13 +4,11 @@ import { IconButton } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useDisclosure } from "@mantine/hooks";
 import { SettingModal } from "../Modals/SettingModal";
+import { useSetting } from "@/context/SettingContext";
 
-type Props = {
-  onApplicable: () => void;
-};
-
-export const SettingButton = ({ onApplicable }: Props) => {
+export const SettingButton = () => {
   const [isOpen, handlers] = useDisclosure(false);
+  const { setSettings } = useSetting();
 
   return (
     <>
@@ -39,7 +37,9 @@ export const SettingButton = ({ onApplicable }: Props) => {
       <SettingModal
         opened={isOpen}
         onClose={handlers.close}
-        onApplicable={onApplicable}
+        onApplicable={(data) => {
+          setSettings(data);
+        }}
       />
     </>
   );

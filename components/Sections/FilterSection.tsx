@@ -6,17 +6,11 @@ import { FILTER_SECTION_HEIGHT } from "@/lib/constants";
 
 type Props = {
   isSort: boolean;
-  isSetting: boolean;
   toggleSort: () => void;
-  toggleSetting: () => void;
+  showSetting?: boolean;
 };
 
-export const FilterSection = ({
-  isSort,
-  isSetting,
-  toggleSort,
-  toggleSetting,
-}: Props) => {
+export const FilterSection = ({ isSort, toggleSort, showSetting }: Props) => {
   return (
     <Box
       sx={{
@@ -31,7 +25,7 @@ export const FilterSection = ({
 
       <SortButton selected={isSort} onToggle={toggleSort} />
 
-      <SettingButton selected={isSetting} onToggle={toggleSetting} />
+      {showSetting !== false && <SettingButton />}
     </Box>
   );
 };

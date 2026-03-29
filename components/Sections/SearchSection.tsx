@@ -10,8 +10,6 @@ import { useDisclosure } from "@mantine/hooks";
 export const SearchSection = () => {
   const [isSort, { toggle: toggleSort }] = useDisclosure(false);
 
-  const [isSetting, { toggle: toggleSetting }] = useDisclosure(false);
-
   const searchParams = useSearchParams();
 
   const conditions: queryValue = {};
@@ -55,12 +53,7 @@ export const SearchSection = () => {
 
   return (
     <>
-      <FilterSection
-        isSort={isSort}
-        isSetting={isSetting}
-        toggleSort={toggleSort}
-        toggleSetting={toggleSetting}
-      />
+      <FilterSection isSort={isSort} toggleSort={toggleSort} />
 
       <CourseCardSection
         course={courses}
@@ -68,7 +61,6 @@ export const SearchSection = () => {
         isError={isError}
         isEmpty={isEmpty}
         isSort={isSort}
-        isSetting={isSetting}
       />
     </>
   );

@@ -4,6 +4,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { ToastProvider } from "@/context/ToastContext";
 import MantineProvider from "@/providers/MantineProvider";
 import SWRProvider from "@/providers/SWRProvider";
+import { SettingProvider } from "@/context/SettingContext";
 
 export const metadata: Metadata = {
   title: "N高等学校・S高等学校・R高等学校紹介サイト",
@@ -22,7 +23,9 @@ export default function RootLayout({
           <MantineProvider>
             <SWRProvider>
               <ToastProvider>
-                <main>{children}</main>
+                <SettingProvider>
+                  <main>{children}</main>
+                </SettingProvider>
               </ToastProvider>
             </SWRProvider>
           </MantineProvider>
