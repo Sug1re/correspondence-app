@@ -29,12 +29,13 @@ const ScrollToTopButton = () => {
           bottom: 16,
           right: 16,
           color: "#FFFFFF",
-          backgroundColor: "#003399",
+          backgroundColor: "#060666ff",
           "&:hover": {
-            backgroundColor: "#003399",
+            backgroundColor: "#060666ff",
           },
           "&:active": {
-            backgroundColor: "#003399",
+            backgroundColor: "#060666ff",
+
             color: "#FFFFFF",
           },
         }}

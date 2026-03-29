@@ -2,24 +2,15 @@ import React from "react";
 import { BaseModal } from "../Base/BaseModal";
 import { Stack } from "@mui/material";
 import { TuitionText } from "../Texts/TuitionText";
-import { School } from "@/entities/school";
+import { Course } from "@/entities/course";
 
 type Props = {
   opened: boolean;
-  school?: School;
+  course: Course;
   onClose: () => void;
-  transferValue?: string | null;
-  transferLabel?: string | null;
 };
 
-export const TuitionModal = ({
-  opened,
-  school,
-  onClose,
-  transferValue,
-  transferLabel,
-}: Props) => {
-  if (!school) return null;
+export const TuitionModal = ({ opened, course, onClose }: Props) => {
   return (
     <BaseModal
       title="負担額の内訳"
@@ -34,11 +25,7 @@ export const TuitionModal = ({
           overflowY: "auto",
         }}
       >
-        <TuitionText
-          school={school}
-          transferValue={transferValue}
-          transferLabel={transferLabel}
-        />
+        <TuitionText course={course} />
       </Stack>
     </BaseModal>
   );

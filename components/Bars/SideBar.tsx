@@ -49,7 +49,7 @@ export default function SideBar({ open, onClose }: SideBarProps) {
   };
 
   const onEntrance = () => {
-    router.push("/entrance");
+    router.push("/admission");
   };
 
   const onTransfer = () => {

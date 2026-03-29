@@ -1,25 +1,27 @@
 import { useState, useMemo, useEffect } from "react";
-import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { useResponsive } from "./useResponsive";
 
 export const usePagination = <T,>(items: T[]) => {
+  const { itemsPerPage } = useResponsive();
+
   const [page, setPage] = useState(1);
 
-  const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(items.length / itemsPerPage);
 
-  const partSchools = useMemo(() => {
-    const startIndex = (page - 1) * ITEMS_PER_PAGE;
-    const endIndex = startIndex + ITEMS_PER_PAGE;
+  const partCourses = useMemo(() => {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
     return items.slice(startIndex, endIndex);
-  }, [items, page]);
+  }, [items, page, itemsPerPage]);
 
   useEffect(() => {
     setPage(1);
-  }, [items]);
+  }, [items,itemsPerPage]);
 
   return {
     page,
     setPage,
     totalPages,
-    partSchools,
+    partCourses,
   };
 };

@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { ToggleButton } from "@mui/material";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";

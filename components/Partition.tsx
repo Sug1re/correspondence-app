@@ -1,8 +1,7 @@
 import { Box } from "@mui/material";
-import { ResponsiveStyleValue } from "@mui/system";
 
 type Props = {
-  width: ResponsiveStyleValue<string | number>;
+  width: string | number | { [key: string]: string | number };
 };
 
 export const Partition = ({ width }: Props) => {
@@ -14,7 +13,6 @@ export const Partition = ({ width }: Props) => {
     top: "50%",
     transform: "translate(-50%, -50%)",
     height: "1.5px",
-    width: width,
     backgroundColor: "#adb1b7ff",
   };
 
@@ -24,7 +22,7 @@ export const Partition = ({ width }: Props) => {
         sx={{
           position: "relative",
           alignSelf: "stretch",
-          "&::after": partitionStyle,
+          "&::after": { ...partitionStyle, width: width },
         }}
       />
     </>

@@ -8,7 +8,7 @@ export const TargetButton = () => {
   const router = useRouter();
 
   const onEntrance = () => {
-    router.push("/entrance");
+    router.push("/admission");
   };
   const onTransfer = () => {
     router.push("/transfer");

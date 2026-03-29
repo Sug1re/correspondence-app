@@ -1,22 +1,99 @@
 import { google } from "googleapis";
 import { NextResponse } from "next/server";
-import { School } from "@/entities/school";
+import { Course } from "@/entities/course";
+/* =========================
+  Row → Course（列名ベース）
+========================= */
+const mapRowToCourse = (row: string[]): Course => {
+  const [
+    ,
+    ,
+    Course = "",
+    Style = "",
+    AdmissionType = "",
+    CorrespondenceTuition1st = "",
+    CorrespondenceTuition2nd = "",
+    CorrespondenceTuition3rd = "",
+    Frequency = "",
+    week5Tuition1st = "",
+    week5Tuition2nd = "",
+    week5Tuition3rd = "",
+    week3Tuition1st = "",
+    week3Tuition2nd = "",
+    week3Tuition3rd = "",
+    week1Tuition1st = "",
+    week1Tuition2nd = "",
+    week1Tuition3rd = "",
+    AprilAdmission = "",
+    JulyAdmission = "",
+    OctoberAdmission = "",
+    JanuaryAdmission = "",
+    SeparatelyTuitionName = "",
+    DifferenceTuitionName = "",
+    SeparatelyTuition = "",
+    AdmissionAllTuition = "",
+    TransferAllTuition = "",
+    Id = "",
+  ] = row;
 
+  return {
+    Course,
+    Style,
+    AdmissionType,
+    CorrespondenceTuition1st,
+    CorrespondenceTuition2nd,
+    CorrespondenceTuition3rd,
+    Frequency,
+    week5Tuition1st,
+    week5Tuition2nd,
+    week5Tuition3rd,
+    week3Tuition1st,
+    week3Tuition2nd,
+    week3Tuition3rd,
+    week1Tuition1st,
+    week1Tuition2nd,
+    week1Tuition3rd,
+    AprilAdmission,
+    JulyAdmission,
+    OctoberAdmission,
+    JanuaryAdmission,
+    SeparatelyTuitionName,
+    DifferenceTuitionName,
+    SeparatelyTuition,
+    AdmissionAllTuition,
+    TransferAllTuition,
+    Id,
+  };
+};
+
+/* =========================
+  空データ除去
+========================= */
+const isValidCourse = (course: Course) =>
+  Object.values(course).some((v) => {
+    if (v == null) return false;
+    const str = String(v).trim();
+    return str !== "" && str !== ";";
+  });
+
+/* =========================
+  API
+========================= */
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
+
     const alignmentQuery = searchParams.get("alignment");
-    const targetQueryParam = searchParams.get("target");
+    const admissionTypeQueryParam = searchParams.get("admissionType");
     const styleQueryParam = searchParams.get("style");
-    const attendanceQueryParam = searchParams.get("attendance");
+    const frequencyQueryParam = searchParams.get("frequency");
     const minFeeQuery = searchParams.get("minFee");
     const maxFeeQuery = searchParams.get("maxFee");
-
-    const targetQueries = targetQueryParam ? targetQueryParam.split(',') : [];
-    const styleQueries = styleQueryParam ? styleQueryParam.split(',') : [];
-    const attendanceQueries = attendanceQueryParam ? attendanceQueryParam.split(',') : [];
-
     const idsQuery = searchParams.get("ids")
+
+    const admissionTypeQueries = admissionTypeQueryParam ? admissionTypeQueryParam.split(',') : [];
+    const styleQueries = styleQueryParam ? styleQueryParam.split(',') : [];
+    const frequencyQueries = frequencyQueryParam ? frequencyQueryParam.split(',') : [];
 
     const spreadsheetId = process.env.GOOGLE_SPREADSHEET_ID;
     const clientEmail = process.env.GOOGLE_CLIENT_EMAIL;
@@ -39,120 +116,99 @@ export async function GET(req: Request) {
     });
 
     const sheets = google.sheets({ version: "v4", auth });
-    const range = "School!A2:AH";
 
-    const response = await sheets.spreadsheets.values.get({
+    const res = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range,
+      range: "CourseData!A2:AB200",
     });
 
-    const rows = response.data.values || [];
+    /* =========================
+      データ整形
+    ========================= */
 
-    let data: School[] = rows.map((row) => ({
-      name: row[2] ?? "",
-      course: row[3] ?? "",
-      content: row[4] ?? "",
-      school: row[5] ?? "",
-      style: row[6] ?? "",
-      schooling: row[7] ?? "",
-      attendance: row[8] ?? "",
-      subAttendance: row[9] ?? "",
-      target: row[10] ?? "",
-      firstTuition: row[11] ? Number(row[11]) : null,
-      secondTuition: row[12] ? Number(row[12]) : null,
-      thirdTuition: row[13] ? Number(row[13]) : null,
-      enrollmentFee: row[14] ? Number(row[14]) : null,
-      april: row[15] ?? "",
-      may: row[16] ?? "",
-      june: row[17] ?? "",
-      july: row[18] ?? "",
-      august: row[19] ?? "",
-      september: row[20] ?? "",
-      october: row[21] ?? "",
-      november: row[22] ?? "",
-      december: row[23] ?? "",
-      january: row[24] ?? "",
-      february: row[25] ?? "",
-      march: row[26] ?? "",
-      anotherTuitionName: row[27] ?? "",
-      anotherTuition: row[28] ?? "",
-      picture: row[29] ?? "",
-      url: row[30] ?? "",
-      schoolId: row[31] ?? "",
-      entranceTuition: row[32] ? Number(row[32]) : null,
-      transferTuition: row[33] ? Number(row[33]) : null,
+    let data: Course[] = (res.data.values ?? [])
+      .map(mapRowToCourse)
+      .filter(isValidCourse);
 
-    }));
+    /* =========================
+      フィルタ
+    ========================= */
 
-const isOrSearch = alignmentQuery === "OR";
+    const isOrSearch = alignmentQuery === "OR";
 
-if (
-  !isOrSearch &&
-  (
-    targetQueries.length > 1 ||
-    styleQueries.length > 1 ||
-    attendanceQueries.length > 1
-  )) {
-  data = [];
-} else {
-  const filters: ((school: School) => boolean)[] = [];
+    if (
+      !isOrSearch &&
+      (
+        admissionTypeQueries.length > 1 ||
+        styleQueries.length > 1 ||
+        frequencyQueries.length > 1
+      )) {
+      data = [];
+    } else {
+      const filters: ((course: Course) => boolean)[] = [];
 
-  if (targetQueries.length > 0) {
-    filters.push((school) => targetQueries.includes(school.target));
-  }
-
-  if (styleQueries.length > 0) {
-    filters.push((school) => styleQueries.includes(school.style));
-  }
-
-  if (attendanceQueries.length > 0) {
-    filters.push((school) => attendanceQueries.includes(school.attendance));
-  }
-
-  if (minFeeQuery && maxFeeQuery) {
-    const minFee = Number(minFeeQuery);
-    const maxFee = Number(maxFeeQuery);
-    filters.push((school) => {
-      const entranceFee = school.entranceTuition ?? 0;
-      const transferFee = school.transferTuition ?? 0;
-
-      if (targetQueries.length === 0) {
-        const inEntranceRange = entranceFee >= minFee && entranceFee <= maxFee;
-        const inTransferRange = transferFee >= minFee && transferFee <= maxFee;
-        return (entranceFee > 0 && inEntranceRange) || (transferFee > 0 && inTransferRange);
+      if (admissionTypeQueries.length > 0) {
+        filters.push((course) => admissionTypeQueries.includes(course.AdmissionType));
       }
 
-      const fee = (targetQueries.includes("新入学")) ? entranceFee : transferFee;
-      return fee >= minFee && fee <= maxFee;
-    });
-  }
+      if (styleQueries.length > 0) {
+        filters.push((course) => styleQueries.includes(course.Style));
+      }
 
-  if (filters.length > 0) {
-    data = data.filter((school) =>
-      isOrSearch
-        ? filters.some((fn) => fn(school))
-        : filters.every((fn) => fn(school))
-    );
-  }
-}
+      if (frequencyQueries.length > 0) {
+        filters.push((course) => frequencyQueries.includes(course.Frequency));
+      }
 
+      if (minFeeQuery && maxFeeQuery) {
+        const minFee = Number(minFeeQuery);
+        const maxFee = Number(maxFeeQuery);
+        filters.push((course) => {
+          const entranceFee = Number(course.AdmissionAllTuition) || 0;
+          const transferFee = Number(course.TransferAllTuition) || 0;
+
+          if (admissionTypeQueries.length === 0) {
+            const inEntranceRange = entranceFee >= minFee && entranceFee <= maxFee;
+            const inTransferRange = transferFee >= minFee && transferFee <= maxFee;
+            return (entranceFee > 0 && inEntranceRange) || (transferFee > 0 && inTransferRange);
+          }
+
+          const fee = (admissionTypeQueries.includes("新入学")) ? entranceFee : transferFee;
+          return fee >= minFee && fee <= maxFee;
+        });
+      }
+
+      if (filters.length > 0) {
+        data = data.filter((course) =>
+          isOrSearch
+            ? filters.some((fn) => fn(course))
+            : filters.every((fn) => fn(course))
+        );
+      }
+    }
+
+  /* =========================
+    並び替え
+  ========================= */
   data.sort((a, b) => {
-    const aFee =
-      Number(a.entranceTuition) ||
-      Number(a.transferTuition) ||
+  const aFee =
+      Number(a.AdmissionAllTuition) ||
+      Number(a.TransferAllTuition) ||
       0;
 
     const bFee =
-      Number(b.entranceTuition) ||
-      Number(b.transferTuition) ||
+      Number(b.AdmissionAllTuition) ||
+      Number(b.TransferAllTuition) ||
       0;
 
     return aFee - bFee;
   });
 
+  /* =========================
+    IDフィルタ
+  ========================= */
   if (idsQuery) {
     const ids = idsQuery.split(",").map((id) => decodeURIComponent(id.trim()));
-    data = data.filter((item) => ids.includes(item.schoolId));
+    data = data.filter((item) => ids.includes(item.Id));
   }
 
     return NextResponse.json({ data }, { status: 200 });

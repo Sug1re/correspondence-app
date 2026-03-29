@@ -2,14 +2,14 @@
 
 import { Paper } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { School } from "@/entities/school";
 import { Loading } from "./Loading";
 import { Message } from "./Message";
-import { schoolColumns } from "@/entities/schoolColumns";
+import { courseColumns } from "@/entities/courseColumns";
 import { JPLocaleText } from "@/lib/dataGrid";
+import { Course } from "@/entities/course";
 
 interface Props {
-  rows: School[];
+  rows: Course[];
   isLoading: boolean;
   isError: boolean;
   isEmpty: boolean;
@@ -24,8 +24,8 @@ export const Table = ({ rows, isLoading, isError, isEmpty }: Props) => {
       <Paper sx={{ height: 370, width: "100%" }}>
         <DataGrid
           rows={rows}
-          columns={schoolColumns}
-          getRowId={(row) => row.schoolId}
+          columns={courseColumns}
+          getRowId={(row) => row.Id}
           rowHeight={35}
           columnHeaderHeight={50}
           initialState={{

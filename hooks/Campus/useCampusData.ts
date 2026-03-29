@@ -2,7 +2,7 @@ import { useState } from "react";
 import { SelectChangeEvent } from "@mui/material";
 import { CampusState, INITIAL_CAMPUS_STATE } from "@/entities/campus";
 
-export const useCampus = () => {
+export const useCampusData = () => {
   const [location, setLocation] = useState("All");
   const [selectedCampus, setSelectedCampus] =
     useState<CampusState>(INITIAL_CAMPUS_STATE);

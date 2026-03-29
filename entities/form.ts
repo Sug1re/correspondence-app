@@ -1,28 +1,31 @@
 import { z } from "zod";
-import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
+import { SearchSchema, SettingSchema } from "@/lib/validation/Schema";
 
-// zodスキーマから型を自動生成
-export type SearchSchoolFormValues = z.infer<typeof SearchSchoolSchema>;
+export type SearchFormValues = z.infer<typeof SearchSchema>;
 
-// デフォルト値の定義
-export const DEFAULT_SEARCH_SCHOOL_VALUES: SearchSchoolFormValues = {
-  target: [],
+export type SettingFormValues = z.infer<typeof SettingSchema>;
+
+export const DEFAULT_SEARCH_VALUES: SearchFormValues = {
+  admissionType: [],
   style: [],
-  attendance: [],
+  frequency: [],
   totalFee: [0, 4000000],
+};
+
+export const DEFAULT_SETTING_VALUES: SettingFormValues = {
+  admissionSeason: "4月",
 };
 
 export type queryValue ={
   alignment?: string;
-  target?: string;
+  admissionType?: string;
   style?: string;
-  attendance?: string;
+  frequency?: string;
   minFee?: number;
   maxFee?: number;
-
 };
 
-export const targetOptions = [
+export const admissionTypeOptions = [
   "新入学",
   "転入学",
 ] as const;
@@ -32,9 +35,15 @@ export const styleOptions = [
   "オンライン",
 ] as const;
 
-export const attendanceOptions = [
+export const frequencyOptions = [
   "週1",
   "週3",
-  "週5",
-  "オンライン"
+  "週5"
+] as const;
+
+export const admissionSeasonOptions = [
+  "4月",
+  "7月",
+  "10月",
+  "1月",
 ] as const;

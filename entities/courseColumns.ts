@@ -1,8 +1,8 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { School } from "@/entities/school";
+import { Course } from "@/entities/course";
 import { JPOperators } from "@/lib/dataGrid";
 
-export const schoolColumns: GridColDef<School>[] = [
+export const courseColumns: GridColDef<Course>[] = [
   { field: "schoolId", headerName: "ID", width: 70,
     filterOperators: JPOperators
    },

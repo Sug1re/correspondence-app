@@ -52,7 +52,6 @@ export const CampusModal = ({
         sx={{
           maxHeight: 400,
           overflowY: "auto",
-          alignItems: "center",
         }}
       >
         <CampusForm
