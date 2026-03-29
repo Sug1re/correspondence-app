@@ -1,13 +1,25 @@
 import { Box, Typography } from "@mui/material";
+import { Course } from "@/entities/course";
+import { useSetting } from "@/context/SettingContext";
+import { getAdmissionValue } from "@/lib/getTotalTuition";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
-import { Course } from "@/entities/course";
 
 type Props = {
   course: Course;
 };
 
 export const TuitionText = ({ course }: Props) => {
+  const c = course;
+  const { settings } = useSetting();
+
+  const hasAnyAdmission = [
+    c.AprilAdmission,
+    c.JulyAdmission,
+    c.OctoberAdmission,
+    c.JanuaryAdmission,
+  ].some(Boolean);
+
   return (
     <Box
       sx={{
@@ -18,7 +30,7 @@ export const TuitionText = ({ course }: Props) => {
         gap: 1,
       }}
     >
-      {course.CorrespondenceTuition1st && (
+      {c.CorrespondenceTuition1st && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
@@ -35,11 +47,11 @@ export const TuitionText = ({ course }: Props) => {
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(course.CorrespondenceTuition1st).toLocaleString("ja-JP")}
+            {Number(c.CorrespondenceTuition1st).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {course.CorrespondenceTuition2nd && (
+      {c.CorrespondenceTuition2nd && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
@@ -56,11 +68,11 @@ export const TuitionText = ({ course }: Props) => {
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(course.CorrespondenceTuition2nd).toLocaleString("ja-JP")}
+            {Number(c.CorrespondenceTuition2nd).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {course.CorrespondenceTuition3rd && (
+      {c.CorrespondenceTuition3rd && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
@@ -77,11 +89,34 @@ export const TuitionText = ({ course }: Props) => {
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(course.CorrespondenceTuition3rd).toLocaleString("ja-JP")}
+            {Number(c.CorrespondenceTuition3rd).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {course.week1Tuition1st && (
+      {hasAnyAdmission && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            {settings.admissionSeason}入学の費用
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
+            {Number(
+              getAdmissionValue(c, settings.admissionSeason),
+            ).toLocaleString("ja-JP")}
+          </Typography>
+        </Box>
+      )}
+      {c.week1Tuition1st && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
@@ -98,11 +133,11 @@ export const TuitionText = ({ course }: Props) => {
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(course.week1Tuition1st).toLocaleString("ja-JP")}
+            {Number(c.week1Tuition1st).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {course.week1Tuition2nd && (
+      {c.week1Tuition2nd && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
@@ -119,11 +154,11 @@ export const TuitionText = ({ course }: Props) => {
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(course.week1Tuition2nd).toLocaleString("ja-JP")}
+            {Number(c.week1Tuition2nd).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {course.week1Tuition3rd && (
+      {c.week1Tuition3rd && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
@@ -140,11 +175,11 @@ export const TuitionText = ({ course }: Props) => {
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(course.week1Tuition3rd).toLocaleString("ja-JP")}
+            {Number(c.week1Tuition3rd).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {course.week3Tuition1st && (
+      {c.week3Tuition1st && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
@@ -161,11 +196,11 @@ export const TuitionText = ({ course }: Props) => {
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(course.week3Tuition1st).toLocaleString("ja-JP")}
+            {Number(c.week3Tuition1st).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {course.week3Tuition2nd && (
+      {c.week3Tuition2nd && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
@@ -182,11 +217,11 @@ export const TuitionText = ({ course }: Props) => {
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(course.week3Tuition2nd).toLocaleString("ja-JP")}
+            {Number(c.week3Tuition2nd).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {course.week3Tuition3rd && (
+      {c.week3Tuition3rd && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
@@ -203,11 +238,11 @@ export const TuitionText = ({ course }: Props) => {
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(course.week3Tuition3rd).toLocaleString("ja-JP")}
+            {Number(c.week3Tuition3rd).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {course.week5Tuition1st && (
+      {c.week5Tuition1st && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
@@ -224,11 +259,11 @@ export const TuitionText = ({ course }: Props) => {
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(course.week5Tuition1st).toLocaleString("ja-JP")}
+            {Number(c.week5Tuition1st).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {course.week5Tuition2nd && (
+      {c.week5Tuition2nd && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
@@ -245,11 +280,11 @@ export const TuitionText = ({ course }: Props) => {
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(course.week5Tuition2nd).toLocaleString("ja-JP")}
+            {Number(c.week5Tuition2nd).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {course.week5Tuition3rd && (
+      {c.week5Tuition3rd && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
@@ -266,7 +301,7 @@ export const TuitionText = ({ course }: Props) => {
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(course.week5Tuition3rd).toLocaleString("ja-JP")}
+            {Number(c.week5Tuition3rd).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}

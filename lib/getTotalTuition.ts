@@ -1,6 +1,6 @@
 import { Course } from "@/entities/course";
 
-export const getTotalTuition = (
+export const getAdmissionValue = (
   c: Course,
   admissionSeason: string,
 ): number => {
@@ -11,7 +11,14 @@ export const getTotalTuition = (
     "1月": Number(c.JanuaryAdmission ?? 0),
   };
 
-  const admissionValue = admissionMap[admissionSeason] ?? 0;
+  return admissionMap[admissionSeason] ?? 0;
+};
+
+export const getTotalTuition = (
+  c: Course,
+  admissionSeason: string,
+): number => {
+  const admissionValue = getAdmissionValue(c, admissionSeason);
 
   const baseTuition =
     c.AdmissionType === "新入学"
