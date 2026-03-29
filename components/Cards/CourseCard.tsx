@@ -3,19 +3,21 @@
 import React, { useState } from "react";
 import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
 import { TuitionModal } from "../Modals/TuitionModal";
-
+import { useResponsive } from "@/hooks/useResponsive";
+import { Course } from "@/entities/course";
+import { useSetting } from "@/context/SettingContext";
 import { BookmarkButton } from "../Buttons/BookmarkButton";
+import { getTotalTuition } from "@/lib/getTotalTuition";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useResponsive } from "@/hooks/useResponsive";
-import { Course } from "@/entities/course";
 
 interface Props {
   course: Course[];
 }
 
 export const CourseCard = ({ course }: Props) => {
+  const { settings } = useSetting();
   const { itemsGrid } = useResponsive();
   const [openTuitionModalId, setOpenTuitionModalId] = useState<string | null>(
     null,
@@ -35,6 +37,11 @@ export const CourseCard = ({ course }: Props) => {
         <Grid container spacing={2}>
           {course.map((c) => {
             const isTuitionOpen = openTuitionModalId === c.Id;
+
+            const totalTuition = getTotalTuition(
+              c,
+              settings?.admissionSeason ?? "4月",
+            );
 
             return (
               <Grid key={c.Id} size={itemsGrid}>
@@ -96,13 +103,7 @@ export const CourseCard = ({ course }: Props) => {
                             }}
                           >
                             <CurrencyYenIcon style={{ fontSize: 18 }} />
-                            {c.AdmissionType === "新入学"
-                              ? Number(c.AdmissionAllTuition).toLocaleString(
-                                  "ja-JP",
-                                )
-                              : Number(c.TransferAllTuition).toLocaleString(
-                                  "ja-JP",
-                                )}
+                            {totalTuition.toLocaleString("ja-JP")}
                           </Typography>
                         </Box>
 

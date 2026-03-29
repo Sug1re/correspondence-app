@@ -1,12 +1,13 @@
 import React from "react";
 import { z } from "zod";
+import { UseFormReturn } from "react-hook-form";
 import { ToggleBt } from "../Buttons/ToggleButton";
 import { Partition } from "../Partition";
 import { FormCheckBox } from "../Base/FormCheckBox";
 import { FormSlider } from "../Base/FormSlider";
 import { BaseForm } from "../Base/BaseForm";
-import { SearchSchema } from "@/lib/validation/SearchSchema";
-
+import { SearchSchema } from "@/lib/validation/Schema";
+import { SearchFormValues } from "@/entities/form";
 import {
   admissionTypeOptions,
   styleOptions,
@@ -17,8 +18,6 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ComputerIcon from "@mui/icons-material/Computer";
 import DirectionsWalkIcon from "@mui/icons-material/DirectionsWalk";
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
-import { UseFormReturn } from "react-hook-form";
-import { SearchFormValues } from "@/entities/form";
 
 interface Props {
   onClose: () => void;
@@ -30,13 +29,13 @@ interface Props {
   defaultValues: SearchFormValues;
 }
 
-export const SearchSchoolForm: React.FC<Props> = ({
+export const SearchCourseForm = ({
   onClose,
   methodsRef,
   alignment,
   setAlignment,
   defaultValues,
-}) => {
+}: Props) => {
   return (
     <>
       <BaseForm

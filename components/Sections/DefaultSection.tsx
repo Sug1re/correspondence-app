@@ -1,20 +1,15 @@
 "use client";
-
-import React from "react";
 import { CourseCardSection } from "@/components/Sections/CourseCardSection";
 import { useGetAdmissionType } from "@/hooks/useSchools";
 import { FilterSection } from "./FilterSection";
 import { useDisclosure } from "@mantine/hooks";
-
-// あとで
-// 初期loading時でも遷移してからloadingするようにする
 
 type Props = {
   admissionType?: "admission" | "transfer";
 };
 
 export const DefaultSection = ({ admissionType }: Props) => {
-  const [isToggle, { toggle }] = useDisclosure(false);
+  const [isSort, { toggle: toggleSort }] = useDisclosure(false);
 
   const {
     courses = [],
@@ -25,14 +20,18 @@ export const DefaultSection = ({ admissionType }: Props) => {
 
   return (
     <>
-      <FilterSection isToggle={isToggle} toggle={toggle} />
+      <FilterSection
+        isSort={isSort}
+        toggleSort={toggleSort}
+        showSetting={admissionType !== "admission"}
+      />
 
       <CourseCardSection
         course={courses}
         isLoading={isLoading}
         isError={isError}
         isEmpty={isEmpty}
-        isToggle={isToggle}
+        isSort={isSort}
       />
     </>
   );

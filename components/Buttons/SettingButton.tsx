@@ -1,17 +1,14 @@
 "use client";
 
 import { IconButton } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { useDisclosure } from "@mantine/hooks";
-import { SearchCourseModal } from "../Modals/SearchCourseModal";
-import { SearchFormValues } from "@/entities/form";
+import { SettingModal } from "../Modals/SettingModal";
+import { useSetting } from "@/context/SettingContext";
 
-type Props = {
-  onSearch?: (data: SearchFormValues) => void;
-};
-
-export const SearchButton = ({ onSearch }: Props) => {
+export const SettingButton = () => {
   const [isOpen, handlers] = useDisclosure(false);
+  const { setSettings } = useSetting();
 
   return (
     <>
@@ -34,13 +31,15 @@ export const SearchButton = ({ onSearch }: Props) => {
         onClick={handlers.open}
         disableRipple
       >
-        <SearchIcon style={{ fontSize: 28 }} />
+        <SettingsIcon style={{ fontSize: 28 }} />
       </IconButton>
 
-      <SearchCourseModal
+      <SettingModal
         opened={isOpen}
         onClose={handlers.close}
-        onSearch={onSearch}
+        onApplicable={(data) => {
+          setSettings(data);
+        }}
       />
     </>
   );

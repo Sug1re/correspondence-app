@@ -6,12 +6,11 @@ import { Course } from "@/entities/course";
 
 type Props = {
   opened: boolean;
-  course?: Course;
+  course: Course;
   onClose: () => void;
 };
 
 export const TuitionModal = ({ opened, course, onClose }: Props) => {
-  if (!course) return null;
   return (
     <BaseModal
       title="負担額の内訳"
