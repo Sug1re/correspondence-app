@@ -40,7 +40,7 @@ export const courseColumns = [
 
   {
     field: "AdmissionType",
-    headerName: "新入学/転入学",
+    headerName: "入学区分",
     width: 110,
     ...baseTextColumn,
   } as Column<Course, "AdmissionType">,

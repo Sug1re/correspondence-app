@@ -65,7 +65,7 @@ export const BookmarkButton = ({ schoolId }: Props) => {
         disableRipple
       >
         {isBookmarkedState ? (
-          <BookmarkIcon style={{ fontSize: 28, color: "#9575CD" }} />
+          <BookmarkIcon style={{ fontSize: 28, color: "#060666ff" }} />
         ) : (
           <BookmarkBorderIcon style={{ fontSize: 28, color: "#A0A0A0" }} />
         )}
