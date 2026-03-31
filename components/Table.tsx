@@ -17,8 +17,9 @@ interface Props {
 
 export const Table = ({ rows, isLoading, isError, isEmpty }: Props) => {
   if (isLoading) return <Loading />;
-  if (isError) return <Message message="学校データの取得に失敗しました。" />;
-  if (isEmpty) return <Message message="学校データがありません。" />;
+  if (isError) return <Message message="データの取得に失敗しました。" />;
+  if (isEmpty) return <Message message="データがありません。" />;
+
   return (
     <>
       <Paper sx={{ height: 370, width: "100%" }}>
