@@ -2,13 +2,10 @@
 
 import React, { useRef, useState } from "react";
 import { z } from "zod";
-import { SearchSchoolForm } from "../Forms/SearchSchoolForm";
+import { SearchCourseForm } from "../Forms/SearchCourseForm";
 import { BaseModal } from "../Base/BaseModal";
-import { SearchSchoolSchema } from "@/lib/validation/SearchSchoolSchema";
-import {
-  DEFAULT_SEARCH_SCHOOL_VALUES,
-  SearchSchoolFormValues,
-} from "@/entities/form";
+import { SearchSchema } from "@/lib/validation/Schema";
+import { DEFAULT_SEARCH_VALUES, SearchFormValues } from "@/entities/form";
 import { useRouter } from "next/navigation";
 import { UseFormReturn } from "react-hook-form";
 
@@ -16,16 +13,16 @@ import { Stack } from "@mui/material";
 
 type Props = {
   opened: boolean;
-  onSearch?: (data: SearchSchoolFormValues) => void;
+  onSearch?: (data: SearchFormValues) => void;
   onClose: () => void;
 };
 
-export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
+export const SearchCourseModal = ({ opened, onSearch, onClose }: Props) => {
   const [alignment, setAlignment] = useState("AND");
 
-  const methodsRef = useRef<UseFormReturn<
-    z.infer<typeof SearchSchoolSchema>
-  > | null>(null);
+  const methodsRef = useRef<UseFormReturn<z.infer<typeof SearchSchema>> | null>(
+    null,
+  );
 
   const router = useRouter();
 
@@ -35,16 +32,16 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
         const query = new URLSearchParams();
         query.append("alignment", alignment);
 
-        if (data.target && data.target.length > 0) {
-          query.append("target", data.target.join(","));
+        if (data.admissionType && data.admissionType.length > 0) {
+          query.append("admissionType", data.admissionType.join(","));
         }
 
         if (data.style && data.style.length > 0) {
           query.append("style", data.style.join(","));
         }
 
-        if (data.attendance && data.attendance.length > 0) {
-          query.append("attendance", data.attendance.join(","));
+        if (data.frequency && data.frequency.length > 0) {
+          query.append("frequency", data.frequency.join(","));
         }
 
         query.append("minFee", data.totalFee[0].toString());
@@ -59,14 +56,13 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
 
   const onClear = () => {
     if (methodsRef.current) {
-      methodsRef.current.reset(DEFAULT_SEARCH_SCHOOL_VALUES);
+      methodsRef.current.reset(DEFAULT_SEARCH_VALUES);
     }
   };
 
   return (
     <BaseModal
       title="コース絞り込み"
-      color="blue"
       type="search"
       footer={true}
       isOpen={opened}
@@ -81,12 +77,12 @@ export const SearchSchoolModal = ({ opened, onSearch, onClose }: Props) => {
           alignItems: "center",
         }}
       >
-        <SearchSchoolForm
+        <SearchCourseForm
           onClose={onClose}
           methodsRef={methodsRef}
           alignment={alignment}
           setAlignment={setAlignment}
-          defaultValues={DEFAULT_SEARCH_SCHOOL_VALUES}
+          defaultValues={DEFAULT_SEARCH_VALUES}
         />
       </Stack>
     </BaseModal>

@@ -1,23 +1,24 @@
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { XsWrapper } from "@/components/Wrapper/xsWrapper";
-import { TargetButton } from "@/components/Buttons/TargetButton";
+import { Suspense } from "react";
+import { Loading } from "@/components/Loading";
+import { HomeSection } from "@/components/Sections/HomeSection";
+import { Breadcrumb } from "@/components/Breadcrumbs";
 
 export default function Home() {
   return (
     <>
       <Header />
 
+      <Breadcrumb />
+
       <Container maxWidth="md">
-        <Stack spacing={4} sx={{ mt: 4 }}>
-          <TargetButton />
+        <Stack spacing={2}>
+          <Suspense fallback={<Loading />}>
+            <HomeSection />
+          </Suspense>
         </Stack>
       </Container>
-
-      <XsWrapper when={true}>
-        <Footer />
-      </XsWrapper>
     </>
   );
 }

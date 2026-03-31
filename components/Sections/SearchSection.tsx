@@ -1,22 +1,22 @@
 "use client";
 
-import { SchoolCardSection } from "./SchoolCardSection";
+import { CourseCardSection } from "@/components/Sections/CourseCardSection";
 import { useSearchParams } from "next/navigation";
-import { useGetFilteredSchools } from "@/hooks/useSchools";
+import { useGetFilteredCourses } from "@/hooks/useSchools";
 import { queryValue } from "@/entities/form";
 import { FilterSection } from "./FilterSection";
 import { useDisclosure } from "@mantine/hooks";
 
 export const SearchSection = () => {
-  const [isToggle, { toggle }] = useDisclosure(false);
+  const [isSort, { toggle: toggleSort }] = useDisclosure(false);
 
   const searchParams = useSearchParams();
 
   const conditions: queryValue = {};
 
-  const target = searchParams.get("target");
-  if (target) {
-    conditions.target = target;
+  const admissionType = searchParams.get("admissionType");
+  if (admissionType) {
+    conditions.admissionType = admissionType;
   }
 
   const style = searchParams.get("style");
@@ -24,9 +24,9 @@ export const SearchSection = () => {
     conditions.style = style;
   }
 
-  const attendance = searchParams.get("attendance");
-  if (attendance) {
-    conditions.attendance = attendance;
+  const frequency = searchParams.get("frequency");
+  if (frequency) {
+    conditions.frequency = frequency;
   }
 
   const alignment = searchParams.get("alignment");
@@ -45,22 +45,22 @@ export const SearchSection = () => {
   }
 
   const {
-    schools = [],
+    courses = [],
     isLoading,
     isError,
     isEmpty,
-  } = useGetFilteredSchools(conditions);
+  } = useGetFilteredCourses(conditions);
 
   return (
     <>
-      <FilterSection isToggle={isToggle} toggle={toggle} />
+      <FilterSection isSort={isSort} toggleSort={toggleSort} />
 
-      <SchoolCardSection
-        school={schools}
+      <CourseCardSection
+        course={courses}
         isLoading={isLoading}
         isError={isError}
         isEmpty={isEmpty}
-        isToggle={isToggle}
+        isSort={isSort}
       />
     </>
   );

@@ -1,12 +1,8 @@
-import React from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { XsWrapper } from "@/components/Wrapper/xsWrapper";
 import { Breadcrumb } from "@/components/Breadcrumbs";
-import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
-import { BookmarkBar } from "@/components/Bars/BookmarkBar";
 import { BookmarksSection } from "@/components/Sections/BookmarksSection";
+import { BaseHeading } from "@/components/Base/BaseHeading";
 
 export default function BookmarksPage() {
   return (
@@ -16,18 +12,12 @@ export default function BookmarksPage() {
       <Breadcrumb />
 
       <Container maxWidth="md">
-        <Stack spacing={2}>
-          <BookmarkBar />
+        <Stack spacing={4}>
+          <BaseHeading title="ブックマーク一覧" />
 
           <BookmarksSection />
         </Stack>
       </Container>
-
-      <ScrollToTopButton />
-
-      <XsWrapper when={true}>
-        <Footer />
-      </XsWrapper>
     </>
   );
 }

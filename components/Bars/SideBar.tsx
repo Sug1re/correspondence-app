@@ -1,32 +1,19 @@
 "use client";
 
-import {
-  Drawer,
-  List,
-  Box,
-  ListItemButton,
-  ListItemText,
-  Collapse,
-} from "@mui/material";
+import { Drawer, List, Box, ListItemButton, ListItemText } from "@mui/material";
 
 import { auth } from "@/lib/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useDisclosure } from "@mantine/hooks";
 import { useToastContext } from "@/context/ToastContext";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 
-import AppsIcon from "@mui/icons-material/Apps";
 import MapIcon from "@mui/icons-material/Map";
 import HomeIcon from "@mui/icons-material/Home";
 import LooksOneIcon from "@mui/icons-material/LooksOne";
 import LooksTwoIcon from "@mui/icons-material/LooksTwo";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
-import BusinessIcon from "@mui/icons-material/Business";
 import LiveHelpIcon from "@mui/icons-material/LiveHelp";
-import ExpandLessOutlinedIcon from "@mui/icons-material/ExpandLessOutlined";
-import ExpandMoreOutlinedIcon from "@mui/icons-material/ExpandMoreOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import { Conditional } from "../Wrapper/conditionalWrapper";
@@ -41,15 +28,12 @@ export default function SideBar({ open, onClose }: SideBarProps) {
   const { showToast } = useToastContext();
   const router = useRouter();
 
-  const [isSchoolOpen, schoolHandlers] = useDisclosure(false);
-  const [isCourseOpen, courseHandlers] = useDisclosure(false);
-
   const onHome = () => {
     router.push("/");
   };
 
   const onEntrance = () => {
-    router.push("/entrance");
+    router.push("/admission");
   };
 
   const onTransfer = () => {
@@ -62,10 +46,6 @@ export default function SideBar({ open, onClose }: SideBarProps) {
 
   const onCampus = () => {
     router.push("/campus");
-  };
-
-  const onEstimate = () => {
-    router.push("/estimate");
   };
 
   const onFaq = () => {
@@ -190,204 +170,11 @@ export default function SideBar({ open, onClose }: SideBarProps) {
               backgroundColor: "rgba(0, 51, 153, 0.1)",
             },
           }}
-          onClick={schoolHandlers.toggle}
-        >
-          <BusinessIcon sx={{ marginRight: 2, color: "#060666ff" }} />
-          <ListItemText
-            primary="学校一覧"
-            primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
-          />
-          {isSchoolOpen ? (
-            <ExpandLessOutlinedIcon sx={{ color: "#060666ff" }} />
-          ) : (
-            <ExpandMoreOutlinedIcon sx={{ color: "#060666ff" }} />
-          )}
-        </ListItemButton>
-        <Collapse in={isSchoolOpen} timeout="auto" unmountOnExit>
-          <List
-            component="div"
-            disablePadding
-            sx={{ bgcolor: "rgba(0, 51, 153, 0.1)", borderRadius: 2, mx: 0.5 }}
-          >
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-
-                mx: 1,
-                "&:hover": {
-                  backgroundColor: "rgba(0, 51, 153, 0.1)",
-                },
-              }}
-            >
-              <ListItemText
-                primary="N高等学校"
-                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
-              />
-            </ListItemButton>
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mx: 1,
-                "&:hover": {
-                  backgroundColor: "rgba(0, 51, 153, 0.1)",
-                },
-              }}
-            >
-              <ListItemText
-                primary="S高等学校"
-                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
-              />
-            </ListItemButton>
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mx: 1,
-                "&:hover": {
-                  backgroundColor: "rgba(0, 51, 153, 0.1)",
-                },
-              }}
-            >
-              <ListItemText
-                primary="R高等学校"
-                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
-              />
-            </ListItemButton>
-          </List>
-        </Collapse>
-
-        <ListItemButton
-          sx={{
-            borderRadius: 2,
-            mx: 1,
-            "&:hover": {
-              backgroundColor: "rgba(0, 51, 153, 0.1)",
-            },
-          }}
-          onClick={courseHandlers.toggle}
-        >
-          <AppsIcon sx={{ marginRight: 2, color: "#060666ff" }} />
-          <ListItemText
-            primary="コース一覧"
-            primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
-          />
-          {isCourseOpen ? (
-            <ExpandLessOutlinedIcon sx={{ color: "#060666ff" }} />
-          ) : (
-            <ExpandMoreOutlinedIcon sx={{ color: "#060666ff" }} />
-          )}
-        </ListItemButton>
-        <Collapse in={isCourseOpen} timeout="auto" unmountOnExit>
-          <List
-            component="div"
-            disablePadding
-            sx={{ bgcolor: "rgba(0, 51, 153, 0.1)", borderRadius: 2, mx: 0.5 }}
-          >
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mx: 1,
-                "&:hover": {
-                  backgroundColor: "rgba(0, 51, 153, 0.1)",
-                },
-              }}
-            >
-              <ListItemText
-                primary="ネットコース"
-                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
-              />
-            </ListItemButton>
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mx: 1,
-                "&:hover": {
-                  backgroundColor: "rgba(0, 51, 153, 0.1)",
-                },
-              }}
-            >
-              <ListItemText
-                primary="週5コース"
-                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
-              />
-            </ListItemButton>
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mx: 1,
-                "&:hover": {
-                  backgroundColor: "rgba(0, 51, 153, 0.1)",
-                },
-              }}
-            >
-              <ListItemText
-                primary="週3コース"
-                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
-              />
-            </ListItemButton>
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mx: 1,
-                "&:hover": {
-                  backgroundColor: "rgba(0, 51, 153, 0.1)",
-                },
-              }}
-            >
-              <ListItemText
-                primary="週1＋コース"
-                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
-              />
-            </ListItemButton>
-            <ListItemButton
-              sx={{
-                borderRadius: 2,
-                mx: 1,
-                "&:hover": {
-                  backgroundColor: "rgba(0, 51, 153, 0.1)",
-                },
-              }}
-            >
-              <ListItemText
-                primary="＋ONE授業"
-                primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
-              />
-            </ListItemButton>
-          </List>
-        </Collapse>
-
-        <ListItemButton
-          sx={{
-            borderRadius: 2,
-            mx: 1,
-            "&:hover": {
-              backgroundColor: "rgba(0, 51, 153, 0.1)",
-            },
-          }}
           onClick={onCampus}
         >
           <MapIcon sx={{ marginRight: 2, color: "#060666ff" }} />
           <ListItemText
             primary="キャンパスを探す"
-            primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
-          />
-        </ListItemButton>
-
-        <ListItemButton
-          sx={{
-            borderRadius: 2,
-            mx: 1,
-            "&:hover": {
-              backgroundColor: "rgba(0, 51, 153, 0.1)",
-            },
-          }}
-          onClick={() => {
-            onEstimate();
-            onClose();
-          }}
-        >
-          <CheckCircleOutlineIcon sx={{ marginRight: 2, color: "#060666ff" }} />
-          <ListItemText
-            primary="見積もり"
             primaryTypographyProps={{ fontWeight: 600, color: "#060666ff" }}
           />
         </ListItemButton>

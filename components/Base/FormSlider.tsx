@@ -48,7 +48,6 @@ export const FormSlider = ({
   return (
     <CardContent
       sx={{
-        px: 2,
         display: "flex",
         gap: 1.5,
         width: "100%",

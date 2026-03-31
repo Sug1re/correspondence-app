@@ -1,7 +1,10 @@
-import React from "react";
 import { Box } from "@mui/material";
 
-export const Partition = () => {
+type Props = {
+  width: string | number | { [key: string]: string | number };
+};
+
+export const Partition = ({ width }: Props) => {
   const partitionStyle = {
     content: '""',
     position: "absolute",
@@ -10,7 +13,6 @@ export const Partition = () => {
     top: "50%",
     transform: "translate(-50%, -50%)",
     height: "1.5px",
-    width: "90%",
     backgroundColor: "#adb1b7ff",
   };
 
@@ -20,7 +22,7 @@ export const Partition = () => {
         sx={{
           position: "relative",
           alignSelf: "stretch",
-          "&::after": partitionStyle,
+          "&::after": { ...partitionStyle, width: width },
         }}
       />
     </>

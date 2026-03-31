@@ -1,20 +1,25 @@
-import React from "react";
 import { Box, Typography } from "@mui/material";
-import { School } from "@/entities/school";
+import { Course } from "@/entities/course";
+import { useSetting } from "@/context/SettingContext";
+import { getAdmissionValue } from "@/lib/getTotalTuition";
 
 import CurrencyYenIcon from "@mui/icons-material/CurrencyYen";
 
 type Props = {
-  school: School;
-  transferValue?: string | null;
-  transferLabel?: string | null;
+  course: Course;
 };
 
-export const TuitionText = ({
-  school,
-  transferValue,
-  transferLabel,
-}: Props) => {
+export const TuitionText = ({ course }: Props) => {
+  const c = course;
+  const { settings } = useSetting();
+
+  const hasAnyAdmission = [
+    c.AprilAdmission,
+    c.JulyAdmission,
+    c.OctoberAdmission,
+    c.JanuaryAdmission,
+  ].some(Boolean);
+
   return (
     <Box
       sx={{
@@ -25,14 +30,14 @@ export const TuitionText = ({
         gap: 1,
       }}
     >
-      {school.firstTuition && (
+      {c.CorrespondenceTuition1st && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
               fontWeight: 600,
             }}
           >
-            初年次の学費
+            通信制課程の1年次の学費
           </Typography>
           <Typography
             sx={{
@@ -42,18 +47,18 @@ export const TuitionText = ({
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(school.firstTuition).toLocaleString("ja-JP")}
+            {Number(c.CorrespondenceTuition1st).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {school.enrollmentFee && (
+      {c.CorrespondenceTuition2nd && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
               fontWeight: 600,
             }}
           >
-            入学時に発生する学費
+            通信制課程の2年次の学費
           </Typography>
           <Typography
             sx={{
@@ -63,18 +68,18 @@ export const TuitionText = ({
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(school.enrollmentFee).toLocaleString("ja-JP")}
+            {Number(c.CorrespondenceTuition2nd).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {school.secondTuition && (
+      {c.CorrespondenceTuition3rd && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
               fontWeight: 600,
             }}
           >
-            2年次の学費
+            通信制課程の3年次の学費
           </Typography>
           <Typography
             sx={{
@@ -84,18 +89,18 @@ export const TuitionText = ({
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(school.secondTuition).toLocaleString("ja-JP")}
+            {Number(c.CorrespondenceTuition3rd).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {school.thirdTuition && (
+      {hasAnyAdmission && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <Typography
             sx={{
               fontWeight: 600,
             }}
           >
-            3年次の学費
+            {settings.admissionSeason}入学の費用
           </Typography>
           <Typography
             sx={{
@@ -105,82 +110,199 @@ export const TuitionText = ({
             }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(school.thirdTuition).toLocaleString("ja-JP")}
+            {Number(
+              getAdmissionValue(c, settings.admissionSeason),
+            ).toLocaleString("ja-JP")}
           </Typography>
         </Box>
       )}
-      {transferValue && transferLabel ? (
+      {c.week1Tuition1st && (
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography sx={{ fontWeight: 600 }}>
-            {transferLabel}入学の場合
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            週1＋コースの1年次の学費
           </Typography>
           <Typography
-            sx={{ fontWeight: 600, display: "flex", alignItems: "center" }}
+            sx={{
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+            }}
           >
             <CurrencyYenIcon style={{ fontSize: 18 }} />
-            {Number(transferValue).toLocaleString("ja-JP")}
+            {Number(c.week1Tuition1st).toLocaleString("ja-JP")}
           </Typography>
         </Box>
-      ) : (
-        school.october && (
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography sx={{ fontWeight: 600 }}>10月入学の場合</Typography>
-            <Typography
-              sx={{ fontWeight: 600, display: "flex", alignItems: "center" }}
-            >
-              <CurrencyYenIcon style={{ fontSize: 18 }} />
-              {Number(school.october).toLocaleString("ja-JP")}
-            </Typography>
-          </Box>
-        )
       )}
-
-      {school.anotherTuitionName && school.anotherTuition && (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          {school.anotherTuitionName.split("・").map((name, index) => {
-            const tuitionItems = school.anotherTuition
-              .split("・")
-              .filter(Boolean)
-              .map((item) => Number(item));
-
-            return (
-              <Box
-                key={index}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontWeight: 600,
-                    whiteSpace: "normal",
-                    wordBreak: "break-word",
-                    flex: 1,
-                  }}
-                >
-                  {name}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontWeight: 600,
-                    display: "flex",
-                    alignItems: "center",
-                    flexShrink: 0,
-                  }}
-                >
-                  {tuitionItems[index] === 0 ? (
-                    "個人費用"
-                  ) : (
-                    <>
-                      <CurrencyYenIcon style={{ fontSize: 18 }} />
-                      {tuitionItems[index].toLocaleString("ja-JP")}
-                    </>
-                  )}
-                </Typography>
-              </Box>
-            );
-          })}
+      {c.week1Tuition2nd && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            週1＋コースの2年次の学費
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
+            {Number(c.week1Tuition2nd).toLocaleString("ja-JP")}
+          </Typography>
+        </Box>
+      )}
+      {c.week1Tuition3rd && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            週1＋コースの3年次の学費
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
+            {Number(c.week1Tuition3rd).toLocaleString("ja-JP")}
+          </Typography>
+        </Box>
+      )}
+      {c.week3Tuition1st && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            週3コースの1年次の学費
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
+            {Number(c.week3Tuition1st).toLocaleString("ja-JP")}
+          </Typography>
+        </Box>
+      )}
+      {c.week3Tuition2nd && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            週3コースの2年次の学費
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
+            {Number(c.week3Tuition2nd).toLocaleString("ja-JP")}
+          </Typography>
+        </Box>
+      )}
+      {c.week3Tuition3rd && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            週3コースの3年次の学費
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
+            {Number(c.week3Tuition3rd).toLocaleString("ja-JP")}
+          </Typography>
+        </Box>
+      )}
+      {c.week5Tuition1st && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            週5コースの1年次の学費
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
+            {Number(c.week5Tuition1st).toLocaleString("ja-JP")}
+          </Typography>
+        </Box>
+      )}
+      {c.week5Tuition2nd && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            週5コースの2年次の学費
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
+            {Number(c.week5Tuition2nd).toLocaleString("ja-JP")}
+          </Typography>
+        </Box>
+      )}
+      {c.week5Tuition3rd && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Typography
+            sx={{
+              fontWeight: 600,
+            }}
+          >
+            週5コースの3年次の学費
+          </Typography>
+          <Typography
+            sx={{
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CurrencyYenIcon style={{ fontSize: 18 }} />
+            {Number(c.week5Tuition3rd).toLocaleString("ja-JP")}
+          </Typography>
         </Box>
       )}
     </Box>

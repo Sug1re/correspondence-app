@@ -59,16 +59,15 @@ export const BookmarkButton = ({ schoolId }: Props) => {
       <IconButton
         onClick={handleClick}
         sx={{
-          color: isBookmarkedState ? "#D72638" : "#808080",
           backgroundColor: "transparent",
           "&:hover": { backgroundColor: "transparent" },
         }}
         disableRipple
       >
         {isBookmarkedState ? (
-          <BookmarkIcon style={{ fontSize: 36, color: "#D72638" }} />
+          <BookmarkIcon style={{ fontSize: 28, color: "#060666ff" }} />
         ) : (
-          <BookmarkBorderIcon style={{ fontSize: 36 }} />
+          <BookmarkBorderIcon style={{ fontSize: 28, color: "#A0A0A0" }} />
         )}
       </IconButton>
     </>
