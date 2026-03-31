@@ -148,24 +148,26 @@ export const CourseCard = ({ course }: Props) => {
                               金額を表示
                             </Typography>
                           </Button>
-                          <Typography
-                            sx={{
-                              height: 22,
-                              width: 90,
-                              fontSize: 12,
-                              color: "#FFFFFF",
-                              fontWeight: 600,
-                              backgroundColor: "#060666ff",
-                              px: 1,
-                              py: 0.5,
-                              borderRadius: 1,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            就学支援金適用
-                          </Typography>
+                          {c.AdmissionType === "新入学" && (
+                            <Typography
+                              sx={{
+                                height: 22,
+                                width: 90,
+                                fontSize: 12,
+                                color: "#FFFFFF",
+                                fontWeight: 600,
+                                backgroundColor: "#060666ff",
+                                px: 1,
+                                py: 0.5,
+                                borderRadius: 1,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              就学支援金適用
+                            </Typography>
+                          )}
                         </Box>
                       </Box>
                     </Stack>

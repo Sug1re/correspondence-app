@@ -10,11 +10,7 @@ import { DefaultSection } from "@/components/Sections/DefaultSection";
 
 export default function AdmissionPage() {
   useEffect(() => {
-    fetch("/api/sheet")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    fetch("/api/sheet").then((res) => res.json());
   }, []);
   return (
     <>
