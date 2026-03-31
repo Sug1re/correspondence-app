@@ -148,25 +148,7 @@ export const CourseCard = ({ course }: Props) => {
                               金額を表示
                             </Typography>
                           </Button>
-                          <Typography
-                            sx={{
-                              height: 22,
-                              width: 90,
-                              fontSize: 12,
-                              color: "#FFFFFF",
-                              fontWeight: 600,
-                              backgroundColor: "#9575CD",
 
-                              px: 1,
-                              py: 0.5,
-                              borderRadius: 1,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                            }}
-                          >
-                            {c.AdmissionType}
-                          </Typography>
                           {c.AdmissionType === "新入学" && (
                             <Typography
                               sx={{
@@ -187,6 +169,25 @@ export const CourseCard = ({ course }: Props) => {
                               就学支援金適用
                             </Typography>
                           )}
+                          <Typography
+                            sx={{
+                              height: 22,
+                              width: 40,
+                              fontSize: 12,
+                              color: "#FFFFFF",
+                              fontWeight: 600,
+                              backgroundColor: "#9575CD",
+
+                              px: 1,
+                              py: 0.5,
+                              borderRadius: 1,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            {c.AdmissionType}
+                          </Typography>
                         </Box>
                       </Box>
                     </Stack>
