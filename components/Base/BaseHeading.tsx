@@ -10,7 +10,7 @@ export const BaseHeading = ({ title }: Props) => {
     <>
       <Box
         sx={{
-          py: 3,
+          pt: 2,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

@@ -40,6 +40,7 @@ export type Campus = {
   value: string;
 };
 
+//あとでデータベース化・住所で登録
 export type Region = {
   id: string;
   locations: Campus[];

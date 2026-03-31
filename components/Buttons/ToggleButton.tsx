@@ -29,7 +29,7 @@ export const ToggleBt: React.FC<Props> = ({ alignment, setAlignment }) => {
       color: "#fff",
     },
     "&:hover": {
-      bgcolor: "#ffffff",
+      bgcolor: "transparent",
     },
   };
 

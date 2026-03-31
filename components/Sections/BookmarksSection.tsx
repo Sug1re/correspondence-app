@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { CourseCardSection } from "@/components/Sections/CourseCardSection";
-import { useGetBookmarkedCourses } from "@/hooks/useSchools";
+import { useEffect, useState } from "react";
+import { Table } from "../Table";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getBookmarks } from "@/lib/bookmark";
+import { useGetBookmarkedCourses } from "@/hooks/useSchools";
 
 export const BookmarksSection = () => {
   const [courseIds, setCourseIds] = useState<string[]>([]);
@@ -36,8 +36,8 @@ export const BookmarksSection = () => {
 
   return (
     <>
-      <CourseCardSection
-        course={courses}
+      <Table
+        rows={courses}
         isLoading={isLoading}
         isError={isError}
         isEmpty={isEmpty}
