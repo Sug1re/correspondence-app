@@ -46,7 +46,6 @@ export const FormRadioGroup = ({ name, text, option, Icon }: Props) => {
       <Typography
         sx={{
           fontWeight: 600,
-          width: 260,
           fontSize: 14,
           display: "flex",
           alignItems: "center",
@@ -74,7 +73,6 @@ export const FormRadioGroup = ({ name, text, option, Icon }: Props) => {
             component="fieldset"
             error={!!fieldState.error}
             sx={{
-              width: 300,
               flex: 2,
               "& .MuiInputLabel-root.Mui-focused": {
                 color: "#060666ff",
