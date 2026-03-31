@@ -1,7 +1,6 @@
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import { Breadcrumb } from "@/components/Breadcrumbs";
-import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 import { BookmarksSection } from "@/components/Sections/BookmarksSection";
 import { BaseHeading } from "@/components/Base/BaseHeading";
 
@@ -19,8 +18,6 @@ export default function BookmarksPage() {
           <BookmarksSection />
         </Stack>
       </Container>
-
-      <ScrollToTopButton />
     </>
   );
 }

@@ -5,7 +5,6 @@ import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import { Breadcrumb } from "@/components/Breadcrumbs";
 
-import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 import { DefaultSection } from "@/components/Sections/DefaultSection";
 
 export default function AdmissionPage() {
@@ -23,8 +22,6 @@ export default function AdmissionPage() {
           <DefaultSection admissionType="admission" />
         </Stack>
       </Container>
-
-      <ScrollToTopButton />
     </>
   );
 }

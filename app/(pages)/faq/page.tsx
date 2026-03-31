@@ -1,7 +1,6 @@
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import { Breadcrumb } from "@/components/Breadcrumbs";
-import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 import { FaqSection } from "@/components/Sections/FaqSection";
 
 export default function FaqPage() {
@@ -16,8 +15,6 @@ export default function FaqPage() {
           <FaqSection />
         </Stack>
       </Container>
-
-      <ScrollToTopButton />
     </>
   );
 }

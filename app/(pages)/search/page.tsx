@@ -2,7 +2,6 @@ import React, { Suspense } from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import { Breadcrumb } from "@/components/Breadcrumbs";
-import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 import { SearchSection } from "@/components/Sections/SearchSection";
 import { Loading } from "@/components/Loading";
 
@@ -20,8 +19,6 @@ export default function SearchPage() {
           </Suspense>
         </Stack>
       </Container>
-
-      <ScrollToTopButton />
     </>
   );
 }

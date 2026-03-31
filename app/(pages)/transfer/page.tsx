@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Stack } from "@mui/material";
 import Header from "@/components/Header";
 import { Breadcrumb } from "@/components/Breadcrumbs";
-import ScrollToTopButton from "@/components/Buttons/ScrollTopButton";
 import { DefaultSection } from "@/components/Sections/DefaultSection";
 
 export default function TransferPage() {
@@ -17,8 +16,6 @@ export default function TransferPage() {
           <DefaultSection admissionType="transfer" />
         </Stack>
       </Container>
-
-      <ScrollToTopButton />
     </>
   );
 }
