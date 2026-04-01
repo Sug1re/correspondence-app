@@ -1,4 +1,4 @@
-# 通信制高校検索アプリ
+# N高グループ　紹介サイト
 
 ## 開発環境
 
@@ -13,4 +13,3 @@
   - Firebase Authentication
   - Firebase Firestore Database
   - Google Sheets API
-  - Google Drive API
